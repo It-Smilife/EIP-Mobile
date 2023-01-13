@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:itsmilife/pages/register.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -162,7 +163,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
+                  children: <Widget>[
                     Text(
                       "DON'T HAVE AN ACCOUNT ? ",
                       style: TextStyle(
@@ -170,13 +171,36 @@ class LoginPage extends StatelessWidget {
                           color: Colors.grey,
                           fontWeight: FontWeight.w500),
                     ),
-                    Text(
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+    context,
+    PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => RegisterPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+                position: Tween<Offset>(
+                begin: const Offset(1, 0),
+                end: Offset.zero,
+                ).animate(animation),
+                child: child,
+            );
+        },
+        transitionDuration: Duration(milliseconds: 300),
+    ),
+);
+
+                      },
+                      child: Text(
+                      
                       " SIGN UP",
                       style: TextStyle(
                           fontSize: 11,
                           color: Color.fromARGB(255, 98, 128, 182),
                           fontWeight: FontWeight.w700),
                     )
+                    ),
+                    
                   ],
                 )
               ],
