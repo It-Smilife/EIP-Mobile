@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   double getSmallDiameter(BuildContext context) =>
       MediaQuery.of(context).size.width * 2 / 3;
@@ -60,6 +60,19 @@ class LoginPage extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 25),
                   child: Column(
                     children:  <Widget>[
+                      TextField(
+                        decoration: InputDecoration(
+                            icon: const Icon(
+                              Icons.account_circle,
+                              color: Color.fromARGB(255, 98, 128, 182),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey.shade100 )),
+                            labelText: "Name",
+                            enabledBorder: InputBorder.none,
+                            labelStyle: const TextStyle(color: Colors.grey)),
+                      ),
                        TextField(
                         decoration: InputDecoration(
                             icon: const Icon(
@@ -91,15 +104,6 @@ class LoginPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 20, 10),
-                        child: const Text(
-                          "FORGOT PASSWORD?",
-                          style:
-                              TextStyle(color: Color.fromARGB(255, 98, 128, 182), fontSize: 11),
-                        ))),
                 Container(
                   margin: const EdgeInsets.fromLTRB(20, 0, 20, 30),
                   child: Row(
@@ -118,7 +122,7 @@ class LoginPage extends StatelessWidget {
                               onTap: () {},
                               child: const Center(
                                 child: Text(
-                                  "SIGN IN",
+                                  "SIGN UP",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w700),
@@ -171,7 +175,7 @@ class LoginPage extends StatelessWidget {
                           fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      " SIGN UP",
+                      " SIGN IN",
                       style: TextStyle(
                           fontSize: 11,
                           color: Color.fromARGB(255, 98, 128, 182),
