@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/common/profile.dart';
 import 'package:itsmilife/pages/login.dart';
 import 'package:flutter/services.dart';
 import 'package:itsmilife/pages/common/settings.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SettingsPage(),
+      home: ProfilePage(),
     );
   }
 }

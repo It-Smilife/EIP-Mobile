@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/common/profile.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 
@@ -10,6 +11,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('Settings'),
       ),
       body: Padding(
@@ -31,7 +33,24 @@ class SettingsPage extends StatelessWidget {
                 title: "Edit Profile",
                 subtitle: "Tap to edit your profile",
                 onTap: () {
-                  print("OK");
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          ProfilePage(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(1, 0),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: child,
+                        );
+                      },
+                      transitionDuration: Duration(milliseconds: 300),
+                    ),
+                  );
                 },
               ),
             ),
