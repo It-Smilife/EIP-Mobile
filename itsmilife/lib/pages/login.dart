@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:itsmilife/pages/register.dart';
+import '../services/NetworkManager.dart';
+import 'package:itsmilife/pages/common/settings.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   double getSmallDiameter(BuildContext context) =>
       MediaQuery.of(context).size.width * 2 / 3;
   double getBiglDiameter(BuildContext context) =>
       MediaQuery.of(context).size.width * 7 / 8;
+
+  var email, password, token;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +83,9 @@ class LoginPage extends StatelessWidget {
                             labelText: "Email",
                             enabledBorder: InputBorder.none,
                             labelStyle: const TextStyle(color: Colors.grey)),
+                            onChanged: (val) {
+                              email = val;
+                            },
                       ),
                       TextField(
                         obscureText: true,
@@ -87,7 +100,9 @@ class LoginPage extends StatelessWidget {
                             labelText: "Password",
                             enabledBorder: InputBorder.none,
                             labelStyle: const TextStyle(color: Colors.grey)),
-                            
+                            onChanged: (val) {
+                              password = val;
+                            },
                       )
                     ],
                   ),
@@ -116,7 +131,19 @@ class LoginPage extends StatelessWidget {
                             child: InkWell(
                               borderRadius: BorderRadius.circular(20),
                               splashColor: Colors.amber,
-                              onTap: () {},
+                              onTap: () {
+                                NetworkManager.post('authenticate', {"email": email, "password": password}).then((val) {
+                                  print(val.toString());
+                                  if (val.data['success']) {
+                                    storage.write(key: "token", value: val.data['token']);
+                                    token = val.data['token'];
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const SettingsPage()),
+                                    );
+                                  }
+                                });
+                              },
                               child: const Center(
                                 child: Text(
                                   "SIGN IN",
