@@ -46,6 +46,7 @@ dependencies:
   flutter_facebook_auth: ^5.0.7
   firebase_auth: ^4.2.5
   flutter_secure_storage: ^7.0.1
+  shared_preferences: ^2.0.16
 
 dev_dependencies:
   flutter_test:

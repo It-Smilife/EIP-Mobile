@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/settings.dart';
 
 class ProfileData {
+  static String id = "";
+  static String avatar = "";
   static String name = "User_test";
   static String email = "usertest@user.com";
   static int age = 0;
