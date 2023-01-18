@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:itsmilife/pages/common/chat/chatDetailPage.dart';
 import 'package:itsmilife/pages/common/chat/chatPage.dart';
+import 'package:itsmilife/pages/common/settings.dart';
+import 'package:itsmilife/pages/login.dart';
+import 'package:itsmilife/pages/normal_user/homepage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +19,7 @@ class MyApp extends StatelessWidget {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ChatPage(),
+      home: HomePage(),
     );
   }
 }

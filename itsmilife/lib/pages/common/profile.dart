@@ -53,7 +53,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () {
-                Navigator.push(
+                Navigator.pop(
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) =>
@@ -94,7 +94,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                     ProfileData.phoneNumber = _phoneNumber;
                     ProfileData.address = _address;
                   }
-                  Navigator.push(
+                  Navigator.pop(
                     context,
                     PageRouteBuilder(
                       pageBuilder: (context, animation, secondaryAnimation) =>

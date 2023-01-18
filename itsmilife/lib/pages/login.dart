@@ -30,23 +30,23 @@ class _LoginPageState extends State<LoginPage> {
             left: 25,
             top: -getBiglDiameter(context) / 4,
             child: Container(
-  width: getBiglDiameter(context),
-  height: getBiglDiameter(context),
-  decoration: BoxDecoration(
-    shape: BoxShape.circle,
-    gradient: LinearGradient(
-        colors: [Color.fromARGB(255, 255, 255, 255), Color.fromARGB(255, 98, 128, 182)],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter)),
-  child: Stack(
-    children: [
-        Image.asset('assets/logo.png',
-        alignment: Alignment.centerRight,
-    ),
-    ],
-  ),
-),
-
+              width: getBiglDiameter(context),
+              height: getBiglDiameter(context),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(colors: [
+                    Color.fromARGB(255, 255, 255, 255),
+                    Color.fromARGB(255, 98, 128, 182)
+                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+              child: Stack(
+                children: [
+                  Image.asset(
+                    'assets/logo.png',
+                    alignment: Alignment.centerRight,
+                  ),
+                ],
+              ),
+            ),
           ),
           Positioned(
             right: -getBiglDiameter(context) / 2,
@@ -70,8 +70,8 @@ class _LoginPageState extends State<LoginPage> {
                   margin: const EdgeInsets.fromLTRB(20, 300, 20, 10),
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 25),
                   child: Column(
-                    children:  <Widget>[
-                       TextField(
+                    children: <Widget>[
+                      TextField(
                         decoration: InputDecoration(
                             icon: const Icon(
                               Icons.email,
@@ -79,13 +79,13 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             focusedBorder: UnderlineInputBorder(
                                 borderSide:
-                                    BorderSide(color: Colors.grey.shade100 )),
+                                    BorderSide(color: Colors.grey.shade100)),
                             labelText: "Email",
                             enabledBorder: InputBorder.none,
                             labelStyle: const TextStyle(color: Colors.grey)),
-                            onChanged: (val) {
-                              email = val;
-                            },
+                        onChanged: (val) {
+                          email = val;
+                        },
                       ),
                       TextField(
                         obscureText: true,
@@ -100,9 +100,9 @@ class _LoginPageState extends State<LoginPage> {
                             labelText: "Password",
                             enabledBorder: InputBorder.none,
                             labelStyle: const TextStyle(color: Colors.grey)),
-                            onChanged: (val) {
-                              password = val;
-                            },
+                        onChanged: (val) {
+                          password = val;
+                        },
                       )
                     ],
                   ),
@@ -113,8 +113,9 @@ class _LoginPageState extends State<LoginPage> {
                         margin: const EdgeInsets.fromLTRB(0, 0, 20, 10),
                         child: const Text(
                           "FORGOT PASSWORD?",
-                          style:
-                              TextStyle(color: Color.fromARGB(255, 98, 128, 182), fontSize: 11),
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 98, 128, 182),
+                              fontSize: 11),
                         ))),
                 Container(
                   margin: const EdgeInsets.fromLTRB(20, 0, 20, 30),
@@ -132,14 +133,20 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(20),
                               splashColor: Colors.amber,
                               onTap: () {
-                                NetworkManager.post('authenticate', {"email": email, "password": password}).then((val) {
+                                NetworkManager.post('authenticate', {
+                                  "email": email,
+                                  "password": password
+                                }).then((val) {
                                   print(val.toString());
                                   if (val.data['success']) {
-                                    storage.write(key: "token", value: val.data['token']);
+                                    storage.write(
+                                        key: "token", value: val.data['token']);
                                     token = val.data['token'];
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => const SettingsPage()),
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SettingsPage()),
                                     );
                                   }
                                 });
@@ -165,18 +172,16 @@ class _LoginPageState extends State<LoginPage> {
                                   end: Alignment.bottomCenter)),
                         ),
                       ),
-                     FloatingActionButton(
-                      onPressed: () {},
-                      mini: true,
-                      elevation: 0,
-                      child: ClipOval(
-                        child: Image(
-                          image: AssetImage("assets/facebook.png"),
+                      FloatingActionButton(
+                        onPressed: () {},
+                        mini: true,
+                        elevation: 0,
+                        child: ClipOval(
+                          child: Image(
+                            image: AssetImage("assets/facebook.png"),
+                          ),
                         ),
                       ),
-                    ),
-
-
                       FloatingActionButton(
                         onPressed: () {},
                         mini: true,
@@ -199,35 +204,34 @@ class _LoginPageState extends State<LoginPage> {
                           fontWeight: FontWeight.w500),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-    context,
-    PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => RegisterPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return SlideTransition(
-                position: Tween<Offset>(
-                begin: const Offset(1, 0),
-                end: Offset.zero,
-                ).animate(animation),
-                child: child,
-            );
-        },
-        transitionDuration: Duration(milliseconds: 300),
-    ),
-);
-
-                      },
-                      child: Text(
-                      
-                      " SIGN UP",
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: Color.fromARGB(255, 98, 128, 182),
-                          fontWeight: FontWeight.w700),
-                    )
-                    ),
-                    
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      RegisterPage(),
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return SlideTransition(
+                                  position: Tween<Offset>(
+                                    begin: const Offset(1, 0),
+                                    end: Offset.zero,
+                                  ).animate(animation),
+                                  child: child,
+                                );
+                              },
+                              transitionDuration: Duration(milliseconds: 300),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          " SIGN UP",
+                          style: TextStyle(
+                              fontSize: 11,
+                              color: Color.fromARGB(255, 98, 128, 182),
+                              fontWeight: FontWeight.w700),
+                        )),
                   ],
                 )
               ],

@@ -4,6 +4,8 @@ import 'package:itsmilife/pages/common/profile.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 
+import '../normal_user/homepage.dart';
+
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
@@ -11,6 +13,30 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white,),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        HomePage(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(1, 0),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: child,
+                      );
+                    },
+                    transitionDuration: Duration(milliseconds: 300),
+                  ),
+                );
+              },
+              color: Colors.black,
+            ),
         centerTitle: true,
         title: const Text('Settings'),
       ),

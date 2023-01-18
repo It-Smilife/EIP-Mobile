@@ -96,13 +96,13 @@ class _ChatPageState extends State<ChatPage> {
                       height: 30,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        color: Colors.pink[50],
+                        color: Color.fromARGB(255, 98, 128, 182),
                       ),
                       child: Row(
                         children: const <Widget>[
                           Icon(
                             Icons.add,
-                            color: Colors.pink,
+                            color: Color.fromARGB(255, 255, 255, 255),
                             size: 20,
                           ),
                           SizedBox(
@@ -111,7 +111,7 @@ class _ChatPageState extends State<ChatPage> {
                           Text(
                             "Add New",
                             style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
                           ),
                         ],
                       ),

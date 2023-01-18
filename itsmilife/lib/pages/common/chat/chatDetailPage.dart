@@ -35,7 +35,8 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
         id: "sender"),
   ];
 
-static String _newMessage = "";
+  static String _newMessage = "";
+  final _textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -161,6 +162,7 @@ static String _newMessage = "";
                   ),
                   Expanded(
                     child: TextField(
+                      controller: _textController,
                       onChanged: (text) => _newMessage = text,
                       decoration: InputDecoration(
                           hintText: "Write message...",
@@ -180,6 +182,7 @@ static String _newMessage = "";
                           date: DateTime.now().toString(),
                           id: 'sender',
                         ));
+                        _textController.clear();
                       });
                     },
                     child: Icon(

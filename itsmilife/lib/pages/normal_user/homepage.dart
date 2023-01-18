@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/quizz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../common/settings.dart';
-import 'homepage.dart';
 
-class QuizzPage extends StatefulWidget {
-  const QuizzPage({super.key});
+class HomePage extends StatefulWidget {
+  final int initialSelectedIndex;
+
+  const HomePage({Key? key, this.initialSelectedIndex = 1}) : super(key: key);
 
   @override
-  _QuizzPageState createState() => _QuizzPageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _QuizzPageState extends State<QuizzPage> {
-  int _selectedIndex = 0;
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 1;
 
-  AnotherFile() {
+  @override
+  void initState() {
+    super.initState();
     _loadSelectedIndex();
   }
 
@@ -23,12 +26,18 @@ class _QuizzPageState extends State<QuizzPage> {
     _selectedIndex = prefs.getInt('selectedIndex') ?? 1;
   }
 
-  int get selectedIndex => _selectedIndex;
-
-  void someMethod() {
-    // Use the selectedIndex variable here
-    print(selectedIndex);
+  void _saveSelectedIndex() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('selectedIndex', _selectedIndex);
   }
+
+  void setSelectedIndex(int value) {
+    setState(() {
+      _selectedIndex = value;
+      _saveSelectedIndex();
+    });
+  }
+
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
@@ -56,8 +65,7 @@ class _QuizzPageState extends State<QuizzPage> {
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                QuizzPage(),
+            pageBuilder: (context, animation, secondaryAnimation) => QuizzPage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(
