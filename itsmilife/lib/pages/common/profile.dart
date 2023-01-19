@@ -8,7 +8,7 @@ class ProfileData {
   static String avatar = "";
   static String name = "User_test";
   static String email = "usertest@user.com";
-  static int age = 0;
+  static int age = 20;
   static String gender = "Male";
   static String phoneNumber = "+6 33 67 87 67";
   static String address = "carrer de la moula";

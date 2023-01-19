@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/normal_user/homepage/carouselle.dart';
 import 'package:itsmilife/pages/normal_user/quizz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../common/settings.dart';
+import '../../common/settings.dart';
 
 class HomePage extends StatefulWidget {
   final int initialSelectedIndex;
@@ -46,10 +47,7 @@ class _HomePageState extends State<HomePage> {
       'Index 0: activités',
       style: optionStyle,
     ),
-    Text(
-      'Index 1: home',
-      style: optionStyle,
-    ),
+    HomeCard(),
     Text(
       'Index 2: settings',
       style: optionStyle,
@@ -132,26 +130,9 @@ class _HomePageState extends State<HomePage> {
                 color: Color.fromARGB(255, 98, 128, 182),
                 fontSize: 25,
                 fontWeight: FontWeight.bold)),
-        actions: <Widget>[
-          ElevatedButton(
-            child: Text(
-              "Urgence",
-              style: TextStyle(color: Colors.white),
-            ),
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0.1),
-              backgroundColor: Colors.red,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-            ),
-            onPressed: () {
-              print("ok");
-            },
-          )
-        ],
       ),
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: HomeCard(),
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

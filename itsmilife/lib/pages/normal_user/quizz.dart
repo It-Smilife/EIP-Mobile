@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/quizz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../common/settings.dart';
-import 'homepage.dart';
+import 'homepage/carouselle.dart';
+import 'homepage/homepage.dart';
 
 class QuizzPage extends StatefulWidget {
   const QuizzPage({super.key});
@@ -37,10 +38,7 @@ class _QuizzPageState extends State<QuizzPage> {
       'Index 0: activités',
       style: optionStyle,
     ),
-    Text(
-      'Index 1: home',
-      style: optionStyle,
-    ),
+    HomeCard(),
     Text(
       'Index 2: settings',
       style: optionStyle,
@@ -143,7 +141,7 @@ class _QuizzPageState extends State<QuizzPage> {
         ],
       ),
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: Text("test"),
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

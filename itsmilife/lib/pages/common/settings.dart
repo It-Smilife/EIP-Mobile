@@ -4,7 +4,7 @@ import 'package:itsmilife/pages/common/profile.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 
-import '../normal_user/homepage.dart';
+import '../normal_user/homepage/homepage.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});

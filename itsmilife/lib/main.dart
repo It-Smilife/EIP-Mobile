@@ -4,7 +4,7 @@ import 'package:itsmilife/pages/common/chat/chatDetailPage.dart';
 import 'package:itsmilife/pages/common/chat/chatPage.dart';
 import 'package:itsmilife/pages/common/settings.dart';
 import 'package:itsmilife/pages/login.dart';
-import 'package:itsmilife/pages/normal_user/homepage.dart';
+import 'package:itsmilife/pages/normal_user/homepage/homepage.dart';
 
 void main() {
   runApp(const MyApp());
