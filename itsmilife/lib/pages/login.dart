@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:itsmilife/pages/register.dart';
 import '../services/NetworkManager.dart';
-import 'package:itsmilife/pages/common/settings.dart';
+import 'package:itsmilife/pages/common/settings/settings.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginPage extends StatefulWidget {

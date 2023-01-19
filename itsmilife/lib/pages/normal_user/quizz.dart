@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/quizz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../common/settings.dart';
+import '../common/settings/settings.dart';
 import 'homepage/carouselle.dart';
 import 'homepage/homepage.dart';
 

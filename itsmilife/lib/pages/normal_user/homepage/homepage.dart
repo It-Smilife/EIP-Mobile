@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/homepage/carouselle.dart';
 import 'package:itsmilife/pages/normal_user/quizz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../common/settings.dart';
+import '../../common/settings/settings.dart';
 
 class HomePage extends StatefulWidget {
   final int initialSelectedIndex;
