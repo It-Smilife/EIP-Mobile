@@ -81,6 +81,10 @@ flutter:
     - assets/sos.png
     - assets/quizz.png
     - assets/forum.png
+    - assets/sommeil.png
+    - assets/stress.png
+    - assets/motivation.png
+    - assets/emotion.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
