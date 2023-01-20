@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:itsmilife/pages/common/settings.dart';
+import 'package:itsmilife/pages/common/settings/settings.dart';
 
 class ProfileData {
   static String id = "";
@@ -12,6 +12,8 @@ class ProfileData {
   static String gender = "Male";
   static String phoneNumber = "+6 33 67 87 67";
   static String address = "carrer de la moula";
+  static String password = "";
+  static bool dark = false;
 }
 
 class ProfilePage extends StatefulWidget {

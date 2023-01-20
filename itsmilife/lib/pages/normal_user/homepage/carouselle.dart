@@ -1,162 +1,164 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/normal_user/chat/chatpro.dart';
 
-List<String> images = [
-  "assets/avatarpro.png",
-  "assets/logosmile.png",
-
-];
-
-List<String> title = [
-  "Discuter avec un professionel",
-  "Discuter avec Smile"
-];
+import '../chat/chatbot.dart';
+import 'cardData.dart';
 
 class HomeCard extends StatefulWidget {
   const HomeCard({Key? key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  _HomeCardState createState() => _HomeCardState();
 }
-var cardAspectRatio = 1.0 / 1.0;
-var widgetAspectRatio = cardAspectRatio * 1.2;
 
-class _HomeState extends State<HomeCard> {
-  var currentPage = images.length - 1.0;  @override
-  Widget build(BuildContext context) {
-    PageController controller = PageController(initialPage: images.length - 1);
-    controller.addListener(() {
-      setState(() {
-        currentPage = controller.page!;
-      });
+class _HomeCardState extends State<HomeCard> {
+  String _title = "Discuter avec Smile";
+
+  //calls the function to move to next image
+  void buildNextImage() {
+    setState(() {
+      CardData().nextImage();
+      _title = "Discuter avec un Professionnel";
     });
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 115),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Stack(
-                  children: <Widget>[
-                    CardScrollWidget(currentPage),
-                    Positioned.fill(
-                      child: PageView.builder(
-                        itemCount: images.length,
-                        controller: controller,
-                        reverse: true,
-                        itemBuilder: (context, index) {
-                          return Container();
-                        },
-                      ),
-                    )
-                  ],
-                ),
-
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
   }
-}
 
-class CardScrollWidget extends StatelessWidget {
-  var currentPage;
-  var padding = 20.0;
-  var verticalInset = 20.0;
+  //calls the function to move to previous image
+  void buildPreviousImage() {
+    setState(() {
+      CardData().previousImage();
+      _title = "Discuter avec Smile";
+    });
+  }
 
-  CardScrollWidget(this.currentPage);
+  //calls the function to move to build dot indicator in this widget
+  Widget rebuildDotIndicator() {
+    return CardData().buildDotsIndicator();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return  Directionality(
-      textDirection: TextDirection.rtl,
-      child: AspectRatio(
-        aspectRatio: widgetAspectRatio,
-        child: LayoutBuilder(builder: (context, contraints) {
-          var width = contraints.maxWidth;
-          var height = contraints.maxHeight;
-
-          var safeWidth = width - 2 * padding;
-          var safeHeight = height - 2 * padding;
-
-          var heightOfPrimaryCard = safeHeight;
-          var widthOfPrimaryCard = heightOfPrimaryCard * cardAspectRatio;
-
-          var primaryCardLeft = safeWidth - widthOfPrimaryCard;
-          var horizontalInset = primaryCardLeft  /3;
-
-          List<Widget> cardList = [];
-
-          for (var i = 0; i < images.length; i++) {
-            var delta = i - currentPage;
-            bool isOnRight = delta > 0;
-
-            var start = padding +
-                max(
-                   0.0, primaryCardLeft -
-                    horizontalInset * -delta * (isOnRight ? 13 : 1));
-
-            var cardItem = Positioned.directional(
-
-              top: padding + verticalInset * max(-delta, 0.0),
-              bottom: padding + verticalInset * max(-delta, 0.0),
-              end: start,
-              textDirection: TextDirection.rtl,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16.0),
-                child: Container(
-                  decoration: BoxDecoration(color: Color.fromARGB(255, 98, 128, 182), boxShadow: [
-                    BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(3.0, 6.0),
-                        blurRadius: 10.0)
-                  ]),
-                  child: AspectRatio(
-                    aspectRatio: cardAspectRatio,
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: <Widget>[
-                        Image.asset(images[i], fit: BoxFit.cover),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 16.0, vertical: 8.0),
-                                child: Text(title[i],
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20.0,
-                                        fontFamily: 'Loew-Next-Arabic-Medium',fontWeight: FontWeight.bold)),
-                              ),
-                              SizedBox(
-                                height: 10.0,
-                              ),
-
-                            ],
-                          ),
-                        )
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            children: [
+              Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    width: 400,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        new BoxShadow(
+                          color: Color.fromARGB(255, 98, 128, 182),
+                          offset: new Offset(0.0, 0.0),
+                        ),
                       ],
                     ),
-                  ),
-                ),
+                    child: Center(
+                        child: Text(_title, style: TextStyle(fontSize: 24, color: Colors.white))),
+                  )),
+              Padding(
+                padding: const EdgeInsets.all(0),
+
+                //The gesture detector widget will detect swipes and taps of the image card
+                child: GestureDetector(
+                    onHorizontalDragEnd: (dragEndDetails) {
+                      setState(() {
+                        if (dragEndDetails.primaryVelocity! < 0) {
+                          // Page forwards
+                          buildNextImage();
+                        } else if (dragEndDetails.primaryVelocity! > 0) {
+                          // Page backwards
+                          buildPreviousImage();
+                        }
+                      });
+                    },
+                    onTap: () {
+                      if (CardData().buildDotsIndicator().position == 0) {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    ChatBot(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              return SlideTransition(
+                                position: Tween<Offset>(
+                                  begin: const Offset(1, 0),
+                                  end: Offset.zero,
+                                ).animate(animation),
+                                child: child,
+                              );
+                            },
+                            transitionDuration: Duration(milliseconds: 300),
+                          ),
+                        );
+                      } else if (CardData().buildDotsIndicator().position ==
+                          1) {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    ChatPro(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              return SlideTransition(
+                                position: Tween<Offset>(
+                                  begin: const Offset(1, 0),
+                                  end: Offset.zero,
+                                ).animate(animation),
+                                child: child,
+                              );
+                            },
+                            transitionDuration: Duration(milliseconds: 300),
+                          ),
+                        );
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(0, 5),
+                            blurRadius: 5,
+                            spreadRadius: 0,
+                          )
+                        ],
+                        image: DecorationImage(
+                          image: AssetImage(
+                              "${CardData().cardImageUrl[currentSelected]}"),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      height: 450,
+                      width: MediaQuery.of(context).size.width - 2 * 54,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            right: 0,
+                            left: 0,
+                            bottom: 0,
+                            child: rebuildDotIndicator(),
+                          ),
+                        ],
+                      ),
+                    )),
               ),
-            );
-            cardList.add(cardItem);
-          }
-          return Stack(
-            children: cardList,
-          );
-        }),
+            ],
+          ),
+        ),
       ),
     );
   }
