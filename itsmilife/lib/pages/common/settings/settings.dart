@@ -4,18 +4,22 @@ import 'package:itsmilife/pages/common/profile.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 import 'package:itsmilife/pages/common/settings/changePass.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
+import 'package:provider/provider.dart';
 
 import '../../normal_user/homepage/homepage.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+  SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
     return Scaffold(
+      backgroundColor: darkMode.darkMode ? Colors.black : Colors.white,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.white,
           ),
@@ -104,8 +108,10 @@ class SettingsPage extends StatelessWidget {
                   ),
                   title: 'Dark mode',
                   trailing: Switch.adaptive(
-                    value: false,
-                    onChanged: (value) {},
+                    value: darkMode.darkMode,
+                    onChanged: (value) {
+                      darkMode.darkMode = value;
+                    },
                   ),
                 ),
               ],
