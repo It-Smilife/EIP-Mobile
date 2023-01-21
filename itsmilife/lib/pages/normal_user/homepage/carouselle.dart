@@ -50,7 +50,7 @@ class _HomeCardState extends State<HomeCard> {
                     height: 50,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.black,
+                        color: Colors.grey,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(10),
@@ -139,7 +139,7 @@ class _HomeCardState extends State<HomeCard> {
                         image: DecorationImage(
                           image: AssetImage(
                               "${CardData().cardImageUrl[currentSelected]}"),
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                         ),
                       ),
                       height: 450,
