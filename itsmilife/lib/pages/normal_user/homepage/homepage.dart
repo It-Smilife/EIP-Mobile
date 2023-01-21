@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/homepage/carouselle.dart';
-import 'package:itsmilife/pages/normal_user/quizz.dart';
+import 'package:itsmilife/pages/normal_user/activit%C3%A9s/activit%C3%A9s.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/settings/settings.dart';
 
@@ -63,7 +63,8 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => QuizzPage(),
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                ActivityPage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(
@@ -124,6 +125,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
         title: Text("It'Smilife",
             style: TextStyle(
@@ -131,9 +133,30 @@ class _HomePageState extends State<HomePage> {
                 fontSize: 25,
                 fontWeight: FontWeight.bold)),
       ),
-      body: Center(
-        child: HomeCard(),
-      ),
+      body: Stack(children: <Widget>[
+        HomeCard(),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 5),
+            child: ElevatedButton(
+              child: Text(
+                "Urgence",
+                style: TextStyle(color: Colors.white),
+              ),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 0.1),
+                backgroundColor: Colors.red,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+              ),
+              onPressed: () {
+                print("ok");
+              },
+            ),
+          ),
+        )
+      ]),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
             border: Border(top: BorderSide(color: Colors.grey, width: 0.25))),
@@ -152,8 +175,9 @@ class _HomePageState extends State<HomePage> {
               label: 'settings',
             ),
           ],
+          backgroundColor: Color.fromARGB(255, 98, 128, 182),
           currentIndex: _selectedIndex,
-          selectedItemColor: Color.fromARGB(255, 98, 128, 182),
+          selectedItemColor: Color.fromARGB(255, 255, 255, 255),
           onTap: _onItemTapped,
         ),
       ),

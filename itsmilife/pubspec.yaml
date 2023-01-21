@@ -48,6 +48,8 @@ dependencies:
   flutter_secure_storage: ^7.0.1
   shared_preferences: ^2.0.16
   provider: ^6.0.5
+  flutter_flip_view: ^1.0.3
+  dots_indicator: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +80,12 @@ flutter:
     - assets/avatarpro.png
     - assets/logosmile.png
     - assets/sos.png
+    - assets/quizz.png
+    - assets/forum.png
+    - assets/sommeil.png
+    - assets/stress.png
+    - assets/motivation.png
+    - assets/emotion.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
