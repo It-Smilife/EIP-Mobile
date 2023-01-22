@@ -50,6 +50,9 @@ dependencies:
   provider: ^6.0.5
   flutter_flip_view: ^1.0.3
   dots_indicator: ^2.1.0
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

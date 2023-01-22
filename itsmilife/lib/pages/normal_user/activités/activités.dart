@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/settings/settings.dart';
 import '../homepage/carouselle.dart';
 import '../homepage/homepage.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
+import 'package:provider/provider.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({super.key});
@@ -116,7 +118,9 @@ class _ActivityPageState extends State<ActivityPage> {
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
     return Scaffold(
+      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 234, 234, 234),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,

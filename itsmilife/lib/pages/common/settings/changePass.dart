@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
+import 'package:provider/provider.dart';
 
 class ChangePassPage extends StatefulWidget {
   const ChangePassPage({super.key});
@@ -29,7 +31,11 @@ class _ChangePassPage extends State<ChangePassPage> {
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
     return Scaffold(
+        backgroundColor: darkMode.darkMode
+            ? const Color.fromARGB(255, 58, 50, 83)
+            : const Color.fromARGB(255, 246, 246, 246),
         appBar: AppBar(
           title: const Text("Password"),
           leading: IconButton(
@@ -44,9 +50,10 @@ class _ChangePassPage extends State<ChangePassPage> {
                 child: Column(
           children: <Widget>[
             SizedBox(height: MediaQuery.of(context).size.height * 0.10),
-            const Text(
+            Text(
               "Reset your password.",
               style: TextStyle(
+                color: darkMode.darkMode ? Colors.white : Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
               ),
@@ -54,9 +61,11 @@ class _ChangePassPage extends State<ChangePassPage> {
             const SizedBox(height: 15),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.80,
-              child: const Text(
+              child: Text(
                 "Your password must have at least 6 caracters and must contain numbers and special caracters.",
-                style: TextStyle(fontSize: 15),
+                style: TextStyle(
+                    fontSize: 15,
+                    color: darkMode.darkMode ? Colors.white : Colors.black),
               ),
             ),
             const SizedBox(height: 50),
@@ -66,8 +75,21 @@ class _ChangePassPage extends State<ChangePassPage> {
                 controller: fieldText1,
                 obscureText: true,
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Enter the current password'),
+                  border: OutlineInputBorder(),
+                  labelText: 'Enter the current password',
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 3,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 30),
@@ -77,8 +99,21 @@ class _ChangePassPage extends State<ChangePassPage> {
                 controller: fieldText2,
                 obscureText: true,
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Enter the new password'),
+                  border: OutlineInputBorder(),
+                  labelText: 'Enter the new password',
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 3,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 30),

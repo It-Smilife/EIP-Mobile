@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/homepage/carouselle.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/activit%C3%A9s.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/settings/settings.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 
 class HomePage extends StatefulWidget {
   final int initialSelectedIndex;
@@ -123,11 +125,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
     return Scaffold(
+      //backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 234, 234, 234),
+      backgroundColor: Colors.green,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.white,
-        title: Text("It'Smilife",
+        backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 234, 234, 234),
+        title: const Text("It'Smilife",
             style: TextStyle(
                 color: Color.fromARGB(255, 98, 128, 182),
                 fontSize: 25,
@@ -138,7 +143,7 @@ class _HomePageState extends State<HomePage> {
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: EdgeInsets.only(bottom: 5),
+            padding: const EdgeInsets.only(bottom: 5),
             child: ElevatedButton(
               child: Text(
                 "Urgence",

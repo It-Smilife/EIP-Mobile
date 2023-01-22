@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/chat/chatpro.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
+import 'package:provider/provider.dart';
 
 import '../chat/chatbot.dart';
 import 'cardData.dart';
@@ -37,8 +39,9 @@ class _HomeCardState extends State<HomeCard> {
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 234, 234, 234),
       body: SafeArea(
         child: Center(
           child: Column(

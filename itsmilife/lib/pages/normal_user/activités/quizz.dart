@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/activit%C3%A9s.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
+import 'package:provider/provider.dart';
 
 class QuizzPage extends StatefulWidget {
   const QuizzPage({super.key});
@@ -11,7 +13,11 @@ class QuizzPage extends StatefulWidget {
 class _QuizzPageState extends State<QuizzPage> {
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
     return Scaffold(
+      backgroundColor: darkMode.darkMode
+            ? const Color.fromARGB(255, 58, 50, 83)
+            : const Color.fromARGB(255, 234, 234, 234),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
