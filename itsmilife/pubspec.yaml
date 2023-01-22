@@ -52,9 +52,11 @@ dependencies:
   dots_indicator: ^2.1.0
   page_transition: ^2.0.9
   animated_splash_screen: ^1.3.0
+  introduction_screen: ^2.1.0
   flutter_localizations:
     sdk: flutter
   intl: ^0.17.0
+  hive: ^2.2.3
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +93,7 @@ flutter:
     - assets/stress.png
     - assets/motivation.png
     - assets/emotion.png
+    - assets/version.json
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
