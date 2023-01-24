@@ -7,7 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
   final storage = new FlutterSecureStorage();
   final Dio dio = Dio();
 class NetworkManager {
-  static const baseUrl = "http://192.168.31.142:3000/";
+  static const baseUrl = "http://51.145.251.116:80/";
 
   static init() {
     dio.interceptors.add(InterceptorsWrapper(

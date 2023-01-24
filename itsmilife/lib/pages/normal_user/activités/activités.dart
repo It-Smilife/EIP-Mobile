@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/category.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/settings/settings.dart';
@@ -7,6 +6,8 @@ import '../homepage/carouselle.dart';
 import '../homepage/homepage.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:provider/provider.dart';
+
+import 'forum/forum.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({super.key});

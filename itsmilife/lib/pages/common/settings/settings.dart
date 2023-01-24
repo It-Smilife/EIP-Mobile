@@ -6,8 +6,8 @@ import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 import 'package:itsmilife/pages/common/settings/changePass.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:intl/intl.dart';
+// import 'package:flutter_localizations/flutter_localizations.dart';
+// import 'package:intl/intl.dart';
 import '../../normal_user/homepage/homepage.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 
@@ -42,7 +42,7 @@ class _SettingsPage extends State<SettingsPage> {
               context,
               PageRouteBuilder(
                 pageBuilder: (context, animation, secondaryAnimation) =>
-                    HomePage(),
+                    const HomePage(),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
                   return SlideTransition(
@@ -53,7 +53,7 @@ class _SettingsPage extends State<SettingsPage> {
                     child: child,
                   );
                 },
-                transitionDuration: Duration(milliseconds: 300),
+                transitionDuration: const Duration(milliseconds: 300),
               ),
             );
           },
@@ -70,7 +70,7 @@ class _SettingsPage extends State<SettingsPage> {
             BigUserCard(
               cardColor: const Color.fromARGB(255, 98, 128, 182),
               userName: "User name",
-              userProfilePic: AssetImage("assets/logo.png"),
+              userProfilePic: const AssetImage("assets/logo.png"),
               cardActionWidget: SettingsItem(
                 icons: Icons.edit,
                 iconStyle: IconStyle(
@@ -85,7 +85,7 @@ class _SettingsPage extends State<SettingsPage> {
                     context,
                     PageRouteBuilder(
                       pageBuilder: (context, animation, secondaryAnimation) =>
-                          ProfilePage(),
+                          const ProfilePage(),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {
                         return SlideTransition(
@@ -96,7 +96,7 @@ class _SettingsPage extends State<SettingsPage> {
                           child: child,
                         );
                       },
-                      transitionDuration: Duration(milliseconds: 300),
+                      transitionDuration: const Duration(milliseconds: 300),
                     ),
                   );
                 },
@@ -130,7 +130,6 @@ class _SettingsPage extends State<SettingsPage> {
                       setState(() {
                         lang.lang = value!;
                       });
-                      print(lang.lang.toString());
                     },
                     items: list.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(

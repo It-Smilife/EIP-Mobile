@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/settings/settings.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:hive/hive.dart';
+import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 
 class HomePage extends StatefulWidget {
   final int initialSelectedIndex;
@@ -68,7 +69,7 @@ class _HomePageState extends State<HomePage> {
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                ActivityPage(),
+                const ActivityPage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(
@@ -79,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                 child: child,
               );
             },
-            transitionDuration: Duration(milliseconds: 300),
+            transitionDuration: const Duration(milliseconds: 300),
           ),
         );
         break;
@@ -87,7 +88,7 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => HomePage(),
+            pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(
@@ -98,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                 child: child,
               );
             },
-            transitionDuration: Duration(milliseconds: 300),
+            transitionDuration: const Duration(milliseconds: 300),
           ),
         );
         break;
@@ -107,7 +108,7 @@ class _HomePageState extends State<HomePage> {
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                SettingsPage(),
+                const SettingsPage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(
@@ -118,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                 child: child,
               );
             },
-            transitionDuration: Duration(milliseconds: 300),
+            transitionDuration: const Duration(milliseconds: 300),
           ),
         );
         break;
