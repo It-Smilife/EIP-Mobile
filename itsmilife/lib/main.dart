@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:itsmilife/pages/common/chat/chatDetailPage.dart';
-import 'package:itsmilife/pages/common/chat/chatPage.dart';
-import 'package:itsmilife/pages/common/settings/settings.dart';
 import 'package:itsmilife/pages/common/splashScreen.dart';
-import 'package:itsmilife/pages/login.dart';
-import 'package:itsmilife/pages/normal_user/homepage/homepage.dart';
-import 'package:itsmilife/pages/normal_user/onboarding/onboarding.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
@@ -31,7 +25,7 @@ class MyApp extends StatelessWidget {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: OnBoarding(),
+        home: SplashScreen(),
       ),
     );
   }

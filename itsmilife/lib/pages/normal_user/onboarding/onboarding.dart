@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../homepage/homepage.dart';
 import 'styles.dart';
+
+class DataOnBoarding {
+  static String avatar = "";
+  static String prenom = "User";
+  static String nom = "User_test";
+  static int age = 20;
+  static String gender = "Male";
+  static String phoneNumber = "+6 33 67 87 67";
+}
 
 class OnBoarding extends StatefulWidget {
   const OnBoarding({super.key});
@@ -12,6 +22,11 @@ class OnBoarding extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnBoarding> {
   final int _numPages = 3;
+  String _selectedGender = "Homme";
+  late String _nom;
+  late String _prenom;
+  late int _age;
+  late String _phoneNumber;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
@@ -153,9 +168,10 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                     ],
                                   ),
                                   child: TextField(
+                                    onChanged: (val) => _nom = val,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Nom',
+                                      hintText: '  Nom',
                                     ),
                                   ),
                                 ),
@@ -173,9 +189,10 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                     ],
                                   ),
                                   child: TextField(
+                                    onChanged: (val) => _prenom = val,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Prénom',
+                                      hintText: '  Prénom',
                                     ),
                                   ),
                                 ),
@@ -193,9 +210,10 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                     ],
                                   ),
                                   child: TextField(
+                                    onChanged: (val) => _age = int.parse(val),
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Age',
+                                      hintText: '  Age',
                                     ),
                                   ),
                                 ),
@@ -213,9 +231,10 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                     ],
                                   ),
                                   child: TextField(
+                                    onChanged: (val) => _phoneNumber = val,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Sexe',
+                                      hintText: '  Numéro de telephone',
                                     ),
                                   ),
                                 ),
@@ -232,11 +251,24 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                       ),
                                     ],
                                   ),
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Numéro de telephone',
-                                    ),
+                                  child: DropdownButton<String>(
+                                    hint: _selectedGender == null
+                                        ? Text("  Select Gender")
+                                        : Text(_selectedGender),
+                                    value: _selectedGender,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        _selectedGender = newValue!;
+                                      });
+                                    },
+                                    items: <String>['Homme', 'Femme', 'Autre']
+                                        .map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
                                   ),
                                 ),
                               ],
@@ -292,7 +324,31 @@ class _OnboardingScreenState extends State<OnBoarding> {
               width: double.infinity,
               color: Colors.white,
               child: GestureDetector(
-                onTap: () => print('Get started'),
+                onTap: () => {
+                  DataOnBoarding.nom = _nom,
+                  DataOnBoarding.prenom = _prenom,
+                  DataOnBoarding.age = _age,
+                  DataOnBoarding.phoneNumber = _phoneNumber,
+                  DataOnBoarding.gender = _selectedGender,
+                  Navigator.pushReplacement(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          HomePage(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(1, 0),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: child,
+                        );
+                      },
+                      transitionDuration: Duration(milliseconds: 300),
+                    ),
+                  ),
+                },
                 child: Center(
                   child: Padding(
                     padding: EdgeInsets.only(bottom: 30.0),
