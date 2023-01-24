@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/settings/settings.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
+import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 
 class HomePage extends StatefulWidget {
   final int initialSelectedIndex;
@@ -66,7 +67,7 @@ class _HomePageState extends State<HomePage> {
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                ActivityPage(),
+                const ActivityPage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(
@@ -77,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                 child: child,
               );
             },
-            transitionDuration: Duration(milliseconds: 300),
+            transitionDuration: const Duration(milliseconds: 300),
           ),
         );
         break;
@@ -85,7 +86,7 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => HomePage(),
+            pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(
@@ -96,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                 child: child,
               );
             },
-            transitionDuration: Duration(milliseconds: 300),
+            transitionDuration: const Duration(milliseconds: 300),
           ),
         );
         break;
@@ -105,7 +106,7 @@ class _HomePageState extends State<HomePage> {
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                SettingsPage(),
+                const SettingsPage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(
@@ -116,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                 child: child,
               );
             },
-            transitionDuration: Duration(milliseconds: 300),
+            transitionDuration: const Duration(milliseconds: 300),
           ),
         );
         break;
@@ -126,9 +127,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final darkMode = Provider.of<DarkModeProvider>(context);
+    final lang = Provider.of<LanguageProvider>(context);
     return Scaffold(
-      //backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 234, 234, 234),
-      backgroundColor: Colors.green,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 234, 234, 234),
@@ -139,18 +139,14 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: FontWeight.bold)),
       ),
       body: Stack(children: <Widget>[
-        HomeCard(),
+        const HomeCard(),
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 5),
             child: ElevatedButton(
-              child: Text(
-                "Urgence",
-                style: TextStyle(color: Colors.white),
-              ),
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 0.1),
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 0.1),
                 backgroundColor: Colors.red,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
@@ -158,31 +154,35 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 print("ok");
               },
+              //lang.lang == "English" ? "Dark mode" : "Mode sombre"
+              child: Text( lang.lang == "English" ? "Emergency" : "Uregence",
+                style: const TextStyle(color: Colors.white),
+              ),
             ),
           ),
         )
       ]),
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             border: Border(top: BorderSide(color: Colors.grey, width: 0.25))),
         child: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.directions_run),
-              label: 'activités',
+              icon: const Icon(Icons.directions_run),
+              label: lang.lang == 'English' ? 'activities' : 'activités',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'home',
+              icon: const Icon(Icons.home),
+              label: lang.lang == 'English' ? 'home' : 'accueil',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'settings',
+              icon: const Icon(Icons.settings),
+              label: lang.lang == 'English' ? 'settings' : 'paramètres',
             ),
           ],
-          backgroundColor: Color.fromARGB(255, 98, 128, 182),
+          backgroundColor: const Color.fromARGB(255, 98, 128, 182),
           currentIndex: _selectedIndex,
-          selectedItemColor: Color.fromARGB(255, 255, 255, 255),
+          selectedItemColor: const Color.fromARGB(255, 255, 255, 255),
           onTap: _onItemTapped,
         ),
       ),
