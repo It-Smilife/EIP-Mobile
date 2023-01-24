@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/homepage/carouselle.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/activit%C3%A9s.dart';
+import 'package:itsmilife/pages/normal_user/onboarding/onboarding.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/settings/settings.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
+import 'package:hive/hive.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 
 class HomePage extends StatefulWidget {
@@ -127,65 +129,70 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final darkMode = Provider.of<DarkModeProvider>(context);
-    final lang = Provider.of<LanguageProvider>(context);
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 234, 234, 234),
-        title: const Text("It'Smilife",
-            style: TextStyle(
-                color: Color.fromARGB(255, 98, 128, 182),
-                fontSize: 25,
-                fontWeight: FontWeight.bold)),
-      ),
-      body: Stack(children: <Widget>[
-        const HomeCard(),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 5),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 0.1),
-                backgroundColor: Colors.red,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
+        return Scaffold(
+            //backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 234, 234, 234),
+            backgroundColor: Colors.green,
+            appBar: AppBar(
+              centerTitle: true,
+              backgroundColor: darkMode.darkMode
+                  ? const Color.fromARGB(255, 58, 50, 83)
+                  : const Color.fromARGB(255, 234, 234, 234),
+              title: const Text("It'Smilife",
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 98, 128, 182),
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold)),
+            ),
+            body: Stack(children: <Widget>[
+              HomeCard(),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: ElevatedButton(
+                    child: Text(
+                      "Urgence",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 0.1),
+                      backgroundColor: Colors.red,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                    ),
+                    onPressed: () {
+                      print("ok");
+                    },
+                  ),
+                ),
+              )
+            ]),
+            bottomNavigationBar: Container(
+              decoration: BoxDecoration(
+                  border:
+                      Border(top: BorderSide(color: Colors.grey, width: 0.25))),
+              child: BottomNavigationBar(
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.directions_run),
+                    label: 'activités',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.settings),
+                    label: 'settings',
+                  ),
+                ],
+                backgroundColor: Color.fromARGB(255, 98, 128, 182),
+                currentIndex: _selectedIndex,
+                selectedItemColor: Color.fromARGB(255, 255, 255, 255),
+                onTap: _onItemTapped,
               ),
-              onPressed: () {
-                print("ok");
-              },
-              //lang.lang == "English" ? "Dark mode" : "Mode sombre"
-              child: Text( lang.lang == "English" ? "Emergency" : "Uregence",
-                style: const TextStyle(color: Colors.white),
-              ),
             ),
-          ),
-        )
-      ]),
-      bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-            border: Border(top: BorderSide(color: Colors.grey, width: 0.25))),
-        child: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.directions_run),
-              label: lang.lang == 'English' ? 'activities' : 'activités',
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.home),
-              label: lang.lang == 'English' ? 'home' : 'accueil',
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.settings),
-              label: lang.lang == 'English' ? 'settings' : 'paramètres',
-            ),
-          ],
-          backgroundColor: const Color.fromARGB(255, 98, 128, 182),
-          currentIndex: _selectedIndex,
-          selectedItemColor: const Color.fromARGB(255, 255, 255, 255),
-          onTap: _onItemTapped,
-        ),
-      ),
-    );
+          );
   }
 }

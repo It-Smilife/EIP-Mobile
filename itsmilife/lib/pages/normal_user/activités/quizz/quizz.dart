@@ -60,6 +60,20 @@ class _QuizzPageState extends State<QuizzPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.blue, width: 2),
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                padding: EdgeInsets.only(left: 60, top: 20, right: 60, bottom: 20),
+                child: Text("Catégories",
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 98, 128, 182),
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold)),
+            ),
+                    SizedBox(height: 40),
             Row(
               children: <Widget>[
                 Expanded(

@@ -263,7 +263,7 @@ class _ActivityPageState extends State<ActivityPage> {
                     GestureDetector(
                       onTap: () {
                         // handle the tap event on the image
-                        Navigator.pushReplacement(
+                        Navigator.push(
                           context,
                           PageRouteBuilder(
                             pageBuilder:
@@ -293,7 +293,7 @@ class _ActivityPageState extends State<ActivityPage> {
                     GestureDetector(
                       onTap: () {
                         // handle the tap event on the title
-                        Navigator.pushReplacement(
+                        Navigator.push(
                           context,
                           PageRouteBuilder(
                             pageBuilder:

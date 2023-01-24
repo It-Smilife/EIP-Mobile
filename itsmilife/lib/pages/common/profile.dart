@@ -2,15 +2,17 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/settings/settings.dart';
+import 'package:itsmilife/pages/normal_user/onboarding/onboarding.dart';
 
 class ProfileData {
   static String id = "";
   static String avatar = "";
-  static String name = "User_test";
+  static String name = DataOnBoarding.nom;
+  static String prenom = DataOnBoarding.prenom;
   static String email = "usertest@user.com";
-  static int age = 20;
-  static String gender = "Male";
-  static String phoneNumber = "+6 33 67 87 67";
+  static int age = DataOnBoarding.age;
+  static String gender = DataOnBoarding.gender;
+  static String phoneNumber = DataOnBoarding.phoneNumber;
   static String address = "carrer de la moula";
   static String password = "";
   static bool dark = false;
@@ -27,6 +29,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
   final _formKey = GlobalKey<FormState>();
 
   late String _name;
+  late String _prenom;
   late String _email;
   late int _age;
   late String _gender;
@@ -90,6 +93,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     ProfileData.name = _name;
+                    ProfileData.prenom = _prenom;
                     ProfileData.email = _email;
                     ProfileData.age = _age;
                     ProfileData.gender = _gender;
@@ -196,6 +200,19 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                   onSaved: (value) => _name = value!,
                 ),
               ),
+              Container(
+                decoration: BoxDecoration(
+                    border:
+                        Border(top: BorderSide(width: 0.25, color: Colors.grey))),
+                child: TextFormField(
+                  initialValue: ProfileData.prenom,
+                  decoration: InputDecoration(
+                    labelText: '  Prenom',
+                  ),
+                  validator: (value) {},
+                  onSaved: (value) => _prenom = value!,
+                ),
+              ),
 
               // Email
               Container(
@@ -236,7 +253,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                     labelText: '  Gender',
                   ),
                   onSaved: (value) => _gender = value!,
-                  items: ['Male', 'Female', 'Other'].map((value) {
+                  items: ['Homme', 'Femme', 'Autre'].map((value) {
                     return DropdownMenuItem(
                       value: value,
                       child: Text('  ' + value),
