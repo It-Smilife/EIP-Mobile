@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/category.dart';
-=======
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/forum.dart';
->>>>>>> Stashed changes
+import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/category.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/settings/settings.dart';
 import '../homepage/carouselle.dart';
 import '../homepage/homepage.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:provider/provider.dart';
-
-import 'forum/forum.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({super.key});
@@ -168,7 +163,7 @@ class _ActivityPageState extends State<ActivityPage> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    ActivityPage(),
+                                    QuizzPage(),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(
@@ -198,7 +193,7 @@ class _ActivityPageState extends State<ActivityPage> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    ActivityPage(),
+                                    QuizzPage(),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(
@@ -268,7 +263,7 @@ class _ActivityPageState extends State<ActivityPage> {
                     GestureDetector(
                       onTap: () {
                         // handle the tap event on the image
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           PageRouteBuilder(
                             pageBuilder:
@@ -298,7 +293,7 @@ class _ActivityPageState extends State<ActivityPage> {
                     GestureDetector(
                       onTap: () {
                         // handle the tap event on the title
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           PageRouteBuilder(
                             pageBuilder:
