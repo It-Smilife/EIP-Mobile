@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class ChatBot extends StatelessWidget {
-  const ChatBot({super.key});
+class Quizz extends StatelessWidget {
+  const Quizz({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Chatbot'),
+        title: const Text('Quizz'),
       ),
-      body: const Text("chatbot content"),
+      body: const Text("Quizz Content"),
     );
   }
 }
