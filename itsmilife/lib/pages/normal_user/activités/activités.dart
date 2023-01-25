@@ -164,7 +164,7 @@ class _ActivityPageState extends State<ActivityPage> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    QuizzPage(),
+                                    CategoryPage(),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(
@@ -194,7 +194,7 @@ class _ActivityPageState extends State<ActivityPage> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    QuizzPage(),
+                                    CategoryPage(),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(

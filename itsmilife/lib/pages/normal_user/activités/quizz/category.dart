@@ -4,14 +4,14 @@ import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/quizz_detail.dart';
 import 'package:provider/provider.dart';
 
-class QuizzPage extends StatefulWidget {
-  const QuizzPage({super.key});
+class CategoryPage extends StatefulWidget {
+  const CategoryPage({super.key});
 
   @override
   _QuizzPageState createState() => _QuizzPageState();
 }
 
-class _QuizzPageState extends State<QuizzPage> {
+class _QuizzPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     final darkMode = Provider.of<DarkModeProvider>(context);
@@ -105,7 +105,7 @@ class _QuizzPageState extends State<QuizzPage> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      QuizApp(),
+                                      Quizz(),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     return SlideTransition(
@@ -136,7 +136,7 @@ class _QuizzPageState extends State<QuizzPage> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      QuizApp(),
+                                      Quizz(),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     return SlideTransition(
@@ -214,7 +214,7 @@ class _QuizzPageState extends State<QuizzPage> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      QuizzPage(),
+                                      CategoryPage(),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     return SlideTransition(
@@ -245,7 +245,7 @@ class _QuizzPageState extends State<QuizzPage> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      QuizzPage(),
+                                      CategoryPage(),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     return SlideTransition(
@@ -327,7 +327,7 @@ class _QuizzPageState extends State<QuizzPage> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      QuizzPage(),
+                                      CategoryPage(),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     return SlideTransition(
@@ -358,7 +358,7 @@ class _QuizzPageState extends State<QuizzPage> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      QuizzPage(),
+                                      CategoryPage(),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     return SlideTransition(
@@ -436,7 +436,7 @@ class _QuizzPageState extends State<QuizzPage> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      QuizzPage(),
+                                      CategoryPage(),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     return SlideTransition(
@@ -467,7 +467,7 @@ class _QuizzPageState extends State<QuizzPage> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      QuizzPage(),
+                                      CategoryPage(),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     return SlideTransition(
