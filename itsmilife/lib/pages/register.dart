@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:itsmilife/pages/common/profile.dart';
+import 'package:itsmilife/pages/normal_user/onboarding/onboarding.dart';
+import '../services/NetworkManager.dart';
 
 import 'login.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
 
+  @override
+  _RegisterPageState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
   double getSmallDiameter(BuildContext context) =>
       MediaQuery.of(context).size.width * 2 / 3;
   double getBiglDiameter(BuildContext context) =>
       MediaQuery.of(context).size.width * 7 / 8;
 
+  var email, password, name = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,23 +30,23 @@ class RegisterPage extends StatelessWidget {
             left: 25,
             top: -getBiglDiameter(context) / 4,
             child: Container(
-  width: getBiglDiameter(context),
-  height: getBiglDiameter(context),
-  decoration: BoxDecoration(
-    shape: BoxShape.circle,
-    gradient: LinearGradient(
-        colors: [Color.fromARGB(255, 255, 255, 255), Color.fromARGB(255, 98, 128, 182)],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter)),
-  child: Stack(
-    children: [
-        Image.asset('assets/logo.png',
-        alignment: Alignment.centerRight,
-    ),
-    ],
-  ),
-),
-
+              width: getBiglDiameter(context),
+              height: getBiglDiameter(context),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(colors: [
+                    Color.fromARGB(255, 255, 255, 255),
+                    Color.fromARGB(255, 98, 128, 182)
+                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+              child: Stack(
+                children: [
+                  Image.asset(
+                    'assets/logo.png',
+                    alignment: Alignment.centerRight,
+                  ),
+                ],
+              ),
+            ),
           ),
           Positioned(
             right: -getBiglDiameter(context) / 2,
@@ -61,7 +70,7 @@ class RegisterPage extends StatelessWidget {
                   margin: const EdgeInsets.fromLTRB(20, 300, 20, 10),
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 25),
                   child: Column(
-                    children:  <Widget>[
+                    children: <Widget>[
                       TextField(
                         decoration: InputDecoration(
                             icon: const Icon(
@@ -70,12 +79,15 @@ class RegisterPage extends StatelessWidget {
                             ),
                             focusedBorder: UnderlineInputBorder(
                                 borderSide:
-                                    BorderSide(color: Colors.grey.shade100 )),
+                                    BorderSide(color: Colors.grey.shade100)),
                             labelText: "Name",
                             enabledBorder: InputBorder.none,
                             labelStyle: const TextStyle(color: Colors.grey)),
+                        onChanged: (val) {
+                          name = val;
+                        },
                       ),
-                       TextField(
+                      TextField(
                         decoration: InputDecoration(
                             icon: const Icon(
                               Icons.email,
@@ -83,10 +95,13 @@ class RegisterPage extends StatelessWidget {
                             ),
                             focusedBorder: UnderlineInputBorder(
                                 borderSide:
-                                    BorderSide(color: Colors.grey.shade100 )),
+                                    BorderSide(color: Colors.grey.shade100)),
                             labelText: "Email",
                             enabledBorder: InputBorder.none,
                             labelStyle: const TextStyle(color: Colors.grey)),
+                        onChanged: (val) {
+                          email = val;
+                        },
                       ),
                       TextField(
                         obscureText: true,
@@ -101,7 +116,9 @@ class RegisterPage extends StatelessWidget {
                             labelText: "Password",
                             enabledBorder: InputBorder.none,
                             labelStyle: const TextStyle(color: Colors.grey)),
-                            
+                        onChanged: (val) {
+                          password = val;
+                        },
                       )
                     ],
                   ),
@@ -121,7 +138,43 @@ class RegisterPage extends StatelessWidget {
                             child: InkWell(
                               borderRadius: BorderRadius.circular(20),
                               splashColor: Colors.amber,
-                              onTap: () {},
+                              onTap: () {
+                                print(name);
+                                NetworkManager.post("users", {
+                                  "email": email,
+                                  "name": name,
+                                  "password": password
+                                }).then((val) {
+                                  print(val.toString());
+                                  if (val.data['success'] == true) {
+                                    ProfileData.id = val.data["message"]["_id"];
+                                    ProfileData.username = name;
+                                    ProfileData.email = email;
+                                    Navigator.pushReplacement(
+                                      context,
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                                secondaryAnimation) =>
+                                            OnBoarding(),
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          return SlideTransition(
+                                            position: Tween<Offset>(
+                                              begin: const Offset(1, 0),
+                                              end: Offset.zero,
+                                            ).animate(animation),
+                                            child: child,
+                                          );
+                                        },
+                                        transitionDuration:
+                                            Duration(milliseconds: 300),
+                                      ),
+                                    );
+                                  } else if (val.data['success'] == false) {
+                                    print(val.data["message"]);
+                                  }
+                                });
+                              },
                               child: const Center(
                                 child: Text(
                                   "SIGN UP",
@@ -143,24 +196,23 @@ class RegisterPage extends StatelessWidget {
                                   end: Alignment.bottomCenter)),
                         ),
                       ),
-                     FloatingActionButton(
-                      onPressed: () {},
-                      mini: true,
-                      elevation: 0,
-                      child: ClipOval(
-                        child: Image(
-                          image: AssetImage("assets/facebook.png"),
-                        ),
-                      ),
-                    ),
-
-
                       FloatingActionButton(
                         onPressed: () {},
                         mini: true,
                         elevation: 0,
+                        child: ClipOval(
+                          child: Image(
+                            image: AssetImage("assets/facebook.png"),
+                          ),
+                        ),
+                      ),
+                      FloatingActionButton(
+                        backgroundColor: Colors.white,
+                        onPressed: () {},
+                        mini: true,
+                        elevation: 0,
                         child: const Image(
-                          image: AssetImage("assets/twitter.png"),
+                          image: AssetImage("assets/google.png"),
                         ),
                       ),
                     ],
@@ -177,34 +229,34 @@ class RegisterPage extends StatelessWidget {
                           fontWeight: FontWeight.w500),
                     ),
                     GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-    context,
-    PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => LoginPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return SlideTransition(
-                position: Tween<Offset>(
-                begin: const Offset(1, 0),
-                end: Offset.zero,
-                ).animate(animation),
-                child: child,
-            );
-        },
-        transitionDuration: Duration(milliseconds: 300),
-    ),
-);
-
-                    },
-                    child: Text(
-                      " SIGN IN",
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: Color.fromARGB(255, 98, 128, 182),
-                          fontWeight: FontWeight.w700),
-                    )
-                  ),
-                    
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      RegisterPage(),
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return SlideTransition(
+                                  position: Tween<Offset>(
+                                    begin: const Offset(1, 0),
+                                    end: Offset.zero,
+                                  ).animate(animation),
+                                  child: child,
+                                );
+                              },
+                              transitionDuration: Duration(milliseconds: 300),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          " SIGN IN",
+                          style: TextStyle(
+                              fontSize: 11,
+                              color: Color.fromARGB(255, 98, 128, 182),
+                              fontWeight: FontWeight.w700),
+                        )),
                   ],
                 )
               ],

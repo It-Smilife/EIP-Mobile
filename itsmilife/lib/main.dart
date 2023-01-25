@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:itsmilife/pages/common/splashScreen.dart';
 import 'package:itsmilife/pages/normal_user/homepage/homepage.dart';
+import 'package:itsmilife/pages/register.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: HomePage(),
+        home: RegisterPage(),
       ),
     );
   }

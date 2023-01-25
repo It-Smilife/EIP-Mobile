@@ -1,17 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:itsmilife/pages/common/profile.dart';
 import '../homepage/homepage.dart';
 import 'styles.dart';
-
-class DataOnBoarding {
-  static String avatar = "";
-  static String prenom = "User";
-  static String nom = "User_test";
-  static int age = 20;
-  static String gender = "Male";
-  static String phoneNumber = "+6 33 67 87 67";
-}
 
 class OnBoarding extends StatefulWidget {
   const OnBoarding({super.key});
@@ -102,7 +93,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                             ),
                             SizedBox(height: 30.0),
                             Text(
-                              "Bienvenu sur It'Smilife !",
+                              "Bienvenue sur It'Smilife !",
                               style: kTitleStyle,
                             ),
                             SizedBox(height: 15.0),
@@ -129,7 +120,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                             ),
                             SizedBox(height: 30.0),
                             Text(
-                              'Bonjour, je me surnomme Smile',
+                              'Bonjour ' + ProfileData.username + ',  je me surnomme Smile',
                               style: kTitleStyle,
                             ),
                             SizedBox(height: 15.0),
@@ -325,11 +316,11 @@ class _OnboardingScreenState extends State<OnBoarding> {
               color: Colors.white,
               child: GestureDetector(
                 onTap: () => {
-                  DataOnBoarding.nom = _nom,
-                  DataOnBoarding.prenom = _prenom,
-                  DataOnBoarding.age = _age,
-                  DataOnBoarding.phoneNumber = _phoneNumber,
-                  DataOnBoarding.gender = _selectedGender,
+                  ProfileData.name = _nom,
+                  ProfileData.prenom = _prenom,
+                  ProfileData.age = _age,
+                  ProfileData.phoneNumber = _phoneNumber,
+                  ProfileData.gender = _selectedGender,
                   Navigator.pushReplacement(
                     context,
                     PageRouteBuilder(

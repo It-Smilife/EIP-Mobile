@@ -145,8 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              SettingsPage()),
+                                          builder: (context) => SettingsPage()),
                                     );
                                   }
                                 });
@@ -183,11 +182,12 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       FloatingActionButton(
+                        backgroundColor: Colors.white,
                         onPressed: () {},
                         mini: true,
                         elevation: 0,
                         child: const Image(
-                          image: AssetImage("assets/twitter.png"),
+                          image: AssetImage("assets/google.png"),
                         ),
                       ),
                     ],

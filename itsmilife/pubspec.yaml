@@ -93,6 +93,7 @@ flutter:
     - assets/stress.png
     - assets/motivation.png
     - assets/emotion.png
+    - assets/google.png
     - assets/version.json
 
 

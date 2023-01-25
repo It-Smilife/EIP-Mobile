@@ -7,12 +7,13 @@ import 'package:itsmilife/pages/normal_user/onboarding/onboarding.dart';
 class ProfileData {
   static String id = "";
   static String avatar = "";
-  static String name = DataOnBoarding.nom;
-  static String prenom = DataOnBoarding.prenom;
+  static String name = "";
+  static String username = "";
+  static String prenom = "";
   static String email = "usertest@user.com";
-  static int age = DataOnBoarding.age;
-  static String gender = DataOnBoarding.gender;
-  static String phoneNumber = DataOnBoarding.phoneNumber;
+  static int age = 0;
+  static String gender = "";
+  static String phoneNumber = "";
   static String address = "carrer de la moula";
   static String password = "";
   static bool dark = false;
