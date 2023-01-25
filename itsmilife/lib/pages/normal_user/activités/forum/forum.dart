@@ -28,7 +28,7 @@ class _Forum extends State<Forum> {
         leading: IconButton(
           icon: const Icon(CupertinoIcons.back),
           onPressed: () {
-            Navigator.push(context,
+            Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const ActivityPage()));
           },
         ),

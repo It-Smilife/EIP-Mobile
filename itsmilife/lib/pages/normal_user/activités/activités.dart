@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/forum.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/category.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/settings/settings.dart';
@@ -6,8 +7,6 @@ import '../homepage/carouselle.dart';
 import '../homepage/homepage.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:provider/provider.dart';
-
-import 'forum/forum.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({super.key});
@@ -60,7 +59,7 @@ class _ActivityPageState extends State<ActivityPage> {
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                ActivityPage(),
+                const ActivityPage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(
@@ -71,7 +70,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 child: child,
               );
             },
-            transitionDuration: Duration(milliseconds: 300),
+            transitionDuration: const Duration(milliseconds: 300),
           ),
         );
         break;
@@ -79,7 +78,7 @@ class _ActivityPageState extends State<ActivityPage> {
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => HomePage(),
+            pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(
@@ -90,7 +89,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 child: child,
               );
             },
-            transitionDuration: Duration(milliseconds: 300),
+            transitionDuration: const Duration(milliseconds: 300),
           ),
         );
         break;
@@ -99,7 +98,7 @@ class _ActivityPageState extends State<ActivityPage> {
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                SettingsPage(),
+                const SettingsPage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(
@@ -110,7 +109,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 child: child,
               );
             },
-            transitionDuration: Duration(milliseconds: 300),
+            transitionDuration: const Duration(milliseconds: 300),
           ),
         );
         break;
@@ -125,7 +124,7 @@ class _ActivityPageState extends State<ActivityPage> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
-        title: Text("It'Smilife",
+        title: const Text("It'Smilife",
             style: TextStyle(
                 color: Color.fromARGB(255, 98, 128, 182),
                 fontSize: 25,
@@ -142,7 +141,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Color.fromARGB(255, 98, 128, 182),
                       offset: Offset(0, 5),
@@ -175,7 +174,7 @@ class _ActivityPageState extends State<ActivityPage> {
                                 child: child,
                               );
                             },
-                            transitionDuration: Duration(milliseconds: 300),
+                            transitionDuration: const Duration(milliseconds: 300),
                           ),
                         );
                       },
@@ -185,7 +184,7 @@ class _ActivityPageState extends State<ActivityPage> {
                         width: 150,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     GestureDetector(
                       onTap: () {
                         // handle the tap event on the title
@@ -205,18 +204,18 @@ class _ActivityPageState extends State<ActivityPage> {
                                 child: child,
                               );
                             },
-                            transitionDuration: Duration(milliseconds: 300),
+                            transitionDuration: const Duration(milliseconds: 300),
                           ),
                         );
                       },
                       child: Container(
                         width: 270,
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 98, 128, 182),
+                          color: const Color.fromARGB(255, 98, 128, 182),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         child: Column(
                           children: const [
                             SizedBox(
@@ -239,7 +238,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
@@ -247,7 +246,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Color.fromARGB(255, 98, 128, 182),
                       offset: Offset(0, 5),
@@ -264,12 +263,12 @@ class _ActivityPageState extends State<ActivityPage> {
                     GestureDetector(
                       onTap: () {
                         // handle the tap event on the image
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    Forum(),
+                                    const Forum(),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(
@@ -280,7 +279,7 @@ class _ActivityPageState extends State<ActivityPage> {
                                 child: child,
                               );
                             },
-                            transitionDuration: Duration(milliseconds: 300),
+                            transitionDuration: const Duration(milliseconds: 300),
                           ),
                         );
                       },
@@ -290,16 +289,16 @@ class _ActivityPageState extends State<ActivityPage> {
                         width: 150,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     GestureDetector(
                       onTap: () {
                         // handle the tap event on the title
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    Forum(),
+                                    const Forum(),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(
@@ -310,18 +309,18 @@ class _ActivityPageState extends State<ActivityPage> {
                                 child: child,
                               );
                             },
-                            transitionDuration: Duration(milliseconds: 300),
+                            transitionDuration: const Duration(milliseconds: 300),
                           ),
                         );
                       },
                       child: Container(
                         width: 270,
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 98, 128, 182),
+                          color: const Color.fromARGB(255, 98, 128, 182),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         child: Column(
                           children: const [
                             SizedBox(
@@ -348,7 +347,7 @@ class _ActivityPageState extends State<ActivityPage> {
         ),
       ),
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             border: Border(top: BorderSide(color: Colors.grey, width: 0.25))),
         child: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
@@ -365,9 +364,9 @@ class _ActivityPageState extends State<ActivityPage> {
               label: 'settings',
             ),
           ],
-          backgroundColor: Color.fromARGB(255, 98, 128, 182),
+          backgroundColor: const Color.fromARGB(255, 98, 128, 182),
           currentIndex: _selectedIndex,
-          selectedItemColor: Color.fromARGB(255, 255, 255, 255),
+          selectedItemColor: const Color.fromARGB(255, 255, 255, 255),
           onTap: _onItemTapped,
         ),
       ),
