@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:itsmilife/pages/normal_user/homepage/homepage.dart';
 import 'package:itsmilife/pages/register.dart';
 import '../services/NetworkManager.dart';
 import 'package:itsmilife/pages/common/settings/settings.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:itsmilife/widgets/bottomNavBar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -32,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Container(
               width: getBiglDiameter(context),
               height: getBiglDiameter(context),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(colors: [
                     Color.fromARGB(255, 255, 255, 255),
@@ -126,6 +128,15 @@ class _LoginPageState extends State<LoginPage> {
                         width: MediaQuery.of(context).size.width * 0.5,
                         height: 40,
                         child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              gradient: const LinearGradient(
+                                  colors: [
+                                    Color.fromARGB(255, 98, 128, 182),
+                                    Color.fromARGB(255, 98, 128, 182)
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter)),
                           child: Material(
                             borderRadius: BorderRadius.circular(20),
                             color: Colors.transparent,
@@ -145,10 +156,16 @@ class _LoginPageState extends State<LoginPage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => SettingsPage()),
+                                          builder: (context) =>
+                                              const SettingsPage()),
                                     );
                                   }
                                 });
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Home()),
+                                );
                               },
                               child: const Center(
                                 child: Text(
@@ -160,22 +177,13 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                           ),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              gradient: LinearGradient(
-                                  colors: [
-                                    Color.fromARGB(255, 98, 128, 182),
-                                    Color.fromARGB(255, 98, 128, 182)
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter)),
                         ),
                       ),
                       FloatingActionButton(
                         onPressed: () {},
                         mini: true,
                         elevation: 0,
-                        child: ClipOval(
+                        child: const ClipOval(
                           child: Image(
                             image: AssetImage("assets/facebook.png"),
                           ),
@@ -196,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
+                    const Text(
                       "DON'T HAVE AN ACCOUNT ? ",
                       style: TextStyle(
                           fontSize: 11,
@@ -210,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
                             PageRouteBuilder(
                               pageBuilder:
                                   (context, animation, secondaryAnimation) =>
-                                      RegisterPage(),
+                                      const RegisterPage(),
                               transitionsBuilder: (context, animation,
                                   secondaryAnimation, child) {
                                 return SlideTransition(
@@ -221,11 +229,12 @@ class _LoginPageState extends State<LoginPage> {
                                   child: child,
                                 );
                               },
-                              transitionDuration: Duration(milliseconds: 300),
+                              transitionDuration:
+                                  const Duration(milliseconds: 300),
                             ),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           " SIGN UP",
                           style: TextStyle(
                               fontSize: 11,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:itsmilife/pages/common/profile.dart';
+import 'package:itsmilife/services/NetworkManager.dart';
 import '../homepage/homepage.dart';
 import 'styles.dart';
 
@@ -13,7 +14,7 @@ class OnBoarding extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnBoarding> {
   final int _numPages = 3;
-  String _selectedGender = "Homme";
+  String _selectedGender = "male";
   late String _nom;
   late String _prenom;
   late int _age;
@@ -48,7 +49,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -82,7 +83,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Center(
+                            const Center(
                               child: Image(
                                 image: AssetImage(
                                   'assets/logo.png',
@@ -105,11 +106,11 @@ class _OnboardingScreenState extends State<OnBoarding> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(40.0),
+                        padding: const EdgeInsets.all(40.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Center(
+                            const Center(
                               child: Image(
                                 image: AssetImage(
                                   'assets/logosmile.png',
@@ -120,7 +121,9 @@ class _OnboardingScreenState extends State<OnBoarding> {
                             ),
                             SizedBox(height: 30.0),
                             Text(
-                              'Bonjour ' + ProfileData.username + ',  je me surnomme Smile',
+                              'Bonjour ' +
+                                  ProfileData.username +
+                                  ',  je me surnomme Smile',
                               style: kTitleStyle,
                             ),
                             SizedBox(height: 15.0),
@@ -252,7 +255,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                         _selectedGender = newValue!;
                                       });
                                     },
-                                    items: <String>['Homme', 'Femme', 'Autre']
+                                    items: <String>['male', 'female', 'other']
                                         .map<DropdownMenuItem<String>>(
                                             (String value) {
                                       return DropdownMenuItem<String>(
@@ -316,28 +319,40 @@ class _OnboardingScreenState extends State<OnBoarding> {
               color: Colors.white,
               child: GestureDetector(
                 onTap: () => {
-                  ProfileData.name = _nom,
-                  ProfileData.prenom = _prenom,
+                  ProfileData.lastName = _nom,
+                  ProfileData.firstName = _prenom,
                   ProfileData.age = _age,
                   ProfileData.phoneNumber = _phoneNumber,
                   ProfileData.gender = _selectedGender,
-                  Navigator.pushReplacement(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          HomePage(),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
-                        return SlideTransition(
-                          position: Tween<Offset>(
-                            begin: const Offset(1, 0),
-                            end: Offset.zero,
-                          ).animate(animation),
-                          child: child,
-                        );
-                      },
-                      transitionDuration: Duration(milliseconds: 300),
-                    ),
+                  NetworkManager.put("users/" + ProfileData.id, {
+                    "firstName": _nom,
+                    "lastName": _prenom,
+                    "age": _age,
+                    "gender": _selectedGender,
+                    "phoneNumber": _phoneNumber
+                  }).then(
+                    (val) {
+                      print("MESSAGE: " + val.data['message'].toString());
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  const HomePage(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return SlideTransition(
+                              position: Tween<Offset>(
+                                begin: const Offset(1, 0),
+                                end: Offset.zero,
+                              ).animate(animation),
+                              child: child,
+                            );
+                          },
+                          transitionDuration: Duration(milliseconds: 300),
+                        ),
+                      );
+                    },
                   ),
                 },
                 child: Center(

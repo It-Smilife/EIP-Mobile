@@ -7,9 +7,9 @@ import 'package:itsmilife/pages/normal_user/onboarding/onboarding.dart';
 class ProfileData {
   static String id = "";
   static String avatar = "";
-  static String name = "";
+  static String lastName = "";
   static String username = "";
-  static String prenom = "";
+  static String firstName = "";
   static String email = "usertest@user.com";
   static int age = 0;
   static String gender = "";
@@ -93,8 +93,8 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    ProfileData.name = _name;
-                    ProfileData.prenom = _prenom;
+                    ProfileData.lastName = _name;
+                    ProfileData.firstName = _prenom;
                     ProfileData.email = _email;
                     ProfileData.age = _age;
                     ProfileData.gender = _gender;
@@ -135,12 +135,12 @@ class _ProfileSettingPageState extends State<ProfilePage> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(0),
+        padding: const EdgeInsets.all(0),
         child: Form(
           key: _formKey,
           child: Column(
             children: <Widget>[
-              SizedBox(
+              const SizedBox(
                 width: 0,
                 height: 20,
               ),
@@ -193,7 +193,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                     border:
                         Border(top: BorderSide(width: 1, color: Colors.grey))),
                 child: TextFormField(
-                  initialValue: ProfileData.name,
+                  initialValue: ProfileData.lastName,
                   decoration: InputDecoration(
                     labelText: '  Name',
                   ),
@@ -206,7 +206,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                     border:
                         Border(top: BorderSide(width: 0.25, color: Colors.grey))),
                 child: TextFormField(
-                  initialValue: ProfileData.prenom,
+                  initialValue: ProfileData.firstName,
                   decoration: InputDecoration(
                     labelText: '  Prenom',
                   ),
@@ -254,7 +254,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                     labelText: '  Gender',
                   ),
                   onSaved: (value) => _gender = value!,
-                  items: ['Homme', 'Femme', 'Autre'].map((value) {
+                  items: ['male', 'female', 'other'].map((value) {
                     return DropdownMenuItem(
                       value: value,
                       child: Text('  ' + value),

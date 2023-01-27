@@ -346,30 +346,30 @@ class _ActivityPageState extends State<ActivityPage> {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-            border: Border(top: BorderSide(color: Colors.grey, width: 0.25))),
-        child: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.directions_run),
-              label: 'activités',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'settings',
-            ),
-          ],
-          backgroundColor: const Color.fromARGB(255, 98, 128, 182),
-          currentIndex: _selectedIndex,
-          selectedItemColor: const Color.fromARGB(255, 255, 255, 255),
-          onTap: _onItemTapped,
-        ),
-      ),
+      // bottomNavigationBar: Container(
+      //   decoration: const BoxDecoration(
+      //       border: Border(top: BorderSide(color: Colors.grey, width: 0.25))),
+      //   child: BottomNavigationBar(
+      //     items: const <BottomNavigationBarItem>[
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.directions_run),
+      //         label: 'activités',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.home),
+      //         label: 'home',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.settings),
+      //         label: 'settings',
+      //       ),
+      //     ],
+      //     backgroundColor: const Color.fromARGB(255, 98, 128, 182),
+      //     currentIndex: _selectedIndex,
+      //     selectedItemColor: const Color.fromARGB(255, 255, 255, 255),
+      //     onTap: _onItemTapped,
+      //   ),
+      // ),
     );
   }
 }

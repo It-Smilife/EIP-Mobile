@@ -132,6 +132,15 @@ class _RegisterPageState extends State<RegisterPage> {
                         width: MediaQuery.of(context).size.width * 0.5,
                         height: 40,
                         child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              gradient: const LinearGradient(
+                                  colors: [
+                                    Color.fromARGB(255, 98, 128, 182),
+                                    Color.fromARGB(255, 98, 128, 182)
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter)),
                           child: Material(
                             borderRadius: BorderRadius.circular(20),
                             color: Colors.transparent,
@@ -139,10 +148,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               borderRadius: BorderRadius.circular(20),
                               splashColor: Colors.amber,
                               onTap: () {
-                                print(name);
                                 NetworkManager.post("users", {
                                   "email": email,
-                                  "name": name,
+                                  "username": name,
                                   "password": password
                                 }).then((val) {
                                   print(val.toString());
@@ -155,7 +163,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       PageRouteBuilder(
                                         pageBuilder: (context, animation,
                                                 secondaryAnimation) =>
-                                            OnBoarding(),
+                                            const OnBoarding(),
                                         transitionsBuilder: (context, animation,
                                             secondaryAnimation, child) {
                                           return SlideTransition(
@@ -167,7 +175,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           );
                                         },
                                         transitionDuration:
-                                            Duration(milliseconds: 300),
+                                            const Duration(milliseconds: 300),
                                       ),
                                     );
                                   } else if (val.data['success'] == false) {
@@ -185,22 +193,13 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                             ),
                           ),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              gradient: LinearGradient(
-                                  colors: [
-                                    Color.fromARGB(255, 98, 128, 182),
-                                    Color.fromARGB(255, 98, 128, 182)
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter)),
                         ),
                       ),
                       FloatingActionButton(
                         onPressed: () {},
                         mini: true,
                         elevation: 0,
-                        child: ClipOval(
+                        child: const ClipOval(
                           child: Image(
                             image: AssetImage("assets/facebook.png"),
                           ),
@@ -235,7 +234,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             PageRouteBuilder(
                               pageBuilder:
                                   (context, animation, secondaryAnimation) =>
-                                      RegisterPage(),
+                                      LoginPage(),
                               transitionsBuilder: (context, animation,
                                   secondaryAnimation, child) {
                                 return SlideTransition(

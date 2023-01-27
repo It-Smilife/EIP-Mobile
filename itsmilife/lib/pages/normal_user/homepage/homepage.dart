@@ -8,6 +8,25 @@ import '../../common/settings/settings.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:hive/hive.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+_callSos() async {
+  var url = Uri.parse("tel:3114");
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+_callEmergency() async {
+  var url = Uri.parse("tel:17");
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
 class HomePage extends StatefulWidget {
   final int initialSelectedIndex;
@@ -88,7 +107,8 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const HomePage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(
@@ -129,70 +149,126 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final darkMode = Provider.of<DarkModeProvider>(context);
-        return Scaffold(
-            //backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 234, 234, 234),
-            backgroundColor: Colors.green,
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: darkMode.darkMode
-                  ? const Color.fromARGB(255, 58, 50, 83)
-                  : const Color.fromARGB(255, 234, 234, 234),
-              title: const Text("It'Smilife",
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 98, 128, 182),
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold)),
-            ),
-            body: Stack(children: <Widget>[
-              HomeCard(),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: ElevatedButton(
-                    child: Text(
-                      "Urgence",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 40, vertical: 0.1),
-                      backgroundColor: Colors.red,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                    ),
-                    onPressed: () {
-                      print("ok");
-                    },
-                  ),
-                ),
-              )
-            ]),
-            bottomNavigationBar: Container(
-              decoration: BoxDecoration(
-                  border:
-                      Border(top: BorderSide(color: Colors.grey, width: 0.25))),
-              child: BottomNavigationBar(
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.directions_run),
-                    label: 'activités',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.settings),
-                    label: 'settings',
-                  ),
-                ],
-                backgroundColor: Color.fromARGB(255, 98, 128, 182),
-                currentIndex: _selectedIndex,
-                selectedItemColor: Color.fromARGB(255, 255, 255, 255),
-                onTap: _onItemTapped,
+    final lang = Provider.of<LanguageProvider>(context);
+    return Scaffold(
+      //backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 234, 234, 234),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: darkMode.darkMode
+            ? const Color.fromARGB(255, 58, 50, 83)
+            : const Color.fromARGB(255, 234, 234, 234),
+        title: const Text("It'Smilife",
+            style: TextStyle(
+                color: Color.fromARGB(255, 98, 128, 182),
+                fontSize: 25,
+                fontWeight: FontWeight.bold)),
+      ),
+      body: Stack(children: <Widget>[
+        const HomeCard(),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.height * 0.12),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 0.1),
+                backgroundColor: Colors.red,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
               ),
+              child: Text(
+                lang.lang == "English" ? "Emergency" : "Urgence",
+                style: const TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
+                  ),
+                  isScrollControlled: true,
+                  builder: (context) {
+                    return SizedBox(
+                      height: 450,
+                      child: Center(
+                        child: Column(
+                          children: <Widget>[
+                            const SizedBox(height: 20),
+                            Container(
+                              height: 10,
+                              width: 100,
+                              decoration: const BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8))),
+                            ),
+                            const SizedBox(height: 80),
+                            GestureDetector(
+                              // ignore: avoid_print
+                              onTap: _callSos,
+                              child: Image.asset("assets/sos.png"),
+                            ),
+                            const SizedBox(height: 20),
+                            const Text(
+                              "SOS suicide",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                            const SizedBox(height: 80),
+                            GestureDetector(
+                              // ignore: avoid_print
+                              onTap: _callEmergency,
+                              child: Image.asset("assets/sos.png"),
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              lang.lang == "English" ? "Emergency" : "Urgences",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
-          );
+          ),
+        )
+      ]),
+      // bottomNavigationBar: Container(
+      //   decoration: BoxDecoration(
+      //       border:
+      //           Border(top: BorderSide(color: Colors.grey, width: 0.25))),
+      //   child: BottomNavigationBar(
+      //     items: const <BottomNavigationBarItem>[
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.directions_run),
+      //         label: 'activités',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.home),
+      //         label: 'home',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.settings),
+      //         label: 'settings',
+      //       ),
+      //     ],
+      //     backgroundColor: Color.fromARGB(255, 98, 128, 182),
+      //     currentIndex: _selectedIndex,
+      //     selectedItemColor: Color.fromARGB(255, 255, 255, 255),
+      //     onTap: _onItemTapped,
+      //   ),
+      // ),
+    );
   }
 }
