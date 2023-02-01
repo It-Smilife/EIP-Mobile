@@ -156,7 +156,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         backgroundColor: darkMode.darkMode
             ? const Color.fromARGB(255, 58, 50, 83)
-            : const Color.fromARGB(255, 234, 234, 234),
+            : Color.fromARGB(255, 255, 255, 255),
         title: const Text("It'Smilife",
             style: TextStyle(
                 color: Color.fromARGB(255, 98, 128, 182),

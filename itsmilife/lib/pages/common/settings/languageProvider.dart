@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-String lang = "English";
+String lang = " Français";
 
 class LanguageProvider extends ChangeNotifier {
-  String _lang = "English";
+  String _lang = "Français";
 
   String get lang => _lang;
 

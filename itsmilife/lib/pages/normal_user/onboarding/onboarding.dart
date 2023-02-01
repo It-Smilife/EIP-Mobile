@@ -32,13 +32,14 @@ class _OnboardingScreenState extends State<OnBoarding> {
 
   Widget _indicator(bool isActive) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 150),
-      margin: EdgeInsets.symmetric(horizontal: 8.0),
+      duration: const Duration(milliseconds: 150),
+      margin: const EdgeInsets.symmetric(horizontal: 8.0),
       height: 8.0,
       width: isActive ? 24.0 : 16.0,
       decoration: BoxDecoration(
-        color: isActive ? Color.fromARGB(255, 98, 128, 182) : Colors.grey,
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+        color:
+            isActive ? const Color.fromARGB(255, 98, 128, 182) : Colors.white,
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
       ),
     );
   }
@@ -58,19 +59,19 @@ class _OnboardingScreenState extends State<OnBoarding> {
                 Color(0xFF3594DD),
                 Color(0xFF4563DB),
                 Color.fromARGB(255, 98, 128, 182),
-                Color.fromARGB(255, 255, 255, 255),
+                Color.fromARGB(255, 219, 219, 219),
               ],
             ),
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.0),
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Container(
                   height: 600.0,
                   child: PageView(
-                    physics: ClampingScrollPhysics(),
+                    physics: const ClampingScrollPhysics(),
                     controller: _pageController,
                     onPageChanged: (int page) {
                       setState(() {
@@ -79,7 +80,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                     },
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.all(40.0),
+                        padding: const EdgeInsets.all(40.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -92,12 +93,14 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                 width: 300.0,
                               ),
                             ),
-                            SizedBox(height: 30.0),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.10),
                             Text(
                               "Bienvenue sur It'Smilife !",
                               style: kTitleStyle,
                             ),
-                            SizedBox(height: 15.0),
+                            const SizedBox(height: 15.0),
                             Text(
                               "Avant de pouvoir vous lancer dans l'aventure It'Smilife, vous devez renseigner les informations nécessaires.",
                               style: kSubtitleStyle,
@@ -106,7 +109,10 @@ class _OnboardingScreenState extends State<OnBoarding> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(40.0),
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.10,
+                            right: MediaQuery.of(context).size.width * 0.1,
+                            left: MediaQuery.of(context).size.width * 0.1),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -119,14 +125,14 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                 width: 300.0,
                               ),
                             ),
-                            SizedBox(height: 30.0),
+                            const SizedBox(height: 20.0),
                             Text(
                               'Bonjour ' +
                                   ProfileData.username +
                                   ',  je me surnomme Smile',
                               style: kTitleStyle,
                             ),
-                            SizedBox(height: 15.0),
+                            const SizedBox(height: 15.0),
                             Text(
                               'Ma mission est de vous accompagner tout au long de votre aventure. Diriger vous vers la page suivante afin de finaliser votre inscription.',
                               style: kSubtitleStyle,
@@ -135,7 +141,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(40.0),
+                        padding: const EdgeInsets.all(40.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -145,7 +151,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                 style: kTitleStyle,
                               ),
                             ),
-                            SizedBox(height: 100.0),
+                            const SizedBox(height: 100.0),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -153,7 +159,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white,
-                                    boxShadow: [
+                                    boxShadow: const [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(0, 2),
@@ -163,18 +169,18 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                   ),
                                   child: TextField(
                                     onChanged: (val) => _nom = val,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       hintText: '  Nom',
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white,
-                                    boxShadow: [
+                                    boxShadow: const [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(0, 2),
@@ -184,18 +190,18 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                   ),
                                   child: TextField(
                                     onChanged: (val) => _prenom = val,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       hintText: '  Prénom',
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white,
-                                    boxShadow: [
+                                    boxShadow: const [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(0, 2),
@@ -205,18 +211,18 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                   ),
                                   child: TextField(
                                     onChanged: (val) => _age = int.parse(val),
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       hintText: '  Age',
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white,
-                                    boxShadow: [
+                                    boxShadow: const [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(0, 2),
@@ -226,18 +232,18 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                   ),
                                   child: TextField(
                                     onChanged: (val) => _phoneNumber = val,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       hintText: '  Numéro de telephone',
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white,
-                                    boxShadow: [
+                                    boxShadow: const [
                                       BoxShadow(
                                         color: Colors.black26,
                                         offset: Offset(0, 2),
@@ -247,7 +253,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                   ),
                                   child: DropdownButton<String>(
                                     hint: _selectedGender == null
-                                        ? Text("  Select Gender")
+                                        ? const Text("  Select Gender")
                                         : Text(_selectedGender),
                                     value: _selectedGender,
                                     onChanged: (String? newValue) {
@@ -273,7 +279,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                     ],
                   ),
                 ),
-                SizedBox(height: 60.0),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.25),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: _buildPageIndicator(),
@@ -288,14 +294,14 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                     MaterialStateProperty.all(Colors.white)),
                             onPressed: () {
                               _pageController.nextPage(
-                                duration: Duration(milliseconds: 500),
+                                duration: const Duration(milliseconds: 500),
                                 curve: Curves.ease,
                               );
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
+                              children: const <Widget>[
                                 Icon(
                                   Icons.arrow_forward,
                                   color: Color.fromARGB(255, 98, 128, 182),
@@ -306,7 +312,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                           ),
                         ),
                       )
-                    : Text(''),
+                    : const Text(''),
               ],
             ),
           ),
@@ -349,13 +355,13 @@ class _OnboardingScreenState extends State<OnBoarding> {
                               child: child,
                             );
                           },
-                          transitionDuration: Duration(milliseconds: 300),
+                          transitionDuration: const Duration(milliseconds: 300),
                         ),
                       );
                     },
                   ),
                 },
-                child: Center(
+                child: const Center(
                   child: Padding(
                     padding: EdgeInsets.only(bottom: 30.0),
                     child: Text(
@@ -370,7 +376,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                 ),
               ),
             )
-          : Text(''),
+          : const Text(''),
     );
   }
 }

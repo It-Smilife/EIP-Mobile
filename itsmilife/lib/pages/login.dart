@@ -6,6 +6,7 @@ import '../services/NetworkManager.dart';
 import 'package:itsmilife/pages/common/settings/settings.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:itsmilife/widgets/bottomNavBar.dart';
+import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -69,7 +70,11 @@ class _LoginPageState extends State<LoginPage> {
                       color: Colors.white,
                       //border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(10)),
-                  margin: const EdgeInsets.fromLTRB(20, 300, 20, 10),
+                  margin: EdgeInsets.fromLTRB(
+                      MediaQuery.of(context).size.width * 0.05,
+                      MediaQuery.of(context).size.height * 0.40,
+                      20,
+                      10),
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 25),
                   child: Column(
                     children: <Widget>[
@@ -120,7 +125,11 @@ class _LoginPageState extends State<LoginPage> {
                               fontSize: 11),
                         ))),
                 Container(
-                  margin: const EdgeInsets.fromLTRB(20, 0, 20, 30),
+                  margin: EdgeInsets.fromLTRB(
+                      MediaQuery.of(context).size.width * 0.05,
+                      MediaQuery.of(context).size.height * 0.03,
+                      20,
+                      30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -153,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                                     storage.write(
                                         key: "token", value: val.data['token']);
                                     token = val.data['token'];
-                                    Navigator.push(
+                                    Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
@@ -161,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                                     );
                                   }
                                 });
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => const Home()),
@@ -213,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     GestureDetector(
                         onTap: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             PageRouteBuilder(
                               pageBuilder:

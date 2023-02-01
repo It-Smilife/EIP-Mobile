@@ -56,9 +56,9 @@ class _HomeCardState extends State<HomeCard> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
                 child: Container(
-                  width: 400,
+                  width: MediaQuery.of(context).size.height * 0.40,
                   height: 50,
                   decoration: BoxDecoration(
                     border: Border.all(
@@ -84,7 +84,7 @@ class _HomeCardState extends State<HomeCard> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(0),
+                padding: const EdgeInsets.all(50),
                 //The gesture detector widget will detect swipes and taps of the image card
                 child: GestureDetector(
                   onHorizontalDragEnd: (dragEndDetails) {
@@ -143,7 +143,7 @@ class _HomeCardState extends State<HomeCard> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: const [
                         BoxShadow(

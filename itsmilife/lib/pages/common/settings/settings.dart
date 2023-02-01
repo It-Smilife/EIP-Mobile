@@ -32,35 +32,15 @@ class _SettingsPage extends State<SettingsPage> {
           ? const Color.fromARGB(255, 58, 50, 83)
           : const Color.fromARGB(255, 246, 246, 246),
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            CupertinoIcons.back,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    const HomePage(),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  return SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1, 0),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: child,
-                  );
-                },
-                transitionDuration: const Duration(milliseconds: 300),
-              ),
-            );
-          },
-          color: Colors.black,
-        ),
         centerTitle: true,
-        title: const Text("Settings"),
+        backgroundColor: darkMode.darkMode
+            ? const Color.fromARGB(255, 58, 50, 83)
+            : const Color.fromARGB(255, 255, 255, 255),
+        title: Text(lang.lang == "English" ? "Settings" : "Paramètres",
+            style: const TextStyle(
+                color: Color.fromARGB(255, 98, 128, 182),
+                fontSize: 25,
+                fontWeight: FontWeight.bold)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -69,7 +49,9 @@ class _SettingsPage extends State<SettingsPage> {
             // User card
             BigUserCard(
               cardColor: const Color.fromARGB(255, 98, 128, 182),
-              userName: "User name",
+              userName: ProfileData.username == ""
+                  ? "Default name"
+                  : ProfileData.username,
               userProfilePic: const AssetImage("assets/logo.png"),
               cardActionWidget: SettingsItem(
                 icons: Icons.edit,
@@ -78,8 +60,12 @@ class _SettingsPage extends State<SettingsPage> {
                   borderRadius: 50,
                   backgroundColor: Colors.yellow[600],
                 ),
-                title: lang.lang == "English" ? "Edit profile" : "Modifier le profil",
-                subtitle: lang.lang == "English" ? "Tap to edit yout profile" : "Cliquez pour modifier le profil",
+                title: lang.lang == "English"
+                    ? "Edit profile"
+                    : "Modifier le profil",
+                subtitle: lang.lang == "English"
+                    ? "Tap to edit yout profile"
+                    : "Cliquez pour modifier le profil",
                 onTap: () {
                   Navigator.push(
                     context,
@@ -118,7 +104,7 @@ class _SettingsPage extends State<SettingsPage> {
                       fontSize: 17, fontWeight: FontWeight.bold),
                   trailing: DropdownButton<String>(
                     value: lang.lang,
-                    icon: const Icon(Icons.arrow_downward),
+                    icon: const Icon(CupertinoIcons.arrow_down),
                     elevation: 16,
                     style: const TextStyle(
                         color: Colors.grey, fontWeight: FontWeight.bold),

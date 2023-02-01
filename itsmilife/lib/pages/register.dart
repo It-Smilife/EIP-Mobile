@@ -32,7 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Container(
               width: getBiglDiameter(context),
               height: getBiglDiameter(context),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(colors: [
                     Color.fromARGB(255, 255, 255, 255),
@@ -67,7 +67,11 @@ class _RegisterPageState extends State<RegisterPage> {
                       color: Colors.white,
                       //border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(10)),
-                  margin: const EdgeInsets.fromLTRB(20, 300, 20, 10),
+                  margin: EdgeInsets.fromLTRB(
+                      MediaQuery.of(context).size.width * 0.05,
+                      MediaQuery.of(context).size.height * 0.40,
+                      20,
+                      10),
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 25),
                   child: Column(
                     children: <Widget>[
@@ -124,7 +128,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.fromLTRB(20, 0, 20, 30),
+                  margin: EdgeInsets.fromLTRB(
+                      MediaQuery.of(context).size.width * 0.05,
+                      MediaQuery.of(context).size.height * 0.05,
+                      20,
+                      30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -220,7 +228,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
+                    const Text(
                       "DON'T HAVE AN ACCOUNT ? ",
                       style: TextStyle(
                           fontSize: 11,
@@ -229,12 +237,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     GestureDetector(
                         onTap: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             PageRouteBuilder(
                               pageBuilder:
                                   (context, animation, secondaryAnimation) =>
-                                      LoginPage(),
+                                      const LoginPage(),
                               transitionsBuilder: (context, animation,
                                   secondaryAnimation, child) {
                                 return SlideTransition(
@@ -245,11 +253,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                   child: child,
                                 );
                               },
-                              transitionDuration: Duration(milliseconds: 300),
+                              transitionDuration:
+                                  const Duration(milliseconds: 300),
                             ),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           " SIGN IN",
                           style: TextStyle(
                               fontSize: 11,

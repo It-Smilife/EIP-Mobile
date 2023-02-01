@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/activit%C3%A9s.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
@@ -22,22 +23,22 @@ class _QuizzPageState extends State<CategoryPage> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
-        title: Text("Quizz",
+        title: const Text("Quizz",
             style: TextStyle(
                 color: Color.fromARGB(255, 98, 128, 182),
                 fontSize: 25,
                 fontWeight: FontWeight.bold)),
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
+          icon: const Icon(
+            CupertinoIcons.back,
             color: Color.fromARGB(255, 98, 128, 182),
           ),
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.pop(
               context,
               PageRouteBuilder(
                 pageBuilder: (context, animation, secondaryAnimation) =>
-                    ActivityPage(),
+                    const ActivityPage(),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
                   return SlideTransition(
@@ -48,7 +49,7 @@ class _QuizzPageState extends State<CategoryPage> {
                     child: child,
                   );
                 },
-                transitionDuration: Duration(milliseconds: 300),
+                transitionDuration: const Duration(milliseconds: 300),
               ),
             );
           },
@@ -64,15 +65,18 @@ class _QuizzPageState extends State<CategoryPage> {
                   color: Colors.white,
                   border: Border.all(color: Colors.blue, width: 2),
                   borderRadius: BorderRadius.circular(10)),
-              padding:
-                  EdgeInsets.only(left: 60, top: 20, right: 60, bottom: 20),
-              child: Text("Catégories",
+              padding: EdgeInsets.only(
+                  right: MediaQuery.of(context).size.width * 0.10,
+                  left: MediaQuery.of(context).size.width * 0.10,
+                  top: MediaQuery.of(context).size.width * 0.05,
+                  bottom: MediaQuery.of(context).size.width * 0.05),
+              child: const Text("Categories",
                   style: TextStyle(
                       color: Color.fromARGB(255, 98, 128, 182),
                       fontSize: 25,
                       fontWeight: FontWeight.bold)),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Row(
               children: <Widget>[
                 Expanded(
@@ -83,7 +87,7 @@ class _QuizzPageState extends State<CategoryPage> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Color.fromARGB(255, 98, 128, 182),
                             offset: Offset(0, 5),
@@ -117,7 +121,7 @@ class _QuizzPageState extends State<CategoryPage> {
                                     );
                                   },
                                   transitionDuration:
-                                      Duration(milliseconds: 300),
+                                      const Duration(milliseconds: 300),
                                 ),
                               );
                             },
@@ -127,7 +131,7 @@ class _QuizzPageState extends State<CategoryPage> {
                               width: 150,
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           GestureDetector(
                             onTap: () {
                               // handle the tap event on the title
@@ -148,7 +152,7 @@ class _QuizzPageState extends State<CategoryPage> {
                                     );
                                   },
                                   transitionDuration:
-                                      Duration(milliseconds: 300),
+                                      const Duration(milliseconds: 300),
                                 ),
                               );
                             },
@@ -156,10 +160,10 @@ class _QuizzPageState extends State<CategoryPage> {
                               width: 170,
                               height: 35,
                               decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 98, 128, 182),
+                                color: const Color.fromARGB(255, 98, 128, 182),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 5),
                               child: Column(
                                 children: const [
@@ -192,7 +196,7 @@ class _QuizzPageState extends State<CategoryPage> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Color.fromARGB(255, 241, 32, 21),
                             offset: Offset(0, 5),
@@ -214,7 +218,7 @@ class _QuizzPageState extends State<CategoryPage> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      CategoryPage(),
+                                      const CategoryPage(),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     return SlideTransition(
@@ -226,7 +230,7 @@ class _QuizzPageState extends State<CategoryPage> {
                                     );
                                   },
                                   transitionDuration:
-                                      Duration(milliseconds: 300),
+                                      const Duration(milliseconds: 300),
                                 ),
                               );
                             },
@@ -236,7 +240,7 @@ class _QuizzPageState extends State<CategoryPage> {
                               width: 150,
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           GestureDetector(
                             onTap: () {
                               // handle the tap event on the title
@@ -245,7 +249,7 @@ class _QuizzPageState extends State<CategoryPage> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      CategoryPage(),
+                                      const CategoryPage(),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     return SlideTransition(
@@ -257,7 +261,7 @@ class _QuizzPageState extends State<CategoryPage> {
                                     );
                                   },
                                   transitionDuration:
-                                      Duration(milliseconds: 300),
+                                      const Duration(milliseconds: 300),
                                 ),
                               );
                             },
@@ -265,10 +269,10 @@ class _QuizzPageState extends State<CategoryPage> {
                               width: 170,
                               height: 35,
                               decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 241, 32, 21),
+                                color: const Color.fromARGB(255, 241, 32, 21),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 5),
                               child: Column(
                                 children: const [
@@ -305,7 +309,7 @@ class _QuizzPageState extends State<CategoryPage> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Color.fromRGBO(253, 216, 53, 1),
                             offset: Offset(0, 5),
@@ -327,7 +331,7 @@ class _QuizzPageState extends State<CategoryPage> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      CategoryPage(),
+                                      const CategoryPage(),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     return SlideTransition(
@@ -339,7 +343,7 @@ class _QuizzPageState extends State<CategoryPage> {
                                     );
                                   },
                                   transitionDuration:
-                                      Duration(milliseconds: 300),
+                                      const Duration(milliseconds: 300),
                                 ),
                               );
                             },
@@ -349,7 +353,7 @@ class _QuizzPageState extends State<CategoryPage> {
                               width: 150,
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           GestureDetector(
                             onTap: () {
                               // handle the tap event on the title
@@ -358,7 +362,7 @@ class _QuizzPageState extends State<CategoryPage> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      CategoryPage(),
+                                      const CategoryPage(),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     return SlideTransition(
@@ -370,7 +374,7 @@ class _QuizzPageState extends State<CategoryPage> {
                                     );
                                   },
                                   transitionDuration:
-                                      Duration(milliseconds: 300),
+                                      const Duration(milliseconds: 300),
                                 ),
                               );
                             },
@@ -378,10 +382,10 @@ class _QuizzPageState extends State<CategoryPage> {
                               width: 170,
                               height: 35,
                               decoration: BoxDecoration(
-                                color: Color.fromRGBO(253, 216, 53, 1),
+                                color: const Color.fromRGBO(253, 216, 53, 1),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 5),
                               child: Column(
                                 children: const [
@@ -414,7 +418,7 @@ class _QuizzPageState extends State<CategoryPage> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Color.fromARGB(255, 183, 30, 210),
                             offset: Offset(0, 5),
@@ -436,7 +440,7 @@ class _QuizzPageState extends State<CategoryPage> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      CategoryPage(),
+                                      const CategoryPage(),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     return SlideTransition(
@@ -448,7 +452,7 @@ class _QuizzPageState extends State<CategoryPage> {
                                     );
                                   },
                                   transitionDuration:
-                                      Duration(milliseconds: 300),
+                                      const Duration(milliseconds: 300),
                                 ),
                               );
                             },
@@ -458,7 +462,7 @@ class _QuizzPageState extends State<CategoryPage> {
                               width: 150,
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           GestureDetector(
                             onTap: () {
                               // handle the tap event on the title
@@ -467,7 +471,7 @@ class _QuizzPageState extends State<CategoryPage> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      CategoryPage(),
+                                      const CategoryPage(),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     return SlideTransition(
@@ -479,7 +483,7 @@ class _QuizzPageState extends State<CategoryPage> {
                                     );
                                   },
                                   transitionDuration:
-                                      Duration(milliseconds: 300),
+                                      const Duration(milliseconds: 300),
                                 ),
                               );
                             },
@@ -487,10 +491,10 @@ class _QuizzPageState extends State<CategoryPage> {
                               width: 170,
                               height: 35,
                               decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 183, 30, 210),
+                                color: const Color.fromARGB(255, 183, 30, 210),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 5),
                               child: Column(
                                 children: const [

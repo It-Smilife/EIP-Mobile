@@ -5,17 +5,17 @@ import 'package:itsmilife/pages/common/settings/settings.dart';
 import 'package:itsmilife/pages/normal_user/onboarding/onboarding.dart';
 
 class ProfileData {
-  static String id = "";
-  static String avatar = "";
-  static String lastName = "";
-  static String username = "";
-  static String firstName = "";
+  static String id = "default";
+  static String avatar = "default";
+  static String lastName = "default";
+  static String username = "default";
+  static String firstName = "default";
   static String email = "usertest@user.com";
   static int age = 0;
-  static String gender = "";
-  static String phoneNumber = "";
+  static String gender = "male";
+  static String phoneNumber = "0000000";
   static String address = "carrer de la moula";
-  static String password = "";
+  static String password = "default";
   static bool dark = false;
 }
 
