@@ -1,25 +1,25 @@
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+final storage = new FlutterSecureStorage();
+final Dio dio = Dio();
 
-  final storage = new FlutterSecureStorage();
-  final Dio dio = Dio();
 class NetworkManager {
   static const baseUrl = "http://51.145.251.116:80/";
 
   static init() {
-    dio.interceptors.add(InterceptorsWrapper(
-      onRequest:(options, handler){
-        final token = storage.read(key: "token");
+    dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
+      final token = storage.read(key: "token");
 
-        if (token != null) {
-          options.headers["Authorization"] = "Bearer $token";
-        }
-        return handler.next(options); //continue
+      if (token != null) {
+        options.headers["Authorization"] = "Bearer $token";
       }
-    ));
+      return handler.next(options); //continue
+    }));
   }
 
   static Future<Response> get(String path) async {
@@ -27,15 +27,21 @@ class NetworkManager {
   }
 
   static Future<Response> post(String path, dynamic data) async {
-    return dio.post(baseUrl + path, data: data, options: Options(contentType: Headers.formUrlEncodedContentType));
+    return dio.post(baseUrl + path,
+        data: data,
+        options: Options(contentType: Headers.formUrlEncodedContentType));
   }
 
   static Future<Response> put(String path, dynamic data) async {
-    return dio.put(baseUrl + path, data: data, options: Options(contentType: Headers.formUrlEncodedContentType));
+    return dio.put(baseUrl + path,
+        data: data,
+        options: Options(contentType: Headers.formUrlEncodedContentType));
   }
 
   static Future<Response> delete(String path, dynamic data) async {
-    return dio.delete(baseUrl + path, data: data, options: Options(contentType: Headers.formUrlEncodedContentType));
+    return dio.delete(baseUrl + path,
+        data: data,
+        options: Options(contentType: Headers.formUrlEncodedContentType));
   }
 
   login(email, password) async {
@@ -57,8 +63,13 @@ class NetworkManager {
     }
   }
 
+  static Future<Uint8List> getFile(String file) async {
+    var response = await dio.get('http://51.145.251.116:80/download/$file',
+        options: Options(responseType: ResponseType.bytes));
+    return response.data;
+  }
   // Add other request types (put, delete, etc) as needed
-} 
+}
 
 class AuthService {
   Dio dio = Dio();

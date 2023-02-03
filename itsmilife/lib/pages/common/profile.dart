@@ -3,6 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/settings/settings.dart';
 import 'package:itsmilife/pages/normal_user/onboarding/onboarding.dart';
+import 'package:provider/provider.dart';
+import 'package:itsmilife/pages/common/settings/languageProvider.dart';
+
+import '../../services/NetworkManager.dart';
 
 class ProfileData {
   static String id = "default";
@@ -30,13 +34,13 @@ class ProfilePage extends StatefulWidget {
 class _ProfileSettingPageState extends State<ProfilePage> {
   final _formKey = GlobalKey<FormState>();
 
-  late String _name;
-  late String _prenom;
-  late String _email;
-  late int _age;
-  late String _gender;
-  late String _phoneNumber;
-  late String _address;
+  late String _name = "";
+  late String _prenom = "";
+  late String _email = "";
+  late int _age = 0;
+  late String _gender = "";
+  late String _phoneNumber = "";
+  late String _address = "";
   // You can use a package like image_picker to handle the avatar image
   // and save it to the user's device or cloud storage.
   // For this example, we will just use a variable to hold the avatar path.
@@ -44,6 +48,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight + 1), // 1 for the border
@@ -93,14 +98,35 @@ class _ProfileSettingPageState extends State<ProfilePage> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
+                        _formKey.currentState!.save();
+                    
                     ProfileData.lastName = _name;
-                    ProfileData.firstName = _prenom;
-                    ProfileData.email = _email;
-                    ProfileData.age = _age;
-                    ProfileData.gender = _gender;
-                    ProfileData.phoneNumber = _phoneNumber;
-                    ProfileData.address = _address;
+                        ProfileData.firstName = _prenom;
+                        ProfileData.email = _email;
+                        ProfileData.age = _age;
+                        ProfileData.gender = _gender;
+                        ProfileData.phoneNumber = _phoneNumber;
+                        ProfileData.address = _address;
+                    NetworkManager.put("users/" + ProfileData.id, {
+                      "firstName": _name,
+                      "lastName": _prenom,
+                      "email": _email,
+                      "age": _age,
+                      "gender": _gender,
+                      "phoneNumber": _phoneNumber,
+                      "address": _address
+                    }).then((val) {
+                      if (val.data['success'] == true) {
+                        _formKey.currentState!.save();
+                        ProfileData.lastName = _name;
+                        ProfileData.firstName = _prenom;
+                        ProfileData.email = _email;
+                        ProfileData.age = _age;
+                        ProfileData.gender = _gender;
+                        ProfileData.phoneNumber = _phoneNumber;
+                        ProfileData.address = _address;
+                      }
+                    });
                   }
                   Navigator.pop(
                     context,
@@ -204,8 +230,8 @@ class _ProfileSettingPageState extends State<ProfilePage> {
               ),
               Container(
                 decoration: BoxDecoration(
-                    border:
-                        Border(top: BorderSide(width: 0.25, color: Colors.grey))),
+                    border: Border(
+                        top: BorderSide(width: 0.25, color: Colors.grey))),
                 child: TextFormField(
                   initialValue: ProfileData.firstName,
                   decoration: InputDecoration(
@@ -255,10 +281,10 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                     labelText: '  Gender',
                   ),
                   onSaved: (value) => _gender = value!,
-                  items: ['male', 'female', 'other'].map((value) {
+                  items: [['male', 'homme'], ['female', 'femme'], ['other', 'autres']].map((value) {
                     return DropdownMenuItem(
-                      value: value,
-                      child: Text('  ' + value),
+                      value: value[0],
+                      child: lang.lang == "English" ? Text('  ' + value[0]) : Text('  ' + value[1]),
                     );
                   }).toList(),
                   onChanged: (String? value) {},

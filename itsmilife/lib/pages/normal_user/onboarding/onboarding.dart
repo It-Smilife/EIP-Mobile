@@ -262,12 +262,12 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                         _selectedGender = newValue!;
                                       });
                                     },
-                                    items: <String>['male', 'female', 'other']
+                                    items: [['male', 'homme'], ['female', 'femme'], ['other', 'autres']]
                                         .map<DropdownMenuItem<String>>(
-                                            (String value) {
+                                            (value) {
                                       return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
+                                        value: value[0],
+                                        child: Text(value[1]),
                                       );
                                     }).toList(),
                                   ),

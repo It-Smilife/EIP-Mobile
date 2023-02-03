@@ -45,7 +45,7 @@ class _HomeCardState extends State<HomeCard> {
     String lang1 =
         lang.lang == "English" ? "Talk with Smile" : "Discuter avec Smile";
     String lang2 = lang.lang == "English"
-        ? "Talk with a preofessional"
+        ? "Talk with a professional"
         : "Discuter avec un professionnel";
     return Scaffold(
       backgroundColor: darkMode.darkMode
