@@ -7,6 +7,7 @@ import 'package:itsmilife/pages/common/settings/settings.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:itsmilife/widgets/bottomNavBar.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
+import 'package:itsmilife/pages/common/profile.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -21,7 +22,16 @@ class _LoginPageState extends State<LoginPage> {
   double getBiglDiameter(BuildContext context) =>
       MediaQuery.of(context).size.width * 7 / 8;
 
-  var email, password, token;
+  var email,
+      password,
+      token,
+      _id,
+      username,
+      role,
+      firstName,
+      gender,
+      lastName,
+      phoneNumber = "";
 
   @override
   Widget build(BuildContext context) {
@@ -157,24 +167,37 @@ class _LoginPageState extends State<LoginPage> {
                                   "email": email,
                                   "password": password
                                 }).then((val) {
-                                  print(val.toString());
-                                  if (val.data['success']) {
+                                  if (val.data['success'] == true) {
+                                    print("ok");
+                                    ProfileData.id = val.data["user"]["_id"];
+                                    ProfileData.username =
+                                        val.data["user"]["username"];
+                                    ProfileData.email =
+                                        val.data["user"]["email"];
+                                    ProfileData.password =
+                                        val.data["user"]["password"];
+                                    ProfileData.role = val.data["user"]["role"];
+                                    ProfileData.firstName =
+                                        val.data["user"]["firstName"];
+                                    ProfileData.gender =
+                                        val.data["user"]["gender"];
+                                    ProfileData.lastName =
+                                        val.data["user"]["lastName"];
+                                    ProfileData.phoneNumber =
+                                        val.data["user"]["phoneNumber"];
+                                    ProfileData.age = val.data["user"]["age"];
+                                    ProfileData.dark = val.data["user"]["dark"];
                                     storage.write(
                                         key: "token", value: val.data['token']);
                                     token = val.data['token'];
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SettingsPage()),
+                                          builder: (context) => const Home()),
                                     );
-                                  }
+                                  } else
+                                    (print(val.data));
                                 });
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Home()),
-                                );
                               },
                               child: const Center(
                                 child: Text(

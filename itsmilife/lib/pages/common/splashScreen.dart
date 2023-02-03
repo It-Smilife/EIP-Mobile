@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:itsmilife/pages/normal_user/homepage/homepage.dart';
 import 'package:itsmilife/pages/normal_user/onboarding/onboarding.dart';
+import 'package:itsmilife/pages/register.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -38,16 +39,16 @@ class _SplashScreenState extends State<SplashScreen> {
         AnimatedSplashScreen(
           splash: 'assets/logo.png',
           splashIconSize: double.infinity,
-          nextScreen: OnBoarding(),
+          nextScreen: const RegisterPage(),
           splashTransition: SplashTransition.fadeTransition,
           pageTransitionType: PageTransitionType.bottomToTop,
         ),
         Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-                padding: EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
                 child: Text('version $_version',
-                    style: TextStyle(fontSize: 10, color: Colors.grey))))
+                    style: const TextStyle(fontSize: 10, color: Colors.grey))))
       ],
     );
   }

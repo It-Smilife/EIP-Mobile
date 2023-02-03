@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-
-bool isDarkMode = false;
+import 'package:itsmilife/pages/common/profile.dart';
 
 class DarkModeProvider extends ChangeNotifier {
-  bool _darkMode = false;
 
-  bool get darkMode => _darkMode;
+  bool get darkMode => ProfileData.dark;
 
   set darkMode(bool value) {
-    _darkMode = value;
+    ProfileData.dark = value;
     notifyListeners();
   }
 }

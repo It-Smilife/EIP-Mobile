@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/profile.dart';
+import 'package:itsmilife/pages/login.dart';
+import 'package:itsmilife/pages/register.dart';
+import 'package:itsmilife/services/NetworkManager.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 import 'package:itsmilife/pages/common/settings/changePass.dart';
@@ -10,6 +13,7 @@ import 'package:provider/provider.dart';
 // import 'package:intl/intl.dart';
 import '../../normal_user/homepage/homepage.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
+import 'package:itsmilife/pages/common/profile.dart';
 
 const List<String> list = <String>['English', 'Français'];
 
@@ -22,6 +26,17 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPage extends State<SettingsPage> {
   String dropdownValue = list.first;
+
+  void deleteUser() async {
+    var id = ProfileData.id;
+
+    await NetworkManager.delete("users/$id", {"id": id}).then((value) {
+      if (value.data["success"] == true) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const RegisterPage()));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,12 +206,164 @@ class _SettingsPage extends State<SettingsPage> {
                   fontWeight: FontWeight.bold),
               items: [
                 SettingsItem(
-                  onTap: () {},
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Container(
+                            constraints: const BoxConstraints(maxHeight: 200),
+                            child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 20, right: 20, left: 30),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      lang.lang == "English"
+                                          ? "Log out"
+                                          : "Se déconnecter",
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      lang.lang == "English"
+                                          ? "Are you sure that you want to log out"
+                                          : "Êtes-vous sur de vouloir vous déconnecter ?",
+                                      style: const TextStyle(
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 40),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.green),
+                                          onPressed: () => {
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const LoginPage()))
+                                          },
+                                          child: Text(
+                                            lang.lang == "English"
+                                                ? "yes"
+                                                : "Oui",
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 20),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.red),
+                                          onPressed: () =>
+                                              {Navigator.pop(context)},
+                                          child: Text(
+                                            lang.lang == "English"
+                                                ? "Cancel"
+                                                : "Anuler",
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                )),
+                          ),
+                        );
+                      },
+                    );
+                  },
                   icons: Icons.exit_to_app_rounded,
                   title: lang.lang == "English" ? "Sign out" : "Se déconnecter",
                 ),
                 SettingsItem(
-                  onTap: () {},
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Container(
+                            constraints: const BoxConstraints(maxHeight: 200),
+                            child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 20, right: 10, left: 20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      lang.lang == "English"
+                                          ? "Delete account"
+                                          : "Suppression du compte",
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      lang.lang == "English"
+                                          ? "Are you sure that you want to delete this account ?"
+                                          : "Êtes-vous sur de vouloir supprimer ce compte ?",
+                                      style: const TextStyle(
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 40),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.green),
+                                          onPressed: () => {deleteUser()},
+                                          child: Text(
+                                            lang.lang == "English"
+                                                ? "yes"
+                                                : "Oui",
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 20),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.red),
+                                          onPressed: () =>
+                                              {Navigator.pop(context)},
+                                          child: Text(
+                                            lang.lang == "English"
+                                                ? "Cancel"
+                                                : "Anuler",
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                )),
+                          ),
+                        );
+                      },
+                    );
+                  },
                   icons: CupertinoIcons.delete_solid,
                   title: lang.lang == "English"
                       ? "Delete account"

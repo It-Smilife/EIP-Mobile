@@ -38,6 +38,25 @@ class NetworkManager {
     return dio.delete(baseUrl + path, data: data, options: Options(contentType: Headers.formUrlEncodedContentType));
   }
 
+  login(email, password) async {
+    if (email.toString().isEmpty || password.toString().isEmpty) {
+      return "Error: empty field";
+    }
+    try {
+      return await dio.post('http://51.145.251.116:80/authenticate',
+          data: {"email": email, "password": password},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } on DioError catch (e) {
+      Fluttertoast.showToast(
+          msg: e.response!.data['msg'],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+
   // Add other request types (put, delete, etc) as needed
 } 
 

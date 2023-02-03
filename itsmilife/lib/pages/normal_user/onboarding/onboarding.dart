@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:itsmilife/pages/common/profile.dart';
 import 'package:itsmilife/services/NetworkManager.dart';
 import '../homepage/homepage.dart';
+import 'package:itsmilife/widgets/bottomNavBar.dart';
 import 'styles.dart';
 
 class OnBoarding extends StatefulWidget {
@@ -344,7 +345,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
-                                  const HomePage(),
+                                  const Home(),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) {
                             return SlideTransition(

@@ -20,6 +20,7 @@ class _RegisterPageState extends State<RegisterPage> {
       MediaQuery.of(context).size.width * 7 / 8;
 
   var email, password, name = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

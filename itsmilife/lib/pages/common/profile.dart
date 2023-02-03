@@ -11,6 +11,7 @@ class ProfileData {
   static String username = "default";
   static String firstName = "default";
   static String email = "usertest@user.com";
+  static String role = "default";
   static int age = 0;
   static String gender = "male";
   static String phoneNumber = "0000000";
