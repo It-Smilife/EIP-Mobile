@@ -13,6 +13,7 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _QuizzPageState extends State<CategoryPage> {
+
   @override
   Widget build(BuildContext context) {
     final darkMode = Provider.of<DarkModeProvider>(context);

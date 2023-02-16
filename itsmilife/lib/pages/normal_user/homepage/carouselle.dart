@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:itsmilife/pages/normal_user/chat/chatpro.dart';
+import 'package:itsmilife/pages/normal_user/chat/chatProUser.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
@@ -125,7 +125,7 @@ class _HomeCardState extends State<HomeCard> {
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
-                                  const ChatPro(),
+                                  const ChatProUser(),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) {
                             return SlideTransition(

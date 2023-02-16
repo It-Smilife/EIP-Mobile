@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../common/chat/model/chatMessageModel.dart';
+import 'model/chatMessageModel.dart';
 
-
-class ChatPro extends StatefulWidget {
-  const ChatPro({super.key});
+class ChatDetailPage extends StatefulWidget {
+  const ChatDetailPage({super.key});
 
   @override
-  _ChatProState createState() => _ChatProState();
+  _ChatDetailPageState createState() => _ChatDetailPageState();
 }
 
-class _ChatProState extends State<ChatPro> {
+class _ChatDetailPageState extends State<ChatDetailPage> {
   static List<ChatMessage> list_messages = [
     ChatMessage(
         message: "Hello, Will", messageID: "1", date: "now", id: "receiver"),
@@ -20,7 +19,7 @@ class _ChatProState extends State<ChatPro> {
         date: "now",
         id: "receiver"),
     ChatMessage(
-        message: "Hey Kriss, I am doing fine dude. wbu?",
+        message: "Hey Krissfeere, I am doing fine dude. wbu?",
         messageID: "3",
         date: "now",
         id: "sender"),
@@ -64,8 +63,8 @@ class _ChatProState extends State<ChatPro> {
                   width: 2,
                 ),
                 CircleAvatar(
-                  backgroundImage: AssetImage(
-                      "assets/avatarpro.png"),
+                  backgroundImage: NetworkImage(
+                      "<https://randomuser.me/api/portraits/men/5.jpg>"),
                   maxRadius: 20,
                 ),
                 SizedBox(

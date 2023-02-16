@@ -19,7 +19,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
         date: "now",
         id: "receiver"),
     ChatMessage(
-        message: "Hey Kriss, I am doing fine dude. wbu?",
+        message: "Hey Krissfeere, I am doing fine dude. wbu?",
         messageID: "3",
         date: "now",
         id: "sender"),
