@@ -30,7 +30,7 @@ class _SettingsPage extends State<SettingsPage> {
   void deleteUser() async {
     var id = ProfileData.id;
 
-    await NetworkManager.delete("users/$id", {"id": id}).then((value) {
+    await NetworkManager.delete("users/$id").then((value) {
       if (value.data["success"] == true) {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const RegisterPage()));

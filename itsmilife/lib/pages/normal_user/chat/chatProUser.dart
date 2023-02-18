@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/chat/model/chatMessageModel.dart';
 import 'package:itsmilife/pages/common/profile.dart';
@@ -7,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../../../widgets/conversationList.dart';
 import '../homepage/homepage.dart';
 import 'model/chatUsersModel.dart';
+
 
 class ChatProUser extends StatefulWidget {
   const ChatProUser({super.key});
@@ -31,7 +33,8 @@ class _ChatProUserState extends State<ChatProUser> {
           DateTime dateTime = DateTime.parse(date);
           dateTime = dateTime.toLocal();
           String formattedDate = DateFormat('jm').format(dateTime);
-          ChatUsers user = new ChatUsers(
+          ChatUsers discussion = new ChatUsers(
+              ID: val.data['message'][i]['_id'],
               patientID: val.data['message'][i]['patient']['_id'],
               proID: val.data['message'][i]['professional']['_id'],
               imageURL: "test/img",
@@ -42,7 +45,7 @@ class _ChatProUserState extends State<ChatProUser> {
                   ? val.data['message'][i]['messages']
                       [val.data['message'][i]['messages'].length - 1]
                   : "Démarrez la conversation !");
-          chatUsers.add(user);
+          chatUsers.add(discussion);
         }
         return chatUsers;
       } else {
@@ -183,16 +186,47 @@ class _ChatProUserState extends State<ChatProUser> {
                     itemCount: chatUsers.length,
                     shrinkWrap: true,
                     padding: const EdgeInsets.only(top: 16),
-                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      return ConversationList(
-                        name: chatUsers[index].name,
-                        messageText: chatUsers[index].LastMessage,
-                        imageUrl: chatUsers[index].imageURL,
-                        time: chatUsers[index].time,
-                        isMessageRead:
-                            (index == 0 || index == 3) ? true : false,
-                      );
+                      final discussion = chatUsers[index];
+                      return Dismissible(
+                          key: Key(discussion.ID),
+                          direction: DismissDirection.endToStart,
+                          background: Container(
+                            color: Colors.red,
+                            alignment: Alignment.centerRight,
+                            child: const Icon(
+                              CupertinoIcons.delete,
+                              color: Colors.white,
+                            ),
+                          ),
+                          onDismissed: (direction) {
+                            // Supprime l'élément de la liste
+                            setState(() {
+                              NetworkManager.delete(
+                                      "discussions/" + discussion.ID)
+                                  .then((val) {
+                                if (val.data['success'] == true) {
+                                  print("discussion supprimer");
+                                } else {
+                                  throw Exception('Failed to delete discussion');
+                                }
+                              });
+                              chatUsers.removeAt(index);
+                            });
+                            // Affiche un message d'information
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text("Conversation supprimée")),
+                            );
+                          },
+                          child: ConversationList(
+                            name: chatUsers[index].name,
+                            messageText: chatUsers[index].LastMessage,
+                            imageUrl: chatUsers[index].imageURL,
+                            time: chatUsers[index].time,
+                            isMessageRead:
+                                (index == 0 || index == 3) ? true : false,
+                          ));
                     },
                   );
                 } else if (snapshot.hasError) {

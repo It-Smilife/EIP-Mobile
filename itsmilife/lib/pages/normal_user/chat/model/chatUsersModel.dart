@@ -5,6 +5,7 @@ class ChatUsers {
   String name;
   String LastMessage;
   String imageURL;
+  String ID;
   String proID;
   String patientID;
   String time;
@@ -12,6 +13,7 @@ class ChatUsers {
       {required this.name,
       required this.LastMessage,
       required this.imageURL,
+      required this.ID,
       required this.proID,
       required this.patientID,
       required this.time});

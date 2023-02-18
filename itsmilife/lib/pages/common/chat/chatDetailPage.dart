@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/normal_user/chat/chatProUser.dart';
+import 'package:itsmilife/services/NetworkManager.dart';
 
 import 'model/chatMessageModel.dart';
 

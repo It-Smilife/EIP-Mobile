@@ -52,11 +52,12 @@ class _AddProListState extends State<AddProList> {
                           "discussions": val.data['message']['_id']
                         }).then((val) {
                           if (val.data['success'] == true) {
-                            print("Sucess");
+                            print("Success");
                           } else {
                             throw Exception('Failed to change user');
                           }
                         });
+
                         Navigator.pushReplacement(
                           context,
                           PageRouteBuilder(
