@@ -1,9 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 
-class ChatMessage {
+class ChatMessagee {
   String message;
   String date;
   String id;
-  String messageID;
-  ChatMessage({required this.message, required this.messageID, required this.date, required this.id});
+  bool isSentByUser;
+  ChatMessagee({required this.message, required this.isSentByUser, required this.date, required this.id});
 }

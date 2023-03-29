@@ -105,7 +105,7 @@ class _HomeCardState extends State<HomeCard> {
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
-                                  const ChatBot(),
+                                  ChatBot(),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) {
                             return SlideTransition(

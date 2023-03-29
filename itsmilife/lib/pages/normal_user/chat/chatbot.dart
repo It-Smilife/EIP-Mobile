@@ -1,43 +1,98 @@
 import 'package:flutter/material.dart';
-
-import '../../common/chat/model/chatMessageModel.dart';
-
+import 'package:itsmilife/pages/common/chat/model/chatMessageModel.dart';
+import 'package:openai_client/openai_client.dart';
+import 'package:openai_client/src/model/openai_chat/chat_message.dart';
+import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart';
 
 class ChatBot extends StatefulWidget {
-  const ChatBot({super.key});
-
   @override
   _ChatBotState createState() => _ChatBotState();
 }
 
 class _ChatBotState extends State<ChatBot> {
-  static List<ChatMessage> list_messages = [
-    ChatMessage(
-        message: "Hello, Will", messageID: "1", date: "now", id: "receiver"),
-    ChatMessage(
-        message: "How have you been?",
-        messageID: "2",
-        date: "now",
-        id: "receiver"),
-    ChatMessage(
-        message: "Hey Kriss, I am doing fine dude. wbu?",
-        messageID: "3",
-        date: "now",
-        id: "sender"),
-    ChatMessage(
-        message: "ehhhh, doing OK.",
-        messageID: "4",
-        date: "now",
-        id: "receiver"),
-    ChatMessage(
-        message: "Is there any thing wrong?",
-        messageID: "5",
-        date: "now",
-        id: "sender"),
-  ];
-
-  static String _newMessage = "";
   final _textController = TextEditingController();
+  final _chatMessages = <ChatMessagee>[];
+  final _uuid = Uuid();
+  final _dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+  late OpenAIConfiguration _conf;
+  late OpenAIClient _client;
+  final _modelId = 'gpt-3.5-turbo';
+
+  @override
+  void initState() {
+    super.initState();
+    _conf = OpenAIConfiguration(apiKey: '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');
+    _client = OpenAIClient(configuration: _conf);
+  }
+
+  @override
+  void dispose() {
+    _client.close();
+    super.dispose();
+  }
+
+  
+  Future<void> _sendMessage(String message) async {
+    final chatMessage = ChatMessagee(
+      id: _uuid.v4(),
+      message: message,
+      date: _dateFormat.format(DateTime.now()),
+      isSentByUser: true,
+    );
+    setState(() {
+      _chatMessages.add(chatMessage);
+    });
+    try {
+      final chat = await _client.chat.create(
+    model: 'gpt-3.5-turbo',
+    messages: [
+      ChatMessage(
+        role: 'system',
+        content: "Tu es un expert en psychologie et un psychologue depuis 25 ans, ton role est de m'aider a mieux comprendre mes émotions et de surmonter mes moments difficiles. Tu dois parler avec un ton très amicale et toujours essayer de me reconforter du mieux possible. Je souhaite que toute tes réponses soit le plus résumer possibles et que les informations sont claires et consisces. Les réponses ne doivent pas dépasser plus de 100 charactère.",
+      ),
+      ChatMessage(
+        role: 'user',
+        content: message,
+      )
+    ],
+  ).data;
+      final response = chat.choices.first.message.content;
+      final botMessage = ChatMessagee(
+        id: _uuid.v4(),
+        message: response,
+        date: _dateFormat.format(DateTime.now()),
+        isSentByUser: false,
+      );
+      setState(() {
+        _chatMessages.add(botMessage);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Widget _buildChatMessage(ChatMessagee message) {
+    final alignment = message.isSentByUser ? Alignment.topRight : Alignment.topLeft;
+    final color = message.isSentByUser ? Colors.blue[200] : Colors.grey[200];
+    return Container(
+      padding: EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
+      child: Align(
+        alignment: alignment,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: color,
+          ),
+          padding: EdgeInsets.all(16),
+          child: Text(
+            message.message,
+            style: TextStyle(fontSize: 15),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +119,7 @@ class _ChatBotState extends State<ChatBot> {
                   width: 2,
                 ),
                 CircleAvatar(
-                  backgroundImage: AssetImage(
-                      "assets/logosmile.png"),
+                  backgroundImage: AssetImage("assets/logosmile.png"),
                   maxRadius: 20,
                 ),
                 SizedBox(
@@ -104,33 +158,12 @@ class _ChatBotState extends State<ChatBot> {
       body: Stack(
         children: <Widget>[
           ListView.builder(
-            itemCount: list_messages.length,
+            itemCount: _chatMessages.length,
             shrinkWrap: true,
             padding: EdgeInsets.only(top: 10, bottom: 10),
-            physics: NeverScrollableScrollPhysics(),
+            physics: AlwaysScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-              return Container(
-                padding:
-                    EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
-                child: Align(
-                  alignment: (list_messages[index].id == "receiver"
-                      ? Alignment.topLeft
-                      : Alignment.topRight),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: (list_messages[index].id == "receiver"
-                          ? Colors.grey.shade200
-                          : Colors.blue[200]),
-                    ),
-                    padding: EdgeInsets.all(16),
-                    child: Text(
-                      list_messages[index].message,
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                ),
-              );
+              return _buildChatMessage(_chatMessages[index]);
             },
           ),
           Align(
@@ -164,11 +197,15 @@ class _ChatBotState extends State<ChatBot> {
                   Expanded(
                     child: TextField(
                       controller: _textController,
-                      onChanged: (text) => _newMessage = text,
                       decoration: InputDecoration(
-                          hintText: "Write message...",
-                          hintStyle: TextStyle(color: Colors.black54),
-                          border: InputBorder.none),
+                        hintText: "Write message...",
+                        hintStyle: TextStyle(color: Colors.black54),
+                        border: InputBorder.none,
+                      ),
+                      onSubmitted: (value) {
+                        _sendMessage(value);
+                        _textController.clear();
+                      },
                     ),
                   ),
                   SizedBox(
@@ -176,15 +213,11 @@ class _ChatBotState extends State<ChatBot> {
                   ),
                   FloatingActionButton(
                     onPressed: () {
-                      setState(() {
-                        list_messages.add(ChatMessage(
-                          message: _newMessage,
-                          messageID: (list_messages.length + 1).toString(),
-                          date: DateTime.now().toString(),
-                          id: 'sender',
-                        ));
+                      final value = _textController.text.trim();
+                      if (value.isNotEmpty) {
+                        _sendMessage(value);
                         _textController.clear();
-                      });
+                      }
                     },
                     child: Icon(
                       Icons.send,

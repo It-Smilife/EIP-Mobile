@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/normal_user/homepage/homepage.dart';
 
 import '../pages/common/chat/chatDetailPage.dart';
 
@@ -20,7 +21,7 @@ class _ConversationListState extends State<ConversationList> {
     return GestureDetector(
       onTap: (){
         Navigator.push(context, MaterialPageRoute(builder: (context){
-          return ChatDetailPage();
+          return HomePage();
         }));
       },
       child: Container(

@@ -56,6 +56,9 @@ dependencies:
   settings_ui: ^2.0.2
   shared_preferences: ^2.0.16
   url_launcher: ^6.1.8
+  openai_client: ^0.0.7
+  uuid: ^3.0.7
+  dart_openai: ^1.1.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
