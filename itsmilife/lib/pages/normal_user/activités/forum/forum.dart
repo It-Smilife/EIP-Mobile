@@ -9,7 +9,7 @@ import 'package:itsmilife/pages/normal_user/activités/activités.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/add_post_page.dart';
-import 'package:itsmilife/pages/normal_user/activités/forum/test.dart';
+// import 'package:itsmilife/pages/normal_user/activités/forum/test.dart';
 
 class Forum extends StatefulWidget {
   const Forum({super.key});
@@ -19,15 +19,15 @@ class Forum extends StatefulWidget {
 }
 
 class _Forum extends State<Forum> {
-  void checkQuestions(List<Question> questions) {
+  void checkQuestions(List<Post> questions) {
     questions.forEach((question) {
-      print("------------------------");
-      print(question.author.name);
-      print(question.question);
-      print(question.content);
-      print(question.views);
-      print(question.votes);
-      print(question.replies);
+      // print("------------------------");
+      // print(question.author.name);
+      // print(question.question);
+      // print(question.content);
+      // print(question.views);
+      // print(question.votes);
+      // print(question.replies);
       // Afficher les autres propriétés de l'objet Question
     });
   }
@@ -147,7 +147,7 @@ class _Forum extends State<Forum> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddQuestionForm(questions: questions),
+              builder: (context) => const AddPostForm(),
             ),
           ),
         },

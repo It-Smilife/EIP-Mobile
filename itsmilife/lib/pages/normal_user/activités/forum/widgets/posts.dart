@@ -1,5 +1,9 @@
+import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:itsmilife/services/NetworkManager.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/models/post_model.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/post_screen.dart';
@@ -14,20 +18,60 @@ class Posts extends StatefulWidget {
 }
 
 class _Posts extends State<Posts> {
+  List<Post> posts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPosts();
+  }
+
+  /* void fetchPosts() async {
+    // try {
+    http.Response response =
+        await http.get(Uri.parse('http://51.145.251.116:80/forums'));
+    // print("REPONSE" + json.decode(response.body)['message']);
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response,
+      // parse the JSON response and add each post to the 'posts' list
+      List jsonPosts = json.decode(response.body)['message'];
+      setState(() {
+        //posts = jsonPosts;
+      });
+    }
+    // } catch (error) {
+    //   print(error.toString());
+    // }
+    print("FDPPPPP\n $posts");
+  }*/
+
+  void fetchPosts() async {
+    http.Response response = await http
+        .get(Uri.parse('http://51.145.251.116:80/forums'))
+        .then((value) => value);
+
+    List<dynamic> jsonPosts = json.decode(response.body)['message'];
+    for (var jsonPost in jsonPosts) {
+      setState(() {
+        posts.add(Post.fromJson(jsonPost));
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);
     final darkMode = Provider.of<DarkModeProvider>(context);
     return Column(
-        children: questions
+        children: posts
             .map(
-              (question) => GestureDetector(
+              (post) => GestureDetector(
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (_) => PostScreen(
-                        question: question,
+                        question: post,
                       ),
                     ),
                   );
@@ -57,9 +101,9 @@ class _Posts extends State<Posts> {
                             children: <Widget>[
                               Row(
                                 children: <Widget>[
-                                  CircleAvatar(
+                                  const CircleAvatar(
                                     backgroundImage:
-                                        AssetImage(question.author.imageUrl),
+                                        AssetImage('assets/images/author1.jpg'),
                                     radius: 22,
                                   ),
                                   Padding(
@@ -76,7 +120,7 @@ class _Posts extends State<Posts> {
                                                   .width *
                                               0.65,
                                           child: Text(
-                                            question.question,
+                                            post.title,
                                             style: const TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold,
@@ -87,14 +131,14 @@ class _Posts extends State<Posts> {
                                         Row(
                                           children: <Widget>[
                                             Text(
-                                              question.author.name,
+                                              "username",
                                               style: TextStyle(
                                                   color: Colors.grey
                                                       .withOpacity(0.6)),
                                             ),
                                             const SizedBox(width: 15),
                                             Text(
-                                              question.createdAt,
+                                              post.date,
                                               style: TextStyle(
                                                   color: Colors.grey
                                                       .withOpacity(0.6)),
@@ -118,7 +162,7 @@ class _Posts extends State<Posts> {
                           height: 50,
                           child: Center(
                             child: Text(
-                              "${question.content.substring(0, 80)}..",
+                              /*"${post.content.substring(0, 80)}.."*/ "content",
                               style: TextStyle(
                                   color: Colors.grey.withOpacity(0.8),
                                   fontSize: 16,
@@ -139,13 +183,13 @@ class _Posts extends State<Posts> {
                                   size: 22,
                                 ),
                                 const SizedBox(width: 4.0),
-                                Text(
-                                  "${question.votes} votes",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey.withOpacity(0.6),
-                                      fontWeight: FontWeight.w600),
-                                )
+                                // Text(
+                                //   "${question.votes} votes",
+                                //   style: TextStyle(
+                                //       fontSize: 14,
+                                //       color: Colors.grey.withOpacity(0.6),
+                                //       fontWeight: FontWeight.w600),
+                                // )
                               ],
                             ),
                             Row(
@@ -158,8 +202,8 @@ class _Posts extends State<Posts> {
                                 const SizedBox(width: 4.0),
                                 Text(
                                   lang.lang == "English"
-                                      ? "${question.repliesCount} replies"
-                                      : "${question.repliesCount} réponses",
+                                      ? "${post.replies_count} replies"
+                                      : "${post.replies_count} réponses",
                                   style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey.withOpacity(0.6)),
@@ -176,8 +220,8 @@ class _Posts extends State<Posts> {
                                 const SizedBox(width: 4.0),
                                 Text(
                                   lang.lang == "English"
-                                      ? "${question.views} views"
-                                      : "${question.views} vues",
+                                      ? "${post.views} views"
+                                      : "${post.views} vues",
                                   style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey.withOpacity(0.6)),

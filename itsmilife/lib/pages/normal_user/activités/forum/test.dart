@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/models/post_model.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/models/author_model.dart';
@@ -5,7 +6,7 @@ import 'package:itsmilife/pages/normal_user/activités/forum/models/replies_mode
 import 'package:itsmilife/pages/normal_user/activités/forum/forum.dart';
 
 class AddQuestionForm extends StatefulWidget {
-  final List<Question> questions;
+  final List<Post> questions;
 
   const AddQuestionForm({Key? key, required this.questions}) : super(key: key);
 
@@ -23,15 +24,15 @@ class _AddQuestionFormState extends State<AddQuestionForm> {
   late int _votes;
   late int _repliesCount;
 
-  void checkQuestions(List<Question> questions) {
+  void checkQuestions(List<Post> questions) {
     questions.forEach((question) {
-      print("------------------------");
-      print(question.author.name);
-      print(question.question);
-      print(question.content);
-      print(question.views);
-      print(question.votes);
-      print(question.replies);
+      // print("------------------------");
+      // print(question.author.name);
+      // print(question.question);
+      // print(question.content);
+      // print(question.views);
+      // print(question.votes);
+      // print(question.replies);
       // Afficher les autres propriétés de l'objet Question
     });
   }
@@ -39,6 +40,25 @@ class _AddQuestionFormState extends State<AddQuestionForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(
+            CupertinoIcons.clear,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const Forum(),
+              ),
+            );
+          },
+        ),
+      ),
       body: Form(
         key: _formKey,
         child: Column(
@@ -107,17 +127,17 @@ class _AddQuestionFormState extends State<AddQuestionForm> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  setState(() {
-                    widget.questions.add(Question(
-                        author: mark,
-                        question: _question,
-                        content: _content,
-                        createdAt: DateTime.now().toString(),
-                        views: _views,
-                        votes: _votes,
-                        repliesCount: _repliesCount,
-                        replies: replies));
-                  });
+                  // setState(() {
+                  //   widget.questions.add(Question(
+                  //       user: mark,
+                  //       title: _question,
+                  //       content: _content,
+                  //       date: DateTime.now().toString(),
+                  //       views: _views,
+                  //       // votes: _votes,
+                  //       repliesCount: _repliesCount,
+                  //       comments: replies));
+                  // });
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Forum()));
                 }
@@ -128,10 +148,10 @@ class _AddQuestionFormState extends State<AddQuestionForm> {
               onPressed: () => {widget.questions.clear()},
               child: Text("Clear"),
             ),
-            ElevatedButton(
-              onPressed: () => {checkQuestions(questions)},
-              child: Text("print"),
-            ),
+            // ElevatedButton(
+            //   onPressed: () => {checkQuestions(questions)},
+            //   child: Text("print"),
+            // ),
           ],
         ),
       ),

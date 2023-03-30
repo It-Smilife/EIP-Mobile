@@ -6,7 +6,7 @@ import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/models/post_model.dart';
 
 class PostScreen extends StatefulWidget {
-  final Question question;
+  final Post question;
   const PostScreen({super.key, required this.question});
   @override
   State<PostScreen> createState() => _PostScreenState();
@@ -67,9 +67,9 @@ class _PostScreenState extends State<PostScreen> {
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              CircleAvatar(
+                              const CircleAvatar(
                                 backgroundImage:
-                                    AssetImage(widget.question.author.imageUrl),
+                                    AssetImage('assets/images/author1.jpg'),
                                 radius: 22,
                               ),
                               Padding(
@@ -78,16 +78,16 @@ class _PostScreenState extends State<PostScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Text(
-                                      widget.question.author.name,
-                                      style: const TextStyle(
+                                    const Text(
+                                      "username",
+                                      style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                           letterSpacing: .4),
                                     ),
                                     const SizedBox(height: 2.0),
                                     Text(
-                                      widget.question.createdAt,
+                                      widget.question.date,
                                       style:
                                           const TextStyle(color: Colors.grey),
                                     )
@@ -107,7 +107,7 @@ class _PostScreenState extends State<PostScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15.0),
                       child: Text(
-                        widget.question.question,
+                        widget.question.title,
                         style: TextStyle(
                           fontSize: 24,
                           color: Colors.black.withOpacity(0.8),
@@ -136,13 +136,13 @@ class _PostScreenState extends State<PostScreen> {
                                 size: 22,
                               ),
                               const SizedBox(width: 4.0),
-                              Text(
-                                "${widget.question.votes} votes",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey.withOpacity(0.5),
-                                ),
-                              )
+                              // Text(
+                              //   "${widget.question.votes} votes",
+                              //   style: TextStyle(
+                              //     fontSize: 14,
+                              //     color: Colors.grey.withOpacity(0.5),
+                              //   ),
+                              // )
                             ],
                           ),
                           const SizedBox(width: 15.0),
@@ -177,7 +177,7 @@ class _PostScreenState extends State<PostScreen> {
               padding:
                   const EdgeInsets.only(left: 15.0, top: 20.0, bottom: 10.0),
               child: Text(
-                lang.lang == "English" ? "Replies (${widget.question.replies.length})" : "Réponses (${widget.question.replies.length})",
+                lang.lang == "English" ? "Replies (${widget.question.comments.length})" : "Réponses (${widget.question.comments.length})",
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -185,107 +185,107 @@ class _PostScreenState extends State<PostScreen> {
                 ),
               ),
             ),
-            Column(
-              children: widget.question.replies
-                  .map(
-                    (reply) => Container(
-                      margin: const EdgeInsets.only(
-                          left: 15.0, right: 15.0, top: 20.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black26.withOpacity(0.03),
-                              offset: const Offset(0.0, 6.0),
-                              blurRadius: 10.0,
-                              spreadRadius: 0.10)
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              height: 60,
-                              color: Colors.white,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      CircleAvatar(
-                                        backgroundImage:
-                                            AssetImage(reply.author.imageUrl),
-                                        radius: 18,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Text(
-                                              reply.author.name,
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600,
-                                                  letterSpacing: .4),
-                                            ),
-                                            const SizedBox(height: 2.0),
-                                            Text(
-                                              widget.question.createdAt,
-                                              style: TextStyle(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.4)),
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 15.0),
-                              child: Text(
-                                reply.content,
-                                style: TextStyle(
-                                  color: Colors.black.withOpacity(0.25),
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Icon(
-                                  CupertinoIcons.hand_thumbsup,
-                                  color: Colors.grey.withOpacity(0.5),
-                                  size: 20,
-                                ),
-                                const SizedBox(width: 5.0),
-                                Text(
-                                  "${reply.likes}",
-                                  style: TextStyle(
-                                      color: Colors.grey.withOpacity(0.5)),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                  .toList(),
-            )
+            // Column(
+            //   children: widget.question.comments
+            //       .map(
+            //         (reply) => Container(
+            //           margin: const EdgeInsets.only(
+            //               left: 15.0, right: 15.0, top: 20.0),
+            //           decoration: BoxDecoration(
+            //             color: Colors.white,
+            //             borderRadius: BorderRadius.circular(10.0),
+            //             boxShadow: [
+            //               BoxShadow(
+            //                   color: Colors.black26.withOpacity(0.03),
+            //                   offset: const Offset(0.0, 6.0),
+            //                   blurRadius: 10.0,
+            //                   spreadRadius: 0.10)
+            //             ],
+            //           ),
+            //           child: Padding(
+            //             padding: const EdgeInsets.all(15.0),
+            //             child: Column(
+            //               crossAxisAlignment: CrossAxisAlignment.start,
+            //               children: <Widget>[
+            //                 Container(
+            //                   height: 60,
+            //                   color: Colors.white,
+            //                   child: Row(
+            //                     mainAxisAlignment:
+            //                         MainAxisAlignment.spaceBetween,
+            //                     children: <Widget>[
+            //                       Row(
+            //                         children: <Widget>[
+            //                           CircleAvatar(
+            //                             backgroundImage:
+            //                                 AssetImage(reply.author.imageUrl),
+            //                             radius: 18,
+            //                           ),
+            //                           Padding(
+            //                             padding:
+            //                                 const EdgeInsets.only(left: 8.0),
+            //                             child: Column(
+            //                               crossAxisAlignment:
+            //                                   CrossAxisAlignment.start,
+            //                               mainAxisAlignment:
+            //                                   MainAxisAlignment.center,
+            //                               children: <Widget>[
+            //                                 Text(
+            //                                   reply.author.name,
+            //                                   style: const TextStyle(
+            //                                       fontSize: 16,
+            //                                       fontWeight: FontWeight.w600,
+            //                                       letterSpacing: .4),
+            //                                 ),
+            //                                 const SizedBox(height: 2.0),
+            //                                 Text(
+            //                                   widget.question.date,
+            //                                   style: TextStyle(
+            //                                       color: Colors.grey
+            //                                           .withOpacity(0.4)),
+            //                                 )
+            //                               ],
+            //                             ),
+            //                           )
+            //                         ],
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ),
+            //                 Padding(
+            //                   padding:
+            //                       const EdgeInsets.symmetric(vertical: 15.0),
+            //                   child: Text(
+            //                     reply.content,
+            //                     style: TextStyle(
+            //                       color: Colors.black.withOpacity(0.25),
+            //                       fontSize: 16,
+            //                     ),
+            //                   ),
+            //                 ),
+            //                 Row(
+            //                   mainAxisAlignment: MainAxisAlignment.start,
+            //                   children: <Widget>[
+            //                     Icon(
+            //                       CupertinoIcons.hand_thumbsup,
+            //                       color: Colors.grey.withOpacity(0.5),
+            //                       size: 20,
+            //                     ),
+            //                     const SizedBox(width: 5.0),
+            //                     Text(
+            //                       "${reply.likes}",
+            //                       style: TextStyle(
+            //                           color: Colors.grey.withOpacity(0.5)),
+            //                     )
+            //                   ],
+            //                 )
+            //               ],
+            //             ),
+            //           ),
+            //         ),
+            //       )
+            //       .toList(),
+            // )
           ],
         ),
       ),

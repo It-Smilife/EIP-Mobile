@@ -10,6 +10,14 @@ class Reply {
     required this.content,
     required this.likes
   });
+
+  factory Reply.fromJson(Map<dynamic, dynamic> json) {
+    return Reply(
+      content: json['content'],
+      author: Author.fromJson(json['user']),
+      likes: json['likes']
+    );
+  }
 }
 
 List<Reply> replies = [
