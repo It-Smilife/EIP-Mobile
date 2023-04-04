@@ -1,5 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:itsmilife/services/NetworkManager.dart';
+import 'package:itsmilife/pages/common/profile.dart';
+import 'package:provider/provider.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
+import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 
 // class AddPostPage extends StatefulWidget {
 //   const AddPostPage({super.key});
@@ -46,6 +51,30 @@ class _AddPostFormState extends State<AddPostForm> {
   List<String> _tags = [];
   final FocusNode _focusNode = FocusNode();
 
+  void test() {
+    print(ProfileData.id);
+    print(ProfileData.email);
+  }
+
+  void addPost(title, content) {
+    NetworkManager.post('forums', {
+      "title": title,
+      "user": ProfileData.id,
+      "comments": "63dcd7de4e73c3aec886af44",
+      "content": content,
+      "likes_count": 0,
+      "replies_count": 0,
+      "views": 0,
+    }).then((value) {
+      if (value.data['success'] == true) {
+        print("ok for adding post");
+        Navigator.pop(context);
+      } else {
+        print(value.data);
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -54,6 +83,8 @@ class _AddPostFormState extends State<AddPostForm> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -63,11 +94,9 @@ class _AddPostFormState extends State<AddPostForm> {
           icon: const Icon(CupertinoIcons.clear),
           onPressed: () => {Navigator.pop(context)},
         ),
-        title: const Text(
-          'Add a Post',
-          style: TextStyle(
-            color: Colors.black
-          ),
+        title: Text(
+          lang.lang == "English" ? 'Add a Post' : 'Ajouter un Post',
+          style: const TextStyle(color: Colors.black),
         ),
       ),
       body: Form(
@@ -81,13 +110,15 @@ class _AddPostFormState extends State<AddPostForm> {
                 TextFormField(
                   focusNode: _focusNode,
                   textInputAction: TextInputAction.done,
-                  decoration: const InputDecoration(
-                    labelText: 'Title',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    labelText: lang.lang == "English" ? 'Title' : 'Titre',
+                    // border: OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter a title';
+                      return lang.lang == "English"
+                          ? 'Please enter a title'
+                          : 'Entrez un titre svp';
                     }
                     return null;
                   },
@@ -99,9 +130,13 @@ class _AddPostFormState extends State<AddPostForm> {
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Content',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    // labelText: lang.lang == "English" ? 'Write something...' : 'Ecrivez quelque chose...',
+                    hintText: lang.lang == "English"
+                        ? 'Write something...'
+                        : 'Ecrivez quelque chose...',
+                    border: const OutlineInputBorder(),
+                    // contentPadding: EdgeInsets.symmetric(vertical: 60, horizontal: 10)
                   ),
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
@@ -120,12 +155,13 @@ class _AddPostFormState extends State<AddPostForm> {
                 const SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () {
+                    test();
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      // TODO: Implement post submission logic here
+                      addPost(_title, _content);
                     }
                   },
-                  child: const Text('Submit'),
+                  child: Text(lang.lang == "English" ? 'Submit' : 'Envoyer'),
                 ),
               ],
             ),

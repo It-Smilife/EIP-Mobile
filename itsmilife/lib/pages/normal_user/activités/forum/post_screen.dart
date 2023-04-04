@@ -4,6 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/models/post_model.dart';
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:itsmilife/pages/common/profile.dart';
 
 class PostScreen extends StatefulWidget {
   final Post question;
@@ -13,6 +16,22 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreenState extends State<PostScreen> {
+  String setLanguage() {
+    final lang = Provider.of<LanguageProvider>(context);
+    if (lang.lang == "English") {
+      return 'en';
+    }
+    return 'fr';
+  }
+
+  String convertDate(date) {
+    DateTime dateConvert = DateTime.parse(date);
+    timeago.setLocaleMessages('fr', timeago.FrMessages());
+    final now = DateTime.now().toUtc();
+    final difference = now.difference(dateConvert.toUtc());
+    return timeago.format(now.subtract(difference), locale: setLanguage());
+  }
+
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);
@@ -87,7 +106,7 @@ class _PostScreenState extends State<PostScreen> {
                                     ),
                                     const SizedBox(height: 2.0),
                                     Text(
-                                      widget.question.date,
+                                      convertDate(widget.question.date),
                                       style:
                                           const TextStyle(color: Colors.grey),
                                     )
@@ -156,8 +175,8 @@ class _PostScreenState extends State<PostScreen> {
                               const SizedBox(width: 4.0),
                               Text(
                                 lang.lang == "English"
-                                        ? "${widget.question.views} views"
-                                        : "${widget.question.views} vues",
+                                    ? "${widget.question.views} views"
+                                    : "${widget.question.views} vues",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey.withOpacity(0.5),
@@ -177,7 +196,9 @@ class _PostScreenState extends State<PostScreen> {
               padding:
                   const EdgeInsets.only(left: 15.0, top: 20.0, bottom: 10.0),
               child: Text(
-                lang.lang == "English" ? "Replies (${widget.question.comments.length})" : "Réponses (${widget.question.comments.length})",
+                lang.lang == "English"
+                    ? "Replies (${widget.question.comments.length})"
+                    : "Réponses (${widget.question.comments.length})",
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,

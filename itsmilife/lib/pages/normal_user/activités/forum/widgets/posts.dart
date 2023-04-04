@@ -9,6 +9,8 @@ import 'package:itsmilife/pages/normal_user/activités/forum/models/post_model.d
 import 'package:itsmilife/pages/normal_user/activités/forum/post_screen.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class Posts extends StatefulWidget {
   const Posts({super.key});
@@ -56,6 +58,23 @@ class _Posts extends State<Posts> {
         posts.add(Post.fromJson(jsonPost));
       });
     }
+  }
+
+  String setLanguage() {
+    final lang = Provider.of<LanguageProvider>(context);
+    if (lang.lang == "English") {
+      return 'en';
+    }
+    timeago.setLocaleMessages('fr', timeago.FrMessages());
+    return 'fr';
+  }
+
+  String convertDate(date) {
+    DateTime dateConvert = DateTime.parse(date);
+    timeago.setLocaleMessages('fr', timeago.FrMessages());
+    final now = DateTime.now().toUtc();
+    final difference = now.difference(dateConvert.toUtc());
+    return timeago.format(now.subtract(difference), locale: setLanguage());
   }
 
   @override
@@ -138,7 +157,7 @@ class _Posts extends State<Posts> {
                                             ),
                                             const SizedBox(width: 15),
                                             Text(
-                                              post.date,
+                                              convertDate(post.date),
                                               style: TextStyle(
                                                   color: Colors.grey
                                                       .withOpacity(0.6)),
@@ -162,7 +181,7 @@ class _Posts extends State<Posts> {
                           height: 50,
                           child: Center(
                             child: Text(
-                              /*"${post.content.substring(0, 80)}.."*/ "content",
+                              "${post.content.substring(0, 10)}..",
                               style: TextStyle(
                                   color: Colors.grey.withOpacity(0.8),
                                   fontSize: 16,
