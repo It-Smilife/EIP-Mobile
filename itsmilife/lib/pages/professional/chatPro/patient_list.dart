@@ -3,20 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/chat/model/chatMessageModel.dart';
 import 'package:itsmilife/pages/common/profile.dart';
 import 'package:itsmilife/pages/normal_user/chat/AddPro.dart';
+import 'package:itsmilife/pages/professional/homepro.dart';
 import 'package:itsmilife/services/NetworkManager.dart';
 import 'package:intl/intl.dart';
 import '../../../widgets/conversationList.dart';
-import '../homepage/homepage.dart';
-import 'model/chatUsersModel.dart';
+import '../../normal_user/chat/model/chatUsersModel.dart';
+import 'notificationCenter.dart';
 
-class ChatProUser extends StatefulWidget {
-  const ChatProUser({super.key});
+class ListPatient extends StatefulWidget {
+  const ListPatient({super.key});
 
   @override
-  _ChatProUserState createState() => _ChatProUserState();
+  _ListPatientState createState() => _ListPatientState();
 }
 
-class _ChatProUserState extends State<ChatProUser> {
+class _ListPatientState extends State<ListPatient> {
   late Future<List<ChatUsers>> _chatUsersFuture;
 
   @override
@@ -55,6 +56,17 @@ class _ChatProUserState extends State<ChatProUser> {
 
   @override
   Widget build(BuildContext context) {
+
+    List<ContactRequest> requests = [
+  ContactRequest(
+    username: 'John Doe',
+    avatarUrl: 'assets/avatarpro.png',
+  ),
+  ContactRequest(
+    username: 'Jane Smith',
+    avatarUrl: 'assets/avatarpro.png',
+  ),
+];
     return Scaffold(
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -68,7 +80,7 @@ class _ChatProUserState extends State<ChatProUser> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     InkWell(
-                      child: Icon(Icons.arrow_back),
+                      child: Icon(Icons.arrow_back, color: Colors.black),
                       onTap: () {
                         Navigator.pop(context);
                       },
@@ -81,36 +93,24 @@ class _ChatProUserState extends State<ChatProUser> {
                     Container(
                       padding: const EdgeInsets.only(
                           left: 8, right: 8, top: 2, bottom: 2),
-                      height: 30,
+                      height: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        color: Color.fromARGB(255, 98, 128, 182),
+                        color: Color.fromARGB(255, 218, 24, 24),
                       ),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.add,
+                      child: InkWell(
+                            child: Icon(
+                            Icons.notifications,
                             color: Color.fromARGB(255, 255, 255, 255),
-                            size: 20,
+                            size: 25,
                           ),
-                          SizedBox(
-                            width: 2,
-                          ),
-                          InkWell(
-                            child: Text(
-                              "Add New",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
                             onTap: (() {
                               Navigator.push(
                                 context,
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      const AddPro(),
+                                      NotificationPage(requests: requests),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     return SlideTransition(
@@ -127,8 +127,6 @@ class _ChatProUserState extends State<ChatProUser> {
                               );
                             }),
                           ),
-                        ],
-                      ),
                     )
                   ],
                 ),

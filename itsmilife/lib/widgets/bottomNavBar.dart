@@ -4,6 +4,11 @@ import 'package:itsmilife/pages/normal_user/activités/activités.dart';
 import 'package:itsmilife/pages/normal_user/homepage/homepage.dart';
 import 'package:itsmilife/pages/common/settings/settings.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:itsmilife/pages/professional/HomePro.dart';
+import 'package:itsmilife/pages/professional/activity/categorypro.dart';
+import 'package:provider/provider.dart';
+
+import '../pages/common/settings/RoleProvider.dart';
 
 class Home extends StatefulWidget{
   const Home({Key? key}) : super(key: key);
@@ -21,8 +26,17 @@ class _HomeState extends State<Home> {
     const SettingsPage()
   ];
 
+    final screenspro = [
+    const CategoryPro(),
+    const HomePro(),
+    const SettingsPage()
+  ];
+
+
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<RoleProvider>(context);
     final items = <Widget>[
       const Icon(CupertinoIcons.doc_plaintext, size: 30),
       const Icon(CupertinoIcons.home, size: 30),
@@ -33,7 +47,7 @@ class _HomeState extends State<Home> {
         // appBar: AppBar(
         //   title:const Text("Itsmilife"),
         // ),
-        body: screens[index],
+        body: (user.Setrolestate) ? screenspro[index] : screens[index],
         bottomNavigationBar: CurvedNavigationBar(
           backgroundColor: Colors.transparent,
           items: items,

@@ -16,6 +16,7 @@ class ProfileData {
   static String firstName = "default";
   static String email = "usertest@user.com";
   static String role = "default";
+  static bool rolestate = false;
   static int age = 0;
   static String gender = "male";
   static String phoneNumber = "0000000";
@@ -62,38 +63,20 @@ class _ProfileSettingPageState extends State<ProfilePage> {
             ),
           ),
           child: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        SettingsPage(),
-                    transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) {
-                      return SlideTransition(
-                        position: Tween<Offset>(
-                          begin: const Offset(1, 0),
-                          end: Offset.zero,
-                        ).animate(animation),
-                        child: child,
-                      );
-                    },
-                    transitionDuration: Duration(milliseconds: 300),
-                  ),
-                );
-              },
-              color: Colors.black,
-            ),
-            title: Text(
-              'Modifier profil',
-              style: TextStyle(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          color: Colors.black,
+        ),
+        centerTitle: true,
+        backgroundColor:const Color.fromARGB(255, 255, 255, 255),
+        title: Text("Modifier le profil",
+            style: const TextStyle(
                 color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            centerTitle: true,
+                fontSize: 25,
+                fontWeight: FontWeight.bold)),
             actions: <Widget>[
               ElevatedButton(
                 onPressed: () {
@@ -156,8 +139,6 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                 ),
               ),
             ],
-            backgroundColor: Colors.white,
-            elevation: 0,
           ),
         ),
       ),

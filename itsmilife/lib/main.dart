@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:itsmilife/pages/common/settings/RoleProvider.dart';
 import 'package:itsmilife/pages/common/splashScreen.dart';
 import 'package:itsmilife/pages/normal_user/homepage/homepage.dart';
 import 'package:itsmilife/pages/register.dart';
@@ -21,6 +22,8 @@ class MyApp extends StatelessWidget {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<RoleProvider>(
+            create: (context) => RoleProvider()),
         ChangeNotifierProvider<DarkModeProvider>(
             create: (context) => DarkModeProvider()),
         ChangeNotifierProvider<LanguageProvider>(

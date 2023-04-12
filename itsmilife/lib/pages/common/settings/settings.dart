@@ -4,16 +4,13 @@ import 'package:itsmilife/pages/common/profile.dart';
 import 'package:itsmilife/pages/login.dart';
 import 'package:itsmilife/pages/register.dart';
 import 'package:itsmilife/services/NetworkManager.dart';
-import 'package:settings_ui/settings_ui.dart';
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 import 'package:itsmilife/pages/common/settings/changePass.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:provider/provider.dart';
-// import 'package:flutter_localizations/flutter_localizations.dart';
-// import 'package:intl/intl.dart';
-import '../../normal_user/homepage/homepage.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
-import 'package:itsmilife/pages/common/profile.dart';
+
+import 'RoleProvider.dart';
 
 const List<String> list = <String>['English', 'Français'];
 
@@ -38,8 +35,13 @@ class _SettingsPage extends State<SettingsPage> {
     });
   }
 
+  void sendMembershipRequest() {
+    // Code to send a membership request goes here
+  }
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<RoleProvider>(context);
     final darkMode = Provider.of<DarkModeProvider>(context);
     final lang = Provider.of<LanguageProvider>(context);
     return Scaffold(
@@ -63,7 +65,7 @@ class _SettingsPage extends State<SettingsPage> {
           children: [
             // User card
             BigUserCard(
-              cardColor: const Color.fromARGB(255, 98, 128, 182),
+              backgroundColor: const Color.fromARGB(255, 98, 128, 182),
               userName: ProfileData.username == ""
                   ? "Default name"
                   : ProfileData.username,
@@ -110,6 +112,58 @@ class _SettingsPage extends State<SettingsPage> {
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
               items: [
+                SettingsItem(
+                  icons: Icons.assignment_ind,
+                  iconStyle: IconStyle(
+                    iconsColor: Colors.white,
+                    withBackground: true,
+                    backgroundColor: Colors.green,
+                  ),
+                  title: lang.lang == "English"
+                      ? "Professional mode"
+                      : "Mode professionnelle",
+                  trailing: Switch.adaptive(
+                    value: user.Setrolestate,
+                    onChanged: (value) {
+                      if (user.Setrole == "professional") {
+                        // L'utilisateur est un administrateur, on peut modifier l'état du switch
+                        setState(() {
+                          user.Setrolestate = value;
+                        });
+                      } else {
+                        // L'utilisateur n'est pas un administrateur, on affiche la fenêtre de demande d'adhésion
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text("Demande d'adhésion" + user.Setrole.toString()),
+                            content: Text(
+                                "Voulez-vous envoyer une demande d'adhésion pour activer le mode professionnel ?"),
+                            actions: [
+                              ElevatedButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text('Annuler'),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  // Envoyer la demande d'adhésion
+                                  sendMembershipRequest();
+                                  // Afficher un message de confirmation
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(
+                                        'Membership request sent successfully'),
+                                  ));
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Envoyer'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
                 SettingsItem(
                   onTap: () {},
                   icons: CupertinoIcons.text_bubble,

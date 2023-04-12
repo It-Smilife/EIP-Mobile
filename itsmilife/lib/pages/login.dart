@@ -185,6 +185,8 @@ class _LoginPageState extends State<LoginPage> {
                                         val.data["user"]["lastName"];
                                     ProfileData.address =
                                         val.data["user"]["address"];
+                                         ProfileData.role =
+                                        val.data["user"]["role"];
                                     ProfileData.phoneNumber =
                                         val.data["user"]["phoneNumber"];
                                     ProfileData.age = val.data["user"]["age"];
