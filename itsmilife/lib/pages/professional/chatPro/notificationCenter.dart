@@ -35,7 +35,7 @@ class NotificationPage extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
             leading: CircleAvatar(
-              backgroundImage: NetworkImage(requests[index].avatarUrl),
+              backgroundImage: AssetImage("assets/avatarpro.png"),
             ),
             title: Text(requests[index].username),
             trailing: Row(
@@ -52,7 +52,7 @@ class NotificationPage extends StatelessWidget {
                   onPressed: () {
                     // TODO: Implement decline button logic
                   },
-                  child: Text('Decline'),
+                  child: Text('Decline', style: TextStyle(color: Colors.redAccent)),
                 ),
               ],
             ),
