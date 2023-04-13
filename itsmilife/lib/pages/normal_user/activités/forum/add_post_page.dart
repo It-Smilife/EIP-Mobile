@@ -138,7 +138,7 @@ class _AddPostFormState extends State<AddPostForm> {
                     border: const OutlineInputBorder(),
                     // contentPadding: EdgeInsets.symmetric(vertical: 60, horizontal: 10)
                   ),
-                  maxLines: null,
+                  maxLines: 10,
                   keyboardType: TextInputType.multiline,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -153,16 +153,24 @@ class _AddPostFormState extends State<AddPostForm> {
                   },
                 ),
                 const SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: () {
-                    test();
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      addPost(_title, _content);
-                    }
-                  },
-                  child: Text(lang.lang == "English" ? 'Submit' : 'Envoyer'),
-                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        test();
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+                          addPost(_title, _content);
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(255, 98, 128, 182)),
+                      child:
+                          Text(lang.lang == "English" ? 'Submit' : 'Envoyer'),
+                    ),
+                  ],
+                )
               ],
             ),
           ),

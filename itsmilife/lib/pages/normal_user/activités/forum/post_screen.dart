@@ -98,7 +98,7 @@ class _PostScreenState extends State<PostScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     const Text(
-                                      "username",
+                                      "user@eip.fr",
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
