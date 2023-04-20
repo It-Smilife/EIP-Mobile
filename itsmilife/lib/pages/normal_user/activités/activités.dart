@@ -8,6 +8,8 @@ import '../homepage/homepage.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:provider/provider.dart';
 
+import 'quizz/theme.dart';
+
 class ActivityPage extends StatefulWidget {
   const ActivityPage({super.key});
 
@@ -119,6 +121,10 @@ class _ActivityPageState extends State<ActivityPage> {
   @override
   Widget build(BuildContext context) {
     final darkMode = Provider.of<DarkModeProvider>(context);
+    var themes = null;
+    getThemes().then((value) {
+      themes = value;
+    });
     return Scaffold(
       backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 234, 234, 234),
       appBar: AppBar(
@@ -163,7 +169,7 @@ class _ActivityPageState extends State<ActivityPage> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    CategoryPage(),
+                                    CategoryPage(themes: themes),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(
@@ -193,7 +199,7 @@ class _ActivityPageState extends State<ActivityPage> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    CategoryPage(),
+                                    CategoryPage(themes: themes),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(

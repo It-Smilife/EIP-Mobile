@@ -1,50 +1,33 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/logic/quizz_page.dart';
+import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/theme.dart';
 import '../../../../services/NetworkManager.dart';
-import 'theme.dart';
-import 'theme_details.dart';
+import 'quizzBox.dart';
 
-class CategoryPage extends StatefulWidget {
-    final List<dynamic> themes;
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
 
-  CategoryPage({required this.themes});
-
-  @override
-  _CategoryPageState createState() => _CategoryPageState();
-}
-
-class _CategoryPageState extends State<CategoryPage> {
-  late List<Category> _themes;
-
-  @override
-  void initState() {
-    super.initState();
-    getThemes().then((value) {
-      setState(() {
-        _themes = value;
-      });
-    });
-  }
+class ThemeDetailsPage extends StatelessWidget {
+  static const routeName = '/themeDetails';
 
   @override
   Widget build(BuildContext context) {
-    final darkMode = Theme.of(context).brightness == Brightness.dark;
+    final args = ModalRoute.of(context)!.settings.arguments as Category;
+
     return Scaffold(
-      backgroundColor: darkMode
-          ? const Color.fromARGB(255, 58, 50, 83)
-          : const Color.fromARGB(255, 234, 234, 234),
       appBar: AppBar(
-        centerTitle: true,
         backgroundColor: Colors.white,
-        title: const Text(
-          "Quizz",
+        title: Text(
+          args.title,
           style: TextStyle(
             color: Color.fromARGB(255, 98, 128, 182),
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
         ),
+        centerTitle: true,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
@@ -56,57 +39,32 @@ class _CategoryPageState extends State<CategoryPage> {
           color: Colors.black,
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const SizedBox(height: 60),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 32,
-                vertical: 16,
-              ),
-              child: const Text(
-                "Categories",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 98, 128, 182),
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const SizedBox(height: 40),
-            Expanded(
+      body: FutureBuilder<List<quizzBox>>(
+        future: getQuizzes(args.id),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<quizzBox>> snapshot) {
+          if (snapshot.hasData) {
+            final quizzes = snapshot.data!;
+            return Container(
+              padding: EdgeInsets.all(16.0),
               child: GridView.builder(
-                physics: const ScrollPhysics(),
+                physics: ScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: _themes.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                itemCount: quizzes.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 10.0,
                 ),
                 itemBuilder: (BuildContext context, int index) {
-                  final theme = _themes[index];
+                  final quiz = quizzes[index];
                   return GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        ThemeDetailsPage.routeName,
-                        arguments: Category(
-                          title: theme.title,
-                          avatar: theme.avatar,
-                          id: theme.id,
-                        ),
-                      );
+                      Navigator.pushNamed(context, QuizPage.routeName,
+                          arguments: quizzBox(
+                              title: quiz.title,
+                              avatar: quiz.avatar,
+                              id: quiz.id));
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -114,7 +72,7 @@ class _CategoryPageState extends State<CategoryPage> {
                         color: Colors.grey[200],
                       ),
                       child: FutureBuilder<Uint8List>(
-                        future: NetworkManager.getFile(theme.avatar),
+                        future: NetworkManager.getFile(quiz.avatar),
                         builder: (BuildContext context,
                             AsyncSnapshot<Uint8List> snapshot) {
                           if (snapshot.hasData) {
@@ -129,7 +87,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                 ),
                                 SizedBox(height: 10.0),
                                 Text(
-                                  theme.title,
+                                  quiz.title,
                                   style: TextStyle(
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
@@ -146,9 +104,11 @@ class _CategoryPageState extends State<CategoryPage> {
                   );
                 },
               ),
-            ),
-          ],
-        ),
+            );
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
       ),
     );
   }
