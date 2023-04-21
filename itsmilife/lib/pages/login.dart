@@ -8,6 +8,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:itsmilife/widgets/bottomNavBar.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import 'package:itsmilife/pages/common/profile.dart';
+import 'package:itsmilife/pages/forgotPass.dart';
+import 'package:itsmilife/pages/common/settings/languageProvider.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -35,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context);
     return Scaffold(
       backgroundColor: const Color(0xFFEEEEEE),
       body: Stack(
@@ -114,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                             focusedBorder: UnderlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.grey.shade100)),
-                            labelText: "Password",
+                            labelText: lang.lang == "English" ? "Password" : "Mot de passe",
                             enabledBorder: InputBorder.none,
                             labelStyle: const TextStyle(color: Colors.grey)),
                         onChanged: (val) {
@@ -125,15 +129,25 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 20, 10),
-                        child: const Text(
-                          "FORGOT PASSWORD?",
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 98, 128, 182),
-                              fontSize: 11),
-                        ))),
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(0, 0, 20, 10),
+                    child: GestureDetector(
+                      onTap:() => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ForgotPasswordPage(),
+                        ),
+                      ),
+                      child: Text(
+                        lang.lang == "English" ? "FORGOT PASSWORD?" : "MOT DE PASSE OUBLIE",
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 98, 128, 182),
+                            fontSize: 11),
+                      ),
+                    ),
+                  ),
+                ),
                 Container(
                   margin: EdgeInsets.fromLTRB(
                       MediaQuery.of(context).size.width * 0.05,
@@ -185,8 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                                         val.data["user"]["lastName"];
                                     ProfileData.address =
                                         val.data["user"]["address"];
-                                         ProfileData.role =
-                                        val.data["user"]["role"];
+                                    ProfileData.role = val.data["user"]["role"];
                                     ProfileData.phoneNumber =
                                         val.data["user"]["phoneNumber"];
                                     ProfileData.age = val.data["user"]["age"];
@@ -203,10 +216,10 @@ class _LoginPageState extends State<LoginPage> {
                                     (print(val.data));
                                 });
                               },
-                              child: const Center(
+                              child: Center(
                                 child: Text(
-                                  "SIGN IN",
-                                  style: TextStyle(
+                                  lang.lang == "English" ? "SIGN IN" : "SE CONNECTER",
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w700),
                                 ),
@@ -240,9 +253,9 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const Text(
-                      "DON'T HAVE AN ACCOUNT ? ",
-                      style: TextStyle(
+                    Text(
+                      lang.lang == "English" ? "DON'T HAVE AN ACCOUNT ?" : "VOUS N'AVEZ PAS ENCORE DE COMPTE ?",
+                      style: const TextStyle(
                           fontSize: 11,
                           color: Colors.grey,
                           fontWeight: FontWeight.w500),
@@ -270,9 +283,9 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           );
                         },
-                        child: const Text(
-                          " SIGN UP",
-                          style: TextStyle(
+                        child: Text(
+                          lang.lang == "English" ? "SIGN UP" : " S'INSCRIRE",
+                          style: const TextStyle(
                               fontSize: 11,
                               color: Color.fromARGB(255, 98, 128, 182),
                               fontWeight: FontWeight.w700),

@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:itsmilife/pages/common/profile.dart';
 import 'package:itsmilife/pages/normal_user/onboarding/onboarding.dart';
 import '../services/NetworkManager.dart';
+import 'package:itsmilife/pages/common/settings/languageProvider.dart';
+import 'package:provider/provider.dart';
 
 import 'login.dart';
 
@@ -23,6 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context);
     return Scaffold(
       backgroundColor: const Color(0xFFEEEEEE),
       body: Stack(
@@ -85,7 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             focusedBorder: UnderlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.grey.shade100)),
-                            labelText: "Name",
+                            labelText: lang.lang == "English" ? "Name" : "Nom",
                             enabledBorder: InputBorder.none,
                             labelStyle: const TextStyle(color: Colors.grey)),
                         onChanged: (val) {
@@ -118,7 +121,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             focusedBorder: UnderlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.grey.shade100)),
-                            labelText: "Password",
+                            labelText: lang.lang == "English"
+                                ? "Password"
+                                : "Mot de passe",
                             enabledBorder: InputBorder.none,
                             labelStyle: const TextStyle(color: Colors.grey)),
                         onChanged: (val) {
@@ -192,10 +197,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                   }
                                 });
                               },
-                              child: const Center(
+                              child: Center(
                                 child: Text(
-                                  "SIGN UP",
-                                  style: TextStyle(
+                                  lang.lang == "English"
+                                      ? "SIGN UP"
+                                      : "S'INSCRIRE",
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w700),
                                 ),
@@ -229,9 +236,11 @@ class _RegisterPageState extends State<RegisterPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const Text(
-                      "DON'T HAVE AN ACCOUNT ? ",
-                      style: TextStyle(
+                    Text(
+                      lang.lang == "English"
+                          ? "DON'T HAVE AN ACCOUNT ?"
+                          : "VOUS N'AVEZ PAS ENCORE DE COMPTE ?",
+                      style: const TextStyle(
                           fontSize: 11,
                           color: Colors.grey,
                           fontWeight: FontWeight.w500),
@@ -259,9 +268,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           );
                         },
-                        child: const Text(
-                          " SIGN IN",
-                          style: TextStyle(
+                        child: Text(
+                          lang.lang == "Enflish" ? " SIGN IN": " SE CONNECTER",
+                          style: const TextStyle(
                               fontSize: 11,
                               color: Color.fromARGB(255, 98, 128, 182),
                               fontWeight: FontWeight.w700),

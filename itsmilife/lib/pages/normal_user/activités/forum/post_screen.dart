@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:itsmilife/services/NetworkManager.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
@@ -30,6 +32,19 @@ class _PostScreenState extends State<PostScreen> {
     final now = DateTime.now().toUtc();
     final difference = now.difference(dateConvert.toUtc());
     return timeago.format(now.subtract(difference), locale: setLanguage());
+  }
+
+  void addComment(content) {
+    NetworkManager.post('comments', {
+      "content": content,
+      "use": ProfileData.id,
+    }).then((value) {
+      if (value.data['success'] == true) {
+        print("comment well added");
+      } else {
+        print(value.data);
+      }
+    });
   }
 
   @override

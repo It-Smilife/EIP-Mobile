@@ -48,7 +48,7 @@ class _AddPostFormState extends State<AddPostForm> {
   final _formKey = GlobalKey<FormState>();
   String _title = '';
   String _content = '';
-  List<String> _tags = [];
+  // List<String> _tags = [];
   final FocusNode _focusNode = FocusNode();
 
   void test() {
