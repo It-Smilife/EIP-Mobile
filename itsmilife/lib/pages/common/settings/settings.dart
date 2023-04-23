@@ -9,7 +9,7 @@ import 'package:itsmilife/pages/common/settings/changePass.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'RoleProvider.dart';
 
 const List<String> list = <String>['English', 'Français'];
@@ -430,20 +430,22 @@ class _SettingsPage extends State<SettingsPage> {
               ],
             ),
             SettingsGroup(
-              items: [
-                SettingsItem(
-                  onTap: () {},
-                  icons: Icons.info_rounded,
-                  iconStyle: IconStyle(
-                    backgroundColor: Colors.green,
-                  ),
-                  title: lang.lang == "English" ? "About" : "A propos",
-                  subtitle: lang.lang == "English"
-                      ? "Learn more about It'smilife"
-                      : "Apprenez-en plus à propose de It'smilife",
-                ),
-              ],
-            ),
+  items: [
+    SettingsItem(
+      onTap: () {
+        launchUrl(Uri.parse("http://eip.epitech.eu/2024/itsmilife"));
+      },
+      icons: Icons.info_rounded,
+      iconStyle: IconStyle(
+        backgroundColor: Colors.green,
+      ),
+      title: lang.lang == "English" ? "About" : "A propos",
+      subtitle: lang.lang == "English"
+          ? "Learn more about It'smilife"
+          : "Apprenez-en plus à propose de It'smilife",
+    ),
+  ],
+),
           ],
         ),
       ),
