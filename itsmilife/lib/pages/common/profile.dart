@@ -15,7 +15,7 @@ class ProfileData {
   static String username = "default";
   static String firstName = "default";
   static String email = "usertest@user.com";
-  static String role = "default";
+  static String role = "user";
   static bool rolestate = false;
   static int age = 0;
   static String gender = "male";
@@ -63,20 +63,20 @@ class _ProfileSettingPageState extends State<ProfilePage> {
             ),
           ),
           child: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          color: Colors.black,
-        ),
-        centerTitle: true,
-        backgroundColor:const Color.fromARGB(255, 255, 255, 255),
-        title: Text("Modifier le profil",
-            style: const TextStyle(
-                color: Colors.black,
-                fontSize: 25,
-                fontWeight: FontWeight.bold)),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              color: Colors.black,
+            ),
+            centerTitle: true,
+            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+            title: Text("Modifier le profil",
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold)),
             actions: <Widget>[
               ElevatedButton(
                 onPressed: () {
@@ -197,142 +197,189 @@ class _ProfileSettingPageState extends State<ProfilePage> {
 
               // Name
               Padding(
-  padding: EdgeInsets.symmetric(horizontal: 16),
-  child:Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(width: 1, color: Colors.grey),
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(255, 98, 128, 182),
+                          offset: Offset(0, 5),
+                          blurRadius: 5,
+                          spreadRadius: 0,
+                        )
+                      ],
+                    ),
+                    padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.005),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Name',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        TextFormField(
+                          initialValue: ProfileData.lastName,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.zero,
+                            isDense: true,
+                          ),
+                          validator: (value) {},
+                          onSaved: (value) => _name = value!,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Prenom',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        TextFormField(
+                          initialValue: ProfileData.firstName,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.zero,
+                            isDense: true,
+                          ),
+                          validator: (value) {},
+                          onSaved: (value) => _prenom = value!,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Email',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        TextFormField(
+                          initialValue: ProfileData.email,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.zero,
+                            isDense: true,
+                          ),
+                          validator: (value) {},
+                          onSaved: (value) => _email = value!,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Age',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        TextFormField(
+                          initialValue: ProfileData.age.toString(),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.zero,
+                            isDense: true,
+                          ),
+                          validator: (value) {},
+                          onSaved: (value) => _age = int.parse(value!),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Gender',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        DropdownButtonFormField(
+                          value: ProfileData.gender,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.zero,
+                            isDense: true,
+                          ),
+                          onSaved: (value) => _gender = value!,
+                          items: [
+                            ['male', 'homme'],
+                            ['female', 'femme'],
+                            ['other', 'autres']
+                          ].map((value) {
+                            return DropdownMenuItem(
+                              value: value[0],
+                              child: lang.lang == "English"
+                                  ? Text(value[0])
+                                  : Text(value[1]),
+                            );
+                          }).toList(),
+                          onChanged: (String? value) {},
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Phone Number',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        TextFormField(
+                          initialValue: ProfileData.phoneNumber,
+                          decoration: InputDecoration(
+                            hintText: 'Enter your phone number',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                            filled: true,
+                            fillColor: Color(0xFFF5F5F5),
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 16),
+                          ),
+                          keyboardType: TextInputType.phone,
+                          validator: (value) {},
+                          onSaved: (value) => _phoneNumber = value!,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Address',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        TextFormField(
+                          initialValue: ProfileData.address,
+                          decoration: InputDecoration(
+                            hintText: 'Enter your address',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                            filled: true,
+                            fillColor: Color(0xFFF5F5F5),
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal:15, vertical: 16),
+                          ),
+                          maxLines: 2,
+                          validator: (value) {},
+                          onSaved: (value) => _address = value!,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    SizedBox(height: 5),
-                    TextFormField(
-                      initialValue: ProfileData.lastName,
-                      decoration: InputDecoration(
-                        labelText: 'Name',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                      ),
-                      validator: (value) {},
-                      onSaved: (value) => _name = value!,
-                    ),
-                    SizedBox(height: 5),
-                    Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                      height: 0,
-                    ),
-                    SizedBox(height: 5),
-                    TextFormField(
-                      initialValue: ProfileData.firstName,
-                      decoration: InputDecoration(
-                        labelText: 'Prenom',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                      ),
-                      validator: (value) {},
-                      onSaved: (value) => _prenom = value!,
-                    ),
-                    SizedBox(height: 5),
-                    Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                      height: 0,
-                    ),
-                    SizedBox(height: 5),
-                    TextFormField(
-                      initialValue: ProfileData.email,
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                      ),
-                      validator: (value) {},
-                      onSaved: (value) => _email = value!,
-                    ),
-                    SizedBox(height: 5),
-                    Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                      height: 0,
-                    ),
-                    SizedBox(height: 5),
-                    TextFormField(
-                      initialValue: ProfileData.age.toString(),
-                      decoration: InputDecoration(
-                        labelText: 'Age',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                      ),
-                      validator: (value) {},
-                      onSaved: (value) => _age = int.parse(value!),
-                    ),
-                    SizedBox(height: 5),
-                    Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                      height: 0,
-                    ),
-                    SizedBox(height: 5),
-                    DropdownButtonFormField(
-                      value: ProfileData.gender,
-                      decoration: InputDecoration(
-                        labelText: 'Gender',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                      ),
-                      onSaved: (value) => _gender = value!,
-                      items: [
-                        ['male', 'homme'],
-                        ['female', 'femme'],
-                        ['other', 'autres']
-                      ].map((value) {
-                        return DropdownMenuItem(
-                          value: value[0],
-                          child: lang.lang == "English"
-                              ? Text(value[0])
-                              : Text(value[1]),
-                        );
-                      }).toList(),
-                      onChanged: (String? value) {},
-                    ),
-                    SizedBox(height: 5),
-                    Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                      height: 0,
-                    ),
-                    SizedBox(height: 5),
-                    TextFormField(
-                      initialValue: ProfileData.phoneNumber,
-                      decoration: InputDecoration(
-                        labelText: 'Phone Number',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                      ),
-                      validator: (value) {},
-                      onSaved: (value) => _phoneNumber = value!,
-                    ),
-                    SizedBox(height: 5),
-                    Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                      height: 0,
-                    ),
-                    SizedBox(height: 5),
-                    TextFormField(
-                      initialValue: ProfileData.address,
-                      decoration: InputDecoration(
-                        labelText: 'Address',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                      ),
-                      validator: (value) {},
-                      onSaved: (value) => _address = value!,
-                    ),
-                  ],
-                ),
-              ),
               ),
             ],
           ),

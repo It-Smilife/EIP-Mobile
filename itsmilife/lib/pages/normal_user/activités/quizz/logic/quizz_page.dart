@@ -44,22 +44,26 @@ class _QuizPageState extends State<QuizPage> {
   int _questionIndex = 0;
   int _score = 0;
   late List<Map<String, dynamic>> _questions;
+  late String title;
 
   void _answerQuestion(int score) {
     _score += score;
     setState(() {
       _questionIndex++;
+      print(_questionIndex);
     });
 
     // Add this line to push the next question page with a slide transition.
     Navigator.push(
       context,
       _SlidePageRoute(
-        child: (_questionIndex < _questions.length) ? Quiz(
-          questions: _questions,
-          questionIndex: _questionIndex,
-          answerQuestion: _answerQuestion,
-        ) : Result(_score, _resetQuiz, _questions[0]["results"]),
+        child: (_questionIndex < _questions.length)
+            ? Quiz(
+                questions: _questions,
+                questionIndex: _questionIndex,
+                answerQuestion: _answerQuestion,
+              )
+            : Result(_score, _resetQuiz, _questions[0]["results"]),
         backgroundColor: const Color.fromARGB(255, 98, 128, 182),
       ),
     );
@@ -68,8 +72,20 @@ class _QuizPageState extends State<QuizPage> {
   void _resetQuiz() {
     setState(() {
       _questionIndex = 0;
+      print(_questionIndex);
       _score = 0;
     });
+    Navigator.push(
+      context,
+      _SlidePageRoute(
+        child: Quiz(
+          questions: _questions,
+          questionIndex: _questionIndex,
+          answerQuestion: _answerQuestion,
+        ),
+        backgroundColor: const Color.fromARGB(255, 98, 128, 182),
+      ),
+    );
   }
 
   Future<List<Map<String, dynamic>>> _loadQuestions() async {
@@ -103,6 +119,8 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as quizzBox;
+    title = args.title;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 98, 128, 182),
       body: FutureBuilder<List<Map<String, dynamic>>>(
@@ -127,7 +145,8 @@ class _QuizPageState extends State<QuizPage> {
                     questionIndex: _questionIndex,
                     answerQuestion: _answerQuestion,
                   )
-                : Result(_score, _resetQuiz, _questions[0]["results"]);
+                : Result(
+                    _score, _resetQuiz, _questions[0]["results"]);
           }
         },
       ),

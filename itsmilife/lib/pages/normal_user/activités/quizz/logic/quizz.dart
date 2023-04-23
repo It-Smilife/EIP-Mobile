@@ -20,7 +20,7 @@ class Quiz extends StatelessWidget {
     return Column(children: [
       Expanded(
         child: Container(
-          margin: EdgeInsets.all(20.0),
+          margin: EdgeInsets.all(MediaQuery.of(context).size.height * 0.09),
           child: Center(
             child: Question(
               questions[questionIndex]['content'],

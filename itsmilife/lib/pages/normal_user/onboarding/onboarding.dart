@@ -345,7 +345,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
-                                  const Home(),
+                                  Home(),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) {
                             return SlideTransition(

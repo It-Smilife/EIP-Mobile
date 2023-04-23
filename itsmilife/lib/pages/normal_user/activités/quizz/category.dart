@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/normal_user/activit%C3%A9s/activit%C3%A9s.dart';
+import 'package:itsmilife/widgets/bottomNavBar.dart';
 import '../../../../services/NetworkManager.dart';
 import 'theme.dart';
 import 'theme_details.dart';
@@ -15,7 +17,7 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  late List<Category> _themes;
+  late List<Category> _themes = [];
 
   @override
   void initState() {
@@ -23,6 +25,7 @@ class _CategoryPageState extends State<CategoryPage> {
     getThemes().then((value) {
       setState(() {
         _themes = value;
+        
       });
     });
   }
@@ -51,7 +54,25 @@ class _CategoryPageState extends State<CategoryPage> {
             color: Color.fromARGB(255, 98, 128, 182),
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  Home(h_index: 0),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return SlideTransition(
+                              position: Tween<Offset>(
+                                begin: const Offset(1, 0),
+                                end: Offset.zero,
+                              ).animate(animation),
+                              child: child,
+                            );
+                          },
+                          transitionDuration: const Duration(milliseconds: 300),
+                        ),
+                      );
           },
           color: Colors.black,
         ),

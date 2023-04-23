@@ -7,6 +7,7 @@ import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/theme_details.d
 import 'package:itsmilife/pages/normal_user/homepage/homepage.dart';
 import 'package:itsmilife/pages/register.dart';
 import 'package:itsmilife/widgets/bottomNavBar.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
@@ -20,8 +21,10 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
+  final LocalStorage storage = new LocalStorage("storage");
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MultiProvider(

@@ -11,9 +11,9 @@ class Question extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget> [ 
-        const SizedBox(height: 60),  
+        SizedBox(height: MediaQuery.of(context).size.height * 0.02),  
         Text(
-        content, style: const TextStyle(fontSize: 25, color: Colors.white, decoration: TextDecoration.none, fontWeight: FontWeight.bold, fontFamily: 'Fontstart'), textAlign: TextAlign.center,), //Text
+        content, style: const TextStyle(fontSize: 18, color: Colors.white, decoration: TextDecoration.none, fontWeight: FontWeight.bold, fontFamily: 'Fontstart'), textAlign: TextAlign.center,), //Text
         ],
       ),
     ); //Container

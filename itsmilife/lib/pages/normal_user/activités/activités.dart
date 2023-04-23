@@ -19,6 +19,19 @@ class ActivityPage extends StatefulWidget {
 
 class _ActivityPageState extends State<ActivityPage> {
   int _selectedIndex = 0;
+  
+    late List<Category> _themes;
+
+
+    @override
+  void initState() {
+    super.initState();
+    getThemes().then((value) {
+      setState(() {
+        _themes = value;
+      });
+    });
+  }
 
   AnotherFile() {
     _loadSelectedIndex();
@@ -39,85 +52,6 @@ class _ActivityPageState extends State<ActivityPage> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: activités',
-      style: optionStyle,
-    ),
-    HomeCard(),
-    Text(
-      'Index 2: settings',
-      style: optionStyle,
-    ),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const ActivityPage(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(1, 0),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              );
-            },
-            transitionDuration: const Duration(milliseconds: 300),
-          ),
-        );
-        break;
-      case 1:
-        Navigator.pushReplacement(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(1, 0),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              );
-            },
-            transitionDuration: const Duration(milliseconds: 300),
-          ),
-        );
-        break;
-      case 2:
-        Navigator.pushReplacement(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const SettingsPage(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(1, 0),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              );
-            },
-            transitionDuration: const Duration(milliseconds: 300),
-          ),
-        );
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final darkMode = Provider.of<DarkModeProvider>(context);
@@ -126,7 +60,9 @@ class _ActivityPageState extends State<ActivityPage> {
       themes = value;
     });
     return Scaffold(
-      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 234, 234, 234),
+      backgroundColor: darkMode.darkMode
+          ? const Color.fromARGB(255, 58, 50, 83)
+          : const Color.fromARGB(255, 234, 234, 234),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -156,7 +92,7 @@ class _ActivityPageState extends State<ActivityPage> {
                     )
                   ],
                 ),
-                height: 200,
+                height: MediaQuery.of(context).size.height * 0.35,
                 width: 300,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -180,14 +116,15 @@ class _ActivityPageState extends State<ActivityPage> {
                                 child: child,
                               );
                             },
-                            transitionDuration: const Duration(milliseconds: 300),
+                            transitionDuration:
+                                const Duration(milliseconds: 300),
                           ),
                         );
                       },
                       child: Image.asset(
                         'assets/quizz.png',
-                        height: 150,
-                        width: 150,
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        width: MediaQuery.of(context).size.height * 0.2,
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -210,7 +147,8 @@ class _ActivityPageState extends State<ActivityPage> {
                                 child: child,
                               );
                             },
-                            transitionDuration: const Duration(milliseconds: 300),
+                            transitionDuration:
+                                const Duration(milliseconds: 300),
                           ),
                         );
                       },
@@ -220,8 +158,8 @@ class _ActivityPageState extends State<ActivityPage> {
                           color: const Color.fromARGB(255, 98, 128, 182),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
                         child: Column(
                           children: const [
                             SizedBox(
@@ -261,7 +199,7 @@ class _ActivityPageState extends State<ActivityPage> {
                     )
                   ],
                 ),
-                height: 200,
+                height: MediaQuery.of(context).size.height * 0.35,
                 width: 300,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -285,14 +223,15 @@ class _ActivityPageState extends State<ActivityPage> {
                                 child: child,
                               );
                             },
-                            transitionDuration: const Duration(milliseconds: 300),
+                            transitionDuration:
+                                const Duration(milliseconds: 300),
                           ),
                         );
                       },
                       child: Image.asset(
                         'assets/forum.png',
-                        height: 150,
-                        width: 150,
+                        height:  MediaQuery.of(context).size.height * 0.2,
+                        width: MediaQuery.of(context).size.height * 0.2,
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -315,7 +254,8 @@ class _ActivityPageState extends State<ActivityPage> {
                                 child: child,
                               );
                             },
-                            transitionDuration: const Duration(milliseconds: 300),
+                            transitionDuration:
+                                const Duration(milliseconds: 300),
                           ),
                         );
                       },
@@ -325,8 +265,8 @@ class _ActivityPageState extends State<ActivityPage> {
                           color: const Color.fromARGB(255, 98, 128, 182),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
                         child: Column(
                           children: const [
                             SizedBox(
@@ -349,33 +289,10 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
               ),
             ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
           ],
         ),
       ),
-      // bottomNavigationBar: Container(
-      //   decoration: const BoxDecoration(
-      //       border: Border(top: BorderSide(color: Colors.grey, width: 0.25))),
-      //   child: BottomNavigationBar(
-      //     items: const <BottomNavigationBarItem>[
-      //       BottomNavigationBarItem(
-      //         icon: Icon(Icons.directions_run),
-      //         label: 'activités',
-      //       ),
-      //       BottomNavigationBarItem(
-      //         icon: Icon(Icons.home),
-      //         label: 'home',
-      //       ),
-      //       BottomNavigationBarItem(
-      //         icon: Icon(Icons.settings),
-      //         label: 'settings',
-      //       ),
-      //     ],
-      //     backgroundColor: const Color.fromARGB(255, 98, 128, 182),
-      //     currentIndex: _selectedIndex,
-      //     selectedItemColor: const Color.fromARGB(255, 255, 255, 255),
-      //     onTap: _onItemTapped,
-      //   ),
-      // ),
     );
   }
 }

@@ -10,29 +10,27 @@ import 'package:provider/provider.dart';
 
 import '../pages/common/settings/RoleProvider.dart';
 
-class Home extends StatefulWidget{
-  const Home({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  late int h_index;
+
+  Home({Key? key, this.h_index = 1}) : super(key: key);
 
   @override
-    State <Home> createState() => _HomeState();
+  _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  int index = 1;
-
   final screens = [
     const ActivityPage(),
     const HomePage(),
     const SettingsPage()
   ];
 
-    final screenspro = [
+  final screenspro = [
     const CategoryPro(),
     const HomePro(),
     const SettingsPage()
   ];
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -42,21 +40,18 @@ class _HomeState extends State<Home> {
       const Icon(CupertinoIcons.home, size: 30),
       const Icon(CupertinoIcons.gear_alt, size: 30),
     ];
-    return Scaffold( 
+    return Scaffold(
       extendBody: true,
-        // appBar: AppBar(
-        //   title:const Text("Itsmilife"),
-        // ),
-        body: (user.Setrolestate) ? screenspro[index] : screens[index],
-        bottomNavigationBar: CurvedNavigationBar(
-          backgroundColor: Colors.transparent,
-          items: items,
-          index: index,
-          height: 60,
-          animationCurve: Curves.easeInOut,
-          animationDuration: const Duration(milliseconds: 300),
-          onTap: (index) => setState(() => this.index = index),
-        ),
+      body: (user.Setrolestate) ? screenspro[widget.h_index] : screens[widget.h_index],
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Colors.transparent,
+        items: items,
+        index: widget.h_index,
+        height: 60,
+        animationCurve: Curves.easeInOut,
+        animationDuration: const Duration(milliseconds: 300),
+        onTap: (index) => setState(() => widget.h_index = index),
+      ),
     );
   }
 }

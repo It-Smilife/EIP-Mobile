@@ -56,10 +56,11 @@ class _HomeCardState extends State<HomeCard> {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.02),
                 child: Container(
-                  width: MediaQuery.of(context).size.height * 0.40,
-                  height: 50,
+                  width: MediaQuery.of(context).size.height * 0.45,
+                  height: MediaQuery.of(context).size.height * 0.07,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: Colors.grey,
@@ -78,13 +79,17 @@ class _HomeCardState extends State<HomeCard> {
                       CardData().buildDotsIndicator().position == 0
                           ? _title = lang1
                           : _title = lang2,
-                      style: const TextStyle(fontSize: 24, color: Colors.white),
+                      style: TextStyle(
+                        fontSize:
+                            MediaQuery.of(context).size.width > 2340 || MediaQuery.of(context).size.height > 1080 ? 34 : 24,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(50),
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.08),
                 //The gesture detector widget will detect swipes and taps of the image card
                 child: GestureDetector(
                   onHorizontalDragEnd: (dragEndDetails) {
@@ -159,8 +164,8 @@ class _HomeCardState extends State<HomeCard> {
                         fit: BoxFit.contain,
                       ),
                     ),
-                    height: 450,
-                    width: MediaQuery.of(context).size.width - 2 * 54,
+                    height: MediaQuery.of(context).size.width * 1.05,
+                    width: MediaQuery.of(context).size.width * 0.65,
                     child: Stack(
                       children: [
                         Positioned(

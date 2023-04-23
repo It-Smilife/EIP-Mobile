@@ -169,11 +169,13 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
               Expanded(
                   child: Stack(children: <Widget>[
+                    
                 const HomeCard(),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                 Positioned(
                   bottom: MediaQuery.of(context).size.height * 0.12,
-                  left: 0,
-                  right: 0,
+                  left: MediaQuery.of(context).size.height * 0.05,
+                  right: MediaQuery.of(context).size.height * 0.05,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
