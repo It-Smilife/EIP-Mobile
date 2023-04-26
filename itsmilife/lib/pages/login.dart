@@ -212,6 +212,7 @@ class _LoginPageState extends State<LoginPage> {
                                         val.data["user"]["phoneNumber"];
                                     ProfileData.age = val.data["user"]["age"];
                                     ProfileData.dark = val.data["user"]["dark"];
+                                    ProfileData.language = val.data["user"]["language"];
                                     storage.write(
                                         key: "token", value: val.data['token']);
                                     token = val.data['token'];

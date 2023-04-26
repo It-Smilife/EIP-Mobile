@@ -135,7 +135,8 @@ class _SettingsPage extends State<SettingsPage> {
                         showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: Text("Demande d'adhésion" + user.Setrole.toString()),
+                            title: Text(
+                                "Demande d'adhésion" + user.Setrole.toString()),
                             content: Text(
                                 "Voulez-vous envoyer une demande d'adhésion pour activer le mode professionnel ?"),
                             actions: [
@@ -184,6 +185,13 @@ class _SettingsPage extends State<SettingsPage> {
                     onChanged: (String? value) {
                       setState(() {
                         lang.lang = value!;
+                        NetworkManager.put("users/" + ProfileData.id, {
+                        "language": value,
+                      }).then((val) {
+                        if (val.data['success'] == true) {
+                          
+                        }
+                      });
                       });
                     },
                     items: list.map<DropdownMenuItem<String>>((String value) {
@@ -207,6 +215,13 @@ class _SettingsPage extends State<SettingsPage> {
                     value: darkMode.darkMode,
                     onChanged: (value) {
                       darkMode.darkMode = value;
+                      NetworkManager.put("users/" + ProfileData.id, {
+                        "dark": value,
+                      }).then((val) {
+                        if (val.data['success'] == true) {
+
+                        }
+                      });
                     },
                   ),
                 ),
@@ -430,22 +445,23 @@ class _SettingsPage extends State<SettingsPage> {
               ],
             ),
             SettingsGroup(
-  items: [
-    SettingsItem(
-      onTap: () {
-        launchUrl(Uri.parse("http://eip.epitech.eu/2024/itsmilife"));
-      },
-      icons: Icons.info_rounded,
-      iconStyle: IconStyle(
-        backgroundColor: Colors.green,
-      ),
-      title: lang.lang == "English" ? "About" : "A propos",
-      subtitle: lang.lang == "English"
-          ? "Learn more about It'smilife"
-          : "Apprenez-en plus à propose de It'smilife",
-    ),
-  ],
-),
+              items: [
+                SettingsItem(
+                  onTap: () {
+                    launchUrl(
+                        Uri.parse("http://eip.epitech.eu/2024/itsmilife"));
+                  },
+                  icons: Icons.info_rounded,
+                  iconStyle: IconStyle(
+                    backgroundColor: Colors.green,
+                  ),
+                  title: lang.lang == "English" ? "About" : "A propos",
+                  subtitle: lang.lang == "English"
+                      ? "Learn more about It'smilife"
+                      : "Apprenez-en plus à propose de It'smilife",
+                ),
+              ],
+            ),
           ],
         ),
       ),

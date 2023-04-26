@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
-String lang = " Français";
+import '../profile.dart';
 
 class LanguageProvider extends ChangeNotifier {
-  String _lang = "Français";
 
-  String get lang => _lang;
+  String get lang => ProfileData.language;
 
   set lang(String value) {
-    _lang = value;
+    ProfileData.language = value;
     notifyListeners();
   }
 }

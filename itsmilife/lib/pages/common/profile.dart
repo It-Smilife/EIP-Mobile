@@ -20,9 +20,10 @@ class ProfileData {
   static int age = 0;
   static String gender = "male";
   static String phoneNumber = "0000000";
-  static String address = "default";
+  static String address = "";
   static String password = "default";
   static bool dark = false;
+  static String language = "Français";
 }
 
 class ProfilePage extends StatefulWidget {
@@ -80,7 +81,8 @@ class _ProfileSettingPageState extends State<ProfilePage> {
             actions: <Widget>[
               ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
+                  if (_formKey.currentState != null &&
+                      _formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     ProfileData.lastName = _name;
                     ProfileData.firstName = _prenom;
@@ -99,35 +101,28 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                       "address": _address
                     }).then((val) {
                       if (val.data['success'] == true) {
-                        _formKey.currentState!.save();
-                        ProfileData.lastName = _name;
-                        ProfileData.firstName = _prenom;
-                        ProfileData.email = _email;
-                        ProfileData.age = _age;
-                        ProfileData.gender = _gender;
-                        ProfileData.phoneNumber = _phoneNumber;
-                        ProfileData.address = _address;
+                        Navigator.pop(context);
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Motde passe oublié"),
+                              content:
+                                  Text("Votre mot de passe a bien été changé"),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("OK"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       }
                     });
                   }
-                  Navigator.pop(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          SettingsPage(),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
-                        return SlideTransition(
-                          position: Tween<Offset>(
-                            begin: const Offset(1, 0),
-                            end: Offset.zero,
-                          ).animate(animation),
-                          child: child,
-                        );
-                      },
-                      transitionDuration: Duration(milliseconds: 300),
-                    ),
-                  );
                 },
                 child: Text(
                   'Terminé',
@@ -213,7 +208,8 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                         )
                       ],
                     ),
-                    padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.005),
+                    padding: EdgeInsets.all(
+                        MediaQuery.of(context).size.height * 0.005),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -369,7 +365,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                             filled: true,
                             fillColor: Color(0xFFF5F5F5),
                             contentPadding: EdgeInsets.symmetric(
-                                horizontal:15, vertical: 16),
+                                horizontal: 15, vertical: 16),
                           ),
                           maxLines: 2,
                           validator: (value) {},
