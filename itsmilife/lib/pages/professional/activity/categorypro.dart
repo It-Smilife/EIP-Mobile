@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/forum.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/category.dart';
-import 'package:itsmilife/pages/professional/activity/calendar.dart';
+import 'package:itsmilife/pages/professional/activity/calendar/calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/settings/settings.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';

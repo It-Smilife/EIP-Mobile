@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_file.dart';
 import 'package:itsmilife/pages/normal_user/homepage/cardData.dart';
+import 'package:itsmilife/pages/professional/activity/calendar/testaddenvnt.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:itsmilife/pages/professional/activity/calendar/addEventPage.dart';
+import 'package:itsmilife/pages/professional/activity/calendar/eventModel.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({Key? key}) : super(key: key);
@@ -17,6 +20,23 @@ class _CalendarState extends State<Calendar> {
   final _initialCalendarDate = DateTime(2000);
   final _lastCalendarDate = DateTime(2050);
   DateTime? selectedCalendarDate;
+  Map<DateTime, List<Event>> events = {};
+
+  List<Event> _getEventsForDay(DateTime day) {
+    print(events);
+    return events[day] ?? [];
+  }
+
+  void addEventToList(Event newEvent) {
+    setState(() {
+      DateTime eventDate = newEvent.date;
+      if (events[eventDate] != null) {
+        events[eventDate]!.add(newEvent);
+      } else {
+        events[eventDate] = [newEvent];
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -63,6 +83,7 @@ class _CalendarState extends State<Calendar> {
               daysOfWeekHeight: 100,
               rowHeight: 70,
               // locale: 'fr_FR',
+              eventLoader: _getEventsForDay,
               headerStyle: const HeaderStyle(
                 titleTextStyle: TextStyle(
                     color: Colors.deepPurpleAccent,
@@ -102,14 +123,18 @@ class _CalendarState extends State<Calendar> {
                 weekendStyle: TextStyle(color: Colors.redAccent),
               ),
               calendarStyle: const CalendarStyle(
-                  weekendTextStyle: TextStyle(color: Colors.red),
-                  todayDecoration: BoxDecoration(
-                    color: Colors.deepPurpleAccent,
-                    shape: BoxShape.circle,
-                  ),
-                  selectedDecoration: BoxDecoration(
-                      color: Color.fromARGB(255, 140, 0, 255),
-                      shape: BoxShape.circle)),
+                weekendTextStyle: TextStyle(color: Colors.red),
+                todayDecoration: BoxDecoration(
+                  color: Colors.deepPurpleAccent,
+                  shape: BoxShape.circle,
+                ),
+                selectedDecoration: BoxDecoration(
+                  color: Color.fromARGB(255, 140, 0, 255),
+                  shape: BoxShape.circle,
+                ),
+                markerDecoration:
+                    BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+              ),
               selectedDayPredicate: (currentSelectedDate) {
                 return (isSameDay(selectedCalendarDate!, currentSelectedDate));
               },
@@ -126,7 +151,14 @@ class _CalendarState extends State<Calendar> {
         ]),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
+        onPressed: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TestEvnt(),
+            ),
+          )
+        },
         backgroundColor: Colors.deepPurpleAccent,
         hoverColor: Colors.purple,
         elevation: 5,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:itsmilife/pages/common/VerifCodePage.dart';
 import 'package:itsmilife/pages/common/settings/RoleProvider.dart';
 import 'package:itsmilife/pages/common/splashScreen.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/logic/quizz_page.dart';

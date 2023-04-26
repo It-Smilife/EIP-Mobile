@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:itsmilife/pages/professional/activity/calendar.dart';
+import 'package:itsmilife/pages/professional/activity/calendar/calendar.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/professional/chatPro/patient_list.dart';
 import 'package:provider/provider.dart';

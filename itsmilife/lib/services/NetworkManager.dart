@@ -38,6 +38,11 @@ class NetworkManager {
         options: Options(contentType: Headers.formUrlEncodedContentType));
   }
 
+  static Future<Response> putWithoutData(String path) async {
+    return dio.put(baseUrl + path,
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+  }
+
   static Future<Response> delete(String path) async {
     return dio.delete(baseUrl + path,
         options: Options(contentType: Headers.formUrlEncodedContentType));

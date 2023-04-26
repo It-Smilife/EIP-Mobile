@@ -20,7 +20,7 @@ class ProfileData {
   static int age = 0;
   static String gender = "male";
   static String phoneNumber = "0000000";
-  static String address = "carrer de la moula";
+  static String address = "default";
   static String password = "default";
   static bool dark = false;
 }
@@ -82,7 +82,6 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-
                     ProfileData.lastName = _name;
                     ProfileData.firstName = _prenom;
                     ProfileData.email = _email;

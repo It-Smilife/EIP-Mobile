@@ -25,15 +25,15 @@ class _LoginPageState extends State<LoginPage> {
   double getBiglDiameter(BuildContext context) =>
       MediaQuery.of(context).size.width * 7 / 8;
 
-  var email,
-      password,
-      token,
-      _id,
-      username,
-      role,
-      firstName,
-      gender,
-      lastName,
+  var email = "",
+      password = "",
+      token = "",
+      _id = "",
+      username = "",
+      role = "",
+      firstName = "",
+      gender = "",
+      lastName = "",
       phoneNumber = "";
 
   @override
@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                             enabledBorder: InputBorder.none,
                             labelStyle: const TextStyle(color: Colors.grey)),
                         onChanged: (val) {
-                          email = val;
+                          email = val.toString();
                         },
                       ),
                       TextField(
@@ -118,11 +118,13 @@ class _LoginPageState extends State<LoginPage> {
                             focusedBorder: UnderlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.grey.shade100)),
-                            labelText: lang.lang == "English" ? "Password" : "Mot de passe",
+                            labelText: lang.lang == "English"
+                                ? "Password"
+                                : "Mot de passe",
                             enabledBorder: InputBorder.none,
                             labelStyle: const TextStyle(color: Colors.grey)),
                         onChanged: (val) {
-                          password = val;
+                          password = val.toString();
                         },
                       )
                     ],
@@ -133,14 +135,16 @@ class _LoginPageState extends State<LoginPage> {
                   child: Container(
                     margin: const EdgeInsets.fromLTRB(0, 0, 20, 10),
                     child: GestureDetector(
-                      onTap:() => Navigator.push(
+                      onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const ForgotPasswordPage(),
                         ),
                       ),
                       child: Text(
-                        lang.lang == "English" ? "FORGOT PASSWORD?" : "MOT DE PASSE OUBLIE",
+                        lang.lang == "English"
+                            ? "FORGOT PASSWORD?"
+                            : "MOT DE PASSE OUBLIE",
                         style: const TextStyle(
                             color: Color.fromARGB(255, 98, 128, 182),
                             fontSize: 11),
@@ -183,6 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                                 }).then((val) {
                                   if (val.data['success'] == true) {
                                     print("ok");
+                                    print(val.data);
                                     ProfileData.id = val.data["user"]["_id"];
                                     ProfileData.username =
                                         val.data["user"]["username"];
@@ -197,9 +202,12 @@ class _LoginPageState extends State<LoginPage> {
                                         val.data["user"]["gender"];
                                     ProfileData.lastName =
                                         val.data["user"]["lastName"];
-                                    ProfileData.address =
-                                        val.data["user"]["address"];
-                                    ProfileData.role = val.data["user"]["role"];
+                                    if (val.data["user"]["address"] != null) {
+                                      ProfileData.address =
+                                          val.data["user"]["address"];
+                                    } else {
+                                      ProfileData.address = "";
+                                    }
                                     ProfileData.phoneNumber =
                                         val.data["user"]["phoneNumber"];
                                     ProfileData.age = val.data["user"]["age"];
@@ -218,7 +226,9 @@ class _LoginPageState extends State<LoginPage> {
                               },
                               child: Center(
                                 child: Text(
-                                  lang.lang == "English" ? "SIGN IN" : "SE CONNECTER",
+                                  lang.lang == "English"
+                                      ? "SIGN IN"
+                                      : "SE CONNECTER",
                                   style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w700),
@@ -254,7 +264,9 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      lang.lang == "English" ? "DON'T HAVE AN ACCOUNT ?" : "VOUS N'AVEZ PAS ENCORE DE COMPTE ?",
+                      lang.lang == "English"
+                          ? "DON'T HAVE AN ACCOUNT ?"
+                          : "VOUS N'AVEZ PAS ENCORE DE COMPTE ?",
                       style: const TextStyle(
                           fontSize: 11,
                           color: Colors.grey,
