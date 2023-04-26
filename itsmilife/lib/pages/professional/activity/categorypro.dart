@@ -53,11 +53,12 @@ class _CategoryProState extends State<CategoryPro> {
                     )
                   ],
                 ),
-                height: 400,
-                width: 350,
+                height: MediaQuery.of(context).size.width * 0.7,
+                width: MediaQuery.of(context).size.width * 0.7,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                     GestureDetector(
                       onTap: () {
                         // handle the tap event on the image
@@ -83,11 +84,11 @@ class _CategoryProState extends State<CategoryPro> {
                       },
                       child: Image.asset(
                         'assets/calendar.png',
-                        height: 200,
-                        width: 200,
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        width: MediaQuery.of(context).size.height * 0.2,
                       ),
                     ),
-                    const SizedBox(height: 50),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                     GestureDetector(
                       onTap: () {
                         // handle the tap event on the title
@@ -112,7 +113,7 @@ class _CategoryProState extends State<CategoryPro> {
                         );
                       },
                       child: Container(
-                        width: 270,
+                        width: MediaQuery.of(context).size.height * 0.32,
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 98, 128, 182),
                           borderRadius: BorderRadius.circular(10),
