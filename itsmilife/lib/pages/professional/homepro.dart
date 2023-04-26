@@ -46,10 +46,10 @@ class _HomeProState extends State<HomePro> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.05),
+                      top: MediaQuery.of(context).size.height * 0.04),
                   child: Container(
-                    width: MediaQuery.of(context).size.height * 0.40,
-                    height: 50,
+                    width: MediaQuery.of(context).size.height * 0.45,
+                    height: MediaQuery.of(context).size.height * 0.07,
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.grey,
@@ -73,7 +73,7 @@ class _HomeProState extends State<HomePro> {
                   ),
                 ),
                 Padding(
-                    padding: const EdgeInsets.all(50),
+                    padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.08),
                     //The gesture detector widget will detect swipes and taps of the image card
                     child: Card(
                         shape: RoundedRectangleBorder(
@@ -91,8 +91,8 @@ class _HomeProState extends State<HomePro> {
                               )
                             ],
                           ),
-                          height: 400,
-                          width: 350,
+                          height: MediaQuery.of(context).size.width * 1.05,
+                          width: MediaQuery.of(context).size.width * 0.7,
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -122,8 +122,8 @@ class _HomeProState extends State<HomePro> {
                                   },
                                   child: Image.asset(
                                     'assets/contact.png',
-                                    height: 250,
-                                    width: 250,
+                                    height: MediaQuery.of(context).size.width * 0.6,
+                                    width: MediaQuery.of(context).size.width * 0.6,
                                   ),
                                 ),
                               ]),

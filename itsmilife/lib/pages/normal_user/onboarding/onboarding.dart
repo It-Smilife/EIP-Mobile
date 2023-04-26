@@ -65,12 +65,12 @@ class _OnboardingScreenState extends State<OnBoarding> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Container(
-                  height: 600.0,
+                  height: MediaQuery.of(context).size.height * 0.7,
                   child: PageView(
                     physics: const ClampingScrollPhysics(),
                     controller: _pageController,
@@ -81,68 +81,77 @@ class _OnboardingScreenState extends State<OnBoarding> {
                     },
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.all(40.0),
+                        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.015),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            const Center(
+                            Center(
                               child: Image(
                                 image: AssetImage(
                                   'assets/logo.png',
                                 ),
-                                height: 300.0,
-                                width: 300.0,
+                                height: MediaQuery.of(context).size.height * 0.4,
+                                width: MediaQuery.of(context).size.height * 0.4,
                               ),
                             ),
                             SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.10),
-                            Text(
+                                    MediaQuery.of(context).size.height * 0.05),
+                            Center(child: Text(
                               "Bienvenue sur It'Smilife !",
                               style: kTitleStyle,
                             ),
-                            const SizedBox(height: 15.0),
-                            Text(
+                            ),
+                            SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+                            Center(child: Text(
                               "Avant de pouvoir vous lancer dans l'aventure It'Smilife, vous devez renseigner les informations nécessaires.",
                               style: kSubtitleStyle,
+                              textAlign: TextAlign.center,
+                            ),
                             ),
                           ],
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.10,
+                            top: MediaQuery.of(context).size.height * 0.06,
                             right: MediaQuery.of(context).size.width * 0.1,
                             left: MediaQuery.of(context).size.width * 0.1),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            const Center(
+                            Center(
                               child: Image(
                                 image: AssetImage(
                                   'assets/logosmile.png',
                                 ),
-                                height: 300.0,
-                                width: 300.0,
+                                height: MediaQuery.of(context).size.height * 0.4,
+                                width: MediaQuery.of(context).size.height * 0.4,
                               ),
                             ),
-                            const SizedBox(height: 20.0),
-                            Text(
+                            SizedBox(height:
+                                    MediaQuery.of(context).size.height * 0.001),
+                            Center(child: Text(
                               'Bonjour ' +
                                   ProfileData.username +
                                   ',  je me surnomme Smile',
                               style: kTitleStyle,
+                              textAlign: TextAlign.center,
                             ),
-                            const SizedBox(height: 15.0),
-                            Text(
+                            ),
+                            SizedBox(height:
+                                    MediaQuery.of(context).size.height * 0.025),
+                            Center(child: Text(
                               'Ma mission est de vous accompagner tout au long de votre aventure. Diriger vous vers la page suivante afin de finaliser votre inscription.',
                               style: kSubtitleStyle,
+                              textAlign: TextAlign.center,
+                            ),
                             ),
                           ],
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(40.0),
+                        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.025),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -152,7 +161,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                 style: kTitleStyle,
                               ),
                             ),
-                            const SizedBox(height: 100.0),
+                            SizedBox(height:  MediaQuery.of(context).size.height * 0.12),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -176,7 +185,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 20),
+                                SizedBox(height:  MediaQuery.of(context).size.height * 0.035),
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -197,7 +206,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 20),
+                                SizedBox(height: MediaQuery.of(context).size.height * 0.035),
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -218,7 +227,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 20),
+                                SizedBox(height: MediaQuery.of(context).size.height * 0.035),
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -239,7 +248,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 20),
+                                SizedBox(height: MediaQuery.of(context).size.height * 0.035),
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -285,35 +294,6 @@ class _OnboardingScreenState extends State<OnBoarding> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: _buildPageIndicator(),
                 ),
-                _currentPage != _numPages - 1
-                    ? Expanded(
-                        child: Align(
-                          alignment: FractionalOffset.bottomRight,
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.white)),
-                            onPressed: () {
-                              _pageController.nextPage(
-                                duration: const Duration(milliseconds: 500),
-                                curve: Curves.ease,
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: const <Widget>[
-                                Icon(
-                                  Icons.arrow_forward,
-                                  color: Color.fromARGB(255, 98, 128, 182),
-                                  size: 30.0,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
-                    : const Text(''),
               ],
             ),
           ),

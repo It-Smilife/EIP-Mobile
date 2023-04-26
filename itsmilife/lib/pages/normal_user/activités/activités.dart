@@ -97,6 +97,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.1),
                     GestureDetector(
                       onTap: () {
                         // handle the tap event on the image
@@ -127,7 +128,7 @@ class _ActivityPageState extends State<ActivityPage> {
                         width: MediaQuery.of(context).size.height * 0.2,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.06),
                     GestureDetector(
                       onTap: () {
                         // handle the tap event on the title
@@ -161,7 +162,7 @@ class _ActivityPageState extends State<ActivityPage> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 5),
                         child: Column(
-                          children: const [
+                          children: [
                             SizedBox(
                               width: double.infinity,
                               height: 0,
@@ -204,6 +205,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.1),
                     GestureDetector(
                       onTap: () {
                         // handle the tap event on the image
@@ -234,7 +236,7 @@ class _ActivityPageState extends State<ActivityPage> {
                         width: MediaQuery.of(context).size.height * 0.2,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.06),
                     GestureDetector(
                       onTap: () {
                         // handle the tap event on the title

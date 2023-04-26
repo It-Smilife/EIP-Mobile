@@ -191,7 +191,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
 
               // Name
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.024),
                 child: Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
@@ -208,8 +208,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                         )
                       ],
                     ),
-                    padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.height * 0.005),
+                    padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.015),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -231,7 +230,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           validator: (value) {},
                           onSaved: (value) => _name = value!,
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 5),
                         Text(
                           'Prenom',
                           style: TextStyle(
@@ -250,7 +249,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           validator: (value) {},
                           onSaved: (value) => _prenom = value!,
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 5),
                         Text(
                           'Email',
                           style: TextStyle(
@@ -269,7 +268,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           validator: (value) {},
                           onSaved: (value) => _email = value!,
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 5),
                         Text(
                           'Age',
                           style: TextStyle(
@@ -288,7 +287,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           validator: (value) {},
                           onSaved: (value) => _age = int.parse(value!),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 5),
                         Text(
                           'Gender',
                           style: TextStyle(
@@ -319,7 +318,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           }).toList(),
                           onChanged: (String? value) {},
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 5),
                         Text(
                           'Phone Number',
                           style: TextStyle(
@@ -327,7 +326,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height:5),
                         TextFormField(
                           initialValue: ProfileData.phoneNumber,
                           decoration: InputDecoration(
@@ -345,7 +344,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           validator: (value) {},
                           onSaved: (value) => _phoneNumber = value!,
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 5),
                         Text(
                           'Address',
                           style: TextStyle(
@@ -353,7 +352,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 5),
                         TextFormField(
                           initialValue: ProfileData.address,
                           decoration: InputDecoration(

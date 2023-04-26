@@ -22,7 +22,7 @@ class _ChatBotState extends State<ChatBot> {
   @override
   void initState() {
     super.initState();
-    _conf = OpenAIConfiguration(apiKey: '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');
+    _conf = OpenAIConfiguration(apiKey: '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');
     _client = OpenAIClient(configuration: _conf);
   }
 
