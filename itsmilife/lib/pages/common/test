@@ -192,20 +192,19 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                               email.text +
                               "/update-password-code-by-email")
                           .then((value) {
+                        print("first request");
                         if (value.data["success"] == true) {
                           NetworkManager.get("users/email/" + email.text)
                               .then((value) {
+                            print(value.data);
                             if (value.data["success"] == true) {
-                              Navigator.push(
+                              Navigator.pushNamed(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => VerificationPage(
-                                    id: value.data["message"]["_id"].toString(),
-                                    verificationCode: value.data["message"]
-                                        ["passwordCode"],
-                                    password: newPass.text,
-                                    email: value.data["message"]["email"],
-                                  ),
+                                VerificationPage.routeName,
+                                arguments: VerifCode(
+                                  id: value.data["message"]["_id"].toString(),
+                                  email: value.data["message"]["email"],
+                                  password: value.data["message"]["password"],
                                 ),
                               );
                             }
