@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/forum.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/category.dart';
 import 'package:itsmilife/pages/professional/activity/calendar/calendar.dart';
+import 'package:itsmilife/pages/professional/activity/calendar/testCalendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/settings/settings.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:itsmilife/pages/professional/activity/calendar/eventModel.dart';
 
 class CategoryPro extends StatefulWidget {
   const CategoryPro({super.key});
@@ -15,15 +18,40 @@ class CategoryPro extends StatefulWidget {
 }
 
 class _CategoryProState extends State<CategoryPro> {
-
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  // Event myEvent = Event(
+  //   title: 'My Event',
+  //   date: DateTime.now(),
+  //   startTime: TimeOfDay(hour: 10, minute: 0),
+  //   endTime: TimeOfDay(hour: 12, minute: 0),
+  //   notes: 'This is my event',
+  // );
+
+  // List<Event> myEvents = [
+  //   Event(
+  //     title: 'My Event 1',
+  //     date: DateTime.now(),
+  //     startTime: TimeOfDay(hour: 10, minute: 0),
+  //     endTime: TimeOfDay(hour: 12, minute: 0),
+  //     notes: 'This is my event 1',
+  //   ),
+  // ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final darkMode = Provider.of<DarkModeProvider>(context);
+    Map<DateTime, List<Event>> events = {};
+
     return Scaffold(
-      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 234, 234, 234),
+      backgroundColor: darkMode.darkMode
+          ? const Color.fromARGB(255, 58, 50, 83)
+          : const Color.fromARGB(255, 234, 234, 234),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -67,7 +95,7 @@ class _CategoryProState extends State<CategoryPro> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    Calendar(),
+                                    CustomTableCalendar(),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(
@@ -78,7 +106,8 @@ class _CategoryProState extends State<CategoryPro> {
                                 child: child,
                               );
                             },
-                            transitionDuration: const Duration(milliseconds: 300),
+                            transitionDuration:
+                                const Duration(milliseconds: 300),
                           ),
                         );
                       },
@@ -97,7 +126,7 @@ class _CategoryProState extends State<CategoryPro> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    Calendar(),
+                                    Calendar(eventList: events),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(
@@ -108,7 +137,8 @@ class _CategoryProState extends State<CategoryPro> {
                                 child: child,
                               );
                             },
-                            transitionDuration: const Duration(milliseconds: 300),
+                            transitionDuration:
+                                const Duration(milliseconds: 300),
                           ),
                         );
                       },
@@ -118,8 +148,8 @@ class _CategoryProState extends State<CategoryPro> {
                           color: const Color.fromARGB(255, 98, 128, 182),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
                         child: Column(
                           children: const [
                             SizedBox(

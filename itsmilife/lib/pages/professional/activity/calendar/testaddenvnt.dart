@@ -5,8 +5,14 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/professional/activity/calendar/eventModel.dart';
+import 'package:collection/collection.dart';
+import 'calendar.dart';
 
 class TestEvnt extends StatefulWidget {
+  final AddEventCallback addEventCallback;
+
+  const TestEvnt({super.key, required this.addEventCallback});
+
   @override
   _AddEvent createState() => _AddEvent();
 }
@@ -23,6 +29,7 @@ class _AddEvent extends State<TestEvnt> {
   void initState() {
     super.initState();
     initializeDateFormatting('fr_FR', null);
+    // print(events.entries.length);
   }
 
   @override
@@ -48,17 +55,17 @@ class _AddEvent extends State<TestEvnt> {
         events[date] = [newEvent];
       }
     });
-    events.forEach((date, eventsList) {
-      print('Events on $date:');
-      for (var event in eventsList) {
-        print('- ${event.title}');
-        print('- Start time: ${event.startTime}');
-        print('- End time: ${event.endTime}');
-        print('- Notes: ${event.notes}');
-      }
-    });
+    print(
+        "events tab : ${events.entries.where((element) => element.key == date).map((e) => MapEntry(e.key, e.value))}");
     _titleCotroller.clear();
     _notesController.clear();
+    Navigator.pop(context, events);
+  }
+
+  void _submitForm() {
+    widget.addEventCallback(_titleCotroller.text, _selectedDate,
+        _selectedTimeBegin, _selectedTimeEnd, _notesController.text);
+    Navigator.pop(context);
   }
 
   @override
@@ -300,12 +307,13 @@ class _AddEvent extends State<TestEvnt> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () => {
-                          addEvent(
-                              _titleCotroller.toString(),
-                              _selectedDate,
-                              _selectedTimeBegin,
-                              _selectedTimeEnd,
-                              _notesController.toString()),
+                          _submitForm()
+                          // addEvent(
+                          //     _titleCotroller.toString(),
+                          //     _selectedDate,
+                          //     _selectedTimeBegin,
+                          //     _selectedTimeEnd,
+                          //     _notesController.toString()),
                         },
                         style: ButtonStyle(
                           shape:
