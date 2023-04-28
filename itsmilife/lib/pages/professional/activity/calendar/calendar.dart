@@ -6,9 +6,15 @@ import 'package:itsmilife/pages/professional/activity/calendar/testaddenvnt.dart
 import 'package:table_calendar/table_calendar.dart';
 import 'package:itsmilife/pages/professional/activity/calendar/addEventPage.dart';
 import 'package:itsmilife/pages/professional/activity/calendar/eventModel.dart';
+import 'package:collection/collection.dart';
+
+typedef AddEventCallback = Function(String title, DateTime date,
+    TimeOfDay startTime, TimeOfDay endDay, String notes);
 
 class Calendar extends StatefulWidget {
-  const Calendar({Key? key}) : super(key: key);
+  final Map<DateTime, List<Event>> eventList;
+
+  const Calendar({Key? key, required this.eventList}) : super(key: key);
 
   @override
   _CalendarState createState() => _CalendarState();
@@ -20,30 +26,60 @@ class _CalendarState extends State<Calendar> {
   final _initialCalendarDate = DateTime(2000);
   final _lastCalendarDate = DateTime(2050);
   DateTime? selectedCalendarDate;
-  Map<DateTime, List<Event>> events = {};
+  // Map<DateTime, List<Event>> events = {};
+  // List<Event> eventList = [];
+  Map<DateTime, List<Event>> eventMap = {};
 
-  List<Event> _getEventsForDay(DateTime day) {
-    print(events);
-    return events[day] ?? [];
+  List<Event> events = [];
+
+  void addEvent(String title, DateTime date, TimeOfDay startTime,
+      TimeOfDay endTime, String notes) {
+    setState(() {
+      events.add(Event(
+          title: title,
+          date: date,
+          startTime: startTime,
+          endTime: endTime,
+          notes: notes));
+    });
+    eventMap = _groupEventsByDate(events);
+    eventMap.forEach((date, eventList) {
+      print('Date: $date');
+      print('Events:');
+      eventList.forEach((event) {
+        print('Title: ${event.title}, Date: ${event.date}');
+      });
+    });
   }
 
-  void addEventToList(Event newEvent) {
-    setState(() {
-      DateTime eventDate = newEvent.date;
-      if (events[eventDate] != null) {
-        events[eventDate]!.add(newEvent);
-      } else {
-        events[eventDate] = [newEvent];
-      }
-    });
+  Map<DateTime, List<Event>> _groupEventsByDate(List<Event> events) {
+    Map<DateTime, List<Event>> eventMap = {};
+    for (Event event in events) {
+      DateTime eventDate =
+          DateTime(event.date.year, event.date.month, event.date.day);
+      eventMap[eventDate] = eventMap[eventDate] ?? [];
+      eventMap[eventDate]!.add(event);
+    }
+    return eventMap;
+  }
+
+  List<Event> _getEventsForDay(DateTime day) {
+    DateTime dateOnly = DateTime(day.year, day.month, day.day);
+    print("huitre ${dateOnly}");
+    return eventMap[dateOnly] ?? [];
   }
 
   @override
   void initState() {
     selectedCalendarDate = _focusedCalendarDate;
+    // events = widget.eventList;
     // mySelectedEvents = {};
     super.initState();
   }
+
+  // List<Event> _listOfDayEvents(DateTime dateTime) {
+  //   return events[dateTime] ?? [];
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +118,14 @@ class _CalendarState extends State<Calendar> {
               startingDayOfWeek: StartingDayOfWeek.monday,
               daysOfWeekHeight: 100,
               rowHeight: 70,
+              // eventLoader: (day) =>
+              //     events.entries
+              //         .where((event) => isSameDay(event.key, day))
+              //         .map((event) => event.value).toList(),
               // locale: 'fr_FR',
-              eventLoader: _getEventsForDay,
+              eventLoader: (day) {
+                return _getEventsForDay(day);
+              },
               headerStyle: const HeaderStyle(
                 titleTextStyle: TextStyle(
                     color: Colors.deepPurpleAccent,
@@ -135,6 +177,30 @@ class _CalendarState extends State<Calendar> {
                 markerDecoration:
                     BoxDecoration(color: Colors.red, shape: BoxShape.circle),
               ),
+              // calendarBuilders: CalendarBuilders(
+              //   markerBuilder: (context, date, events) {
+              //     if (events != null && events.isNotEmpty) {
+              //       print("ok");
+              //       return Positioned(
+              //         right: 1,
+              //         bottom: 1,
+              //         child: Container(
+              //           decoration: BoxDecoration(
+              //             color: Colors.blue,
+              //             shape: BoxShape.circle,
+              //           ),
+              //           child: Center(
+              //             child: Text(
+              //               '${events.length}',
+              //               style: TextStyle(color: Colors.white),
+              //             ),
+              //           ),
+              //         ),
+              //       );
+              //     }
+              //     return null;
+              //   },
+              // ),
               selectedDayPredicate: (currentSelectedDate) {
                 return (isSameDay(selectedCalendarDate!, currentSelectedDate));
               },
@@ -155,7 +221,7 @@ class _CalendarState extends State<Calendar> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => TestEvnt(),
+              builder: (context) => TestEvnt(addEventCallback: addEvent),
             ),
           )
         },
