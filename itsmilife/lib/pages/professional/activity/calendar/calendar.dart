@@ -26,8 +26,6 @@ class _CalendarState extends State<Calendar> {
   final _initialCalendarDate = DateTime(2000);
   final _lastCalendarDate = DateTime(2050);
   DateTime? selectedCalendarDate;
-  // Map<DateTime, List<Event>> events = {};
-  // List<Event> eventList = [];
   Map<DateTime, List<Event>> eventMap = {};
 
   List<Event> events = [];
@@ -43,13 +41,6 @@ class _CalendarState extends State<Calendar> {
           notes: notes));
     });
     eventMap = _groupEventsByDate(events);
-    eventMap.forEach((date, eventList) {
-      print('Date: $date');
-      print('Events:');
-      eventList.forEach((event) {
-        print('Title: ${event.title}, Date: ${event.date}');
-      });
-    });
   }
 
   Map<DateTime, List<Event>> _groupEventsByDate(List<Event> events) {
@@ -65,21 +56,41 @@ class _CalendarState extends State<Calendar> {
 
   List<Event> _getEventsForDay(DateTime day) {
     DateTime dateOnly = DateTime(day.year, day.month, day.day);
-    print("huitre ${dateOnly}");
     return eventMap[dateOnly] ?? [];
   }
 
   @override
   void initState() {
     selectedCalendarDate = _focusedCalendarDate;
-    // events = widget.eventList;
-    // mySelectedEvents = {};
     super.initState();
   }
 
-  // List<Event> _listOfDayEvents(DateTime dateTime) {
-  //   return events[dateTime] ?? [];
-  // }
+  void _onDaySelected(DateTime day, List<Event> events) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Événements du jour sélectionné'),
+          content: events.isEmpty
+              ? Text("Il n'y a aucun évènement à afficher pour ce jour")
+              : Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: events
+                      .map((event) => ListTile(title: Text(event.title)))
+                      .toList(),
+                ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Fermer'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +110,7 @@ class _CalendarState extends State<Calendar> {
       ),
       body: SingleChildScrollView(
         child: Column(children: [
-          const SizedBox(height: 80),
+          const SizedBox(height: 30),
           Card(
             margin: EdgeInsets.all(5),
             elevation: 5,
@@ -174,33 +185,28 @@ class _CalendarState extends State<Calendar> {
                   color: Color.fromARGB(255, 140, 0, 255),
                   shape: BoxShape.circle,
                 ),
-                markerDecoration:
-                    BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                // markerDecoration:
+                //     BoxDecoration(color: Colors.lightBlueAccent, shape: BoxShape.circle),
               ),
-              // calendarBuilders: CalendarBuilders(
-              //   markerBuilder: (context, date, events) {
-              //     if (events != null && events.isNotEmpty) {
-              //       print("ok");
-              //       return Positioned(
-              //         right: 1,
-              //         bottom: 1,
-              //         child: Container(
-              //           decoration: BoxDecoration(
-              //             color: Colors.blue,
-              //             shape: BoxShape.circle,
-              //           ),
-              //           child: Center(
-              //             child: Text(
-              //               '${events.length}',
-              //               style: TextStyle(color: Colors.white),
-              //             ),
-              //           ),
-              //         ),
-              //       );
-              //     }
-              //     return null;
-              //   },
-              // ),
+              calendarBuilders: CalendarBuilders(
+                markerBuilder: (context, date, events) {
+                  if (events != null && events.isNotEmpty) {
+                    return Positioned(
+                      right: 22,
+                      bottom: 10,
+                      child: Container(
+                        height: 7,
+                        width: 7,
+                        decoration: const BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    );
+                  }
+                  return null;
+                },
+              ),
               selectedDayPredicate: (currentSelectedDate) {
                 return (isSameDay(selectedCalendarDate!, currentSelectedDate));
               },
@@ -211,6 +217,8 @@ class _CalendarState extends State<Calendar> {
                     _focusedCalendarDate = focusedDay;
                   });
                 }
+                List<Event> eventsOnSelectedDay = _getEventsForDay(selectedDay);
+                _onDaySelected(selectedDay, eventsOnSelectedDay);
               },
             ),
           )

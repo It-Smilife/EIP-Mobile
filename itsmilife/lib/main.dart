@@ -6,6 +6,7 @@ import 'package:itsmilife/pages/common/splashScreen.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/logic/quizz_page.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/theme_details.dart';
 import 'package:itsmilife/pages/normal_user/homepage/homepage.dart';
+import 'package:itsmilife/pages/professional/activity/calendar/eventProvider.dart';
 import 'package:itsmilife/pages/register.dart';
 import 'package:itsmilife/widgets/bottomNavBar.dart';
 import 'package:localstorage/localstorage.dart';
@@ -22,10 +23,9 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
-  final LocalStorage storage = new LocalStorage("storage");
+    final LocalStorage storage = new LocalStorage("storage");
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MultiProvider(
@@ -35,17 +35,17 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<DarkModeProvider>(
             create: (context) => DarkModeProvider()),
         ChangeNotifierProvider<LanguageProvider>(
-            create: (context) => LanguageProvider())
+            create: (context) => LanguageProvider()),
+        ChangeNotifierProvider(
+            create: (context) => EventProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: SplashScreen(),
         routes: {
-          ThemeDetailsPage.routeName: (context) =>
-       ThemeDetailsPage(),
-       QuizPage.routeName: (context) =>
-       QuizPage(),
-  },
+          ThemeDetailsPage.routeName: (context) => ThemeDetailsPage(),
+          QuizPage.routeName: (context) => QuizPage(),
+        },
       ),
     );
   }

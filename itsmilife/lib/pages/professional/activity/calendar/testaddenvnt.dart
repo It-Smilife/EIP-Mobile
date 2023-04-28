@@ -23,13 +23,18 @@ class _AddEvent extends State<TestEvnt> {
   TimeOfDay _selectedTimeBegin = TimeOfDay.now();
   TimeOfDay _selectedTimeEnd = TimeOfDay.now();
   DateTime _selectedDate = DateTime.now();
+  String _formattedSelectedDate = '';
   Map<DateTime, List<Event>> events = {};
+
+  String _formatDate(DateTime date) {
+    return "${DateFormat.EEEE("fr").format(date).substring(0, 3)}. ${DateFormat.d("fr").format(date)} ${DateFormat.MMMM("fr").format(date).substring(0, 3)}.";
+  }
 
   @override
   void initState() {
     super.initState();
     initializeDateFormatting('fr_FR', null);
-    // print(events.entries.length);
+    _formattedSelectedDate = _formatDate(_selectedDate);
   }
 
   @override
@@ -37,29 +42,6 @@ class _AddEvent extends State<TestEvnt> {
     _titleCotroller.dispose();
     _notesController.dispose();
     super.dispose();
-  }
-
-  void addEvent(String title, DateTime date, TimeOfDay startTime,
-      TimeOfDay endTime, String notes) {
-    Event newEvent = Event(
-      title: title,
-      date: date,
-      startTime: startTime,
-      endTime: endTime,
-      notes: notes,
-    );
-    setState(() {
-      if (events[date] != null) {
-        events[date]!.add(newEvent);
-      } else {
-        events[date] = [newEvent];
-      }
-    });
-    print(
-        "events tab : ${events.entries.where((element) => element.key == date).map((e) => MapEntry(e.key, e.value))}");
-    _titleCotroller.clear();
-    _notesController.clear();
-    Navigator.pop(context, events);
   }
 
   void _submitForm() {
@@ -76,11 +58,10 @@ class _AddEvent extends State<TestEvnt> {
       elevation: 0,
     );
     final lang = Provider.of<LanguageProvider>(context);
-    DateTime _selectedDate = DateTime.now();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color.fromARGB(255, 246, 246, 246),
+      backgroundColor: Color.fromARGB(255, 205, 205, 205),
       appBar: appBar,
       body: Stack(
         children: <Widget>[
@@ -123,12 +104,14 @@ class _AddEvent extends State<TestEvnt> {
                           showDatePicker(
                             context: context,
                             initialDate: _selectedDate,
-                            firstDate: DateTime.now(),
+                            firstDate:
+                                DateTime.now().subtract(Duration(days: 365)),
                             lastDate: DateTime.now().add(Duration(days: 365)),
                           ).then((date) {
                             if (date != null) {
                               setState(() {
                                 _selectedDate = date;
+                                _formattedSelectedDate = _formatDate(date);
                               });
                             }
                           });
@@ -152,9 +135,7 @@ class _AddEvent extends State<TestEvnt> {
                             children: [
                               const Icon(CupertinoIcons.calendar),
                               const SizedBox(width: 10),
-                              Text(
-                                "${DateFormat.EEEE("fr").format(_selectedDate).substring(0, 3)}. ${DateFormat.d("fr").format(_selectedDate)} ${DateFormat.MMMM("fr").format(_selectedDate).substring(0, 3)}.",
-                              ),
+                              Text(_formattedSelectedDate),
                             ],
                           ),
                         ),
