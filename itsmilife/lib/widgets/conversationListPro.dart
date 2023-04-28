@@ -33,7 +33,7 @@ class _ConversationListState extends State<ConversationListPro> {
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                ChatDetailPro(discussionId: widget.discussion_id),
+                ChatDetailPro(discussionId: widget.discussion_id, name: widget.name,),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(

@@ -6,7 +6,8 @@ import '../../normal_user/chat/model/chatMessageModel.dart';
 
 class ChatDetailPro extends StatefulWidget {
   late String discussionId;
-  ChatDetailPro({Key? key, required this.discussionId}) : super(key: key);
+  late String name;
+  ChatDetailPro({Key? key, required this.discussionId, required this.name}) : super(key: key);
 
   @override
   _ChatDetailProState createState() => _ChatDetailProState();
@@ -26,7 +27,7 @@ class _ChatDetailProState extends State<ChatDetailPro> {
               message: value.data['message']['messages'][i]['content'],
               messageID: value.data['message']['messages'][i]['_id'],
               date: value.data['message']['messages'][i]['date'],
-              id: value.data['message']['messages'][i]['_id'] == ProfileData.id
+              id: value.data['message']['messages'][i]['user'] == ProfileData.id
                   ? 'sender'
                   : 'receiver'));
         }
@@ -144,7 +145,7 @@ class _ChatDetailProState extends State<ChatDetailPro> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "Kriss Benwat",
+                        widget.name,
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),

@@ -6,7 +6,9 @@ import '../../normal_user/chat/model/chatMessageModel.dart';
 
 class ChatDetailPage extends StatefulWidget {
   late String discussionId;
-  ChatDetailPage({Key? key, required this.discussionId}) : super(key: key);
+  late String name;
+  ChatDetailPage({Key? key, required this.discussionId, required this.name})
+      : super(key: key);
 
   @override
   _ChatDetailPageState createState() => _ChatDetailPageState();
@@ -26,7 +28,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
               message: value.data['message']['messages'][i]['content'],
               messageID: value.data['message']['messages'][i]['_id'],
               date: value.data['message']['messages'][i]['date'],
-              id: value.data['message']['messages'][i]['_id'] != ProfileData.id
+              id: value.data['message']['messages'][i]['user'] == ProfileData.id
                   ? 'sender'
                   : 'receiver'));
         }
@@ -144,7 +146,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "Kriss Benwat",
+                        widget.name,
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
