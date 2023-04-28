@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/profile.dart';
+import 'package:itsmilife/pages/normal_user/chat/chatProUser.dart';
 import 'package:itsmilife/services/NetworkManager.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../normal_user/chat/model/chatMessageModel.dart';
@@ -123,7 +124,24 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                     socket.dispose();
                     _textController.dispose();
                     super.dispose();
-                    Navigator.pop(context);
+                    Navigator.push(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                ChatProUser(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(1, 0),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
+              );
+            },
+            transitionDuration: Duration(milliseconds: 300),
+          ),
+        );
                   },
                   icon: Icon(
                     Icons.arrow_back,
