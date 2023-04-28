@@ -3,12 +3,12 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/forum.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/category.dart';
 import 'package:itsmilife/pages/professional/activity/calendar/calendar.dart';
-import 'package:itsmilife/pages/professional/activity/calendar/testCalendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/settings/settings.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/professional/activity/calendar/eventModel.dart';
+import 'package:itsmilife/pages/professional/activity/calendar/testCalendart.dart';
 
 class CategoryPro extends StatefulWidget {
   const CategoryPro({super.key});
@@ -95,7 +95,7 @@ class _CategoryProState extends State<CategoryPro> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    CustomTableCalendar(),
+                                    TestCalendar(eventList: events),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(
@@ -126,7 +126,7 @@ class _CategoryProState extends State<CategoryPro> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    Calendar(eventList: events),
+                                    TestCalendar(eventList: events),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(
