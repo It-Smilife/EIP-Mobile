@@ -189,6 +189,7 @@ class _ChatDetailProState extends State<ChatDetailPro> {
       ),
       body: Stack(
         children: <Widget>[
+          Expanded(child:
           FutureBuilder<List<ChatMessage>>(
             future: fetchMessages(),
             builder: (context, snapshot) {
@@ -201,8 +202,7 @@ class _ChatDetailProState extends State<ChatDetailPro> {
                 return ListView.builder(
                   itemCount: chatMessagesFuture!.length,
                   shrinkWrap: true,
-                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.only(top: 5, bottom: 55),
                   itemBuilder: (context, index) {
                     return Container(
                       padding: EdgeInsets.only(
@@ -230,6 +230,7 @@ class _ChatDetailProState extends State<ChatDetailPro> {
                 );
               }
             },
+          ),
           ),
           Align(
             alignment: Alignment.bottomLeft,

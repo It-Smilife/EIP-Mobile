@@ -188,109 +188,111 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
           ),
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          FutureBuilder<List<ChatMessage>>(
-            future: fetchMessages(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                chatMessagesFuture = snapshot.data;
-                return ListView.builder(
-                  itemCount: chatMessagesFuture!.length,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Container(
-                      padding: EdgeInsets.only(
-                          left: 14, right: 14, top: 10, bottom: 10),
-                      child: Align(
-                        alignment: (chatMessagesFuture![index].id == "receiver"
-                            ? Alignment.topLeft
-                            : Alignment.topRight),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: (chatMessagesFuture![index].id == "receiver"
-                                ? Colors.grey.shade200
-                                : Colors.blue[200]),
-                          ),
-                          padding: EdgeInsets.all(16),
-                          child: Text(
-                            chatMessagesFuture![index].message,
-                            style: TextStyle(fontSize: 15),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              }
+     body: Stack(
+  children: <Widget>[
+    Expanded(child: 
+    FutureBuilder<List<ChatMessage>>(
+      future: fetchMessages(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          chatMessagesFuture = snapshot.data;
+          return ListView.builder(
+            itemCount: chatMessagesFuture!.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.only(top: 5, bottom: 55),
+            itemBuilder: (context, index) {
+              return Container(
+                padding: EdgeInsets.only(
+                    left: 14, right: 14, top: 10, bottom: 10),
+                child: Align(
+                  alignment: (chatMessagesFuture![index].id == "receiver"
+                      ? Alignment.topLeft
+                      : Alignment.topRight),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: (chatMessagesFuture![index].id == "receiver"
+                          ? Colors.grey.shade200
+                          : Colors.blue[200]),
+                    ),
+                    padding: EdgeInsets.all(16),
+                    child: Text(
+                      chatMessagesFuture![index].message,
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                ),
+              );
             },
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-              padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-              height: 60,
-              width: double.infinity,
-              color: Colors.white,
-              child: Row(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        color: Colors.lightBlue,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Expanded(
-                    child: TextField(
-                      controller: _textController,
-                      onChanged: (text) => _newMessage = text,
-                      decoration: InputDecoration(
-                          hintText: "Write message...",
-                          hintStyle: TextStyle(color: Colors.black54),
-                          border: InputBorder.none),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      _sendMessage(_textController.text);
-                    },
-                    child: Icon(
-                      Icons.send,
-                      color: Colors.white,
-                      size: 18,
-                    ),
-                    backgroundColor: Colors.blue,
-                    elevation: 0,
-                  ),
-                ],
+          );
+        }
+      },
+    ),
+    ),
+    Align(
+      alignment: Alignment.bottomLeft,
+      child: Container(
+        padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
+        height: 60,
+        width: double.infinity,
+        color: Colors.white,
+        child: Row(
+          children: <Widget>[
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                height: 30,
+                width: 30,
+                decoration: BoxDecoration(
+                  color: Colors.lightBlue,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                  size: 20,
+                ),
               ),
             ),
-          ),
-        ],
+            SizedBox(
+              width: 15,
+            ),
+            Expanded(
+              child: TextField(
+                controller: _textController,
+                onChanged: (text) => _newMessage = text,
+                decoration: InputDecoration(
+                    hintText: "Write message...",
+                    hintStyle: TextStyle(color: Colors.black54),
+                    border: InputBorder.none),
+              ),
+            ),
+            SizedBox(
+              width: 15,
+            ),
+            FloatingActionButton(
+              onPressed: () {
+                _sendMessage(_textController.text);
+              },
+              child: Icon(
+                Icons.send,
+                color: Colors.white,
+                size: 18,
+              ),
+              backgroundColor: Colors.blue,
+              elevation: 0,
+            ),
+          ],
+        ),
       ),
+    ),
+  ],
+),
+
     );
   }
 }
