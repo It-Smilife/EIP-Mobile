@@ -1,28 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/profile.dart';
 import 'package:itsmilife/pages/normal_user/chat/chatProUser.dart';
+import 'package:itsmilife/pages/professional/chatPro/notificationCenter.dart';
+import 'package:itsmilife/pages/professional/chatPro/patient_list.dart';
 import 'package:itsmilife/services/NetworkManager.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart' as cupertino;
 
-class AddProList extends StatefulWidget {
+class AddPatientList extends StatefulWidget {
   String username;
   String id;
+  String id_discussion;
   String imgURL;
-  AddProList({required this.username, required this.id, required this.imgURL});
+  AddPatientList({required this.username, required this.id, required this.id_discussion,required this.imgURL});
 
   @override
-  _AddProListState createState() => _AddProListState();
+  _AddPatientListState createState() => _AddPatientListState();
 }
 
-class _AddProListState extends State<AddProList> {
+class _AddPatientListState extends State<AddPatientList> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        showCupertinoModalPopup(
+      child: Container(
+        padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Row(
+                children: <Widget>[
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(widget.imgURL),
+                    maxRadius: 30,
+                  ),
+                  SizedBox(
+                    width: 16,
+                  ),
+                  Expanded(
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            widget.username,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(
+                            height: 6,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                 showCupertinoModalPopup(
           context: context,
           builder: (BuildContext context) {
             return CupertinoActionSheet(
@@ -33,13 +71,12 @@ class _AddProListState extends State<AddProList> {
                 CupertinoActionSheetAction(
                   child: Text("Ajouter"),
                   onPressed: () {
-                    NetworkManager.post("discussions", {
-                      "professional": widget.id,
-                      "patient": ProfileData.id
+                    NetworkManager.put("discussions/" + widget.id_discussion, {
+                      "status": true,
                     }).then((val) {
                       if (val.data['success'] == true) {
                         NetworkManager.put("users/" + ProfileData.id, {
-                          "discussions": val.data['message']['_id']
+                          "discussions": widget.id_discussion
                         }).then((val) {
                           if (val.data['success'] == true) {
                             print("Sucess");
@@ -47,22 +84,12 @@ class _AddProListState extends State<AddProList> {
                             throw Exception('Failed to change user');
                           }
                         });
-                        NetworkManager.put("users/" + widget.id, {
-                          "discussions": val.data['message']['_id']
-                        }).then((val) {
-                          if (val.data['success'] == true) {
-                            print("Success");
-                          } else {
-                            throw Exception('Failed to change user');
-                          }
-                        });
-
                         Navigator.pushReplacement(
                           context,
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    const ChatProUser(),
+                                    const ListPatient(),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(
@@ -100,39 +127,10 @@ class _AddProListState extends State<AddProList> {
             );
           },
         );
-      },
-      child: Container(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(widget.imgURL),
-                    maxRadius: 30,
-                  ),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  Expanded(
-                    child: Container(
-                      color: Colors.transparent,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            widget.username,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          SizedBox(
-                            height: 6,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+              },
+              child: Icon(
+                cupertino.CupertinoIcons.check_mark,
+                color: cupertino.CupertinoColors.systemBlue,
               ),
             ),
             GestureDetector(
@@ -146,37 +144,16 @@ class _AddProListState extends State<AddProList> {
                           "Voulez-vous démarrez une conversation avec cet utilisateur ?"),
                       actions: <Widget>[
                         CupertinoActionSheetAction(
-                          child: Text("Ajouter"),
+                          child: Text("Supprimer"),
                           onPressed: () {
-                            NetworkManager.post("discussions", {
-                              "professional": widget.id,
-                              "patient": ProfileData.id
-                            }).then((val) {
+                            NetworkManager.delete("discussions/" + widget.id_discussion,).then((val) {
                               if (val.data['success'] == true) {
-                                NetworkManager.put("users/" + ProfileData.id, {
-                                  "discussions": val.data['message']['_id']
-                                }).then((val) {
-                                  if (val.data['success'] == true) {
-                                    print("Sucess");
-                                  } else {
-                                    throw Exception('Failed to change user');
-                                  }
-                                });
-                                NetworkManager.put("users/" + widget.id, {
-                                  "discussions": val.data['message']['_id']
-                                }).then((val) {
-                                  if (val.data['success'] == true) {
-                                    print("Sucess");
-                                  } else {
-                                    throw Exception('Failed to change user');
-                                  }
-                                });
                                 Navigator.pushReplacement(
                                   context,
                                   PageRouteBuilder(
                                     pageBuilder: (context, animation,
                                             secondaryAnimation) =>
-                                        ChatProUser(),
+                                        NotificationPage(),
                                     transitionsBuilder: (context, animation,
                                         secondaryAnimation, child) {
                                       return SlideTransition(
@@ -216,8 +193,8 @@ class _AddProListState extends State<AddProList> {
                 );
               },
               child: Icon(
-                cupertino.CupertinoIcons.add,
-                color: cupertino.CupertinoColors.systemBlue,
+                cupertino.CupertinoIcons.delete,
+                color: cupertino.CupertinoColors.systemRed,
               ),
             ),
           ],

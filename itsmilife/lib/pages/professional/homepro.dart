@@ -91,7 +91,7 @@ class _HomeProState extends State<HomePro> {
                               )
                             ],
                           ),
-                          height: MediaQuery.of(context).size.width * 1.05,
+                          height: MediaQuery.of(context).size.width * 1,
                           width: MediaQuery.of(context).size.width * 0.7,
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,

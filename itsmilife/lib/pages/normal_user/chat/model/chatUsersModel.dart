@@ -25,3 +25,11 @@ class UserPro {
   String imgURL;
   UserPro({required this.id, required this.username, required this.imgURL});
 }
+
+class UserPatient {
+  String username;
+  String id;
+  String id_discussion;
+  String imgURL;
+  UserPatient({required this.id, required this.id_discussion, required this.username, required this.imgURL});
+}

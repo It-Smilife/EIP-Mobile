@@ -338,7 +338,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                             filled: true,
                             fillColor: Color(0xFFF5F5F5),
                             contentPadding: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 16),
+                                horizontal: 16, vertical: 10),
                           ),
                           keyboardType: TextInputType.phone,
                           validator: (value) {},
@@ -364,9 +364,9 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                             filled: true,
                             fillColor: Color(0xFFF5F5F5),
                             contentPadding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 16),
+                                horizontal: 15, vertical: 10),
                           ),
-                          maxLines: 2,
+                          maxLines: 1,
                           validator: (value) {},
                           onSaved: (value) => _address = value!,
                         ),

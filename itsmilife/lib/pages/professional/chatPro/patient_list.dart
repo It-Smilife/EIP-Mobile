@@ -6,8 +6,11 @@ import 'package:itsmilife/pages/normal_user/chat/AddPro.dart';
 import 'package:itsmilife/pages/professional/homepro.dart';
 import 'package:itsmilife/services/NetworkManager.dart';
 import 'package:intl/intl.dart';
+import 'package:itsmilife/widgets/bottomNavBar.dart';
+import 'package:itsmilife/widgets/conversationListPro.dart';
 import '../../../widgets/conversationList.dart';
 import '../../normal_user/chat/model/chatUsersModel.dart';
+import 'chat_service.dart';
 import 'notificationCenter.dart';
 
 class ListPatient extends StatefulWidget {
@@ -24,9 +27,10 @@ class _ListPatientState extends State<ListPatient> {
   void initState() {
     super.initState();
     _chatUsersFuture =
-        NetworkManager.get("users/" + ProfileData.id + "/discussions")
+        NetworkManager.get("users/" + ProfileData.id + "/discussionsTrue")
             .then((val) {
-      if (val.data['success'] == true) {
+      print(val.data);
+      if (val.data != "No discussions found" && val.data['success'] == true) {
         List<ChatUsers> chatUsers = [];
         for (int i = 0; i != val.data['message'].length; i++) {
           String date = val.data['message'][i]['date'];
@@ -35,38 +39,32 @@ class _ListPatientState extends State<ListPatient> {
           String formattedDate = DateFormat('jm').format(dateTime);
           ChatUsers discussion = new ChatUsers(
               ID: val.data['message'][i]['_id'],
-              patientID: val.data['message'][i]['patient']['_id'],
-              proID: val.data['message'][i]['professional']['_id'],
+              patientID: val.data['message'][i]['professional']['_id'],
+              proID: val.data['message'][i]['patient']['_id'],
               imageURL: "test/img",
-              name: val.data['message'][i]['professional']['username'],
+              name: val.data['message'][i]['patient']['username'],
               time: formattedDate,
               LastMessage: (val.data['message'][i]['messages'] != null &&
                       val.data['message'][i]['messages'].isNotEmpty)
                   ? val.data['message'][i]['messages']
-                      [val.data['message'][i]['messages'].length - 1]
+                      [val.data['message'][i]['messages'].length - 1]['content']
                   : "Démarrez la conversation !");
           chatUsers.add(discussion);
         }
         return chatUsers;
       } else {
-        throw Exception('Failed to load chat users');
+        throw Exception();
       }
     });
   }
 
+    @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    List<ContactRequest> requests = [
-  ContactRequest(
-    username: 'John Doe',
-    avatarUrl: 'assets/avatarpro.png',
-  ),
-  ContactRequest(
-    username: 'Jane Smith',
-    avatarUrl: 'assets/avatarpro.png',
-  ),
-];
     return Scaffold(
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -82,7 +80,25 @@ class _ListPatientState extends State<ListPatient> {
                     InkWell(
                       child: Icon(Icons.arrow_back, color: Colors.black),
                       onTap: () {
-                        Navigator.pop(context);
+                       Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  Home(h_index: 1),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return SlideTransition(
+                              position: Tween<Offset>(
+                                begin: const Offset(1, 0),
+                                end: Offset.zero,
+                              ).animate(animation),
+                              child: child,
+                            );
+                          },
+                          transitionDuration: Duration(milliseconds: 300),
+                        ),
+                      );
                       },
                     ),
                     const Text(
@@ -99,34 +115,34 @@ class _ListPatientState extends State<ListPatient> {
                         color: Color.fromARGB(255, 218, 24, 24),
                       ),
                       child: InkWell(
-                            child: Icon(
-                            Icons.notifications,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            size: 25,
-                          ),
-                            onTap: (() {
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder: (context, animation,
-                                          secondaryAnimation) =>
-                                      NotificationPage(requests: requests),
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    return SlideTransition(
-                                      position: Tween<Offset>(
-                                        begin: const Offset(1, 0),
-                                        end: Offset.zero,
-                                      ).animate(animation),
-                                      child: child,
-                                    );
-                                  },
-                                  transitionDuration:
-                                      const Duration(milliseconds: 300),
-                                ),
-                              );
-                            }),
-                          ),
+                        child: Icon(
+                          Icons.notifications,
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          size: 25,
+                        ),
+                        onTap: (() {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      NotificationPage(),
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return SlideTransition(
+                                  position: Tween<Offset>(
+                                    begin: const Offset(1, 0),
+                                    end: Offset.zero,
+                                  ).animate(animation),
+                                  child: child,
+                                );
+                              },
+                              transitionDuration:
+                                  const Duration(milliseconds: 300),
+                            ),
+                          );
+                        }),
+                      ),
                     )
                   ],
                 ),
@@ -161,6 +177,9 @@ class _ListPatientState extends State<ListPatient> {
                 }
                 if (snapshot.hasData) {
                   final chatUsers = snapshot.data!;
+                  if (chatUsers.length == 0) {
+                    return Container();
+                  }
                   return ListView.builder(
                     itemCount: chatUsers.length,
                     shrinkWrap: true,
@@ -170,36 +189,20 @@ class _ListPatientState extends State<ListPatient> {
                       return Dismissible(
                           key: Key(discussion.ID),
                           direction: DismissDirection.endToStart,
+                          onDismissed: (direction) {},
                           background: Container(
+                            alignment: AlignmentDirectional.centerEnd,
                             color: Colors.red,
-                            alignment: Alignment.centerRight,
-                            child: const Icon(
-                              CupertinoIcons.delete,
-                              color: Colors.white,
+                            child: const Padding(
+                              padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                          onDismissed: (direction) {
-                            // Supprime l'élément de la liste
-                            setState(() {
-                              NetworkManager.delete(
-                                      "discussions/" + discussion.ID)
-                                  .then((val) {
-                                if (val.data['success'] == true) {
-                                  print("discussion supprimer");
-                                } else {
-                                  throw Exception(
-                                      'Failed to delete discussion');
-                                }
-                              });
-                              chatUsers.removeAt(index);
-                            });
-                            // Affiche un message d'information
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("Conversation supprimée")),
-                            );
-                          },
-                          child: ConversationList(
+                          child: ConversationListPro(
+                            discussion_id: chatUsers[index].ID,
                             name: chatUsers[index].name,
                             messageText: chatUsers[index].LastMessage,
                             imageUrl: chatUsers[index].imageURL,
@@ -209,11 +212,8 @@ class _ListPatientState extends State<ListPatient> {
                           ));
                     },
                   );
-                } else if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
-                } else {
-                  return Center(child: Text('No data'));
                 }
+                return Container();
               },
             ),
           ],

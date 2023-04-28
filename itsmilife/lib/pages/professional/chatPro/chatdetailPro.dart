@@ -4,15 +4,15 @@ import 'package:itsmilife/services/NetworkManager.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../normal_user/chat/model/chatMessageModel.dart';
 
-class ChatDetailPage extends StatefulWidget {
+class ChatDetailPro extends StatefulWidget {
   late String discussionId;
-  ChatDetailPage({Key? key, required this.discussionId}) : super(key: key);
+  ChatDetailPro({Key? key, required this.discussionId}) : super(key: key);
 
   @override
-  _ChatDetailPageState createState() => _ChatDetailPageState();
+  _ChatDetailProState createState() => _ChatDetailProState();
 }
 
-class _ChatDetailPageState extends State<ChatDetailPage> {
+class _ChatDetailProState extends State<ChatDetailPro> {
   late Future<List<ChatMessage>> list_messages;
   List<ChatMessage>? chatMessagesFuture = [];
 
@@ -26,7 +26,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
               message: value.data['message']['messages'][i]['content'],
               messageID: value.data['message']['messages'][i]['_id'],
               date: value.data['message']['messages'][i]['date'],
-              id: value.data['message']['messages'][i]['_id'] != ProfileData.id
+              id: value.data['message']['messages'][i]['_id'] == ProfileData.id
                   ? 'sender'
                   : 'receiver'));
         }
