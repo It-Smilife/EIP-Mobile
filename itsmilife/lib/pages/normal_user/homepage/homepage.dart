@@ -173,7 +173,7 @@ class _HomePageState extends State<HomePage> {
                 const HomeCard(),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                 Positioned(
-                  bottom: MediaQuery.of(context).size.height * 0.12,
+                  bottom: MediaQuery.of(context).size.height * 0.1,
                   left: MediaQuery.of(context).size.height * 0.05,
                   right: MediaQuery.of(context).size.height * 0.05,
                   child: ElevatedButton(

@@ -1,12 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/professional/chatPro/patient_list.dart';
 import 'package:provider/provider.dart';
 
+import '../../../services/NetworkManager.dart';
+import '../../common/profile.dart';
 import '../../common/settings/darkModeProvider.dart';
+import '../../normal_user/chat/model/chatUsersModel.dart';
+import 'addpatient.dart';
 
-class NotificationPage extends StatelessWidget {
-  final List<ContactRequest> requests;
+class NotificationPage extends StatefulWidget {
 
-  NotificationPage({required this.requests});
+  NotificationPage({super.key});
+    @override
+  _NotificationPageState createState() => _NotificationPageState();
+}
+
+class _NotificationPageState extends State<NotificationPage> {
+  late Future<List<UserPatient>> _UsersPatientFuture;
+  
+
+  @override
+  void initState() {
+    super.initState();
+    _UsersPatientFuture = NetworkManager.get(
+            "users/" + ProfileData.id + "/uncontactedUsers")
+        .then((val) {
+      if (val.data['success'] == true) {
+        List<UserPatient> chatUsers = [];
+        for (int i = 0; i != val.data['message'].length; i++) {
+          UserPatient user = new UserPatient(
+              id: val.data['message'][i]['patient']['_id'],
+              id_discussion: val.data['message'][i]['discussionId'],
+              username: val.data['message'][i]['patient']['username'],
+              imgURL: "test/img");
+          chatUsers.add(user);
+        }
+        return chatUsers;
+      } else {
+        throw Exception('Failed to load chat users');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +50,25 @@ class NotificationPage extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  ListPatient(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return SlideTransition(
+                              position: Tween<Offset>(
+                                begin: const Offset(1, 0),
+                                end: Offset.zero,
+                              ).animate(animation),
+                              child: child,
+                            );
+                          },
+                          transitionDuration: Duration(milliseconds: 300),
+                        ),
+                      );
           },
           color: Colors.black,
         ),
@@ -30,42 +82,31 @@ class NotificationPage extends StatelessWidget {
                 fontSize: 25,
                 fontWeight: FontWeight.bold)),
       ),
-      body: ListView.builder(
-        itemCount: requests.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            leading: CircleAvatar(
-              backgroundImage: AssetImage("assets/avatarpro.png"),
+      body: FutureBuilder<List<UserPatient>>(
+              future: _UsersPatientFuture,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(top: 16),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return AddPatientList(
+                        username: snapshot.data![index].username,
+                        id: snapshot.data![index].id,
+                        id_discussion: snapshot.data![index].id_discussion,
+                        imgURL: "test/img",
+                      );
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                // By default, show a loading spinner.
+                return CircularProgressIndicator();
+              },
             ),
-            title: Text(requests[index].username),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // TODO: Implement accept button logic
-                  },
-                  child: Text('Accept'),
-                ),
-                SizedBox(width: 8),
-                OutlinedButton(
-                  onPressed: () {
-                    // TODO: Implement decline button logic
-                  },
-                  child: Text('Decline', style: TextStyle(color: Colors.redAccent)),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
     );
   }
-}
-
-class ContactRequest {
-  final String username;
-  final String avatarUrl;
-
-  ContactRequest({required this.username, required this.avatarUrl});
 }

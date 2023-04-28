@@ -89,7 +89,7 @@ class _HomeCardState extends State<HomeCard> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.08),
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.055),
                 //The gesture detector widget will detect swipes and taps of the image card
                 child: GestureDetector(
                   onHorizontalDragEnd: (dragEndDetails) {
@@ -130,7 +130,7 @@ class _HomeCardState extends State<HomeCard> {
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
-                                  const ChatProUser(),
+                                  ChatProUser(),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) {
                             return SlideTransition(
@@ -164,7 +164,7 @@ class _HomeCardState extends State<HomeCard> {
                         fit: BoxFit.contain,
                       ),
                     ),
-                    height: MediaQuery.of(context).size.width * 1.05,
+                    height: MediaQuery.of(context).size.width * 1,
                     width: MediaQuery.of(context).size.width * 0.65,
                     child: Stack(
                       children: [

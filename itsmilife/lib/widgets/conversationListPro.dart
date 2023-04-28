@@ -5,14 +5,14 @@ import 'package:itsmilife/pages/professional/chatPro/chatdetailPro.dart';
 
 import '../pages/professional/chatPro/chat_service.dart';
 
-class ConversationList extends StatefulWidget {
+class ConversationListPro extends StatefulWidget {
   String name;
   String messageText;
   String imageUrl;
   String discussion_id;
   String time;
   bool isMessageRead;
-  ConversationList(
+  ConversationListPro(
       {required this.name,
       required this.messageText,
       required this.imageUrl,
@@ -24,7 +24,7 @@ class ConversationList extends StatefulWidget {
   _ConversationListState createState() => _ConversationListState();
 }
 
-class _ConversationListState extends State<ConversationList> {
+class _ConversationListState extends State<ConversationListPro> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -33,7 +33,7 @@ class _ConversationListState extends State<ConversationList> {
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                ChatDetailPage(discussionId: widget.discussion_id),
+                ChatDetailPro(discussionId: widget.discussion_id),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(

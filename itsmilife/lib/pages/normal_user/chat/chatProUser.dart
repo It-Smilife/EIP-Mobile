@@ -5,6 +5,7 @@ import 'package:itsmilife/pages/common/profile.dart';
 import 'package:itsmilife/pages/normal_user/chat/AddPro.dart';
 import 'package:itsmilife/services/NetworkManager.dart';
 import 'package:intl/intl.dart';
+import 'package:itsmilife/widgets/bottomNavBar.dart';
 import '../../../widgets/conversationList.dart';
 import '../homepage/homepage.dart';
 import 'model/chatUsersModel.dart';
@@ -28,23 +29,25 @@ class _ChatProUserState extends State<ChatProUser> {
       if (val.data['success'] == true) {
         List<ChatUsers> chatUsers = [];
         for (int i = 0; i != val.data['message'].length; i++) {
-          String date = val.data['message'][i]['date'];
-          DateTime dateTime = DateTime.parse(date);
-          dateTime = dateTime.toLocal();
-          String formattedDate = DateFormat('jm').format(dateTime);
-          ChatUsers discussion = new ChatUsers(
-              ID: val.data['message'][i]['_id'],
-              patientID: val.data['message'][i]['patient']['_id'],
-              proID: val.data['message'][i]['professional']['_id'],
-              imageURL: "test/img",
-              name: val.data['message'][i]['professional']['username'],
-              time: formattedDate,
-              LastMessage: (val.data['message'][i]['messages'] != null &&
-                      val.data['message'][i]['messages'].isNotEmpty)
-                  ? val.data['message'][i]['messages']
-                      [val.data['message'][i]['messages'].length - 1]
-                  : "Démarrez la conversation !");
-          chatUsers.add(discussion);
+          if (val.data['message'][i]['professional']['_id'] != ProfileData.id) {
+            String date = val.data['message'][i]['date'];
+            DateTime dateTime = DateTime.parse(date);
+            dateTime = dateTime.toLocal();
+            String formattedDate = DateFormat('jm').format(dateTime);
+            ChatUsers discussion = new ChatUsers(
+                ID: val.data['message'][i]['_id'],
+                patientID: val.data['message'][i]['patient']['_id'],
+                proID: val.data['message'][i]['professional']['_id'],
+                imageURL: "assets/avatarpro.png",
+                name: val.data['message'][i]['professional']['username'],
+                time: formattedDate,
+                LastMessage: (val.data['message'][i]['messages'] != null &&
+                        val.data['message'][i]['messages'].isNotEmpty)
+                    ? val.data['message'][i]['messages']
+                        [val.data['message'][i]['messages'].length - 1]['content']
+                    : "Démarrez la conversation !");
+            chatUsers.add(discussion);
+          }
         }
         return chatUsers;
       } else {
@@ -70,7 +73,25 @@ class _ChatProUserState extends State<ChatProUser> {
                     InkWell(
                       child: Icon(Icons.arrow_back),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  Home(h_index: 1),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return SlideTransition(
+                              position: Tween<Offset>(
+                                begin: const Offset(1, 0),
+                                end: Offset.zero,
+                              ).animate(animation),
+                              child: child,
+                            );
+                          },
+                          transitionDuration: Duration(milliseconds: 300),
+                        ),
+                      );
                       },
                     ),
                     const Text(
@@ -202,6 +223,7 @@ class _ChatProUserState extends State<ChatProUser> {
                             );
                           },
                           child: ConversationList(
+                            discussion_id: chatUsers[index].ID,
                             name: chatUsers[index].name,
                             messageText: chatUsers[index].LastMessage,
                             imageUrl: chatUsers[index].imageURL,
