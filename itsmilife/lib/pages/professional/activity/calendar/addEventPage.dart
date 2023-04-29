@@ -19,6 +19,7 @@ class TestEvent extends StatefulWidget {
 }
 
 class _AddEvent extends State<TestEvent> {
+  final _formKey = GlobalKey<FormState>();
   final _titleCotroller = TextEditingController();
   final _notesController = TextEditingController();
   late DateTime _selectedTimeBegin;
@@ -48,21 +49,29 @@ class _AddEvent extends State<TestEvent> {
   }
 
   void _submitForm() {
-    final event = MyEvent(
-      title: _titleCotroller.text,
-      notes: _notesController.text,
-      start: DateTime(
-          _selectedDate.year,
-          _selectedDate.month,
-          _selectedDate.day,
-          _selectedTimeBegin.hour,
-          _selectedTimeBegin.minute),
-      end: DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day,
-          _selectedTimeEnd.hour, _selectedTimeEnd.minute),
-    );
-    final provider = Provider.of<EventProvider>(context, listen: false);
-    provider.addEvent(event);
-    Navigator.pop(context);
+    if (_titleCotroller.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Le champ Titre ne doit pas être vide.'),
+        ),
+      );
+    } else {
+      final event = MyEvent(
+        title: _titleCotroller.text,
+        notes: _notesController.text,
+        start: DateTime(
+            _selectedDate.year,
+            _selectedDate.month,
+            _selectedDate.day,
+            _selectedTimeBegin.hour,
+            _selectedTimeBegin.minute),
+        end: DateTime(_selectedDate.year, _selectedDate.month,
+            _selectedDate.day, _selectedTimeEnd.hour, _selectedTimeEnd.minute),
+      );
+      final provider = Provider.of<EventProvider>(context, listen: false);
+      provider.addEvent(event);
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -95,119 +104,84 @@ class _AddEvent extends State<TestEvent> {
             left: 5.0,
             right: 5.0,
             bottom: MediaQuery.of(context).viewInsets.bottom + 60,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 30),
-                      TextField(
-                        controller: _titleCotroller,
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(CupertinoIcons.pencil),
-                          hintText: lang.lang == "English" ? "Title" : "Titre",
-                        ),
-                      ),
-                      const SizedBox(height: 50),
-                      ElevatedButton(
-                        onPressed: () {
-                          showDatePicker(
-                            context: context,
-                            initialDate: _selectedDate,
-                            firstDate:
-                                DateTime.now().subtract(Duration(days: 365)),
-                            lastDate: DateTime.now().add(Duration(days: 365)),
-                          ).then((date) {
-                            if (date != null) {
-                              setState(() {
-                                _selectedDate = date;
-                              });
-                              print(_selectedDate);
+            child: Form(
+              key: _formKey,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 30),
+                        TextFormField(
+                          controller: _titleCotroller,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(CupertinoIcons.pencil),
+                            hintText:
+                                lang.lang == "English" ? "Title" : "Titre",
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return lang.lang == "English"
+                                  ? 'Please enter a title'
+                                  : 'Veuillez entrer un titre';
                             }
-                          });
-                        },
-                        style: ButtonStyle(
-                          // minimumSize: MaterialStateProperty.all<Size>(
-                          //   const Size(150, 35),
-                          // ),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 50),
+                        ElevatedButton(
+                          onPressed: () {
+                            showDatePicker(
+                              context: context,
+                              initialDate: _selectedDate,
+                              firstDate:
+                                  DateTime.now().subtract(Duration(days: 365)),
+                              lastDate: DateTime.now().add(Duration(days: 365)),
+                            ).then((date) {
+                              if (date != null) {
+                                setState(() {
+                                  _selectedDate = date;
+                                });
+                                print(_selectedDate);
+                              }
+                            });
+                          },
+                          style: ButtonStyle(
+                            // minimumSize: MaterialStateProperty.all<Size>(
+                            //   const Size(150, 35),
+                            // ),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                            ),
+                          ),
+                          child: SizedBox(
+                            width: 120,
+                            height: 35,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(CupertinoIcons.calendar),
+                                const SizedBox(width: 10),
+                                Text(_formattedSelectedDate),
+                              ],
                             ),
                           ),
                         ),
-                        child: SizedBox(
-                          width: 120,
-                          height: 35,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(CupertinoIcons.calendar),
-                              const SizedBox(width: 10),
-                              Text(_formattedSelectedDate),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Column(children: [
-                              Text(
-                                lang.lang == "English" ? "Begin" : "Début",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
-                              ),
-                              const SizedBox(height: 15),
-                              ElevatedButton(
-                                onPressed: () {
-                                  showTimePicker(
-                                          context: context,
-                                          initialTime: TimeOfDay.now())
-                                      .then((time) {
-                                    if (time != null) {
-                                      setState(() {
-                                        _selectedTimeBegin = DateTime(
-                                            _selectedDate.year,
-                                            _selectedDate.month,
-                                            _selectedDate.day,
-                                            time.hour,
-                                            time.minute);
-                                      });
-                                    }
-                                  });
-                                },
-                                style: ButtonStyle(
-                                  minimumSize: MaterialStateProperty.all<Size>(
-                                    const Size(90, 35),
-                                  ),
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                  ),
-                                ),
-                                child: Text(Utils.toTime(_selectedTimeBegin)),
-                              ),
-                            ]),
-                          ),
-                          const SizedBox(width: 15),
-                          const Icon(CupertinoIcons.arrow_right,
-                              color: Colors.grey),
-                          const SizedBox(width: 15),
-                          Expanded(
-                            child: Column(
-                              children: [
+                        const SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(children: [
                                 Text(
-                                  lang.lang == "English" ? "End" : "Fin",
+                                  lang.lang == "English" ? "Begin" : "Début",
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15),
@@ -221,7 +195,7 @@ class _AddEvent extends State<TestEvent> {
                                         .then((time) {
                                       if (time != null) {
                                         setState(() {
-                                          _selectedTimeEnd = DateTime(
+                                          _selectedTimeBegin = DateTime(
                                               _selectedDate.year,
                                               _selectedDate.month,
                                               _selectedDate.day,
@@ -244,24 +218,74 @@ class _AddEvent extends State<TestEvent> {
                                       ),
                                     ),
                                   ),
-                                  child: Text(Utils.toTime(_selectedTimeEnd)),
+                                  child: Text(Utils.toTime(_selectedTimeBegin)),
                                 ),
-                              ],
+                              ]),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 40),
-                      TextField(
-                        controller: _notesController,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(CupertinoIcons.doc_plaintext),
-                          hintText: 'Notes',
+                            const SizedBox(width: 15),
+                            const Icon(CupertinoIcons.arrow_right,
+                                color: Colors.grey),
+                            const SizedBox(width: 15),
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    lang.lang == "English" ? "End" : "Fin",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      showTimePicker(
+                                              context: context,
+                                              initialTime: TimeOfDay.now())
+                                          .then((time) {
+                                        if (time != null) {
+                                          setState(() {
+                                            _selectedTimeEnd = DateTime(
+                                                _selectedDate.year,
+                                                _selectedDate.month,
+                                                _selectedDate.day,
+                                                time.hour,
+                                                time.minute);
+                                          });
+                                        }
+                                      });
+                                    },
+                                    style: ButtonStyle(
+                                      minimumSize:
+                                          MaterialStateProperty.all<Size>(
+                                        const Size(90, 35),
+                                      ),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                        ),
+                                      ),
+                                    ),
+                                    child: Text(Utils.toTime(_selectedTimeEnd)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        maxLines: null,
-                        textAlignVertical: TextAlignVertical.top,
-                      ),
-                    ],
+                        const SizedBox(height: 40),
+                        TextField(
+                          controller: _notesController,
+                          decoration: const InputDecoration(
+                            prefixIcon: Icon(CupertinoIcons.doc_plaintext),
+                            hintText: 'Notes',
+                          ),
+                          maxLines: null,
+                          textAlignVertical: TextAlignVertical.top,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -310,13 +334,10 @@ class _AddEvent extends State<TestEvent> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () => {
-                          _submitForm()
-                          // addEvent(
-                          //     _titleCotroller.toString(),
-                          //     _selectedDate,
-                          //     _selectedTimeBegin,
-                          //     _selectedTimeEnd,
-                          //     _notesController.toString()),
+                          if (_formKey.currentState!.validate())
+                            {
+                              _submitForm(),
+                            }
                         },
                         style: ButtonStyle(
                           shape:

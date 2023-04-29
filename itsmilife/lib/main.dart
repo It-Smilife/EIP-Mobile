@@ -13,8 +13,9 @@ import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'pages/normal_user/activités/quizz/quizzBox.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,10 +37,19 @@ class MyApp extends StatelessWidget {
             create: (context) => DarkModeProvider()),
         ChangeNotifierProvider<LanguageProvider>(
             create: (context) => LanguageProvider()),
-        ChangeNotifierProvider(
-            create: (context) => EventProvider()),
+        ChangeNotifierProvider(create: (context) => EventProvider()),
       ],
       child: MaterialApp(
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          SfGlobalLocalizations.delegate
+        ],
+        supportedLocales: const [
+          Locale('fr'),
+          Locale('en'),
+        ],
+        locale: const Locale('fr'),
         debugShowCheckedModeBanner: false,
         home: SplashScreen(),
         routes: {

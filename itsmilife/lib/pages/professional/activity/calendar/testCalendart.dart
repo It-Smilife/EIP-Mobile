@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:itsmilife/pages/common/settings/settings.dart';
 import 'package:itsmilife/pages/professional/activity/calendar/TaskWidget.dart';
 import 'package:itsmilife/pages/professional/activity/calendar/addEventPage.dart';
@@ -10,7 +12,6 @@ import 'eventModel.dart';
 import 'eventModelTest.dart';
 import 'eventProvider.dart';
 import 'calandarDataSource.dart';
-
 
 class TestCalendar extends StatefulWidget {
   final Map<DateTime, List<Event>> eventList;
@@ -32,9 +33,10 @@ class _CalendarState extends State<TestCalendar> {
 
   List<Event> events = [];
 
-
   @override
   void initState() {
+    selectedCalendarDate = DateTime.now();
+    initializeDateFormatting('fr_FR', null);
     super.initState();
   }
 
@@ -63,7 +65,7 @@ class _CalendarState extends State<TestCalendar> {
             elevation: 5,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular(10),
+                Radius.circular(30),
               ),
               side: BorderSide(color: Colors.transparent, width: 2),
             ),
@@ -72,25 +74,48 @@ class _CalendarState extends State<TestCalendar> {
               // width: MediaQuery.of(context).size.width * 0.95,
               child: SfCalendar(
                 view: CalendarView.month,
+                allowedViews: <CalendarView>[
+                  CalendarView.month,
+                  CalendarView.day,
+                  CalendarView.week,
+                ],
+                firstDayOfWeek: 1,
+                allowViewNavigation: true,
+                showDatePickerButton: true,
                 initialSelectedDate: selectedCalendarDate,
                 dataSource: EventDataSource(eventsProvider),
                 showNavigationArrow: true,
-                // onViewChanged: _onViewChanged,
-                onLongPress: (details) {
-                  final provider =
-                      Provider.of<EventProvider>(context, listen: false);
-
-                  provider.setDate(details.date!);
   
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) => TaskWidget(),
-                  );
-                },
+                // onLongPress: (details) {
+                //   final provider =
+                //       Provider.of<EventProvider>(context, listen: false);
+
+                //   provider.setDate(details.date!);
+
+                //   showModalBottomSheet(
+                //     context: context,
+                //     builder: (context) => TaskWidget(
+                //         date: details.date, event: details.appointments),
+                //   );
+                // },
+                timeSlotViewSettings: const TimeSlotViewSettings(
+                  startHour: 5,
+                  endHour: 21,
+                  nonWorkingDays: <int>[DateTime.friday, DateTime.saturday],
+                  timeInterval: Duration(minutes: 60),
+                  timeFormat: 'HH:mm',
+                  timeIntervalHeight: 60,
+                ),
                 monthViewSettings: const MonthViewSettings(
-                    appointmentDisplayMode:
-                        MonthAppointmentDisplayMode.indicator,
-                    navigationDirection: MonthNavigationDirection.horizontal),
+                  showAgenda: false,
+                  appointmentDisplayMode: MonthAppointmentDisplayMode.indicator,
+                  navigationDirection: MonthNavigationDirection.horizontal,
+                  appointmentDisplayCount: 1,
+                  dayFormat: 'EEE',
+                  showTrailingAndLeadingDates: false,
+                  // numberOfWeeksInView: 5,
+                ),
+                cellBorderColor: Color.fromARGB(255, 204, 204, 204),
                 selectionDecoration: BoxDecoration(
                   color: Colors.deepPurple.withOpacity(0.3),
                   shape: BoxShape.rectangle,
@@ -121,6 +146,7 @@ class _CalendarState extends State<TestCalendar> {
         hoverColor: Colors.purple,
         elevation: 5,
         child: const Icon(CupertinoIcons.add),
+        
       ),
     );
   }

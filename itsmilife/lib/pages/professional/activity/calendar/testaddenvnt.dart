@@ -56,6 +56,12 @@ class _AddEvent extends State<TestEvnt> {
     final appBar = AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
+      leading: IconButton(
+        icon: Icon(CupertinoIcons.back),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
     );
     final lang = Provider.of<LanguageProvider>(context);
 
