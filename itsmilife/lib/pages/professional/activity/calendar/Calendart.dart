@@ -136,6 +136,7 @@ class _CalendarState extends State<Calendar> {
                                   ),
                                   TextButton(
                                     onPressed: () async {
+                                      Navigator.pop(context);
                                       final isUpdated = await Navigator.push(
                                         context,
                                         MaterialPageRoute(
