@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/professional/activity/calendar/eventProvider.dart';
 import 'package:provider/provider.dart';
-import 'testCalendart.dart';
+import 'Calendart.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'calandarDataSource.dart';
@@ -19,14 +19,6 @@ class _TaskWidgetState extends State<TaskWidget> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<EventProvider>(context);
-    // if (widget.event!.isEmpty) {
-    //   return const Center(
-    //     child: Text(
-    //       'No Events found for this day.',
-    //       style: TextStyle(color: Colors.black, fontSize: 24),
-    //     ),
-    //   );
-    // }
     return SfCalendarTheme(
       data: SfCalendarThemeData(),
       child: SfCalendar(

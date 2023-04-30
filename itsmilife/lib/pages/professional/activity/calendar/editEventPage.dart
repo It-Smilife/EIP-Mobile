@@ -1,77 +1,81 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:itsmilife/pages/common/settings/languageProvider.dart';
-import 'package:itsmilife/pages/professional/activity/calendar/eventProvider.dart';
-import 'package:provider/provider.dart';
-import 'package:collection/collection.dart';
 import 'Utils.dart';
 import 'eventModelTest.dart';
-import 'package:itsmilife/pages/professional/activity/calendar/addEventToServ.dart';
+import 'eventProvider.dart';
+import 'package:provider/provider.dart';
+import 'package:itsmilife/pages/common/settings/languageProvider.dart';
+import 'updateEvent.dart';
 
-class AddEvent extends StatefulWidget {
-  const AddEvent({super.key});
+class EditEventPage extends StatefulWidget {
+  final MyEvent? event;
+
+  const EditEventPage({super.key, required this.event});
 
   @override
-  _AddEvent createState() => _AddEvent();
+  State<EditEventPage> createState() => _EditEventPageState();
 }
 
-class _AddEvent extends State<AddEvent> {
+class _EditEventPageState extends State<EditEventPage> {
   final _formKey = GlobalKey<FormState>();
-  final _titleCotroller = TextEditingController();
+  final _titleController = TextEditingController();
   final _notesController = TextEditingController();
-  late DateTime _selectedTimeBegin;
-  late DateTime _selectedTimeEnd;
-  final DateTime _initialEnd = DateTime.now().add(const Duration(hours: 2));
-  DateTime _selectedDate = DateTime.now();
+  late DateTime _start;
+  late DateTime _end;
   String _formattedSelectedDate = '';
 
-  String _formatDatefr(DateTime date) {
+  String _formatDate(DateTime date) {
     return "${DateFormat.EEEE("fr").format(date).substring(0, 3)}. ${DateFormat.d("fr").format(date)} ${DateFormat.MMMM("fr").format(date).substring(0, 3)}.";
   }
 
   @override
   void initState() {
     super.initState();
-    initializeDateFormatting('fr_FR', null);
-    _selectedTimeBegin = DateTime.now();
-    _selectedTimeEnd = DateTime.now().add(const Duration(hours: 2));
-    _notesController.text = "";
+
+    if (widget.event == null) {
+      _start = DateTime.now();
+      _end = DateTime.now().add(const Duration(hours: 2));
+      _formattedSelectedDate = _formatDate(_start);
+    } else {
+      final event = widget.event!;
+      _titleController.text = event.title;
+      _notesController.text = event.notes;
+      _start = event.start;
+      _formattedSelectedDate = _formatDate(_start);
+      _end = event.end;
+    }
   }
 
   @override
   void dispose() {
-    _titleCotroller.dispose();
+    _titleController.dispose();
     _notesController.dispose();
+
     super.dispose();
   }
 
-  // void _submitForm() {
-  //   if (_titleCotroller.text.isEmpty) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text('Le champ Titre ne doit pas être vide.'),
-  //       ),
-  //     );
-  //   } else {
-  //     final event = MyEvent(
-  //       title: _titleCotroller.text,
-  //       notes: _notesController.text,
-  //       start: DateTime(
-  //           _selectedDate.year,
-  //           _selectedDate.month,
-  //           _selectedDate.day,
-  //           _selectedTimeBegin.hour,
-  //           _selectedTimeBegin.minute),
-  //       end: DateTime(_selectedDate.year, _selectedDate.month,
-  //           _selectedDate.day, _selectedTimeEnd.hour, _selectedTimeEnd.minute),
-  //     );
-  //     final provider = Provider.of<EventProvider>(context, listen: false);
-  //     provider.addEvent(event);
-  //     Navigator.pop(context);
-  //   }
-  // }
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      final event = MyEvent(
+        id: "",
+        title: _titleController.text,
+        notes: _notesController.text,
+        start: _start,
+        end: _end,
+      );
+
+      final isEditing = widget.event != null;
+      final provider = Provider.of<EventProvider>(context, listen: false);
+
+      if (isEditing) {
+        provider.editEvent(event, widget.event!);
+        Navigator.pop(context);
+      } else {
+        provider.addEvent(event);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,52 +89,45 @@ class _AddEvent extends State<AddEvent> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color.fromARGB(255, 205, 205, 205),
+      appBar: appBar,
       body: Stack(
         children: <Widget>[
-          // Positioned(
-          //   top: 0,
-          //   left: MediaQuery.of(context).size.width * 0.10,
-          //   right: 0,
-          //   bottom: 0,
-          //   child: Text(
-          //     lang.lang == "English" ? "Add an Evend" : "Ajouter un évènement",
-          //     style:
-          //         const TextStyle(fontSize: 30, fontWeight: FontWeight.normal),
-          //   ),
-          // ),
           Positioned(
             top: 0,
-            left: 0,
+            left: MediaQuery.of(context).size.width * 0.10,
             right: 0,
+            bottom: 0,
+            child: Text(
+              lang.lang == "English"
+                  ? "Edit an Evend"
+                  : "Modifier un évènement",
+              style:
+                  const TextStyle(fontSize: 30, fontWeight: FontWeight.normal),
+            ),
+          ),
+          Positioned(
+            top: appBar.preferredSize.height + 10,
+            left: 5.0,
+            right: 5.0,
             bottom: MediaQuery.of(context).viewInsets.bottom + 60,
             child: Form(
               key: _formKey,
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(30.0),
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.15),
-                        Text(
-                          lang.lang == "English"
-                              ? "Add an Evend"
-                              : "Ajouter un évènement",
-                          style: const TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 50),
+                        const SizedBox(height: 30),
                         TextFormField(
-                          controller: _titleCotroller,
+                          controller: _titleController,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(CupertinoIcons.pencil),
-                            hintText:
-                                lang.lang == "English" ? "Title" : "Titre",
+                            hintText: _titleController.text,
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -142,47 +139,47 @@ class _AddEvent extends State<AddEvent> {
                           },
                         ),
                         const SizedBox(height: 50),
-                        ElevatedButton(
-                          onPressed: () {
-                            showDatePicker(
-                              context: context,
-                              initialDate: _selectedDate,
-                              firstDate: DateTime.now()
-                                  .subtract(const Duration(days: 365)),
-                              lastDate:
-                                  DateTime.now().add(const Duration(days: 365)),
-                            ).then((date) {
-                              if (date != null) {
-                                setState(() {
-                                  _selectedDate = date;
-                                });
-                              }
-                            });
-                          },
-                          style: ButtonStyle(
-                            // minimumSize: MaterialStateProperty.all<Size>(
-                            //   const Size(150, 35),
-                            // ),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                            ),
-                          ),
-                          child: SizedBox(
-                            width: 120,
-                            height: 35,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(CupertinoIcons.calendar),
-                                const SizedBox(width: 10),
-                                Text(_formatDatefr(_selectedDate)),
-                              ],
-                            ),
-                          ),
-                        ),
+                        // ElevatedButton(
+                        //   onPressed: () {
+                        //     showDatePicker(
+                        //       context: context,
+                        //       initialDate: _start,
+                        //       firstDate: DateTime.now()
+                        //           .subtract(const Duration(days: 365)),
+                        //       lastDate:
+                        //           DateTime.now().add(const Duration(days: 365)),
+                        //     ).then((date) {
+                        //       if (date != null) {
+                        //         setState(() {
+                        //           _start = date;
+                        //         });
+                        //       }
+                        //     });
+                        //   },
+                        //   style: ButtonStyle(
+                        //     // minimumSize: MaterialStateProperty.all<Size>(
+                        //     //   const Size(150, 35),
+                        //     // ),
+                        //     shape: MaterialStateProperty.all<
+                        //         RoundedRectangleBorder>(
+                        //       RoundedRectangleBorder(
+                        //         borderRadius: BorderRadius.circular(20.0),
+                        //       ),
+                        //     ),
+                        //   ),
+                        //   child: SizedBox(
+                        //     width: 120,
+                        //     height: 35,
+                        //     child: Row(
+                        //       mainAxisAlignment: MainAxisAlignment.center,
+                        //       children: [
+                        //         const Icon(CupertinoIcons.calendar),
+                        //         const SizedBox(width: 10),
+                        //         Text(_formatDate(_start)),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
                         const SizedBox(height: 20),
                         Row(
                           children: [
@@ -203,13 +200,14 @@ class _AddEvent extends State<AddEvent> {
                                         .then((time) {
                                       if (time != null) {
                                         setState(() {
-                                          _selectedTimeBegin = DateTime(
-                                              _selectedDate.year,
-                                              _selectedDate.month,
-                                              _selectedDate.day,
+                                          _start = DateTime(
+                                              _start.year,
+                                              _start.month,
+                                              _start.day,
                                               time.hour,
                                               time.minute);
                                         });
+                                        print(_start.day);
                                       }
                                     });
                                   },
@@ -226,7 +224,7 @@ class _AddEvent extends State<AddEvent> {
                                       ),
                                     ),
                                   ),
-                                  child: Text(Utils.toTime(_selectedTimeBegin)),
+                                  child: Text(Utils.toTime(_start)),
                                 ),
                               ]),
                             ),
@@ -248,19 +246,18 @@ class _AddEvent extends State<AddEvent> {
                                     onPressed: () {
                                       showTimePicker(
                                               context: context,
-                                              initialTime: TimeOfDay(
-                                                  hour: _initialEnd.hour,
-                                                  minute: _initialEnd.minute))
+                                              initialTime: TimeOfDay.now())
                                           .then((time) {
                                         if (time != null) {
                                           setState(() {
-                                            _selectedTimeEnd = DateTime(
-                                                _selectedDate.year,
-                                                _selectedDate.month,
-                                                _selectedDate.day,
+                                            _end = DateTime(
+                                                _end.year,
+                                                _end.month,
+                                                _end.day,
                                                 time.hour,
                                                 time.minute);
                                           });
+                                          print(_end.day);
                                         }
                                       });
                                     },
@@ -277,7 +274,7 @@ class _AddEvent extends State<AddEvent> {
                                         ),
                                       ),
                                     ),
-                                    child: Text(Utils.toTime(_selectedTimeEnd)),
+                                    child: Text(Utils.toTime(_end)),
                                   ),
                                 ],
                               ),
@@ -345,24 +342,17 @@ class _AddEvent extends State<AddEvent> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () async {
-                          bool success = await addEvent(
-                            title: _titleCotroller.text,
-                            start: DateTime(
-                                _selectedTimeBegin.year,
-                                _selectedTimeBegin.month,
-                                _selectedTimeBegin.day,
-                                _selectedTimeBegin.hour,
-                                _selectedTimeBegin.minute),
-                            end: DateTime(
-                                _selectedTimeEnd.year,
-                                _selectedTimeEnd.month,
-                                _selectedTimeEnd.day,
-                                _selectedTimeEnd.hour,
-                                _selectedTimeEnd.minute),
-                            notes: _notesController.text,
-                          );
-
-                          Navigator.pop(context, success);
+                          // _submitForm(),
+                          if (_formKey.currentState!.validate()) {
+                            await updateEvent(
+                              widget.event!.id,
+                              _titleController.text,
+                              _start,
+                              _end,
+                              _notesController.text,
+                            );
+                            Navigator.pop(context, true);
+                          }
                         },
                         style: ButtonStyle(
                           shape:

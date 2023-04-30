@@ -19,4 +19,17 @@ class EventProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void editEvent(MyEvent newEvent, MyEvent oldEvent) {
+    final index = _events.indexOf(oldEvent);
+    _events[index] = newEvent;
+
+    notifyListeners();
+  }
+
+  void deleteEvent(MyEvent event) {
+    _events.remove(event);
+
+    notifyListeners();
+  }
 }

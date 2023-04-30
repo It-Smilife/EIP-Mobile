@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyEvent {
+  final String id;
   final String title;
   final String notes;
   final DateTime start;
@@ -13,5 +14,6 @@ class MyEvent {
       required this.notes,
       required this.start,
       required this.end,
+      required this.id,
       this.backgroundColor = Colors.red});
 }
