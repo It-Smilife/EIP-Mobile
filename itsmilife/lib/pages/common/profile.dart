@@ -48,6 +48,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);
     return Scaffold(
+          resizeToAvoidBottomInset: false, 
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight + 0.9), // 1 for the border
         child: Container(
@@ -133,11 +134,11 @@ class _ProfileSettingPageState extends State<ProfilePage> {
           ),
         ),
       ),
-      body: Padding(
+      body:  Padding(
         padding: const EdgeInsets.all(0),
-        child: Form(
+        child:  Form(
           key: _formKey,
-          child: Column(
+          child: SingleChildScrollView(child: Column(
             children: <Widget>[
               const SizedBox(
                 width: 0,
@@ -201,7 +202,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          lang.lang == "English" ? "Laste name" : "Nom",
+                          lang.lang == "English" ? "Last name" : "Nom",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
@@ -364,6 +365,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                 ),
               ),
             ],
+          ),
           ),
         ),
       ),

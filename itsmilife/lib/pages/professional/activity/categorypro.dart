@@ -121,7 +121,7 @@ class _CategoryProState extends State<CategoryPro> {
                         );
                       },
                       child: Container(
-                        width: MediaQuery.of(context).size.height * 0.32,
+                        width: MediaQuery.of(context).size.height * 0.28,
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 98, 128, 182),
                           borderRadius: BorderRadius.circular(10),

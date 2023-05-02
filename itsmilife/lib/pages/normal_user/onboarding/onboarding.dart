@@ -67,7 +67,9 @@ class _OnboardingScreenState extends State<OnBoarding> {
           child: Padding(
             padding: EdgeInsets.symmetric(
                 vertical: MediaQuery.of(context).size.height * 0.01),
-            child: Column(
+            child: SingleChildScrollView(
+          child: 
+            Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Container(
@@ -315,12 +317,13 @@ class _OnboardingScreenState extends State<OnBoarding> {
                     ],
                   ),
                 ),
-                 SizedBox(height: MediaQuery.of(context).size.height * 0.045),
+                 SizedBox(height: MediaQuery.of(context).size.height * 0.07),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: _buildPageIndicator(),
                 ),
               ],
+            ),
             ),
           ),
         ),

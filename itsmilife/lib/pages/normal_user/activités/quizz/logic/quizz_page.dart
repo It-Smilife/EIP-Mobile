@@ -29,13 +29,7 @@ class _SlidePageRoute<T> extends PageRouteBuilder<T> {
               Animation<double> animation,
               Animation<double> secondaryAnimation,
               Widget child) {
-            return SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(1.0, 0.0),
-                end: Offset.zero,
-              ).animate(animation),
-              child: child,
-            );
+            return child;
           },
         );
 }
@@ -145,8 +139,7 @@ class _QuizPageState extends State<QuizPage> {
                     questionIndex: _questionIndex,
                     answerQuestion: _answerQuestion,
                   )
-                : Result(
-                    _score, _resetQuiz, _questions[0]["results"]);
+                : Result(_score, _resetQuiz, _questions[0]["results"]);
           }
         },
       ),
