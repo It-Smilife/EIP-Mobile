@@ -79,14 +79,15 @@ class _CategoryPageState extends State<CategoryPage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             Container(
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 98, 128, 182),
                 border: Border.all(
                   color: Colors.white,
-                  width: 2,
+                  width: 0,
                 ),
                 borderRadius: BorderRadius.circular(15),
               ),
@@ -103,7 +104,7 @@ class _CategoryPageState extends State<CategoryPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             Padding(
               padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05, right: MediaQuery.of(context).size.width * 0.05),
               child: Expanded(
