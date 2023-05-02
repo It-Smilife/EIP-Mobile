@@ -1,11 +1,7 @@
-import 'dart:io';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:itsmilife/pages/common/settings/settings.dart';
-import 'package:itsmilife/pages/normal_user/onboarding/onboarding.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
-
 import '../../services/NetworkManager.dart';
 
 class ProfileData {
@@ -53,9 +49,9 @@ class _ProfileSettingPageState extends State<ProfilePage> {
     final lang = Provider.of<LanguageProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight + 1), // 1 for the border
+        preferredSize: const Size.fromHeight(kToolbarHeight + 0.9), // 1 for the border
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             border: Border(
               bottom: BorderSide(
                 width: 0.5,
@@ -65,17 +61,18 @@ class _ProfileSettingPageState extends State<ProfilePage> {
           ),
           child: AppBar(
             leading: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(CupertinoIcons.back),
               onPressed: () {
                 Navigator.pop(context);
               },
-              color: Colors.black,
+              color: Color.fromARGB(255, 98, 128, 182),
             ),
             centerTitle: true,
             backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-            title: Text("Modifier le profil",
+            title: Text(
+              lang.lang == "English" ? "Edit the profile" : "Modifier le profil",
                 style: const TextStyle(
-                    color: Colors.black,
+                    color: Color.fromARGB(255, 98, 128, 182),
                     fontSize: 25,
                     fontWeight: FontWeight.bold)),
             actions: <Widget>[
@@ -106,15 +103,15 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text("Modification du profile"),
+                              title: const Text("Modification du profile"),
                               content:
-                                  Text("Votre profile à bien été modifié"),
+                                  const Text("Votre profile à bien été modifié"),
                               actions: [
                                 TextButton(
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  child: Text("OK"),
+                                  child: const Text("OK"),
                                 ),
                               ],
                             );
@@ -125,8 +122,8 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                   }
                 },
                 child: Text(
-                  'Terminé',
-                  style: TextStyle(
+                  lang.lang == "English" ? "Save" : "Terminé",
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -177,18 +174,9 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                       ),
                     ],
                   ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: TextButton(
-                      onPressed: () {
-                        // Handle text button press
-                      },
-                      child: Text('Modify photo or avatar'),
-                    ),
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.030)
                 ],
               ),
-
               // Name
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.024),
@@ -213,16 +201,16 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Name',
-                          style: TextStyle(
+                          lang.lang == "English" ? "Laste name" : "Nom",
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         TextFormField(
                           initialValue: ProfileData.lastName,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.zero,
                             isDense: true,
@@ -230,18 +218,18 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           validator: (value) {},
                           onSaved: (value) => _name = value!,
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Text(
-                          'Prenom',
-                          style: TextStyle(
+                          lang.lang == "English" ? "First name" : "Prénom",
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         TextFormField(
                           initialValue: ProfileData.firstName,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.zero,
                             isDense: true,
@@ -249,18 +237,18 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           validator: (value) {},
                           onSaved: (value) => _prenom = value!,
                         ),
-                        SizedBox(height: 5),
-                        Text(
+                        const SizedBox(height: 5),
+                        const Text(
                           'Email',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         TextFormField(
                           initialValue: ProfileData.email,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.zero,
                             isDense: true,
@@ -268,18 +256,18 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           validator: (value) {},
                           onSaved: (value) => _email = value!,
                         ),
-                        SizedBox(height: 5),
-                        Text(
+                        const SizedBox(height: 5),
+                        const Text(
                           'Age',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         TextFormField(
                           initialValue: ProfileData.age.toString(),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.zero,
                             isDense: true,
@@ -287,18 +275,18 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           validator: (value) {},
                           onSaved: (value) => _age = int.parse(value!),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Text(
-                          'Gender',
-                          style: TextStyle(
+                          lang.lang == "English" ? "Gender" : "Genre",
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         DropdownButtonFormField(
                           value: ProfileData.gender,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.zero,
                             isDense: true,
@@ -318,52 +306,52 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           }).toList(),
                           onChanged: (String? value) {},
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Text(
-                          'Phone Number',
+                          lang.lang == "English" ? "Phone number" : "Numéro de Téléphone",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(height:5),
+                        const SizedBox(height:5),
                         TextFormField(
                           initialValue: ProfileData.phoneNumber,
                           decoration: InputDecoration(
-                            hintText: 'Enter your phone number',
+                            hintText: lang.lang == "English" ? "Enter your phone number" : "Entrez un numéro de téléphone",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide.none,
                             ),
                             filled: true,
-                            fillColor: Color(0xFFF5F5F5),
-                            contentPadding: EdgeInsets.symmetric(
+                            fillColor: const Color(0xFFF5F5F5),
+                            contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 10),
                           ),
                           keyboardType: TextInputType.phone,
                           validator: (value) {},
                           onSaved: (value) => _phoneNumber = value!,
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Text(
-                          'Address',
-                          style: TextStyle(
+                          lang.lang == "English" ? "Address" : "Adresse",
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         TextFormField(
                           initialValue: ProfileData.address,
                           decoration: InputDecoration(
-                            hintText: 'Enter your address',
+                            hintText: lang.lang == "English" ? "Enter your adress" : "Entrez une adresse",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide.none,
                             ),
                             filled: true,
-                            fillColor: Color(0xFFF5F5F5),
-                            contentPadding: EdgeInsets.symmetric(
+                            fillColor: const Color(0xFFF5F5F5),
+                            contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 15, vertical: 10),
                           ),
                           maxLines: 1,

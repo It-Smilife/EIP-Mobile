@@ -133,6 +133,7 @@ class _AddPatientListState extends State<AddPatientList> {
                 color: cupertino.CupertinoColors.systemBlue,
               ),
             ),
+            const SizedBox(width: 15),
             GestureDetector(
               onTap: () {
                 showCupertinoModalPopup(

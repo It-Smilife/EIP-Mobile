@@ -95,7 +95,7 @@ class _CategoryProState extends State<CategoryPro> {
                         width: MediaQuery.of(context).size.height * 0.2,
                       ),
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     GestureDetector(
                       onTap: () {
                         // handle the tap event on the title

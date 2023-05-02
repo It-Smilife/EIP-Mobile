@@ -169,13 +169,12 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
               Expanded(
                   child: Stack(children: <Widget>[
-                    
                 const HomeCard(),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                 Positioned(
-                  bottom: MediaQuery.of(context).size.height * 0.1,
-                  left: MediaQuery.of(context).size.height * 0.05,
-                  right: MediaQuery.of(context).size.height * 0.05,
+                  bottom: MediaQuery.of(context).size.height * 0.12,
+                  left: MediaQuery.of(context).size.height * 0.15,
+                  right: MediaQuery.of(context).size.height * 0.15,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
@@ -186,7 +185,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                     child: Text(
                       lang.lang == "English" ? "Emergency" : "Urgence",
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     onPressed: () {
                       showModalBottomSheet(

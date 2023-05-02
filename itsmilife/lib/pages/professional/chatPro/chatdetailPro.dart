@@ -178,10 +178,6 @@ class _ChatDetailProState extends State<ChatDetailPro> {
                     ],
                   ),
                 ),
-                Icon(
-                  Icons.settings,
-                  color: Colors.black54,
-                ),
               ],
             ),
           ),
@@ -250,15 +246,7 @@ class _ChatDetailProState extends State<ChatDetailPro> {
                         color: Colors.lightBlue,
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 20,
-                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 15,
                   ),
                   Expanded(
                     child: TextField(

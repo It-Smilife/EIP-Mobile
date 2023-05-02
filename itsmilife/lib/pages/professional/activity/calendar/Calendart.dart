@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import 'package:itsmilife/pages/common/settings/settings.dart';
 import 'package:itsmilife/pages/professional/activity/calendar/TaskWidget.dart';
 import 'package:itsmilife/pages/professional/activity/calendar/addEventPage.dart';
@@ -39,12 +41,13 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context);
     final eventsProvider = Provider.of<EventProvider>(context).events;
     final provider = Provider.of<EventProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Calendar',
+        title: Text(
+          lang.lang == "English" ? "Calendar" : "Calandrier",
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.transparent,
@@ -57,9 +60,9 @@ class _CalendarState extends State<Calendar> {
       ),
       body: SingleChildScrollView(
         child: Column(children: [
-          const SizedBox(height: 20),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
           Card(
-            margin: EdgeInsets.all(5),
+            margin: EdgeInsets.only(right: 10, left: 10),
             elevation: 5,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
@@ -68,7 +71,7 @@ class _CalendarState extends State<Calendar> {
               side: BorderSide(color: Colors.transparent, width: 2),
             ),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.7,
+              height: MediaQuery.of(context).size.height * 0.76,
               // width: MediaQuery.of(context).size.width * 0.95,
               child: FutureBuilder(
                   future: _eventsFuture,

@@ -58,6 +58,7 @@ class _SettingsPage extends State<SettingsPage> {
                 color: Color.fromARGB(255, 98, 128, 182),
                 fontSize: 25,
                 fontWeight: FontWeight.bold)),
+        leading: Icon(CupertinoIcons.add, color: Colors.white),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),

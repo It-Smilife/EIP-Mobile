@@ -139,9 +139,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       MediaQuery.of(context).size.height * 0.05,
                       20,
                       30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
+                  child: Center(
+                    child:
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.5,
                         height: 40,
@@ -211,26 +210,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                       ),
-                      FloatingActionButton(
-                        onPressed: () {},
-                        mini: true,
-                        elevation: 0,
-                        child: const ClipOval(
-                          child: Image(
-                            image: AssetImage("assets/facebook.png"),
-                          ),
-                        ),
-                      ),
-                      FloatingActionButton(
-                        backgroundColor: Colors.white,
-                        onPressed: () {},
-                        mini: true,
-                        elevation: 0,
-                        child: const Image(
-                          image: AssetImage("assets/google.png"),
-                        ),
-                      ),
-                    ],
                   ),
                 ),
                 Row(
@@ -253,18 +232,6 @@ class _RegisterPageState extends State<RegisterPage> {
                               pageBuilder:
                                   (context, animation, secondaryAnimation) =>
                                       const LoginPage(),
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return SlideTransition(
-                                  position: Tween<Offset>(
-                                    begin: const Offset(1, 0),
-                                    end: Offset.zero,
-                                  ).animate(animation),
-                                  child: child,
-                                );
-                              },
-                              transitionDuration:
-                                  const Duration(milliseconds: 300),
                             ),
                           );
                         },

@@ -36,7 +36,7 @@ class _ChangePassPage extends State<ChangePassPage> {
 
   void verifyUser(String oldPass, String newPass) async {
     email = ProfileData.email;
-     id = ProfileData.id;
+    id = ProfileData.id;
     await NetworkManager.post(
         "authenticate", {"email": email, "password": oldPass}).then((value) {
       if (value.data["success"] == true) {
@@ -60,8 +60,15 @@ class _ChangePassPage extends State<ChangePassPage> {
           ? const Color.fromARGB(255, 58, 50, 83)
           : const Color.fromARGB(255, 246, 246, 246),
       appBar: AppBar(
-        title: Text(lang.lang == "English" ? "Password" : "Mot de passe"),
+        backgroundColor: Colors.white,
+        title: Text(
+          lang.lang == "English" ? "Password" : "Mot de passe",
+          style: const TextStyle(
+            color: Color.fromARGB(255, 98, 128, 182),
+          ),
+        ),
         leading: IconButton(
+          color: Color.fromARGB(255, 98, 128, 182),
           icon: const Icon(CupertinoIcons.back),
           onPressed: () {
             Navigator.pop(context);
@@ -107,6 +114,7 @@ class _ChangePassPage extends State<ChangePassPage> {
                         ? 'Enter the current password'
                         : "Entrez le mot de passe actuel",
                     enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
                       borderSide: BorderSide(
                         width: 2,
                         color: Colors.grey,
@@ -133,6 +141,7 @@ class _ChangePassPage extends State<ChangePassPage> {
                         ? "Enter the new password"
                         : "Entrez le nouveau mot de passe",
                     enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
                       borderSide: BorderSide(
                         width: 2,
                         color: Colors.grey,
@@ -152,7 +161,7 @@ class _ChangePassPage extends State<ChangePassPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 120),
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 98, 128, 182),
-                  borderRadius: BorderRadius.circular(9),
+                  borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
@@ -169,8 +178,8 @@ class _ChangePassPage extends State<ChangePassPage> {
                     verifyUser(
                         fieldText1.text.toString(), fieldText2.text.toString());
                   },
-                  child: const Text(
-                    "Save",
+                  child: Text(
+                    lang.lang == "English" ? "Save" : "Sauvegarder",
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

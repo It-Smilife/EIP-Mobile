@@ -39,7 +39,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
       width: isActive ? 24.0 : 16.0,
       decoration: BoxDecoration(
         color:
-            isActive ? const Color.fromARGB(255, 98, 128, 182) : Colors.white,
+            isActive ? Colors.white : Colors.grey,
         borderRadius: const BorderRadius.all(Radius.circular(12)),
       ),
     );
@@ -59,18 +59,19 @@ class _OnboardingScreenState extends State<OnBoarding> {
               colors: [
                 Color(0xFF3594DD),
                 Color(0xFF4563DB),
+                Color(0xFF4563DB),
                 Color.fromARGB(255, 98, 128, 182),
-                Color.fromARGB(255, 219, 219, 219),
               ],
             ),
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
+            padding: EdgeInsets.symmetric(
+                vertical: MediaQuery.of(context).size.height * 0.01),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.7,
+                  height: MediaQuery.of(context).size.height * 0.9,
                   child: PageView(
                     physics: const ClampingScrollPhysics(),
                     controller: _pageController,
@@ -81,7 +82,8 @@ class _OnboardingScreenState extends State<OnBoarding> {
                     },
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.015),
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.height * 0.015),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -90,24 +92,29 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                 image: AssetImage(
                                   'assets/logo.png',
                                 ),
-                                height: MediaQuery.of(context).size.height * 0.4,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.4,
                                 width: MediaQuery.of(context).size.height * 0.4,
                               ),
                             ),
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.05),
-                            Center(child: Text(
-                              "Bienvenue sur It'Smilife !",
-                              style: kTitleStyle,
+                            Center(
+                              child: Text(
+                                "Bienvenue sur It'Smilife !",
+                                style: kTitleStyle,
+                              ),
                             ),
-                            ),
-                            SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-                            Center(child: Text(
-                              "Avant de pouvoir vous lancer dans l'aventure It'Smilife, vous devez renseigner les informations nécessaires.",
-                              style: kSubtitleStyle,
-                              textAlign: TextAlign.center,
-                            ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.025),
+                            Center(
+                              child: Text(
+                                "Avant de pouvoir vous lancer dans l'aventure It'Smilife, vous devez renseigner les informations nécessaires.",
+                                style: kSubtitleStyle,
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ],
                         ),
@@ -125,46 +132,54 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                 image: AssetImage(
                                   'assets/logosmile.png',
                                 ),
-                                height: MediaQuery.of(context).size.height * 0.4,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.4,
                                 width: MediaQuery.of(context).size.height * 0.4,
                               ),
                             ),
-                            SizedBox(height:
+                            SizedBox(
+                                height:
                                     MediaQuery.of(context).size.height * 0.001),
-                            Center(child: Text(
-                              'Bonjour ' +
-                                  ProfileData.username +
-                                  ',  je me surnomme Smile',
-                              style: kTitleStyle,
-                              textAlign: TextAlign.center,
+                            Center(
+                              child: Text(
+                                'Bonjour ' +
+                                    ProfileData.username +
+                                    ',  je me surnomme Smile',
+                                style: kTitleStyle,
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                            ),
-                            SizedBox(height:
+                            SizedBox(
+                                height:
                                     MediaQuery.of(context).size.height * 0.025),
-                            Center(child: Text(
-                              'Ma mission est de vous accompagner tout au long de votre aventure. Diriger vous vers la page suivante afin de finaliser votre inscription.',
-                              style: kSubtitleStyle,
-                              textAlign: TextAlign.center,
-                            ),
+                            Center(
+                              child: Text(
+                                'Ma mission est de vous accompagner tout au long de votre aventure. Diriger vous vers la page suivante afin de finaliser votre inscription.',
+                                style: kSubtitleStyle,
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ],
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.025),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Center(
-                              child: Text(
-                                'Informations personnelles',
-                                style: kTitleStyle,
-                              ),
-                            ),
-                            SizedBox(height:  MediaQuery.of(context).size.height * 0.12),
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.height * 0.025),
+                        child:
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
+                                  
+                                 Center(
+                                child: Text(
+                                  'Informations personnelles',
+                                  style: kTitleStyle,
+                                ),
+                              ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.12),
+
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -185,7 +200,9 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height:  MediaQuery.of(context).size.height * 0.035),
+                                SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.035),
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -206,7 +223,9 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: MediaQuery.of(context).size.height * 0.035),
+                                SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.035),
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -227,7 +246,9 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: MediaQuery.of(context).size.height * 0.035),
+                                SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.035),
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -248,8 +269,11 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: MediaQuery.of(context).size.height * 0.035),
+                                SizedBox(height: MediaQuery.of(context).size.height *
+                                        0.035),
                                 Container(
+                                  width: MediaQuery.of(context).size.height *
+                                        0.15,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white,
@@ -261,7 +285,7 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                       ),
                                     ],
                                   ),
-                                  child: DropdownButton<String>(
+                                  child: Center(child: DropdownButton<String>(
                                     hint: _selectedGender == null
                                         ? const Text("  Select Gender")
                                         : Text(_selectedGender),
@@ -271,25 +295,27 @@ class _OnboardingScreenState extends State<OnBoarding> {
                                         _selectedGender = newValue!;
                                       });
                                     },
-                                    items: [['male', 'homme'], ['female', 'femme'], ['other', 'autres']]
-                                        .map<DropdownMenuItem<String>>(
-                                            (value) {
+                                    items: [
+                                      ['male', 'homme'],
+                                      ['female', 'femme'],
+                                      ['other', 'autres']
+                                    ].map<DropdownMenuItem<String>>((value) {
                                       return DropdownMenuItem<String>(
                                         value: value[0],
                                         child: Text(value[1]),
                                       );
                                     }).toList(),
                                   ),
+                                  ),
                                 ),
                               ],
-                            ),
-                          ],
                         ),
                       ),
+                      
                     ],
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.25),
+                 SizedBox(height: MediaQuery.of(context).size.height * 0.045),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: _buildPageIndicator(),

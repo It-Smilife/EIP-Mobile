@@ -57,16 +57,16 @@ class _HomeCardState extends State<HomeCard> {
             children: [
               Padding(
                 padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.02),
+                    top: MediaQuery.of(context).size.height * 0.05),
                 child: Container(
                   width: MediaQuery.of(context).size.height * 0.45,
                   height: MediaQuery.of(context).size.height * 0.07,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: Colors.grey,
-                      width: 2,
+                      width: 1,
                     ),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15),
                     boxShadow: const [
                       BoxShadow(
                         color: Color.fromARGB(255, 98, 128, 182),
@@ -83,13 +83,14 @@ class _HomeCardState extends State<HomeCard> {
                         fontSize:
                             MediaQuery.of(context).size.width > 2340 || MediaQuery.of(context).size.height > 1080 ? 34 : 24,
                         color: Colors.white,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.055),
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.08),
                 //The gesture detector widget will detect swipes and taps of the image card
                 child: GestureDetector(
                   onHorizontalDragEnd: (dragEndDetails) {

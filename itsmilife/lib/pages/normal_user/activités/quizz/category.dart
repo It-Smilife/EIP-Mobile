@@ -81,15 +81,14 @@ class _CategoryPageState extends State<CategoryPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const SizedBox(height: 60),
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Color.fromARGB(255, 98, 128, 182),
                 border: Border.all(
-                  color: Colors.blue,
+                  color: Colors.white,
                   width: 2,
                 ),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(15),
               ),
               padding: const EdgeInsets.symmetric(
                 horizontal: 32,
@@ -98,74 +97,77 @@ class _CategoryPageState extends State<CategoryPage> {
               child: const Text(
                 "Categories",
                 style: TextStyle(
-                  color: Color.fromARGB(255, 98, 128, 182),
+                  color: Colors.white,
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             const SizedBox(height: 40),
-            Expanded(
-              child: GridView.builder(
-                physics: const ScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: _themes.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10.0,
-                  mainAxisSpacing: 10.0,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  final theme = _themes[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        ThemeDetailsPage.routeName,
-                        arguments: Category(
-                          title: theme.title,
-                          avatar: theme.avatar,
-                          id: theme.id,
+            Padding(
+              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05, right: MediaQuery.of(context).size.width * 0.05),
+              child: Expanded(
+                child: GridView.builder(
+                  physics: const ScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: _themes.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 10.0,
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    final theme = _themes[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          ThemeDetailsPage.routeName,
+                          arguments: Category(
+                            title: theme.title,
+                            avatar: theme.avatar,
+                            id: theme.id,
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.white,
                         ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.grey[200],
-                      ),
-                      child: FutureBuilder<Uint8List>(
-                        future: NetworkManager.getFile(theme.avatar),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<Uint8List> snapshot) {
-                          if (snapshot.hasData) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CircleAvatar(
-                                  backgroundImage: Image.memory(
-                                          snapshot.data ?? Uint8List(0))
-                                      .image,
-                                  radius: 30.0,
-                                ),
-                                SizedBox(height: 10.0),
-                                Text(
-                                  theme.title,
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
+                        child: FutureBuilder<Uint8List>(
+                          future: NetworkManager.getFile(theme.avatar),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<Uint8List> snapshot) {
+                            if (snapshot.hasData) {
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage: Image.memory(
+                                            snapshot.data ?? Uint8List(0))
+                                        .image,
+                                    radius: 30.0,
                                   ),
-                                ),
-                              ],
-                            );
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
-                        },
+                                  SizedBox(height: 10.0),
+                                  Text(
+                                    theme.title,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          },
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
           ],

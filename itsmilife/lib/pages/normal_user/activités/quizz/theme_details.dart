@@ -17,11 +17,12 @@ class ThemeDetailsPage extends StatelessWidget {
     final args = ModalRoute.of(context)!.settings.arguments as Category;
 
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
           args.title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color.fromARGB(255, 98, 128, 182),
             fontSize: 25,
             fontWeight: FontWeight.bold,
@@ -46,12 +47,12 @@ class ThemeDetailsPage extends StatelessWidget {
           if (snapshot.hasData) {
             final quizzes = snapshot.data!;
             return Container(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: GridView.builder(
-                physics: ScrollPhysics(),
+                physics: const ScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: quizzes.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 10.0,
@@ -69,7 +70,7 @@ class ThemeDetailsPage extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.grey[200],
+                        color: Colors.white,
                       ),
                       child: FutureBuilder<Uint8List>(
                         future: NetworkManager.getFile(quiz.avatar),
@@ -85,10 +86,10 @@ class ThemeDetailsPage extends StatelessWidget {
                                       .image,
                                   radius: 30.0,
                                 ),
-                                SizedBox(height: 10.0),
+                                const SizedBox(height: 10.0),
                                 Text(
                                   quiz.title,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
                                   ),

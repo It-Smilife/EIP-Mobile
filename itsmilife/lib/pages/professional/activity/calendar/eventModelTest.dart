@@ -15,5 +15,5 @@ class MyEvent {
       required this.start,
       required this.end,
       required this.id,
-      this.backgroundColor = Colors.red});
+      this.backgroundColor = Colors.deepPurpleAccent});
 }

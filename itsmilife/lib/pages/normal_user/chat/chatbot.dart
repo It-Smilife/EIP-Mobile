@@ -22,7 +22,7 @@ class _ChatBotState extends State<ChatBot> {
   @override
   void initState() {
     super.initState();
-    _conf = OpenAIConfiguration(apiKey: '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');
+    _conf = OpenAIConfiguration(apiKey: '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');
     _client = OpenAIClient(configuration: _conf);
   }
 
@@ -147,8 +147,8 @@ class _ChatBotState extends State<ChatBot> {
                   ),
                 ),
                 Icon(
-                  Icons.settings,
-                  color: Colors.black54,
+                  Icons.circle,
+                  color: Colors.green,
                 ),
               ],
             ),
@@ -175,25 +175,6 @@ class _ChatBotState extends State<ChatBot> {
               color: Colors.white,
               child: Row(
                 children: <Widget>[
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        color: Colors.lightBlue,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
                   Expanded(
                     child: TextField(
                       controller: _textController,

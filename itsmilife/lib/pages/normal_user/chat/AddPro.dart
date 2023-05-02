@@ -50,8 +50,8 @@ class _AddProState extends State<AddPro> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                Align(
-                  alignment: Alignment.centerLeft,
+                Padding(
+                  padding: EdgeInsets.only(top: 25, left: 5),
                   child: InkWell(
                     child: Icon(Icons.arrow_back),
                     onTap: () {

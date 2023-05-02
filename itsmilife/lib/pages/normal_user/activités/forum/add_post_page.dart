@@ -7,37 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 
-// class AddPostPage extends StatefulWidget {
-//   const AddPostPage({super.key});
-
-//   @override
-//   State<AddPostPage> createState() => _AddPost();
-// }
-
-// class _AddPost extends State<AddPostPage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: Scaffold(
-//         appBar: AppBar(
-//           leading: IconButton(
-//             icon: const Icon(CupertinoIcons.back),
-//             color: Colors.black,
-//             onPressed: () => {
-//               Navigator.pop(context)
-//             },
-//           ),
-//           backgroundColor: Colors.transparent,
-//           shadowColor: Colors.transparent,
-//         ),
-//         body: const SingleChildScrollView(
-
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 class AddPostForm extends StatefulWidget {
   const AddPostForm({super.key});
 
@@ -49,13 +18,7 @@ class _AddPostFormState extends State<AddPostForm> {
   final _formKey = GlobalKey<FormState>();
   String _title = '';
   String _content = '';
-  // List<String> _tags = [];
   final FocusNode _focusNode = FocusNode();
-
-  void test() {
-    print(ProfileData.id);
-    print(ProfileData.email);
-  }
 
   void addPost(title, content) {
     NetworkManager.post('forums', {
@@ -70,23 +33,22 @@ class _AddPostFormState extends State<AddPostForm> {
       if (value.data['success'] == true) {
         print("ok for adding post");
         Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    Forum(),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  return SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1, 0),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: child,
-                  );
-                },
-                transitionDuration: Duration(milliseconds: 300),
-              ),
-            );
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) => Forum(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(1, 0),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
+              );
+            },
+            transitionDuration: Duration(milliseconds: 300),
+          ),
+        );
       } else {
         print(value.data);
       }
@@ -153,7 +115,9 @@ class _AddPostFormState extends State<AddPostForm> {
                     hintText: lang.lang == "English"
                         ? 'Write something...'
                         : 'Ecrivez quelque chose...',
-                    border: const OutlineInputBorder(),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
                     // contentPadding: EdgeInsets.symmetric(vertical: 60, horizontal: 10)
                   ),
                   maxLines: 10,
@@ -176,14 +140,20 @@ class _AddPostFormState extends State<AddPostForm> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        test();
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
                           addPost(_title, _content);
                         }
                       },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(255, 98, 128, 182)),
+                      style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                        ),
+                        backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 98, 128, 182))
+                      ),
                       child:
                           Text(lang.lang == "English" ? 'Submit' : 'Envoyer'),
                     ),

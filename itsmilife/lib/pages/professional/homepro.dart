@@ -13,7 +13,6 @@ class HomePro extends StatefulWidget {
 }
 
 class _HomeProState extends State<HomePro> {
-  String _title = "Contacts";
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -51,10 +50,10 @@ class _HomeProState extends State<HomePro> {
                     height: MediaQuery.of(context).size.height * 0.07,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.grey,
+                        color: const Color.fromARGB(255, 98, 128, 182),
                         width: 2,
                       ),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(15),
                       boxShadow: const [
                         BoxShadow(
                           color: Color.fromARGB(255, 98, 128, 182),
@@ -62,17 +61,20 @@ class _HomeProState extends State<HomePro> {
                         ),
                       ],
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
-                        _title,
-                        style:
-                            const TextStyle(fontSize: 24, color: Colors.white),
+                        "Contacts",
+                        style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
                 ),
                 Padding(
-                    padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.08),
+                    padding: EdgeInsets.all(
+                        MediaQuery.of(context).size.width * 0.08),
                     //The gesture detector widget will detect swipes and taps of the image card
                     child: Card(
                         shape: RoundedRectangleBorder(
@@ -121,8 +123,10 @@ class _HomeProState extends State<HomePro> {
                                   },
                                   child: Image.asset(
                                     'assets/contact.png',
-                                    height: MediaQuery.of(context).size.width * 0.6,
-                                    width: MediaQuery.of(context).size.width * 0.6,
+                                    height:
+                                        MediaQuery.of(context).size.width * 0.6,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.6,
                                   ),
                                 ),
                               ]),
