@@ -1,39 +1,24 @@
 import 'package:itsmilife/pages/normal_user/activités/forum/models/author_model.dart';
 
-class Reply {
-  Author author;
+class Comment {
+  String id;
   String content;
-  int likes;
+  Map<String, dynamic> user;
+  String date;
 
-  Reply({
-    required this.author,
+  Comment({
+    required this.id,
     required this.content,
-    required this.likes
+    required this.user,
+    required this.date,
   });
 
-  factory Reply.fromJson(Map<dynamic, dynamic> json) {
-    return Reply(
+  factory Comment.fromJson(Map<String, dynamic> json) {
+    return Comment(
+      id: json['_id'],
       content: json['content'],
-      author: Author.fromJson(json['user']),
-      likes: json['likes']
+      user: json['user'],
+      date: json['date'],
     );
   }
 }
-
-List<Reply> replies = [
-  Reply(
-    author: mike,
-    content: 'super trop lourd mec',
-    likes: 10
-  ),
-  Reply(
-    author: john,
-    content: 'oh woaaaaaaaaaaaaaaaaaw',
-    likes: 120
-  ),
-  Reply(
-    author: mark,
-    content: 'la frappe sa mere.',
-    likes: 67
-  ),
-];

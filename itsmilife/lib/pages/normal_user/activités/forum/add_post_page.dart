@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/forum.dart';
 import 'package:itsmilife/services/NetworkManager.dart';
 import 'package:itsmilife/pages/common/profile.dart';
 import 'package:provider/provider.dart';
@@ -68,7 +69,24 @@ class _AddPostFormState extends State<AddPostForm> {
     }).then((value) {
       if (value.data['success'] == true) {
         print("ok for adding post");
-        Navigator.pop(context);
+        Navigator.push(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    Forum(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(1, 0),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: child,
+                  );
+                },
+                transitionDuration: Duration(milliseconds: 300),
+              ),
+            );
       } else {
         print(value.data);
       }

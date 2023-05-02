@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/forum.dart';
-import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/models/replies_model.dart';
+import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/user_posts_page.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/widgets/post_user.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/widgets/posts.dart';
 import 'package:itsmilife/services/NetworkManager.dart';
@@ -14,20 +14,20 @@ import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:itsmilife/pages/common/profile.dart';
 
-class PostScreen extends StatefulWidget {
+class PostScreenUser extends StatefulWidget {
   String id;
-  PostScreen({super.key, required this.id});
+  PostScreenUser({super.key, required this.id});
   @override
-  State<PostScreen> createState() => _PostScreenState();
+  State<PostScreenUser> createState() => _PostScreenUserState();
 }
 
-class _PostScreenState extends State<PostScreen> {
+class _PostScreenUserState extends State<PostScreenUser> {
   late Future<Post> postsFuture;
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
-  bool isUpdated = false;
   TextEditingController _comController = TextEditingController();
+  bool isUpdated = false;
 
   String setLanguage() {
     final lang = Provider.of<LanguageProvider>(context);
@@ -42,6 +42,7 @@ class _PostScreenState extends State<PostScreen> {
     _titleController.dispose();
     _contentController.dispose();
     _comController.dispose();
+
     super.dispose();
   }
 
@@ -134,9 +135,9 @@ class _PostScreenState extends State<PostScreen> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (_) => Forum(),
+                                        builder: (_) => UserPostsPage(),
                                       ),
-                                    ),
+                                    )
                                   },
                               icon: const Icon(
                                 CupertinoIcons.back,
@@ -145,7 +146,7 @@ class _PostScreenState extends State<PostScreen> {
                               )),
                           const SizedBox(width: 5.0),
                           const Text(
-                            "Post",
+                            "Post User",
                             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                           )
                         ],
@@ -263,7 +264,7 @@ class _PostScreenState extends State<PostScreen> {
                                                                           Navigator.push(
                                                                             context,
                                                                             MaterialPageRoute(
-                                                                              builder: (_) => PostScreen(
+                                                                              builder: (_) => PostScreenUser(
                                                                                 id: widget.id,
                                                                               ),
                                                                             ),
@@ -343,6 +344,24 @@ class _PostScreenState extends State<PostScreen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(
+                                        CupertinoIcons.hand_thumbsup,
+                                        color: Colors.grey.withOpacity(0.5),
+                                        size: 22,
+                                      ),
+                                      const SizedBox(width: 4.0),
+                                      // Text(
+                                      //   "${posts.votes} votes",
+                                      //   style: TextStyle(
+                                      //     fontSize: 14,
+                                      //     color: Colors.grey.withOpacity(0.5),
+                                      //   ),
+                                      // )
+                                    ],
+                                  ),
                                   const SizedBox(width: 15.0),
                                   Row(
                                     children: <Widget>[
@@ -372,7 +391,7 @@ class _PostScreenState extends State<PostScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 15.0, top: 20.0, bottom: 10.0),
                       child: Text(
-                        lang.lang == "English" ? "Comments (${posts.comments.length})" : "Commentaires (${posts.comments.length})",
+                        lang.lang == "English" ? "Replies (${posts.comments.length})" : "Réponses (${posts.comments.length})",
                         style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -380,19 +399,6 @@ class _PostScreenState extends State<PostScreen> {
                         ),
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(left: 15.0, top: 20.0),
-                    //   child: Align(
-                    //     alignment: Alignment.centerLeft,
-                    //     child: TextButton(
-                    //       onPressed: () => {print("ok")},
-                    //       child: Text(
-                    //         lang.lang == "English" ? "Add a comment..." : "Ajouter un commentaire...",
-                    //         style: const TextStyle(color: Colors.grey),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                     Column(
                       children: posts.comments.reversed
                           .map(

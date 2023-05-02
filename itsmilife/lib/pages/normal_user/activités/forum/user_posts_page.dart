@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/profile.dart';
+import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/forum.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/models/post_model.dart';
-import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/user_posts_page.dart';
+import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/widgets/post_user.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/widgets/popular_topics.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/widgets/posts.dart';
-import 'package:itsmilife/widgets/bottomNavBar.dart';
 import 'package:provider/provider.dart';
 //import 'package:itsmilife/pages/normal_user/activités/forum/widgets/top_bar.dart';
 import 'package:itsmilife/pages/normal_user/activités/activités.dart';
@@ -15,14 +15,14 @@ import 'package:itsmilife/pages/normal_user/activités/forum/add_post_page.dart'
 // import 'package:itsmilife/pages/normal_user/activités/forum/test.dart';
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 
-class Forum extends StatefulWidget {
-  const Forum({super.key});
+class UserPostsPage extends StatefulWidget {
+  const UserPostsPage({super.key});
 
   @override
-  State<Forum> createState() => _Forum();
+  State<UserPostsPage> createState() => _UserPostsPage();
 }
 
-class _Forum extends State<Forum> {
+class _UserPostsPage extends State<UserPostsPage> {
   void checkQuestions(List<Post> questions) {
     questions.forEach((question) {
       // print("------------------------");
@@ -51,7 +51,7 @@ class _Forum extends State<Forum> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => Home(h_index: 0),
+                builder: (_) => Forum(),
               ),
             );
           },
@@ -111,42 +111,6 @@ class _Forum extends State<Forum> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: BigUserCard(
-                      backgroundColor: const Color.fromARGB(255, 98, 128, 182),
-                      userName: ProfileData.username == "" ? "Default name" : ProfileData.username,
-                      userProfilePic: const AssetImage("assets/logo.png"),
-                      cardActionWidget: SettingsItem(
-                        icons: Icons.edit,
-                        iconStyle: IconStyle(
-                          withBackground: true,
-                          borderRadius: 50,
-                          backgroundColor: Colors.purple,
-                        ),
-                        title: lang.lang == "English" ? "See my posts" : "Voir mes posts",
-                        subtitle: lang.lang == "English" ? "Tap to see your posts" : "Cliquez pour voir vos posts",
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (context, animation, secondaryAnimation) => const UserPostsPage(),
-                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                return SlideTransition(
-                                  position: Tween<Offset>(
-                                    begin: const Offset(1, 0),
-                                    end: Offset.zero,
-                                  ).animate(animation),
-                                  child: child,
-                                );
-                              },
-                              transitionDuration: const Duration(milliseconds: 300),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  Padding(
                     padding: const EdgeInsets.only(left: 20.0, top: 20.0, bottom: 10.0),
                     child: Text(
                       lang.lang == "English" ? "Most popular posts" : "Posts les plus populairs",
@@ -157,7 +121,7 @@ class _Forum extends State<Forum> {
                       ),
                     ),
                   ),
-                  const Posts(),
+                  const UserPosts(),
                 ],
               ),
             ),

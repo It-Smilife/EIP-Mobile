@@ -106,9 +106,9 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text("Motde passe oublié"),
+                              title: Text("Modification du profile"),
                               content:
-                                  Text("Votre mot de passe a bien été changé"),
+                                  Text("Votre profile à bien été modifié"),
                               actions: [
                                 TextButton(
                                   onPressed: () {

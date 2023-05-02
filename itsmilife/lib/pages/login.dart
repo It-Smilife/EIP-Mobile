@@ -186,8 +186,6 @@ class _LoginPageState extends State<LoginPage> {
                                   "password": password
                                 }).then((val) {
                                   if (val.data['success'] == true) {
-                                    print("ok");
-                                    print(val.data);
                                     ProfileData.id = val.data["user"]["_id"];
                                     ProfileData.username =
                                         val.data["user"]["username"];
