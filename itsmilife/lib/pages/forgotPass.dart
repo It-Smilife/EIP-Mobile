@@ -31,18 +31,22 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
     final darkMode = Provider.of<DarkModeProvider>(context);
     final lang = Provider.of<LanguageProvider>(context);
     return Scaffold(
-      backgroundColor: darkMode.darkMode
-          ? const Color.fromARGB(255, 58, 50, 83)
-          : const Color.fromARGB(255, 246, 246, 246),
+      backgroundColor: const Color.fromARGB(255, 246, 246, 246),
       appBar: AppBar(
         title: Text(
-            lang.lang == "English" ? "Forgot password" : "Mot de passe oublié"),
+          lang.lang == "English" ? "Forgot password" : "Mot de passe oublié",
+          style: const TextStyle(
+            color: Color.fromARGB(255, 98, 128, 182),
+          ),
+        ),
         leading: IconButton(
-          icon: const Icon(CupertinoIcons.back),
+          icon: const Icon(CupertinoIcons.back, color: Color.fromARGB(255, 98, 128, 182),),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
+        backgroundColor: Colors.white,
+        elevation: 2,
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -50,9 +54,7 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height * 0.10),
               Text(
-                lang.lang == "English"
-                    ? "Reset your password."
-                    : "Réintialisez votre mot de passe",
+                lang.lang == "English" ? "Reset your password." : "Réintialisez votre mot de passe",
                 style: TextStyle(
                   color: darkMode.darkMode ? Colors.white : Colors.black,
                   fontWeight: FontWeight.bold,
@@ -63,90 +65,122 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.80,
                 child: Text(
-                  lang.lang == "English"
-                      ? "Please enter your email address to reset your password.."
-                      : "Veuillez entrer votre adresse mail afin de réinitialiser votre mot de passe.",
-                  style: TextStyle(
-                      fontSize: 15,
-                      color: darkMode.darkMode ? Colors.white : Colors.black),
+                  lang.lang == "English" ? "Please enter your email address and the new password." : "Veuillez entrer votre adresse mail et votre nouveau mot de passe.",
+                  style: TextStyle(fontSize: 16, color: darkMode.darkMode ? Colors.white : Colors.black),
                 ),
               ),
               const SizedBox(height: 50),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.70,
-                child: TextField(
-                  controller: email,
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: lang.lang == "English"
-                        ? 'Enter your email'
-                        : "Entrez votre email",
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 2,
-                        color: Colors.grey,
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.70,
+                      child: TextFormField(
+                        controller: email,
+                        obscureText: false,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return lang.lang == "English" ? "Please enter your email" : "Entrez votre email";
+                          }
+                          if (!emailRegex.hasMatch(value)) {
+                            return lang.lang == "English" ? "Please enter a valid email address" : "Veuillez entrer une adresse email valide";
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          labelText: lang.lang == "English" ? 'Enter your email' : "Entrez votre email",
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              width: 2,
+                              color: Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
                       ),
                     ),
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.70,
+                      child: TextFormField(
+                        controller: newPass,
+                        obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return lang.lang == "English" ? "Please enter the new password" : "Entrez le nouveau mot de passe";
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          labelText: lang.lang == "English" ? 'Enter the new password' : "Entrez le nouveau mot de passe",
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              width: 2,
+                              color: Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.70,
-                child: TextField(
-                  controller: newPass,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: lang.lang == "English"
-                        ? 'Enter the new password'
-                        : "Entrez le nouveau mot de passe",
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 2,
-                        color: Colors.grey,
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.70,
+                      child: TextFormField(
+                        controller: confirmPass,
+                        obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return lang.lang == "English" ? "Please confirm the new password" : "Confirmez le nouveau mot de passe";
+                          }
+                          if (value != newPass.text) {
+                            return lang.lang == "English" ? "Passwords do not match" : "Les mots de passe ne sont pas identiques";
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          labelText: lang.lang == "English" ? 'Confirm the new password' : "Confirmez le nouveau mot de passe",
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              width: 2,
+                              color: Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
                       ),
                     ),
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.70,
-                child: TextField(
-                  controller: confirmPass,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: lang.lang == "English"
-                        ? 'Enter the new password'
-                        : "Entrez le nouveau mot de passe",
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 2,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
+                  ],
                 ),
               ),
               const SizedBox(height: 30),
@@ -158,51 +192,26 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
-                      // spreadRadius: 2,
+// spreadRadius: 2,
                       blurRadius: 5,
                       offset: const Offset(3, 3), // changes position of shadow
                     ),
                   ],
                 ),
                 child: TextButton(
-                  style:
-                      TextButton.styleFrom(backgroundColor: Colors.transparent),
+                  style: TextButton.styleFrom(backgroundColor: Colors.transparent),
                   onPressed: () {
-                    if (!emailRegex.hasMatch(email.text)) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("Erreur"),
-                            content: Text(
-                                "Veuillez entrer une adresse email valide."),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text("OK"),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    } else if (newPass.text == confirmPass.text) {
-                      NetworkManager.putWithoutData("users/" +
-                              email.text +
-                              "/update-password-code-by-email")
-                          .then((value) {
+                    if (_formKey.currentState!.validate()) {
+                      NetworkManager.putWithoutData("users/" + email.text + "/update-password-code-by-email").then((value) {
                         if (value.data["success"] == true) {
-                          NetworkManager.get("users/email/" + email.text)
-                              .then((value) {
+                          NetworkManager.get("users/email/" + email.text).then((value) {
                             if (value.data["success"] == true) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => VerificationPage(
                                     id: value.data["message"]["_id"].toString(),
-                                    verificationCode: value.data["message"]
-                                        ["passwordCode"],
+                                    verificationCode: value.data["message"]["passwordCode"],
                                     password: newPass.text,
                                     email: value.data["message"]["email"],
                                   ),
@@ -212,34 +221,11 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                           });
                         }
                       });
-                    } else {
-                      // Les mots de passe ne sont pas identiques
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("Erreur"),
-                            content: Text(
-                                "Les mots de passe ne sont pas identiques."),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text("OK"),
-                              ),
-                            ],
-                          );
-                        },
-                      );
                     }
                   },
                   child: Text(
                     lang.lang == "English" ? "Send" : "Envoyer",
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                 ),
               )

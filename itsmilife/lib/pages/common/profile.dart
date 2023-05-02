@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import '../../services/NetworkManager.dart';
@@ -47,8 +48,9 @@ class _ProfileSettingPageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);
+    final darkMode = Provider.of<DarkModeProvider>(context);
     return Scaffold(
-          resizeToAvoidBottomInset: false, 
+      backgroundColor: darkMode.darkMode ? Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 246, 246, 246),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight + 0.9), // 1 for the border
         child: Container(
@@ -66,21 +68,16 @@ class _ProfileSettingPageState extends State<ProfilePage> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              color: Color.fromARGB(255, 98, 128, 182),
+              color: darkMode.darkMode ? const Color.fromARGB(255, 246, 246, 246) : const Color.fromARGB(255, 98, 128, 182),
             ),
             centerTitle: true,
-            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-            title: Text(
-              lang.lang == "English" ? "Edit the profile" : "Modifier le profil",
-                style: const TextStyle(
-                    color: Color.fromARGB(255, 98, 128, 182),
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold)),
+            backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 234, 234, 234),
+            title:
+                Text(lang.lang == "English" ? "Edit the profile" : "Modifier le profil", style: const TextStyle(color: Color.fromARGB(255, 98, 128, 182), fontSize: 25, fontWeight: FontWeight.bold)),
             actions: <Widget>[
               ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState != null &&
-                      _formKey.currentState!.validate()) {
+                  if (_formKey.currentState != null && _formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     ProfileData.lastName = _name;
                     ProfileData.firstName = _prenom;
@@ -89,15 +86,9 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                     ProfileData.gender = _gender;
                     ProfileData.phoneNumber = _phoneNumber;
                     ProfileData.address = _address;
-                    NetworkManager.put("users/" + ProfileData.id, {
-                      "firstName": _name,
-                      "lastName": _prenom,
-                      "email": _email,
-                      "age": _age,
-                      "gender": _gender,
-                      "phoneNumber": _phoneNumber,
-                      "address": _address
-                    }).then((val) {
+                    NetworkManager.put(
+                            "users/" + ProfileData.id, {"firstName": _name, "lastName": _prenom, "email": _email, "age": _age, "gender": _gender, "phoneNumber": _phoneNumber, "address": _address})
+                        .then((val) {
                       if (val.data['success'] == true) {
                         Navigator.pop(context);
                         showDialog(
@@ -105,8 +96,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: const Text("Modification du profile"),
-                              content:
-                                  const Text("Votre profile à bien été modifié"),
+                              content: const Text("Votre profile à bien été modifié"),
                               actions: [
                                 TextButton(
                                   onPressed: () {
@@ -122,6 +112,9 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                     });
                   }
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: darkMode.darkMode ? Color.fromARGB(255, 108, 108, 108) : Color.fromARGB(255, 98, 128, 182), // Changer la couleur ici
+                ),
                 child: Text(
                   lang.lang == "English" ? "Save" : "Terminé",
                   style: const TextStyle(
@@ -182,15 +175,14 @@ class _ProfileSettingPageState extends State<ProfilePage> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.024),
                 child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: darkMode.darkMode ? Color.fromARGB(255, 79, 79, 79) : Colors.white,
                       borderRadius: BorderRadius.circular(20),
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
-                          color: Color.fromARGB(255, 98, 128, 182),
+                          color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Color.fromARGB(255, 98, 128, 182),
                           offset: Offset(0, 5),
                           blurRadius: 5,
                           spreadRadius: 0,
@@ -202,8 +194,9 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          lang.lang == "English" ? "Last name" : "Nom",
-                          style: const TextStyle(
+                          lang.lang == "English" ? "Laste name" : "Nom",
+                          style: TextStyle(
+                            color: darkMode.darkMode ? Colors.white : Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
@@ -211,18 +204,16 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                         const SizedBox(height: 5),
                         TextFormField(
                           initialValue: ProfileData.lastName,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.zero,
-                            isDense: true,
-                          ),
+                          decoration:
+                              InputDecoration(border: InputBorder.none, contentPadding: EdgeInsets.zero, isDense: true, labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
                           validator: (value) {},
                           onSaved: (value) => _name = value!,
                         ),
                         const SizedBox(height: 5),
                         Text(
                           lang.lang == "English" ? "First name" : "Prénom",
-                          style: const TextStyle(
+                          style: TextStyle(
+                            color: darkMode.darkMode ? Colors.white : Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
@@ -230,18 +221,16 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                         const SizedBox(height: 5),
                         TextFormField(
                           initialValue: ProfileData.firstName,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.zero,
-                            isDense: true,
-                          ),
+                          decoration:
+                              InputDecoration(border: InputBorder.none, contentPadding: EdgeInsets.zero, isDense: true, labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
                           validator: (value) {},
                           onSaved: (value) => _prenom = value!,
                         ),
                         const SizedBox(height: 5),
-                        const Text(
+                        Text(
                           'Email',
                           style: TextStyle(
+                            color: darkMode.darkMode ? Colors.white : Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
@@ -249,18 +238,16 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                         const SizedBox(height: 5),
                         TextFormField(
                           initialValue: ProfileData.email,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.zero,
-                            isDense: true,
-                          ),
+                          decoration:
+                              InputDecoration(border: InputBorder.none, contentPadding: EdgeInsets.zero, isDense: true, labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
                           validator: (value) {},
                           onSaved: (value) => _email = value!,
                         ),
                         const SizedBox(height: 5),
-                        const Text(
+                        Text(
                           'Age',
                           style: TextStyle(
+                            color: darkMode.darkMode ? Colors.white : Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
@@ -268,18 +255,16 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                         const SizedBox(height: 5),
                         TextFormField(
                           initialValue: ProfileData.age.toString(),
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.zero,
-                            isDense: true,
-                          ),
+                          decoration:
+                              InputDecoration(border: InputBorder.none, contentPadding: EdgeInsets.zero, isDense: true, labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
                           validator: (value) {},
                           onSaved: (value) => _age = int.parse(value!),
                         ),
                         const SizedBox(height: 5),
                         Text(
                           lang.lang == "English" ? "Gender" : "Genre",
-                          style: const TextStyle(
+                          style: TextStyle(
+                            color: darkMode.darkMode ? Colors.white : Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
@@ -300,9 +285,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           ].map((value) {
                             return DropdownMenuItem(
                               value: value[0],
-                              child: lang.lang == "English"
-                                  ? Text(value[0])
-                                  : Text(value[1]),
+                              child: lang.lang == "English" ? Text(value[0]) : Text(value[1]),
                             );
                           }).toList(),
                           onChanged: (String? value) {},
@@ -311,24 +294,24 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                         Text(
                           lang.lang == "English" ? "Phone number" : "Numéro de Téléphone",
                           style: TextStyle(
+                            color: darkMode.darkMode ? Colors.white : Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
                         ),
-                        const SizedBox(height:5),
+                        const SizedBox(height: 5),
                         TextFormField(
                           initialValue: ProfileData.phoneNumber,
                           decoration: InputDecoration(
-                            hintText: lang.lang == "English" ? "Enter your phone number" : "Entrez un numéro de téléphone",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
-                            ),
-                            filled: true,
-                            fillColor: const Color(0xFFF5F5F5),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 10),
-                          ),
+                              hintText: lang.lang == "English" ? "Enter your phone number" : "Entrez un numéro de téléphone",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: const Color(0xFFF5F5F5),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                              labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
                           keyboardType: TextInputType.phone,
                           validator: (value) {},
                           onSaved: (value) => _phoneNumber = value!,
@@ -336,7 +319,8 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                         const SizedBox(height: 5),
                         Text(
                           lang.lang == "English" ? "Address" : "Adresse",
-                          style: const TextStyle(
+                          style: TextStyle(
+                            color: darkMode.darkMode ? Colors.white : Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
@@ -345,16 +329,15 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                         TextFormField(
                           initialValue: ProfileData.address,
                           decoration: InputDecoration(
-                            hintText: lang.lang == "English" ? "Enter your adress" : "Entrez une adresse",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
-                            ),
-                            filled: true,
-                            fillColor: const Color(0xFFF5F5F5),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
-                          ),
+                              hintText: lang.lang == "English" ? "Enter your adress" : "Entrez une adresse",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: const Color(0xFFF5F5F5),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                              labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
                           maxLines: 1,
                           validator: (value) {},
                           onSaved: (value) => _address = value!,

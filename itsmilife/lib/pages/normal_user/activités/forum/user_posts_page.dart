@@ -13,7 +13,6 @@ import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/add_post_page.dart';
 // import 'package:itsmilife/pages/normal_user/activités/forum/test.dart';
-import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 
 class UserPostsPage extends StatefulWidget {
   const UserPostsPage({super.key});
@@ -41,7 +40,7 @@ class _UserPostsPage extends State<UserPostsPage> {
     final lang = Provider.of<LanguageProvider>(context);
     final darkMode = Provider.of<DarkModeProvider>(context);
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 98, 128, 182),
+      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 98, 128, 182),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -64,8 +63,8 @@ class _UserPostsPage extends State<UserPostsPage> {
             Container(
               height: 120,
               width: MediaQuery.of(context).size.width,
-              decoration: const BoxDecoration(               
-                color: Color.fromARGB(255, 98, 128, 182),
+              decoration: BoxDecoration(               
+                color: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 98, 128, 182),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -102,11 +101,9 @@ class _UserPostsPage extends State<UserPostsPage> {
               ),
             ),
             Container(
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(35.0),
-                      topRight: Radius.circular(35.0))),
+              decoration: BoxDecoration(
+                  color: darkMode.darkMode ? const Color.fromARGB(255, 108, 108, 108) : const Color.fromARGB(255, 255, 255, 255),
+                  borderRadius: BorderRadius.all(Radius.circular(35))),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -115,24 +112,10 @@ class _UserPostsPage extends State<UserPostsPage> {
                     padding: const EdgeInsets.all(20.0),
                     child: Text(
                       lang.lang == "English" ? "Mes posts" : "My posts",
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20.0, top: 20.0, bottom: 10.0),
-                    child: Text(
-                      lang.lang == "English"
-                          ? "Most popular posts"
-                          : "Posts les plus populairs",
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
+                          color: darkMode.darkMode ?Colors.white : Colors.black),
                     ),
                   ),
                   const UserPosts(),

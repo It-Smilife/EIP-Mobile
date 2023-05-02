@@ -121,7 +121,7 @@ class _PostScreenUserState extends State<PostScreenUser> {
               return Container();
             }
             return Scaffold(
-              backgroundColor: Colors.white,
+              backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : Color.fromARGB(255, 218, 218, 218),
               body: SafeArea(
                 child: ListView(
                   children: <Widget>[
@@ -139,15 +139,15 @@ class _PostScreenUserState extends State<PostScreenUser> {
                                       ),
                                     )
                                   },
-                              icon: const Icon(
+                              icon: Icon(
                                 CupertinoIcons.back,
                                 size: 20,
-                                color: Colors.black,
+                                color: darkMode.darkMode ? Colors.white : Colors.black,
                               )),
                           const SizedBox(width: 5.0),
-                          const Text(
+                          Text(
                             "Post User",
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: darkMode.darkMode ? Colors.white : Colors.black),
                           )
                         ],
                       ),
@@ -155,7 +155,7 @@ class _PostScreenUserState extends State<PostScreenUser> {
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 15.0),
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Color.fromARGB(255, 218, 218, 218),
                           borderRadius: BorderRadius.circular(10.0),
                           boxShadow: [BoxShadow(color: Colors.black26.withOpacity(0.05), offset: const Offset(0.0, 6.0), blurRadius: 10.0, spreadRadius: 0.10)]),
                       child: Padding(
@@ -165,7 +165,7 @@ class _PostScreenUserState extends State<PostScreenUser> {
                           children: <Widget>[
                             Container(
                               height: 60,
-                              color: Colors.white,
+                              color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Color.fromARGB(255, 218, 218, 218),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
@@ -183,7 +183,7 @@ class _PostScreenUserState extends State<PostScreenUser> {
                                           children: <Widget>[
                                             Text(
                                               posts.user["username"],
-                                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: .4),
+                                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: .4, color: darkMode.darkMode ? Colors.white : Colors.black),
                                             ),
                                             const SizedBox(height: 2.0),
                                             Text(
@@ -330,44 +330,26 @@ class _PostScreenUserState extends State<PostScreenUser> {
                                 posts.title,
                                 style: TextStyle(
                                   fontSize: 24,
-                                  color: Colors.black.withOpacity(0.8),
+                                  color: darkMode.darkMode ? Colors.white : Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                             Text(
                               posts.content,
-                              style: TextStyle(color: Colors.black.withOpacity(0.4), fontSize: 17, letterSpacing: .2),
+                              style: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black, fontSize: 17, letterSpacing: .2),
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Icon(
-                                        CupertinoIcons.hand_thumbsup,
-                                        color: Colors.grey.withOpacity(0.5),
-                                        size: 22,
-                                      ),
-                                      const SizedBox(width: 4.0),
-                                      // Text(
-                                      //   "${posts.votes} votes",
-                                      //   style: TextStyle(
-                                      //     fontSize: 14,
-                                      //     color: Colors.grey.withOpacity(0.5),
-                                      //   ),
-                                      // )
-                                    ],
-                                  ),
                                   const SizedBox(width: 15.0),
                                   Row(
                                     children: <Widget>[
                                       Icon(
                                         CupertinoIcons.eye,
-                                        color: Colors.grey.withOpacity(0.5),
+                                        color: darkMode.darkMode ? Colors.white : Colors.grey,
                                         size: 18,
                                       ),
                                       const SizedBox(width: 4.0),
@@ -375,7 +357,7 @@ class _PostScreenUserState extends State<PostScreenUser> {
                                         lang.lang == "English" ? "${posts.views} views" : "${posts.views} vues",
                                         style: TextStyle(
                                           fontSize: 14,
-                                          color: Colors.grey.withOpacity(0.5),
+                                          color: darkMode.darkMode ? Colors.white : Colors.grey,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       )
@@ -392,10 +374,10 @@ class _PostScreenUserState extends State<PostScreenUser> {
                       padding: const EdgeInsets.only(left: 15.0, top: 20.0, bottom: 10.0),
                       child: Text(
                         lang.lang == "English" ? "Replies (${posts.comments.length})" : "Réponses (${posts.comments.length})",
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: darkMode.darkMode ? Colors.white : Colors.black,
                         ),
                       ),
                     ),
@@ -405,7 +387,7 @@ class _PostScreenUserState extends State<PostScreenUser> {
                             (comment) => Container(
                               margin: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Colors.white,
                                 borderRadius: BorderRadius.circular(10.0),
                                 boxShadow: [BoxShadow(color: Colors.black26.withOpacity(0.03), offset: const Offset(0.0, 6.0), blurRadius: 10.0, spreadRadius: 0.10)],
                               ),
@@ -416,7 +398,7 @@ class _PostScreenUserState extends State<PostScreenUser> {
                                   children: <Widget>[
                                     Container(
                                       height: 60,
-                                      color: Colors.white,
+                                      color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Colors.white,
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
@@ -434,12 +416,12 @@ class _PostScreenUserState extends State<PostScreenUser> {
                                                   children: <Widget>[
                                                     Text(
                                                       comment.user['username'],
-                                                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: .4),
+                                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: .4, color: darkMode.darkMode ? Colors.white : Colors.black),
                                                     ),
                                                     const SizedBox(height: 2.0),
                                                     Text(
-                                                      comment.date,
-                                                      style: TextStyle(color: Colors.grey.withOpacity(0.4)),
+                                                      convertDate(comment.date),
+                                                      style: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black),
                                                     )
                                                   ],
                                                 ),
@@ -454,7 +436,7 @@ class _PostScreenUserState extends State<PostScreenUser> {
                                       child: Text(
                                         comment.content,
                                         style: TextStyle(
-                                          color: Colors.black.withOpacity(0.25),
+                                          color: darkMode.darkMode ? Colors.white : Colors.black,
                                           fontSize: 16,
                                         ),
                                       ),
@@ -481,7 +463,7 @@ class _PostScreenUserState extends State<PostScreenUser> {
                 child: AnimatedContainer(
                   duration: Duration(microseconds: 100),
                   padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8.0, left: 20.0, right: 8.0),
-                  color: Colors.grey[200],
+                  color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Colors.white,
                   child: Row(
                     children: [
                       Expanded(
@@ -491,11 +473,12 @@ class _PostScreenUserState extends State<PostScreenUser> {
                           decoration: InputDecoration(
                             hintText: 'Ajouter un commentaire...',
                             border: InputBorder.none,
+                            hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)
                           ),
                         ),
                       ),
                       IconButton(
-                        icon: Icon(Icons.send),
+                        icon: Icon(Icons.send, color: darkMode.darkMode ? Colors.white : Colors.black),
                         onPressed: () {
                           addComment(_comController.text);
                           _focusNode.unfocus();

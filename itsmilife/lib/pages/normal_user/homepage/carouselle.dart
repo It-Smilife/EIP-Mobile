@@ -49,8 +49,8 @@ class _HomeCardState extends State<HomeCard> {
         : "Discuter avec un professionnel";
     return Scaffold(
       backgroundColor: darkMode.darkMode
-          ? const Color.fromARGB(255, 58, 50, 83)
-          : const Color.fromARGB(255, 234, 234, 234),
+          ? const Color.fromARGB(255, 32, 32, 32)
+          : Color.fromARGB(255, 216, 216, 216),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -63,14 +63,14 @@ class _HomeCardState extends State<HomeCard> {
                   height: MediaQuery.of(context).size.height * 0.07,
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.grey,
+                      color:  darkMode.darkMode == true ? Color.fromARGB(255, 79, 79, 79) : Colors.grey,
                       width: 1,
                     ),
                     borderRadius: BorderRadius.circular(15),
-                    boxShadow: const [
+                    boxShadow: [
                       BoxShadow(
-                        color: Color.fromARGB(255, 98, 128, 182),
-                        offset: Offset(0.0, 0.0),
+                        color: darkMode.darkMode == true ? Color.fromARGB(255, 79, 79, 79) : Color.fromARGB(255, 98, 128, 182),
+                        offset: const Offset(0.0, 0.0),
                       ),
                     ],
                   ),

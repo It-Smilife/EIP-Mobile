@@ -1,19 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/profile.dart';
+import 'package:itsmilife/pages/common/settings/package_settings/babs_component_settings_item.dart';
+import 'package:itsmilife/pages/common/settings/package_settings/icon_style.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/models/post_model.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/user_posts_page.dart';
-import 'package:itsmilife/pages/normal_user/activités/forum/widgets/popular_topics.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/widgets/posts.dart';
 import 'package:itsmilife/widgets/bottomNavBar.dart';
 import 'package:provider/provider.dart';
-//import 'package:itsmilife/pages/normal_user/activités/forum/widgets/top_bar.dart';
-import 'package:itsmilife/pages/normal_user/activités/activités.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/add_post_page.dart';
-// import 'package:itsmilife/pages/normal_user/activités/forum/test.dart';
-import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
+import 'package:itsmilife/pages/common/settings/package_settings/babs_component_big_user_card.dart';
 
 class Forum extends StatefulWidget {
   const Forum({super.key});
@@ -41,7 +39,7 @@ class _Forum extends State<Forum> {
     final lang = Provider.of<LanguageProvider>(context);
     final darkMode = Provider.of<DarkModeProvider>(context);
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 98, 128, 182),
+      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 98, 128, 182),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -65,7 +63,7 @@ class _Forum extends State<Forum> {
               height: 120,
               width: MediaQuery.of(context).size.width,
               decoration:
-                  const BoxDecoration(color: Color.fromARGB(255, 98, 128, 182)),
+                  BoxDecoration(color: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 98, 128, 182)),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
@@ -101,12 +99,9 @@ class _Forum extends State<Forum> {
               ),
             ),
             Container(
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(35.0),
-                    topRight: Radius.circular(35.0),
-                  )),
+              decoration: BoxDecoration(
+                  color: darkMode.darkMode ? const Color.fromARGB(255, 108, 108, 108) : Color.fromARGB(255, 218, 218, 218),
+                  borderRadius:BorderRadius.all(Radius.circular(35))),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -163,10 +158,10 @@ class _Forum extends State<Forum> {
                       lang.lang == "English"
                           ? "Most popular posts"
                           : "Posts les plus populairs",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: darkMode.darkMode ?Colors.white : Colors.black,
                       ),
                     ),
                   ),

@@ -90,7 +90,7 @@ class _UserPosts extends State<UserPosts> {
                         child: Container(
                           margin: const EdgeInsets.all(15.0),
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : Color.fromARGB(255, 218, 218, 218),
                               borderRadius: BorderRadius.circular(10.0),
                               boxShadow: [BoxShadow(color: Colors.black26.withOpacity(0.05), offset: const Offset(0.0, 6.0), blurRadius: 10.0, spreadRadius: 0.10)]),
                           child: Padding(
@@ -120,7 +120,12 @@ class _UserPosts extends State<UserPosts> {
                                                     width: MediaQuery.of(context).size.width * 0.65,
                                                     child: Text(
                                                       post.title,
-                                                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, letterSpacing: .4),
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight: FontWeight.bold,
+                                                        letterSpacing: .4,
+                                                        color: darkMode.darkMode ? Colors.white : Colors.grey.withOpacity(0.6),
+                                                      ),
                                                     ),
                                                   ),
                                                   const SizedBox(height: 2.0),
@@ -128,12 +133,12 @@ class _UserPosts extends State<UserPosts> {
                                                     children: <Widget>[
                                                       Text(
                                                         "Vous",
-                                                        style: TextStyle(color: Colors.grey.withOpacity(0.6)),
+                                                        style: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.grey.withOpacity(0.6)),
                                                       ),
                                                       const SizedBox(width: 15),
                                                       Text(
                                                         convertDate(post.date),
-                                                        style: TextStyle(color: Colors.grey.withOpacity(0.6)),
+                                                        style: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.grey.withOpacity(0.6)),
                                                       )
                                                     ],
                                                   )
@@ -142,11 +147,6 @@ class _UserPosts extends State<UserPosts> {
                                             ),
                                           ],
                                         ),
-                                        Icon(
-                                          CupertinoIcons.bookmark,
-                                          color: Colors.grey.withOpacity(0.6),
-                                          size: 26,
-                                        )
                                       ],
                                     ),
                                   ),
@@ -155,7 +155,7 @@ class _UserPosts extends State<UserPosts> {
                                     child: Center(
                                       child: Text(
                                         "${post.content.length > 10 ? post.content.substring(0, 10) : post.content}..",
-                                        style: TextStyle(color: Colors.grey.withOpacity(0.8), fontSize: 16, letterSpacing: .3),
+                                        style: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.grey.withOpacity(0.6), fontSize: 16, letterSpacing: .3),
                                       ),
                                     ),
                                   ),
@@ -164,34 +164,16 @@ class _UserPosts extends State<UserPosts> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Icon(
-                                            CupertinoIcons.hand_thumbsup,
-                                            color: Colors.grey.withOpacity(0.6),
-                                            size: 22,
-                                          ),
-                                          const SizedBox(width: 4.0),
-                                          // Text(
-                                          //   "${question.votes} votes",
-                                          //   style: TextStyle(
-                                          //       fontSize: 14,
-                                          //       color: Colors.grey.withOpacity(0.6),
-                                          //       fontWeight: FontWeight.w600),
-                                          // )
-                                        ],
-                                      ),
-                                      Row(
                                         children: <Widget>[
                                           Icon(
                                             CupertinoIcons.mail,
-                                            color: Colors.grey.withOpacity(0.6),
+                                            color: darkMode.darkMode ? Colors.white : const Color.fromARGB(255, 108, 108, 108),
                                             size: 16,
                                           ),
                                           const SizedBox(width: 4.0),
                                           Text(
                                             lang.lang == "English" ? "${post.replies_count} replies" : "${post.replies_count} réponses",
-                                            style: TextStyle(fontSize: 14, color: Colors.grey.withOpacity(0.6)),
+                                            style: TextStyle(fontSize: 14, color: darkMode.darkMode ? Colors.white : const Color.fromARGB(255, 108, 108, 108)),
                                           )
                                         ],
                                       ),
@@ -199,13 +181,13 @@ class _UserPosts extends State<UserPosts> {
                                         children: <Widget>[
                                           Icon(
                                             CupertinoIcons.eye,
-                                            color: Colors.grey.withOpacity(0.6),
+                                            color: darkMode.darkMode ? Colors.white : Colors.grey.withOpacity(0.6),
                                             size: 18,
                                           ),
                                           const SizedBox(width: 4.0),
                                           Text(
                                             lang.lang == "English" ? "${post.views} views" : "${post.views} vues",
-                                            style: TextStyle(fontSize: 14, color: Colors.grey.withOpacity(0.6)),
+                                            style: TextStyle(fontSize: 14, color: darkMode.darkMode ? Colors.white : Colors.grey.withOpacity(0.6)),
                                           )
                                         ],
                                       )

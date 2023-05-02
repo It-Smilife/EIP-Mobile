@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:itsmilife/pages/professional/HomePro.dart';
 import 'package:itsmilife/pages/professional/activity/categorypro.dart';
 import 'package:provider/provider.dart';
-
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import '../pages/common/settings/RoleProvider.dart';
 
 class Home extends StatefulWidget {
@@ -34,16 +34,18 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
     final user = Provider.of<RoleProvider>(context);
     final items = <Widget>[
-      const Icon(CupertinoIcons.doc_plaintext, size: 30),
-      const Icon(CupertinoIcons.home, size: 30),
-      const Icon(CupertinoIcons.gear_alt, size: 30),
+      Icon(CupertinoIcons.doc_plaintext, size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
+      Icon(CupertinoIcons.home, size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
+      Icon(CupertinoIcons.gear_alt, size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
     ];
     return Scaffold(
       extendBody: true,
       body: (user.Setrolestate) ? screenspro[widget.h_index] : screens[widget.h_index],
       bottomNavigationBar: CurvedNavigationBar(
+        color: darkMode.darkMode ? const Color.fromARGB(255, 108, 108, 108) : Colors.white,
         backgroundColor: Colors.transparent,
         items: items,
         index: widget.h_index,

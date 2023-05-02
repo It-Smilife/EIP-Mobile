@@ -151,11 +151,11 @@ class _HomePageState extends State<HomePage> {
     final darkMode = Provider.of<DarkModeProvider>(context);
     final lang = Provider.of<LanguageProvider>(context);
     return Scaffold(
-        //backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 234, 234, 234),
+        // backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 234, 234, 234),
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: darkMode.darkMode
-              ? const Color.fromARGB(255, 58, 50, 83)
+              ? const Color.fromARGB(255, 32, 32, 32)
               : Color.fromARGB(255, 255, 255, 255),
           title: const Text("It'Smilife",
               style: TextStyle(
