@@ -350,15 +350,8 @@ class _OnboardingScreenState extends State<OnBoarding> {
                   content: Text('Prénom invalide'),
                 ),
               );
-            }else if (!RegExp(r'^\+?[1-9]\d{1,14}$').hasMatch(_phoneNumber)) {
-              // Show error message for invalid phone number
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Numéro de telephone invalide'),
-                ),
-              );
-            } else {
-            if (_age == 0 || _age <= 0 || _age > 120) {
+            }
+             if (_age == 0 || _age == null || _age <= 0 || _age > 120) {
               // Show error message for invalid age
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -366,6 +359,14 @@ class _OnboardingScreenState extends State<OnBoarding> {
                 ),
               );
             } 
+            if (!RegExp(r'^\+?[1-9]\d{1,14}$').hasMatch(_phoneNumber)) {
+              // Show error message for invalid phone number
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Numéro de telephone invalide'),
+                ),
+              );
+            } else {
               // All inputs are valid
               ProfileData.lastName = _nom;
               ProfileData.firstName = _prenom;
