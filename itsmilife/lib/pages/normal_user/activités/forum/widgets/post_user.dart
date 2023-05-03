@@ -124,7 +124,7 @@ class _UserPosts extends State<UserPosts> {
                                                         fontSize: 18,
                                                         fontWeight: FontWeight.bold,
                                                         letterSpacing: .4,
-                                                        color: darkMode.darkMode ? Colors.white : Colors.grey.withOpacity(0.6),
+                                                        color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 75, 75, 75),
                                                       ),
                                                     ),
                                                   ),
@@ -133,12 +133,12 @@ class _UserPosts extends State<UserPosts> {
                                                     children: <Widget>[
                                                       Text(
                                                         "Vous",
-                                                        style: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.grey.withOpacity(0.6)),
+                                                        style: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 75, 75, 75)),
                                                       ),
                                                       const SizedBox(width: 15),
                                                       Text(
                                                         convertDate(post.date),
-                                                        style: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.grey.withOpacity(0.6)),
+                                                        style: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 75, 75, 75)),
                                                       )
                                                     ],
                                                   )
@@ -155,7 +155,7 @@ class _UserPosts extends State<UserPosts> {
                                     child: Center(
                                       child: Text(
                                         "${post.content.length > 50 ? post.content.substring(0, 50) : post.content}..",
-                                        style: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.grey.withOpacity(0.6), fontSize: 16, letterSpacing: .3),
+                                        style: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 75, 75, 75), fontSize: 16, letterSpacing: .3),
                                       ),
                                     ),
                                   ),

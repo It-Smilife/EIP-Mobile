@@ -578,7 +578,7 @@ class _PostScreenState extends State<PostScreen> {
                   child: AnimatedContainer(
                     duration: Duration(microseconds: 100),
                     padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8.0, left: 20.0, right: 8.0),
-                    color: darkMode.darkMode ? Color.fromARGB(255, 71, 71, 71) : Colors.grey[200],
+                    color: darkMode.darkMode ?Color.fromARGB(255, 45, 45, 45): Colors.white,
                     child: Row(
                       children: [
                         Expanded(
@@ -588,14 +588,14 @@ class _PostScreenState extends State<PostScreen> {
                             decoration: InputDecoration(
                               hintText: 'Ajouter un commentaire...',
                               border: InputBorder.none,
-                              hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.grey[200]),
+                              hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black),
                             ),
                           ),
                         ),
                         IconButton(
                           icon: Icon(
                             Icons.send_rounded,
-                            color: darkMode.darkMode ? Colors.white : Colors.grey[200],
+                            color: darkMode.darkMode ? Colors.white : Colors.black,
                           ),
                           onPressed: () {
                             addComment(_comController.text);
