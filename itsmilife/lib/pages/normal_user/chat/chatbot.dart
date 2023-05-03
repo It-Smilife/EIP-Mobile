@@ -4,6 +4,8 @@ import 'package:openai_client/openai_client.dart';
 import 'package:openai_client/src/model/openai_chat/chat_message.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
+import 'package:provider/provider.dart';
 
 class ChatBot extends StatefulWidget {
   @override
@@ -96,11 +98,13 @@ class _ChatBotState extends State<ChatBot> {
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey[200],
         flexibleSpace: SafeArea(
           child: Container(
             padding: EdgeInsets.only(right: 16),

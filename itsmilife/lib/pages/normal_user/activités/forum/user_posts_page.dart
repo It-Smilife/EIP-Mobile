@@ -102,7 +102,7 @@ class _UserPostsPage extends State<UserPostsPage> {
             ),
             Container(
               decoration: BoxDecoration(
-                  color: darkMode.darkMode ? const Color.fromARGB(255, 108, 108, 108) : const Color.fromARGB(255, 255, 255, 255),
+                  color: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 255, 255, 255),
                   borderRadius: BorderRadius.all(Radius.circular(35))),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

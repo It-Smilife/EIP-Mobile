@@ -59,7 +59,7 @@ class _ActivityPageState extends State<ActivityPage> {
       themes = value;
     });
     return Scaffold(
-      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : Color.fromARGB(255, 216, 216, 216),
+      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : Color.fromARGB(255, 224, 224, 224),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 255, 255, 255),
@@ -74,7 +74,7 @@ class _ActivityPageState extends State<ActivityPage> {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               child: Container(
                 decoration: BoxDecoration(
-                  color: darkMode.darkMode ? const Color.fromARGB(255, 108, 108, 108) : const Color.fromARGB(255, 255, 255, 255),
+                  color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Colors.white,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
@@ -141,7 +141,7 @@ class _ActivityPageState extends State<ActivityPage> {
                       child: Container(
                         width: 270,
                         decoration: BoxDecoration(
-                          color: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 98, 128, 182),
+                          color: darkMode.darkMode ? const Color.fromARGB(255, 108, 108, 108) : Color.fromARGB(255, 98, 128, 182),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -172,7 +172,7 @@ class _ActivityPageState extends State<ActivityPage> {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               child: Container(
                 decoration: BoxDecoration(
-                  color: darkMode.darkMode ? const Color.fromARGB(255, 108, 108, 108) : const Color.fromARGB(255, 255, 255, 255),
+                  color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Colors.white,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
@@ -239,7 +239,7 @@ class _ActivityPageState extends State<ActivityPage> {
                       child: Container(
                         width: 270,
                         decoration: BoxDecoration(
-                          color: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 98, 128, 182),
+                          color: darkMode.darkMode ? const Color.fromARGB(255, 108, 108, 108) : Color.fromARGB(255, 98, 128, 182),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),

@@ -5,6 +5,8 @@ import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/quizzBox.dart';
 import '../../../../../services/NetworkManager.dart';
 import 'quizz.dart';
 import 'result.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
+import 'package:provider/provider.dart';
 
 class QuizPage extends StatefulWidget {
   static const routeName = '/quizPage';
@@ -113,6 +115,7 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
     final args = ModalRoute.of(context)!.settings.arguments as quizzBox;
     title = args.title;
     return Scaffold(

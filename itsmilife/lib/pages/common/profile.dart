@@ -58,11 +58,11 @@ class _ProfileSettingPageState extends State<ProfilePage> {
         preferredSize:
             const Size.fromHeight(kToolbarHeight + 0.9), // 1 for the border
         child: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
                 width: 0.5,
-                color: Colors.grey,
+                color: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 246, 246, 246),
               ),
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/homepage/carouselle.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/activit%C3%A9s.dart';
@@ -63,8 +64,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
@@ -87,10 +87,8 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const ActivityPage(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
+            pageBuilder: (context, animation, secondaryAnimation) => const ActivityPage(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
               return SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(1, 0),
@@ -107,10 +105,8 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const HomePage(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
+            pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
               return SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(1, 0),
@@ -127,10 +123,8 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const SettingsPage(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
+            pageBuilder: (context, animation, secondaryAnimation) => const SettingsPage(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
               return SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(1, 0),
@@ -154,104 +148,90 @@ class _HomePageState extends State<HomePage> {
         // backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 234, 234, 234),
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: darkMode.darkMode
-              ? const Color.fromARGB(255, 32, 32, 32)
-              : Color.fromARGB(255, 255, 255, 255),
-          title: const Text("It'Smilife",
-              style: TextStyle(
-                  color: Color.fromARGB(255, 98, 128, 182),
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold)),
+          backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : Color.fromARGB(255, 255, 255, 255),
+          title: Text("It'Smilife", style: TextStyle(color: darkMode.darkMode == true ? Colors.white : Color.fromARGB(255, 98, 128, 182), fontSize: 25, fontWeight: FontWeight.bold)),
+          leading: Icon(
+            CupertinoIcons.add,
+            color: darkMode.darkMode == true ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 224, 224, 224),
+          ),
         ),
         body: Container(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-              Expanded(
-                  child: Stack(children: <Widget>[
-                const HomeCard(),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-                Positioned(
-                  bottom: MediaQuery.of(context).size.height * 0.12,
-                  left: MediaQuery.of(context).size.height * 0.15,
-                  right: MediaQuery.of(context).size.height * 0.15,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 40, vertical: 0.1),
-                      backgroundColor: Colors.red,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
+          Expanded(
+              child: Stack(children: <Widget>[
+            const HomeCard(),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+            Positioned(
+              bottom: MediaQuery.of(context).size.height * 0.12,
+              left: MediaQuery.of(context).size.height * 0.15,
+              right: MediaQuery.of(context).size.height * 0.15,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 0.1),
+                  backgroundColor: Colors.red,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                ),
+                child: Text(
+                  lang.lang == "English" ? "Emergency" : "Urgence",
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      ),
                     ),
-                    child: Text(
-                      lang.lang == "English" ? "Emergency" : "Urgence",
-                      style: const TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30),
+                    isScrollControlled: true,
+                    builder: (context) {
+                      return SizedBox(
+                        height: 450,
+                        child: Center(
+                          child: Column(
+                            children: <Widget>[
+                              const SizedBox(height: 20),
+                              Container(
+                                height: 10,
+                                width: 100,
+                                decoration: const BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.all(Radius.circular(8))),
+                              ),
+                              const SizedBox(height: 80),
+                              GestureDetector(
+                                // ignore: avoid_print
+                                onTap: _callSos,
+                                child: Image.asset("assets/sos.png"),
+                              ),
+                              const SizedBox(height: 20),
+                              const Text(
+                                "SOS suicide",
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              const SizedBox(height: 80),
+                              GestureDetector(
+                                // ignore: avoid_print
+                                onTap: _callEmergency,
+                                child: Image.asset("assets/sos.png"),
+                              ),
+                              const SizedBox(height: 20),
+                              Text(
+                                lang.lang == "English" ? "Emergency" : "Urgences",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                        isScrollControlled: true,
-                        builder: (context) {
-                          return SizedBox(
-                            height: 450,
-                            child: Center(
-                              child: Column(
-                                children: <Widget>[
-                                  const SizedBox(height: 20),
-                                  Container(
-                                    height: 10,
-                                    width: 100,
-                                    decoration: const BoxDecoration(
-                                        color: Colors.grey,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8))),
-                                  ),
-                                  const SizedBox(height: 80),
-                                  GestureDetector(
-                                    // ignore: avoid_print
-                                    onTap: _callSos,
-                                    child: Image.asset("assets/sos.png"),
-                                  ),
-                                  const SizedBox(height: 20),
-                                  const Text(
-                                    "SOS suicide",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  const SizedBox(height: 80),
-                                  GestureDetector(
-                                    // ignore: avoid_print
-                                    onTap: _callEmergency,
-                                    child: Image.asset("assets/sos.png"),
-                                  ),
-                                  const SizedBox(height: 20),
-                                  Text(
-                                    lang.lang == "English"
-                                        ? "Emergency"
-                                        : "Urgences",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
                       );
                     },
-                  ),
-                )
-              ]))
-            ])));
+                  );
+                },
+              ),
+            )
+          ]))
+        ])));
   }
 }

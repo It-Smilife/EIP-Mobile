@@ -64,6 +64,32 @@ class _PostScreenUserState extends State<PostScreenUser> {
     }
   }
 
+  void deletePost(postId) {
+    NetworkManager.delete('forums/${postId}').then(
+      (value) => {
+        if (value.data['success'] == true)
+          {
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) => UserPostsPage(),
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(1, 0),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: child,
+                  );
+                },
+                transitionDuration: Duration(milliseconds: 300),
+              ),
+            )
+          }
+      },
+    );
+  }
+
   void deleteComment(commentId) {
     NetworkManager.delete('comments/$commentId').then((value) {
       if (value.data['success'] == true) {
@@ -72,6 +98,7 @@ class _PostScreenUserState extends State<PostScreenUser> {
             postsFuture = fetchPost();
           });
         }
+        Navigator.pop(context);
       }
     });
   }
@@ -121,7 +148,7 @@ class _PostScreenUserState extends State<PostScreenUser> {
               return Container();
             }
             return Scaffold(
-              backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : Color.fromARGB(255, 218, 218, 218),
+              backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : Colors.grey[200],
               body: SafeArea(
                 child: ListView(
                   children: <Widget>[
@@ -293,29 +320,58 @@ class _PostScreenUserState extends State<PostScreenUser> {
                                         IconButton(
                                           icon: Icon(CupertinoIcons.trash),
                                           onPressed: () => {
-                                            NetworkManager.delete('forums/${posts.id}').then(
-                                              (value) => {
-                                                if (value.data['success'] == true)
-                                                  {
-                                                    Navigator.push(
-                                                      context,
-                                                      PageRouteBuilder(
-                                                        pageBuilder: (context, animation, secondaryAnimation) => Forum(),
-                                                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                                          return SlideTransition(
-                                                            position: Tween<Offset>(
-                                                              begin: const Offset(1, 0),
-                                                              end: Offset.zero,
-                                                            ).animate(animation),
-                                                            child: child,
-                                                          );
-                                                        },
-                                                        transitionDuration: Duration(milliseconds: 300),
-                                                      ),
-                                                    )
-                                                  }
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return Dialog(
+                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                                  child: Container(
+                                                    constraints: const BoxConstraints(maxHeight: 200),
+                                                    child: Padding(
+                                                        padding: const EdgeInsets.only(top: 20, right: 20, left: 30),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          children: [
+                                                            Text(
+                                                              lang.lang == "English" ? "Delete this post" : "Supprimer ce post",
+                                                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                                                            ),
+                                                            const SizedBox(height: 10),
+                                                            Text(
+                                                              lang.lang == "English" ? "Are you sure that you want to delete this post ?" : "Êtes-vous sûr de vouloir supprimer ce post ?",
+                                                              style: const TextStyle(
+                                                                fontSize: 17,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(height: 40),
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                ElevatedButton(
+                                                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                                                                  onPressed: () => {deletePost(posts.id)},
+                                                                  child: Text(
+                                                                    lang.lang == "English" ? "yes" : "Oui",
+                                                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(width: 20),
+                                                                ElevatedButton(
+                                                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                                                  onPressed: () => {Navigator.pop(context)},
+                                                                  child: Text(
+                                                                    lang.lang == "English" ? "Cancel" : "Anuler",
+                                                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        )),
+                                                  ),
+                                                );
                                               },
-                                            )
+                                            ),
                                           },
                                           color: Colors.red,
                                         ),
@@ -339,33 +395,33 @@ class _PostScreenUserState extends State<PostScreenUser> {
                               posts.content,
                               style: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black, fontSize: 17, letterSpacing: .2),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  const SizedBox(width: 15.0),
-                                  Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        CupertinoIcons.eye,
-                                        color: darkMode.darkMode ? Colors.white : Colors.grey,
-                                        size: 18,
-                                      ),
-                                      const SizedBox(width: 4.0),
-                                      Text(
-                                        lang.lang == "English" ? "${posts.views} views" : "${posts.views} vues",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: darkMode.darkMode ? Colors.white : Colors.grey,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
-                            )
+                            // Padding(
+                            //   padding: const EdgeInsets.symmetric(vertical: 10.0),
+                            //   child: Row(
+                            //     mainAxisAlignment: MainAxisAlignment.start,
+                            //     children: <Widget>[
+                            //       const SizedBox(width: 15.0),
+                            //       Row(
+                            //         children: <Widget>[
+                            //           Icon(
+                            //             CupertinoIcons.eye,
+                            //             color: darkMode.darkMode ? Colors.white : Colors.grey,
+                            //             size: 18,
+                            //           ),
+                            //           const SizedBox(width: 4.0),
+                            //           Text(
+                            //             lang.lang == "English" ? "${posts.views} views" : "${posts.views} vues",
+                            //             style: TextStyle(
+                            //               fontSize: 14,
+                            //               color: darkMode.darkMode ? Colors.white : Colors.grey,
+                            //               fontWeight: FontWeight.w600,
+                            //             ),
+                            //           )
+                            //         ],
+                            //       )
+                            //     ],
+                            //   ),
+                            // )
                           ],
                         ),
                       ),
@@ -428,6 +484,65 @@ class _PostScreenUserState extends State<PostScreenUser> {
                                               )
                                             ],
                                           ),
+                                          IconButton(
+                                            icon: Icon(CupertinoIcons.trash),
+                                            onPressed: () => {
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return Dialog(
+                                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                                    child: Container(
+                                                      constraints: const BoxConstraints(maxHeight: 200),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.only(top: 20, right: 20, left: 30),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          children: [
+                                                            Text(
+                                                              lang.lang == "English" ? "Delete this comment" : "Supprimer ce commentaire",
+                                                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                                                            ),
+                                                            const SizedBox(height: 10),
+                                                            Text(
+                                                              lang.lang == "English" ? "Are you sure that you want to delete this comment ?" : "Êtes-vous sûr de vouloir supprimer ce commentaire ?",
+                                                              style: const TextStyle(
+                                                                fontSize: 17,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(height: 40),
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                ElevatedButton(
+                                                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                                                                  onPressed: () => {deleteComment(comment.id)},
+                                                                  child: Text(
+                                                                    lang.lang == "English" ? "yes" : "Oui",
+                                                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(width: 20),
+                                                                ElevatedButton(
+                                                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                                                  onPressed: () => {Navigator.pop(context)},
+                                                                  child: Text(
+                                                                    lang.lang == "English" ? "Cancel" : "Anuler",
+                                                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            },
+                                            color: Colors.red,
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -440,13 +555,6 @@ class _PostScreenUserState extends State<PostScreenUser> {
                                           fontSize: 16,
                                         ),
                                       ),
-                                    ),
-                                    IconButton(
-                                      icon: Icon(CupertinoIcons.trash),
-                                      onPressed: () => {
-                                        deleteComment(comment.id)
-                                      },
-                                      color: Colors.red,
                                     ),
                                   ],
                                 ),
@@ -470,11 +578,7 @@ class _PostScreenUserState extends State<PostScreenUser> {
                         child: TextField(
                           controller: _comController,
                           focusNode: _focusNode,
-                          decoration: InputDecoration(
-                            hintText: 'Ajouter un commentaire...',
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)
-                          ),
+                          decoration: InputDecoration(hintText: 'Ajouter un commentaire...', border: InputBorder.none, hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
                         ),
                       ),
                       IconButton(

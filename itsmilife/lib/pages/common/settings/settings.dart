@@ -51,7 +51,7 @@ class _SettingsPage extends State<SettingsPage> {
     final darkMode = Provider.of<DarkModeProvider>(context);
     final lang = Provider.of<LanguageProvider>(context);
     return Scaffold(
-      backgroundColor: darkMode.darkMode ? Color.fromARGB(255, 32, 32, 32) : Color.fromARGB(255, 216, 216, 216),
+      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : Color.fromARGB(255, 224, 224, 224),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 255, 255, 255),

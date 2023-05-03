@@ -49,8 +49,8 @@ class _HomeCardState extends State<HomeCard> {
         : "Discuter avec un professionnel";
     return Scaffold(
       backgroundColor: darkMode.darkMode
-          ? const Color.fromARGB(255, 32, 32, 32)
-          : Color.fromARGB(255, 216, 216, 216),
+          ? const Color.fromARGB(255, 58, 50, 83)
+          : const Color.fromARGB(255, 224, 224, 224),
       body: SafeArea(
         child: Center(
           child: Column(

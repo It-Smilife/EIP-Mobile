@@ -5,6 +5,8 @@ import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/logic/quizz_pag
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/theme.dart';
 import '../../../../services/NetworkManager.dart';
 import 'quizzBox.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
+import 'package:provider/provider.dart';
 
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -14,30 +16,32 @@ class ThemeDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
     final args = ModalRoute.of(context)!.settings.arguments as Category;
 
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: darkMode.darkMode
+          ? const Color.fromARGB(255, 58, 50, 83)
+          : Colors.grey[200],
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: darkMode.darkMode == true ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 224, 224, 224),
         title: Text(
           args.title,
-          style: const TextStyle(
-            color: Color.fromARGB(255, 98, 128, 182),
+          style: TextStyle(
+            color: darkMode.darkMode == true ? const Color.fromARGB(255, 224, 224, 224): Color.fromARGB(255, 98, 128, 182),
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back,
-            color: Color.fromARGB(255, 98, 128, 182),
+            color: darkMode.darkMode == true ? const Color.fromARGB(255, 224, 224, 224) : Color.fromARGB(255, 98, 128, 182),
           ),
           onPressed: () {
             Navigator.pop(context);
           },
-          color: Colors.black,
         ),
       ),
       body: FutureBuilder<List<quizzBox>>(
@@ -70,7 +74,7 @@ class ThemeDetailsPage extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.white,
+                        color: darkMode.darkMode == true ? Color.fromARGB(255, 79, 79, 79) : Color.fromARGB(255, 98, 128, 182),
                       ),
                       child: FutureBuilder<Uint8List>(
                         future: NetworkManager.getFile(quiz.avatar),
@@ -89,9 +93,10 @@ class ThemeDetailsPage extends StatelessWidget {
                                 const SizedBox(height: 10.0),
                                 Text(
                                   quiz.title,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
+                                    color: darkMode.darkMode == true ? Colors.white : Colors.black
                                   ),
                                 ),
                               ],

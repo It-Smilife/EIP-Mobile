@@ -9,6 +9,7 @@ import 'package:collection/collection.dart';
 import 'Utils.dart';
 import 'eventModelTest.dart';
 import 'package:itsmilife/pages/professional/activity/calendar/addEventToServ.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 
 class AddEvent extends StatefulWidget {
   const AddEvent({super.key});
@@ -47,34 +48,10 @@ class _AddEvent extends State<AddEvent> {
     super.dispose();
   }
 
-  // void _submitForm() {
-  //   if (_titleCotroller.text.isEmpty) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text('Le champ Titre ne doit pas être vide.'),
-  //       ),
-  //     );
-  //   } else {
-  //     final event = MyEvent(
-  //       title: _titleCotroller.text,
-  //       notes: _notesController.text,
-  //       start: DateTime(
-  //           _selectedDate.year,
-  //           _selectedDate.month,
-  //           _selectedDate.day,
-  //           _selectedTimeBegin.hour,
-  //           _selectedTimeBegin.minute),
-  //       end: DateTime(_selectedDate.year, _selectedDate.month,
-  //           _selectedDate.day, _selectedTimeEnd.hour, _selectedTimeEnd.minute),
-  //     );
-  //     final provider = Provider.of<EventProvider>(context, listen: false);
-  //     provider.addEvent(event);
-  //     Navigator.pop(context);
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
+
     final screenHeight = MediaQuery.of(context).size.height;
     final appBar = AppBar(
       backgroundColor: Colors.transparent,
@@ -84,30 +61,19 @@ class _AddEvent extends State<AddEvent> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromARGB(255, 205, 205, 205),
+      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : Colors.grey[200],
       body: Stack(
         children: <Widget>[
-          // Positioned(
-          //   top: 0,
-          //   left: MediaQuery.of(context).size.width * 0.10,
-          //   right: 0,
-          //   bottom: 0,
-          //   child: Text(
-          //     lang.lang == "English" ? "Add an Evend" : "Ajouter un évènement",
-          //     style:
-          //         const TextStyle(fontSize: 30, fontWeight: FontWeight.normal),
-          //   ),
-          // ),
           Positioned(
             top: 0,
-            left: 0,
-            right: 0,
+            left: 3,
+            right: 3,
             bottom: MediaQuery.of(context).viewInsets.bottom + 60,
             child: Form(
               key: _formKey,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Colors.white,
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                 child: SingleChildScrollView(
@@ -115,28 +81,35 @@ class _AddEvent extends State<AddEvent> {
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.15),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.15),
                         Text(
-                          lang.lang == "English"
-                              ? "Add an Evend"
-                              : "Ajouter un évènement",
-                          style: const TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
+                          lang.lang == "English" ? "Add an Evend" : "Ajouter un évènement",
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
+                          ),
                         ),
-                        const SizedBox(height: 50),
+                        const SizedBox(height: 60),
                         TextFormField(
                           controller: _titleCotroller,
                           decoration: InputDecoration(
-                            prefixIcon: const Icon(CupertinoIcons.pencil),
-                            hintText:
-                                lang.lang == "English" ? "Title" : "Titre",
-                          ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.deepPurpleAccent, // Change the focused border color here
+                                  width: 2.0,
+                                ),
+                                borderRadius: BorderRadius.all(Radius.circular(15)),
+                              ),
+                              prefixIcon: Icon(
+                                CupertinoIcons.pencil,
+                                color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
+                              ),
+                              hintText: lang.lang == "English" ? "Title" : "Titre",
+                              hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45))),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return lang.lang == "English"
-                                  ? 'Please enter a title'
-                                  : 'Veuillez entrer un titre';
+                              return lang.lang == "English" ? 'Please enter a title' : 'Veuillez entrer un titre';
                             }
                             return null;
                           },
@@ -147,10 +120,8 @@ class _AddEvent extends State<AddEvent> {
                             showDatePicker(
                               context: context,
                               initialDate: _selectedDate,
-                              firstDate: DateTime.now()
-                                  .subtract(const Duration(days: 365)),
-                              lastDate:
-                                  DateTime.now().add(const Duration(days: 365)),
+                              firstDate: DateTime.now().subtract(const Duration(days: 365)),
+                              lastDate: DateTime.now().add(const Duration(days: 365)),
                             ).then((date) {
                               if (date != null) {
                                 setState(() {
@@ -160,11 +131,16 @@ class _AddEvent extends State<AddEvent> {
                             });
                           },
                           style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.pressed)) return Color.fromARGB(255, 45, 45, 45); // Color when button is pressed
+                                return Colors.deepPurpleAccent; // Default color
+                              },
+                            ),
                             // minimumSize: MaterialStateProperty.all<Size>(
                             //   const Size(150, 35),
                             // ),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
@@ -190,39 +166,32 @@ class _AddEvent extends State<AddEvent> {
                               child: Column(children: [
                                 Text(
                                   lang.lang == "English" ? "Begin" : "Début",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),
+                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
                                 ),
                                 const SizedBox(height: 15),
                                 ElevatedButton(
                                   onPressed: () {
-                                    showTimePicker(
-                                            context: context,
-                                            initialTime: TimeOfDay.now())
-                                        .then((time) {
+                                    showTimePicker(context: context, initialTime: TimeOfDay.now()).then((time) {
                                       if (time != null) {
                                         setState(() {
-                                          _selectedTimeBegin = DateTime(
-                                              _selectedDate.year,
-                                              _selectedDate.month,
-                                              _selectedDate.day,
-                                              time.hour,
-                                              time.minute);
+                                          _selectedTimeBegin = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, time.hour, time.minute);
                                         });
                                       }
                                     });
                                   },
                                   style: ButtonStyle(
-                                    minimumSize:
-                                        MaterialStateProperty.all<Size>(
+                                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                      (Set<MaterialState> states) {
+                                        if (states.contains(MaterialState.pressed)) return Color.fromARGB(255, 45, 45, 45); // Color when button is pressed
+                                        return Colors.deepPurpleAccent; // Default color
+                                      },
+                                    ),
+                                    minimumSize: MaterialStateProperty.all<Size>(
                                       const Size(90, 35),
                                     ),
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
+                                        borderRadius: BorderRadius.circular(20.0),
                                       ),
                                     ),
                                   ),
@@ -231,49 +200,39 @@ class _AddEvent extends State<AddEvent> {
                               ]),
                             ),
                             const SizedBox(width: 15),
-                            const Icon(CupertinoIcons.arrow_right,
-                                color: Colors.grey),
+                            const Icon(CupertinoIcons.arrow_right, color: Colors.grey),
                             const SizedBox(width: 15),
                             Expanded(
                               child: Column(
                                 children: [
                                   Text(
                                     lang.lang == "English" ? "End" : "Fin",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
                                   ),
                                   const SizedBox(height: 15),
                                   ElevatedButton(
                                     onPressed: () {
-                                      showTimePicker(
-                                              context: context,
-                                              initialTime: TimeOfDay(
-                                                  hour: _initialEnd.hour,
-                                                  minute: _initialEnd.minute))
-                                          .then((time) {
+                                      showTimePicker(context: context, initialTime: TimeOfDay(hour: _initialEnd.hour, minute: _initialEnd.minute)).then((time) {
                                         if (time != null) {
                                           setState(() {
-                                            _selectedTimeEnd = DateTime(
-                                                _selectedDate.year,
-                                                _selectedDate.month,
-                                                _selectedDate.day,
-                                                time.hour,
-                                                time.minute);
+                                            _selectedTimeEnd = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, time.hour, time.minute);
                                           });
                                         }
                                       });
                                     },
                                     style: ButtonStyle(
-                                      minimumSize:
-                                          MaterialStateProperty.all<Size>(
+                                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                        (Set<MaterialState> states) {
+                                          if (states.contains(MaterialState.pressed)) return Color.fromARGB(255, 45, 45, 45); // Color when button is pressed
+                                          return Colors.deepPurpleAccent; // Default color
+                                        },
+                                      ),
+                                      minimumSize: MaterialStateProperty.all<Size>(
                                         const Size(90, 35),
                                       ),
-                                      shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
+                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
+                                          borderRadius: BorderRadius.circular(20.0),
                                         ),
                                       ),
                                     ),
@@ -287,10 +246,20 @@ class _AddEvent extends State<AddEvent> {
                         const SizedBox(height: 40),
                         TextField(
                           controller: _notesController,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(CupertinoIcons.doc_plaintext),
-                            hintText: 'Notes',
-                          ),
+                          decoration: InputDecoration(
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.deepPurpleAccent, // Change the focused border color here
+                                  width: 2.0,
+                                ),
+                                borderRadius: BorderRadius.all(Radius.circular(15)),
+                              ),
+                              prefixIcon: Icon(
+                                CupertinoIcons.doc_plaintext,
+                                color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
+                              ),
+                              hintText: 'Notes',
+                              hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45))),
                           maxLines: null,
                           textAlignVertical: TextAlignVertical.top,
                         ),
@@ -315,14 +284,12 @@ class _AddEvent extends State<AddEvent> {
                       child: ElevatedButton(
                         onPressed: () => {Navigator.pop(context)},
                         style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                           ),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Colors.transparent),
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
                           elevation: MaterialStateProperty.resolveWith<double>(
                             (Set<MaterialState> states) {
                               if (states.contains(MaterialState.pressed)) {
@@ -332,12 +299,9 @@ class _AddEvent extends State<AddEvent> {
                             },
                           ),
                         ),
-                        child: const Text(
+                        child: Text(
                           "Annuler",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.black),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
                         ),
                       ),
                     ),
@@ -347,32 +311,20 @@ class _AddEvent extends State<AddEvent> {
                         onPressed: () async {
                           bool success = await addEvent(
                             title: _titleCotroller.text,
-                            start: DateTime(
-                                _selectedTimeBegin.year,
-                                _selectedTimeBegin.month,
-                                _selectedTimeBegin.day,
-                                _selectedTimeBegin.hour,
-                                _selectedTimeBegin.minute),
-                            end: DateTime(
-                                _selectedTimeEnd.year,
-                                _selectedTimeEnd.month,
-                                _selectedTimeEnd.day,
-                                _selectedTimeEnd.hour,
-                                _selectedTimeEnd.minute),
+                            start: DateTime(_selectedTimeBegin.year, _selectedTimeBegin.month, _selectedTimeBegin.day, _selectedTimeBegin.hour, _selectedTimeBegin.minute),
+                            end: DateTime(_selectedTimeEnd.year, _selectedTimeEnd.month, _selectedTimeEnd.day, _selectedTimeEnd.hour, _selectedTimeEnd.minute),
                             notes: _notesController.text,
                           );
 
                           Navigator.pop(context, success);
                         },
                         style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                           ),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Colors.transparent),
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
                           elevation: MaterialStateProperty.resolveWith<double>(
                             (Set<MaterialState> states) {
                               if (states.contains(MaterialState.pressed)) {
@@ -382,12 +334,9 @@ class _AddEvent extends State<AddEvent> {
                             },
                           ),
                         ),
-                        child: const Text(
+                        child: Text(
                           "Sauvegarder",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.black),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
                         ),
                       ),
                     ),

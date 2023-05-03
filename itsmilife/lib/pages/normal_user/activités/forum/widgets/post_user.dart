@@ -74,7 +74,7 @@ class _UserPosts extends State<UserPosts> {
               return Container();
             }
             return Column(
-                children: posts
+                children: posts.reversed
                     .map(
                       (post) => GestureDetector(
                         onTap: () {
@@ -90,7 +90,7 @@ class _UserPosts extends State<UserPosts> {
                         child: Container(
                           margin: const EdgeInsets.all(15.0),
                           decoration: BoxDecoration(
-                              color: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : Color.fromARGB(255, 218, 218, 218),
+                              color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Color.fromARGB(255, 218, 218, 218),
                               borderRadius: BorderRadius.circular(10.0),
                               boxShadow: [BoxShadow(color: Colors.black26.withOpacity(0.05), offset: const Offset(0.0, 6.0), blurRadius: 10.0, spreadRadius: 0.10)]),
                           child: Padding(
@@ -154,7 +154,7 @@ class _UserPosts extends State<UserPosts> {
                                     height: 50,
                                     child: Center(
                                       child: Text(
-                                        "${post.content.length > 10 ? post.content.substring(0, 10) : post.content}..",
+                                        "${post.content.length > 50 ? post.content.substring(0, 50) : post.content}..",
                                         style: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.grey.withOpacity(0.6), fontSize: 16, letterSpacing: .3),
                                       ),
                                     ),
@@ -177,20 +177,20 @@ class _UserPosts extends State<UserPosts> {
                                           )
                                         ],
                                       ),
-                                      Row(
-                                        children: <Widget>[
-                                          Icon(
-                                            CupertinoIcons.eye,
-                                            color: darkMode.darkMode ? Colors.white : Colors.grey.withOpacity(0.6),
-                                            size: 18,
-                                          ),
-                                          const SizedBox(width: 4.0),
-                                          Text(
-                                            lang.lang == "English" ? "${post.views} views" : "${post.views} vues",
-                                            style: TextStyle(fontSize: 14, color: darkMode.darkMode ? Colors.white : Colors.grey.withOpacity(0.6)),
-                                          )
-                                        ],
-                                      )
+                                      // Row(
+                                      //   children: <Widget>[
+                                      //     Icon(
+                                      //       CupertinoIcons.eye,
+                                      //       color: darkMode.darkMode ? Colors.white : Colors.grey.withOpacity(0.6),
+                                      //       size: 18,
+                                      //     ),
+                                      //     const SizedBox(width: 4.0),
+                                      //     Text(
+                                      //       lang.lang == "English" ? "${post.views} views" : "${post.views} vues",
+                                      //       style: TextStyle(fontSize: 14, color: darkMode.darkMode ? Colors.white : Colors.grey.withOpacity(0.6)),
+                                      //     )
+                                      //   ],
+                                      // )
                                     ],
                                   )
                                 ],

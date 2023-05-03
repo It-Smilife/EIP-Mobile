@@ -32,10 +32,10 @@ class _CategoryProState extends State<CategoryPro> {
           : const Color.fromARGB(255, 234, 234, 234),
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.white,
-        title: const Text("It'Smilife",
+        backgroundColor: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Colors.white,
+        title: Text("It'Smilife",
             style: TextStyle(
-                color: Color.fromARGB(255, 98, 128, 182),
+                color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 98, 128, 182),
                 fontSize: 25,
                 fontWeight: FontWeight.bold)),
       ),
@@ -48,11 +48,11 @@ class _CategoryProState extends State<CategoryPro> {
                   borderRadius: BorderRadius.circular(20)),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
-                      color: Color.fromARGB(255, 98, 128, 182),
+                      color: darkMode.darkMode ? Color.fromARGB(255, 74, 74, 74) : Color.fromARGB(255, 98, 128, 182),
                       offset: Offset(0, 5),
                       blurRadius: 5,
                       spreadRadius: 0,
@@ -123,7 +123,7 @@ class _CategoryProState extends State<CategoryPro> {
                       child: Container(
                         width: MediaQuery.of(context).size.height * 0.28,
                         decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 98, 128, 182),
+                          color: darkMode.darkMode ? const Color.fromARGB(255, 108, 108, 108) : Color.fromARGB(255, 98, 128, 182),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         padding: const EdgeInsets.symmetric(

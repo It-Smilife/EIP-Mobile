@@ -77,7 +77,7 @@ class _Posts extends State<Posts> {
             }
 
             return Column(
-                children: posts
+                children: posts.reversed
                     .map(
                       (post) => GestureDetector(
                         onTap: () {
@@ -157,7 +157,7 @@ class _Posts extends State<Posts> {
                                   height: 50,
                                   child: Center(
                                     child: Text(
-                                      "${post.content.length > 10 ? post.content.substring(0, 10) : post.content}..",
+                                      "${post.content.length > 50 ? post.content.substring(0, 50) : post.content}..",
                                       style: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black, fontSize: 16, letterSpacing: .3),
                                     ),
                                   ),
@@ -180,20 +180,20 @@ class _Posts extends State<Posts> {
                                         )
                                       ],
                                     ),
-                                    Row(
-                                      children: <Widget>[
-                                        Icon(
-                                          CupertinoIcons.eye,
-                                          color: darkMode.darkMode ? Colors.white : Colors.grey,
-                                          size: 18,
-                                        ),
-                                        const SizedBox(width: 4.0),
-                                        Text(
-                                          lang.lang == "English" ? "${post.views} views" : "${post.views} vues",
-                                          style: TextStyle(fontSize: 14, color: darkMode.darkMode ? Colors.white : Colors.grey),
-                                        )
-                                      ],
-                                    )
+                                    // Row(
+                                    //   children: <Widget>[
+                                    //     Icon(
+                                    //       CupertinoIcons.eye,
+                                    //       color: darkMode.darkMode ? Colors.white : Colors.grey,
+                                    //       size: 18,
+                                    //     ),
+                                    //     const SizedBox(width: 4.0),
+                                    //     Text(
+                                    //       lang.lang == "English" ? "${post.views} views" : "${post.views} vues",
+                                    //       style: TextStyle(fontSize: 14, color: darkMode.darkMode ? Colors.white : Colors.grey),
+                                    //     )
+                                    //   ],
+                                    // )
                                   ],
                                 )
                               ],

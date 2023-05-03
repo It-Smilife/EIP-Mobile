@@ -7,6 +7,7 @@ import 'eventProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import 'updateEvent.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 
 class EditEventPage extends StatefulWidget {
   final MyEvent? event;
@@ -79,6 +80,7 @@ class _EditEventPageState extends State<EditEventPage> {
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
     final screenHeight = MediaQuery.of(context).size.height;
     final appBar = AppBar(
       backgroundColor: Colors.transparent,
@@ -88,33 +90,19 @@ class _EditEventPageState extends State<EditEventPage> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromARGB(255, 205, 205, 205),
-      appBar: appBar,
+      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : Colors.grey[200],
       body: Stack(
         children: <Widget>[
           Positioned(
             top: 0,
-            left: MediaQuery.of(context).size.width * 0.10,
-            right: 0,
-            bottom: 0,
-            child: Text(
-              lang.lang == "English"
-                  ? "Edit an Evend"
-                  : "Modifier un évènement",
-              style:
-                  const TextStyle(fontSize: 30, fontWeight: FontWeight.normal),
-            ),
-          ),
-          Positioned(
-            top: appBar.preferredSize.height + 10,
-            left: 5.0,
-            right: 5.0,
+            left: 3,
+            right: 3,
             bottom: MediaQuery.of(context).viewInsets.bottom + 60,
             child: Form(
               key: _formKey,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Colors.white,
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 child: SingleChildScrollView(
@@ -122,18 +110,38 @@ class _EditEventPageState extends State<EditEventPage> {
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+                        Text(
+                          lang.lang == "English" ? "Edit this event" : "Modifier cet évènement",
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
+                          ),
+                        ),
                         const SizedBox(height: 30),
                         TextFormField(
                           controller: _titleController,
                           decoration: InputDecoration(
-                            prefixIcon: const Icon(CupertinoIcons.pencil),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.deepPurpleAccent, // Change the focused border color here
+                                width: 2.0,
+                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(15)),
+                            ),
+                            prefixIcon: Icon(
+                              CupertinoIcons.pencil,
+                              color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
+                            ),
                             hintText: _titleController.text,
+                            hintStyle: TextStyle(
+                              color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
+                            ),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return lang.lang == "English"
-                                  ? 'Please enter a title'
-                                  : 'Veuillez entrer un titre';
+                              return lang.lang == "English" ? 'Please enter a title' : 'Veuillez entrer un titre';
                             }
                             return null;
                           },
@@ -187,40 +195,33 @@ class _EditEventPageState extends State<EditEventPage> {
                               child: Column(children: [
                                 Text(
                                   lang.lang == "English" ? "Begin" : "Début",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),
+                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
                                 ),
                                 const SizedBox(height: 15),
                                 ElevatedButton(
                                   onPressed: () {
-                                    showTimePicker(
-                                            context: context,
-                                            initialTime: TimeOfDay.now())
-                                        .then((time) {
+                                    showTimePicker(context: context, initialTime: TimeOfDay.now()).then((time) {
                                       if (time != null) {
                                         setState(() {
-                                          _start = DateTime(
-                                              _start.year,
-                                              _start.month,
-                                              _start.day,
-                                              time.hour,
-                                              time.minute);
+                                          _start = DateTime(_start.year, _start.month, _start.day, time.hour, time.minute);
                                         });
                                         print(_start.day);
                                       }
                                     });
                                   },
                                   style: ButtonStyle(
-                                    minimumSize:
-                                        MaterialStateProperty.all<Size>(
+                                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                      (Set<MaterialState> states) {
+                                        if (states.contains(MaterialState.pressed)) return Color.fromARGB(255, 45, 45, 45); // Color when button is pressed
+                                        return Colors.deepPurpleAccent; // Default color
+                                      },
+                                    ),
+                                    minimumSize: MaterialStateProperty.all<Size>(
                                       const Size(90, 35),
                                     ),
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
+                                        borderRadius: BorderRadius.circular(20.0),
                                       ),
                                     ),
                                   ),
@@ -229,48 +230,40 @@ class _EditEventPageState extends State<EditEventPage> {
                               ]),
                             ),
                             const SizedBox(width: 15),
-                            const Icon(CupertinoIcons.arrow_right,
-                                color: Colors.grey),
+                            const Icon(CupertinoIcons.arrow_right, color: Colors.grey),
                             const SizedBox(width: 15),
                             Expanded(
                               child: Column(
                                 children: [
                                   Text(
                                     lang.lang == "English" ? "End" : "Fin",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
                                   ),
                                   const SizedBox(height: 15),
                                   ElevatedButton(
                                     onPressed: () {
-                                      showTimePicker(
-                                              context: context,
-                                              initialTime: TimeOfDay.now())
-                                          .then((time) {
+                                      showTimePicker(context: context, initialTime: TimeOfDay.now()).then((time) {
                                         if (time != null) {
                                           setState(() {
-                                            _end = DateTime(
-                                                _end.year,
-                                                _end.month,
-                                                _end.day,
-                                                time.hour,
-                                                time.minute);
+                                            _end = DateTime(_end.year, _end.month, _end.day, time.hour, time.minute);
                                           });
                                           print(_end.day);
                                         }
                                       });
                                     },
                                     style: ButtonStyle(
-                                      minimumSize:
-                                          MaterialStateProperty.all<Size>(
+                                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                        (Set<MaterialState> states) {
+                                          if (states.contains(MaterialState.pressed)) return Color.fromARGB(255, 45, 45, 45); // Color when button is pressed
+                                          return Colors.deepPurpleAccent; // Default color
+                                        },
+                                      ),
+                                      minimumSize: MaterialStateProperty.all<Size>(
                                         const Size(90, 35),
                                       ),
-                                      shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
+                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
+                                          borderRadius: BorderRadius.circular(20.0),
                                         ),
                                       ),
                                     ),
@@ -284,10 +277,20 @@ class _EditEventPageState extends State<EditEventPage> {
                         const SizedBox(height: 40),
                         TextField(
                           controller: _notesController,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(CupertinoIcons.doc_plaintext),
-                            hintText: 'Notes',
-                          ),
+                          decoration: InputDecoration(
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.deepPurpleAccent, // Change the focused border color here
+                                  width: 2.0,
+                                ),
+                                borderRadius: BorderRadius.all(Radius.circular(15)),
+                              ),
+                              prefixIcon: Icon(
+                                CupertinoIcons.doc_plaintext,
+                                color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
+                              ),
+                              hintText: 'Notes',
+                              hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45))),
                           maxLines: null,
                           textAlignVertical: TextAlignVertical.top,
                         ),
@@ -312,14 +315,12 @@ class _EditEventPageState extends State<EditEventPage> {
                       child: ElevatedButton(
                         onPressed: () => {Navigator.pop(context)},
                         style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                           ),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Colors.transparent),
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
                           elevation: MaterialStateProperty.resolveWith<double>(
                             (Set<MaterialState> states) {
                               if (states.contains(MaterialState.pressed)) {
@@ -329,12 +330,9 @@ class _EditEventPageState extends State<EditEventPage> {
                             },
                           ),
                         ),
-                        child: const Text(
+                        child: Text(
                           "Annuler",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.black),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
                         ),
                       ),
                     ),
@@ -355,14 +353,12 @@ class _EditEventPageState extends State<EditEventPage> {
                           }
                         },
                         style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                           ),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Colors.transparent),
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
                           elevation: MaterialStateProperty.resolveWith<double>(
                             (Set<MaterialState> states) {
                               if (states.contains(MaterialState.pressed)) {
@@ -372,12 +368,9 @@ class _EditEventPageState extends State<EditEventPage> {
                             },
                           ),
                         ),
-                        child: const Text(
+                        child: Text(
                           "Sauvegarder",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.black),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
                         ),
                       ),
                     ),

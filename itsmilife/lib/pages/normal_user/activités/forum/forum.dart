@@ -100,7 +100,7 @@ class _Forum extends State<Forum> {
             ),
             Container(
               decoration: BoxDecoration(
-                  color: darkMode.darkMode ? const Color.fromARGB(255, 108, 108, 108) : Color.fromARGB(255, 218, 218, 218),
+                  color: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : Color.fromARGB(255, 218, 218, 218),
                   borderRadius:BorderRadius.all(Radius.circular(35))),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
