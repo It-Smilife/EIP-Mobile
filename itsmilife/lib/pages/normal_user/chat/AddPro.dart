@@ -30,7 +30,7 @@ class _AddProState extends State<AddPro> {
           UserPro user = new UserPro(
               id: val.data['message'][i]['_id'],
               username: val.data['message'][i]['username'],
-              imgURL: "test/img");
+              imgURL: val.data['message'][i]['avatar']);
           chatUsers.add(user);
         }
         return chatUsers;
@@ -116,7 +116,7 @@ class _AddProState extends State<AddPro> {
                       return AddProList(
                         username: snapshot.data![index].username,
                         id: snapshot.data![index].id,
-                        imgURL: "test/img",
+                        imgURL: snapshot.data![index].imgURL,
                       );
                     },
                   );

@@ -34,9 +34,35 @@ class _ChangePassPage extends State<ChangePassPage> {
 
   var email, pass, id = "";
 
+  bool isPasswordValid(String password) {
+  final regex = RegExp(
+      r'^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})');
+  return regex.hasMatch(password);
+}
+
+
   void verifyUser(String oldPass, String newPass) async {
     email = ProfileData.email;
     id = ProfileData.id;
+    if (!isPasswordValid(newPass)) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Erreur"),
+          content: Text(
+              "Le nouveau mot de passe doit contenir au moins 6 caractères, une majuscule, un chiffre et un caractère spécial."),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        );
+      },
+    );
+    return;
+  }
     await NetworkManager.post(
         "authenticate", {"email": email, "password": oldPass}).then((value) {
       if (value.data["success"] == true) {

@@ -98,7 +98,7 @@ class _AddPostFormState extends State<AddPostForm> {
                     if (value!.isEmpty) {
                       return lang.lang == "English"
                           ? 'Please enter a title'
-                          : 'Entrez un titre svp';
+                          : 'Entrez un titre';
                     }
                     return null;
                   },
@@ -124,7 +124,7 @@ class _AddPostFormState extends State<AddPostForm> {
                   keyboardType: TextInputType.multiline,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter some content';
+                      return 'Veuillez ecrire quelque chose';
                     }
                     return null;
                   },

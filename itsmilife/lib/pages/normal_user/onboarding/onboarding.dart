@@ -16,10 +16,10 @@ class OnBoarding extends StatefulWidget {
 class _OnboardingScreenState extends State<OnBoarding> {
   final int _numPages = 3;
   String _selectedGender = "male";
-  late String _nom;
-  late String _prenom;
-  late int _age;
-  late String _phoneNumber;
+  late String _nom = "";
+  late String _prenom = "";
+  late int _age = 0;
+  late String _phoneNumber = "";
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
@@ -329,64 +329,94 @@ class _OnboardingScreenState extends State<OnBoarding> {
         ),
       ),
       bottomSheet: _currentPage == _numPages - 1
-          ? Container(
-              height: 100.0,
-              width: double.infinity,
-              color: Colors.white,
-              child: GestureDetector(
-                onTap: () => {
-                  ProfileData.lastName = _nom,
-                  ProfileData.firstName = _prenom,
-                  ProfileData.age = _age,
-                  ProfileData.phoneNumber = _phoneNumber,
-                  ProfileData.gender = _selectedGender,
-                  NetworkManager.put("users/" + ProfileData.id, {
-                    "firstName": _nom,
-                    "lastName": _prenom,
-                    "age": _age,
-                    "gender": _selectedGender,
-                    "phoneNumber": _phoneNumber
-                  }).then(
-                    (val) {
-                      print("MESSAGE: " + val.data['message'].toString());
-                      Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
-                                  Home(),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return SlideTransition(
-                              position: Tween<Offset>(
-                                begin: const Offset(1, 0),
-                                end: Offset.zero,
-                              ).animate(animation),
-                              child: child,
-                            );
-                          },
-                          transitionDuration: const Duration(milliseconds: 300),
-                        ),
-                      );
-                    },
-                  ),
-                },
-                child: const Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 30.0),
-                    child: Text(
-                      'Get started',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 98, 128, 182),
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+    ? Container(
+        height: 100.0,
+        width: double.infinity,
+        color: Colors.white,
+        child: GestureDetector(
+          onTap: () {
+             if (_nom == "") {
+              // Show error message for invalid age
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Nom invalide'),
                 ),
+              );
+            }
+            if (_prenom == "") {
+              // Show error message for invalid age
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Prénom invalide'),
+                ),
+              );
+            }else if (!RegExp(r'^\+?[1-9]\d{1,14}$').hasMatch(_phoneNumber)) {
+              // Show error message for invalid phone number
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Numéro de telephone invalide'),
+                ),
+              );
+            } else {
+            if (_age == 0 || _age <= 0 || _age > 120) {
+              // Show error message for invalid age
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Age invalide'),
+                ),
+              );
+            } 
+              // All inputs are valid
+              ProfileData.lastName = _nom;
+              ProfileData.firstName = _prenom;
+              ProfileData.age = _age;
+              ProfileData.phoneNumber = _phoneNumber;
+              ProfileData.gender = _selectedGender;
+              NetworkManager.put("users/" + ProfileData.id, {
+                "firstName": _nom,
+                "lastName": _prenom,
+                "age": _age,
+                "gender": _selectedGender,
+                "phoneNumber": _phoneNumber
+              }).then(
+                (val) {
+                  print("MESSAGE: " + val.data['message'].toString());
+                  Navigator.pushReplacement(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder:
+                          (context, animation, secondaryAnimation) => Home(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(1, 0),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: child,
+                        );
+                      },
+                      transitionDuration: const Duration(milliseconds: 300),
+                    ),
+                  );
+                },
+              );
+            }
+          },
+          child: Center(
+            child: Text(
+              'Terminer',
+              style: TextStyle(
+                color: Colors.blueAccent,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
               ),
-            )
-          : const Text(''),
+            ),
+          ),
+        ),
+      )
+    : SizedBox.shrink(),
+
     );
   }
 }

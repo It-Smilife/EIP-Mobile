@@ -41,7 +41,7 @@ class _ListPatientState extends State<ListPatient> {
               ID: val.data['message'][i]['_id'],
               patientID: val.data['message'][i]['professional']['_id'],
               proID: val.data['message'][i]['patient']['_id'],
-              imageURL: "test/img",
+              imageURL: val.data['message'][i]['patient']['avatar'],
               name: val.data['message'][i]['patient']['username'],
               time: formattedDate,
               LastMessage: (val.data['message'][i]['messages'] != null &&

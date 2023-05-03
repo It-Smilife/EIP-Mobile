@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/profile.dart';
 import 'package:itsmilife/pages/normal_user/chat/chatProUser.dart';
@@ -8,7 +10,8 @@ import '../../normal_user/chat/model/chatMessageModel.dart';
 class ChatDetailPage extends StatefulWidget {
   late String discussionId;
   late String name;
-  ChatDetailPage({Key? key, required this.discussionId, required this.name})
+  late String imgUrl;
+  ChatDetailPage({Key? key, required this.discussionId, required this.name, required this.imgUrl})
       : super(key: key);
 
   @override
@@ -125,23 +128,23 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                     _textController.dispose();
                     super.dispose();
                     Navigator.push(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                ChatProUser(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(1, 0),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              );
-            },
-            transitionDuration: Duration(milliseconds: 300),
-          ),
-        );
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            ChatProUser(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          return SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(1, 0),
+                              end: Offset.zero,
+                            ).animate(animation),
+                            child: child,
+                          );
+                        },
+                        transitionDuration: Duration(milliseconds: 300),
+                      ),
+                    );
                   },
                   icon: Icon(
                     Icons.arrow_back,
@@ -151,10 +154,25 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 SizedBox(
                   width: 2,
                 ),
-                CircleAvatar(
-                  backgroundImage: AssetImage("assets/avatarpro.png"),
-                  maxRadius: 20,
-                ),
+                  FutureBuilder<Uint8List>(
+                    future: NetworkManager.getFile(widget.imgUrl),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<Uint8List> snapshot) {
+                      if (snapshot.hasData) {
+                        return Stack(
+                          children: [
+                            CircleAvatar(
+                              backgroundImage:
+                                  MemoryImage(snapshot.data ?? Uint8List(0)),
+                              maxRadius: 30,
+                            ),
+                          ],
+                        );
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
                 SizedBox(
                   width: 12,
                 ),
@@ -184,92 +202,93 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
           ),
         ),
       ),
-     body: Stack(
-  children: <Widget>[
-    Expanded(child: 
-    FutureBuilder<List<ChatMessage>>(
-      future: fetchMessages(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          chatMessagesFuture = snapshot.data;
-          return ListView.builder(
-            itemCount: chatMessagesFuture!.length,
-            shrinkWrap: true,
-            padding: EdgeInsets.only(top: 5, bottom: 55),
-            itemBuilder: (context, index) {
-              return Container(
-                padding: EdgeInsets.only(
-                    left: 14, right: 14, top: 10, bottom: 10),
-                child: Align(
-                  alignment: (chatMessagesFuture![index].id == "receiver"
-                      ? Alignment.topLeft
-                      : Alignment.topRight),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: (chatMessagesFuture![index].id == "receiver"
-                          ? Colors.grey.shade200
-                          : Colors.blue[200]),
-                    ),
-                    padding: EdgeInsets.all(16),
-                    child: Text(
-                      chatMessagesFuture![index].message,
-                      style: TextStyle(fontSize: 15),
+      body: Stack(
+        children: <Widget>[
+          Expanded(
+            child: FutureBuilder<List<ChatMessage>>(
+              future: fetchMessages(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  chatMessagesFuture = snapshot.data;
+                  return ListView.builder(
+                    itemCount: chatMessagesFuture!.length,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.only(top: 5, bottom: 55),
+                    itemBuilder: (context, index) {
+                      return Container(
+                        padding: EdgeInsets.only(
+                            left: 14, right: 14, top: 10, bottom: 10),
+                        child: Align(
+                          alignment:
+                              (chatMessagesFuture![index].id == "receiver"
+                                  ? Alignment.topLeft
+                                  : Alignment.topRight),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color:
+                                  (chatMessagesFuture![index].id == "receiver"
+                                      ? Colors.grey.shade200
+                                      : Colors.blue[200]),
+                            ),
+                            padding: EdgeInsets.all(16),
+                            child: Text(
+                              chatMessagesFuture![index].message,
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Container(
+              padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
+              height: 60,
+              width: double.infinity,
+              color: Colors.white,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: TextField(
+                      controller: _textController,
+                      onChanged: (text) => _newMessage = text,
+                      decoration: InputDecoration(
+                          hintText: "Write message...",
+                          hintStyle: TextStyle(color: Colors.black54),
+                          border: InputBorder.none),
                     ),
                   ),
-                ),
-              );
-            },
-          );
-        }
-      },
-    ),
-    ),
-    Align(
-      alignment: Alignment.bottomLeft,
-      child: Container(
-        padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-        height: 60,
-        width: double.infinity,
-        color: Colors.white,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: TextField(
-                controller: _textController,
-                onChanged: (text) => _newMessage = text,
-                decoration: InputDecoration(
-                    hintText: "Write message...",
-                    hintStyle: TextStyle(color: Colors.black54),
-                    border: InputBorder.none),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  FloatingActionButton(
+                    onPressed: () {
+                      _sendMessage(_textController.text);
+                    },
+                    child: Icon(
+                      Icons.send,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                    backgroundColor: Colors.blue,
+                    elevation: 0,
+                  ),
+                ],
               ),
             ),
-            SizedBox(
-              width: 15,
-            ),
-            FloatingActionButton(
-              onPressed: () {
-                _sendMessage(_textController.text);
-              },
-              child: Icon(
-                Icons.send,
-                color: Colors.white,
-                size: 18,
-              ),
-              backgroundColor: Colors.blue,
-              elevation: 0,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
-    ),
-  ],
-),
-
     );
   }
 }

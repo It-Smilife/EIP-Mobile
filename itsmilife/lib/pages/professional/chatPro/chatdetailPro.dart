@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/profile.dart';
 import 'package:itsmilife/pages/professional/chatPro/patient_list.dart';
@@ -8,7 +10,8 @@ import '../../normal_user/chat/model/chatMessageModel.dart';
 class ChatDetailPro extends StatefulWidget {
   late String discussionId;
   late String name;
-  ChatDetailPro({Key? key, required this.discussionId, required this.name}) : super(key: key);
+  late String imgUrl;
+  ChatDetailPro({Key? key, required this.discussionId, required this.name, required this.imgUrl}) : super(key: key);
 
   @override
   _ChatDetailProState createState() => _ChatDetailProState();
@@ -150,10 +153,25 @@ class _ChatDetailProState extends State<ChatDetailPro> {
                 SizedBox(
                   width: 2,
                 ),
-                CircleAvatar(
-                  backgroundImage: AssetImage("assets/avatarpro.png"),
-                  maxRadius: 20,
-                ),
+                FutureBuilder<Uint8List>(
+                    future: NetworkManager.getFile(widget.imgUrl),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<Uint8List> snapshot) {
+                      if (snapshot.hasData) {
+                        return Stack(
+                          children: [
+                            CircleAvatar(
+                              backgroundImage:
+                                  MemoryImage(snapshot.data ?? Uint8List(0)),
+                              maxRadius: 30,
+                            ),
+                          ],
+                        );
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
                 SizedBox(
                   width: 12,
                 ),
@@ -237,17 +255,6 @@ class _ChatDetailProState extends State<ChatDetailPro> {
               color: Colors.white,
               child: Row(
                 children: <Widget>[
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        color: Colors.lightBlue,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                  ),
                   Expanded(
                     child: TextField(
                       controller: _textController,

@@ -1,9 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/chat/chatDetailPage.dart';
 import 'package:itsmilife/pages/normal_user/homepage/homepage.dart';
 import 'package:itsmilife/pages/professional/chatPro/chatdetailPro.dart';
 
 import '../pages/professional/chatPro/chat_service.dart';
+import '../services/NetworkManager.dart';
 
 class ConversationListPro extends StatefulWidget {
   String name;
@@ -33,7 +36,11 @@ class _ConversationListState extends State<ConversationListPro> {
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                ChatDetailPro(discussionId: widget.discussion_id, name: widget.name,),
+                ChatDetailPro(
+              discussionId: widget.discussion_id,
+              name: widget.name,
+              imgUrl: widget.imageUrl,
+            ),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(
@@ -55,9 +62,24 @@ class _ConversationListState extends State<ConversationListPro> {
             Expanded(
               child: Row(
                 children: <Widget>[
-                  CircleAvatar(
-                    backgroundImage: AssetImage("assets/avatarpro.png"),
-                    maxRadius: 30,
+                  FutureBuilder<Uint8List>(
+                    future: NetworkManager.getFile(widget.imageUrl),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<Uint8List> snapshot) {
+                      if (snapshot.hasData) {
+                        return Stack(
+                          children: [
+                            CircleAvatar(
+                              backgroundImage:
+                                  MemoryImage(snapshot.data ?? Uint8List(0)),
+                              maxRadius: 30,
+                            ),
+                          ],
+                        );
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
                   ),
                   SizedBox(
                     width: 16,

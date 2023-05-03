@@ -38,7 +38,7 @@ class _ChatProUserState extends State<ChatProUser> {
                 ID: val.data['message'][i]['_id'],
                 patientID: val.data['message'][i]['patient']['_id'],
                 proID: val.data['message'][i]['professional']['_id'],
-                imageURL: "assets/avatarpro.png",
+                imageURL: val.data['message'][i]['professional']['avatar'],
                 name: val.data['message'][i]['professional']['username'],
                 time: formattedDate,
                 LastMessage: (val.data['message'][i]['messages'] != null &&

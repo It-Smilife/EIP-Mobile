@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
@@ -43,16 +45,18 @@ class _ProfileSettingPageState extends State<ProfilePage> {
   // You can use a package like image_picker to handle the avatar image
   // and save it to the user's device or cloud storage.
   // For this example, we will just use a variable to hold the avatar path.
-  String _avatar = 'assets/logo.png';
 
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);
     final darkMode = Provider.of<DarkModeProvider>(context);
     return Scaffold(
-      backgroundColor: darkMode.darkMode ? Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 246, 246, 246),
+      backgroundColor: darkMode.darkMode
+          ? Color.fromARGB(255, 32, 32, 32)
+          : const Color.fromARGB(255, 246, 246, 246),
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kToolbarHeight + 0.9), // 1 for the border
+        preferredSize:
+            const Size.fromHeight(kToolbarHeight + 0.9), // 1 for the border
         child: Container(
           decoration: const BoxDecoration(
             border: Border(
@@ -68,16 +72,27 @@ class _ProfileSettingPageState extends State<ProfilePage> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              color: darkMode.darkMode ? const Color.fromARGB(255, 246, 246, 246) : const Color.fromARGB(255, 98, 128, 182),
+              color: darkMode.darkMode
+                  ? const Color.fromARGB(255, 246, 246, 246)
+                  : const Color.fromARGB(255, 98, 128, 182),
             ),
             centerTitle: true,
-            backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 234, 234, 234),
-            title:
-                Text(lang.lang == "English" ? "Edit the profile" : "Modifier le profil", style: const TextStyle(color: Color.fromARGB(255, 98, 128, 182), fontSize: 25, fontWeight: FontWeight.bold)),
+            backgroundColor: darkMode.darkMode
+                ? const Color.fromARGB(255, 32, 32, 32)
+                : const Color.fromARGB(255, 234, 234, 234),
+            title: Text(
+                lang.lang == "English"
+                    ? "Edit the profile"
+                    : "Modifier le profil",
+                style: const TextStyle(
+                    color: Color.fromARGB(255, 98, 128, 182),
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold)),
             actions: <Widget>[
               ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+                  if (_formKey.currentState != null &&
+                      _formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     ProfileData.lastName = _name;
                     ProfileData.firstName = _prenom;
@@ -86,9 +101,15 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                     ProfileData.gender = _gender;
                     ProfileData.phoneNumber = _phoneNumber;
                     ProfileData.address = _address;
-                    NetworkManager.put(
-                            "users/" + ProfileData.id, {"firstName": _name, "lastName": _prenom, "email": _email, "age": _age, "gender": _gender, "phoneNumber": _phoneNumber, "address": _address})
-                        .then((val) {
+                    NetworkManager.put("users/" + ProfileData.id, {
+                      "firstName": _name,
+                      "lastName": _prenom,
+                      "email": _email,
+                      "age": _age,
+                      "gender": _gender,
+                      "phoneNumber": _phoneNumber,
+                      "address": _address
+                    }).then((val) {
                       if (val.data['success'] == true) {
                         Navigator.pop(context);
                         showDialog(
@@ -96,7 +117,8 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: const Text("Modification du profile"),
-                              content: const Text("Votre profile à bien été modifié"),
+                              content: const Text(
+                                  "Votre profile à bien été modifié"),
                               actions: [
                                 TextButton(
                                   onPressed: () {
@@ -113,7 +135,10 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: darkMode.darkMode ? Color.fromARGB(255, 108, 108, 108) : Color.fromARGB(255, 98, 128, 182), // Changer la couleur ici
+                  backgroundColor: darkMode.darkMode
+                      ? Color.fromARGB(255, 108, 108, 108)
+                      : Color.fromARGB(
+                          255, 98, 128, 182), // Changer la couleur ici
                 ),
                 child: Text(
                   lang.lang == "English" ? "Save" : "Terminé",
@@ -127,228 +152,330 @@ class _ProfileSettingPageState extends State<ProfilePage> {
           ),
         ),
       ),
-      body:  Padding(
+      body: Padding(
         padding: const EdgeInsets.all(0),
-        child:  Form(
+        child: Form(
           key: _formKey,
-          child: SingleChildScrollView(child: Column(
-            children: <Widget>[
-              const SizedBox(
-                width: 0,
-                height: 20,
-              ),
-              // Avatar
-              Column(
-                children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                        width: 190,
-                        height: 140,
-                      ),
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        child: Container(
-                          width: 200,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                const SizedBox(
+                  width: 0,
+                  height: 20,
+                ),
+                // Avatar
+                Column(
+                  children: <Widget>[
+                    Stack(
+                      children: <Widget>[
+                        Container(
+                          width: 190,
                           height: 140,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: AssetImage(_avatar),
-                              fit: BoxFit.cover,
-                            ),
-                            border: Border.all(
-                              width: 2,
-                              color: Colors.grey,
-                            ),
-                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.030)
-                ],
-              ),
-              // Name
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.024),
-                child: Card(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: darkMode.darkMode ? Color.fromARGB(255, 79, 79, 79) : Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Color.fromARGB(255, 98, 128, 182),
-                          offset: Offset(0, 5),
-                          blurRadius: 5,
-                          spreadRadius: 0,
-                        )
+                        FutureBuilder<Uint8List>(
+                          future: NetworkManager.getFile(ProfileData
+                              .avatar), // fonction qui retourne une Future<String> contenant l'URL de l'avatar
+                          builder: (BuildContext context,
+                              AsyncSnapshot<Uint8List> snapshot) {
+                            if (snapshot.hasData) {
+                              return Positioned(
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                child: Container(
+                                  width: 200,
+                                  height: 140,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: MemoryImage(
+                                          snapshot.data ?? Uint8List(0)),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    border: Border.all(
+                                      width: 2,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Text(
+                                  'Une erreur est survenue : ${snapshot.error}');
+                            } else {
+                              return CircularProgressIndicator();
+                            }
+                          },
+                        ),
                       ],
                     ),
-                    padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.015),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          lang.lang == "English" ? "Laste name" : "Nom",
-                          style: TextStyle(
-                            color: darkMode.darkMode ? Colors.white : Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.030)
+                  ],
+                ),
+                // Name
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.height * 0.024),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: darkMode.darkMode
+                            ? Color.fromARGB(255, 79, 79, 79)
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: darkMode.darkMode
+                                ? Color.fromARGB(255, 45, 45, 45)
+                                : Color.fromARGB(255, 98, 128, 182),
+                            offset: Offset(0, 5),
+                            blurRadius: 5,
+                            spreadRadius: 0,
+                          )
+                        ],
+                      ),
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.height * 0.015),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            lang.lang == "English" ? "Laste name" : "Nom",
+                            style: TextStyle(
+                              color: darkMode.darkMode
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 5),
-                        TextFormField(
-                          initialValue: ProfileData.lastName,
-                          decoration:
-                              InputDecoration(border: InputBorder.none, contentPadding: EdgeInsets.zero, isDense: true, labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
-                          validator: (value) {},
-                          onSaved: (value) => _name = value!,
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          lang.lang == "English" ? "First name" : "Prénom",
-                          style: TextStyle(
-                            color: darkMode.darkMode ? Colors.white : Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                          const SizedBox(height: 5),
+                          TextFormField(
+                            initialValue: ProfileData.lastName,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.zero,
+                                isDense: true,
+                                labelStyle: TextStyle(
+                                    color: darkMode.darkMode
+                                        ? Colors.white
+                                        : Colors.black)),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Le nom ne doit pas être vide';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) => _name = value!,
                           ),
-                        ),
-                        const SizedBox(height: 5),
-                        TextFormField(
-                          initialValue: ProfileData.firstName,
-                          decoration:
-                              InputDecoration(border: InputBorder.none, contentPadding: EdgeInsets.zero, isDense: true, labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
-                          validator: (value) {},
-                          onSaved: (value) => _prenom = value!,
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          'Email',
-                          style: TextStyle(
-                            color: darkMode.darkMode ? Colors.white : Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                          const SizedBox(height: 5),
+                          Text(
+                            lang.lang == "English" ? "First name" : "Prénom",
+                            style: TextStyle(
+                              color: darkMode.darkMode
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 5),
-                        TextFormField(
-                          initialValue: ProfileData.email,
-                          decoration:
-                              InputDecoration(border: InputBorder.none, contentPadding: EdgeInsets.zero, isDense: true, labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
-                          validator: (value) {},
-                          onSaved: (value) => _email = value!,
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          'Age',
-                          style: TextStyle(
-                            color: darkMode.darkMode ? Colors.white : Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                          const SizedBox(height: 5),
+                          TextFormField(
+                            initialValue: ProfileData.firstName,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.zero,
+                                isDense: true,
+                                labelStyle: TextStyle(
+                                    color: darkMode.darkMode
+                                        ? Colors.white
+                                        : Colors.black)),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Le prenom ne doit pas être vide';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) => _prenom = value!,
                           ),
-                        ),
-                        const SizedBox(height: 5),
-                        TextFormField(
-                          initialValue: ProfileData.age.toString(),
-                          decoration:
-                              InputDecoration(border: InputBorder.none, contentPadding: EdgeInsets.zero, isDense: true, labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
-                          validator: (value) {},
-                          onSaved: (value) => _age = int.parse(value!),
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          lang.lang == "English" ? "Gender" : "Genre",
-                          style: TextStyle(
-                            color: darkMode.darkMode ? Colors.white : Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                          const SizedBox(height: 5),
+                          Text(
+                            'Email',
+                            style: TextStyle(
+                              color: darkMode.darkMode
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 5),
-                        DropdownButtonFormField(
-                          value: ProfileData.gender,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.zero,
-                            isDense: true,
+                          const SizedBox(height: 5),
+                          TextFormField(
+                            initialValue: ProfileData.email,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.zero,
+                                isDense: true,
+                                labelStyle: TextStyle(
+                                    color: darkMode.darkMode
+                                        ? Colors.white
+                                        : Colors.black)),
+                            validator: (value) {},
+                            onSaved: (value) => _email = value!,
                           ),
-                          onSaved: (value) => _gender = value!,
-                          items: [
-                            ['male', 'homme'],
-                            ['female', 'femme'],
-                            ['other', 'autres']
-                          ].map((value) {
-                            return DropdownMenuItem(
-                              value: value[0],
-                              child: lang.lang == "English" ? Text(value[0]) : Text(value[1]),
-                            );
-                          }).toList(),
-                          onChanged: (String? value) {},
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          lang.lang == "English" ? "Phone number" : "Numéro de Téléphone",
-                          style: TextStyle(
-                            color: darkMode.darkMode ? Colors.white : Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                          const SizedBox(height: 5),
+                          Text(
+                            'Age',
+                            style: TextStyle(
+                              color: darkMode.darkMode
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 5),
-                        TextFormField(
-                          initialValue: ProfileData.phoneNumber,
-                          decoration: InputDecoration(
-                              hintText: lang.lang == "English" ? "Enter your phone number" : "Entrez un numéro de téléphone",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                              fillColor: const Color(0xFFF5F5F5),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                              labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
-                          keyboardType: TextInputType.phone,
-                          validator: (value) {},
-                          onSaved: (value) => _phoneNumber = value!,
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          lang.lang == "English" ? "Address" : "Adresse",
-                          style: TextStyle(
-                            color: darkMode.darkMode ? Colors.white : Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                          const SizedBox(height: 5),
+                          TextFormField(
+                            initialValue: ProfileData.age.toString(),
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.zero,
+                                isDense: true,
+                                labelStyle: TextStyle(
+                                    color: darkMode.darkMode
+                                        ? Colors.white
+                                        : Colors.black)),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'L\'âge ne doit pas être vide';
+                              }
+                              final n = int.tryParse(value);
+                              if (n == null || n == 0) {
+                                return 'L\'âge doit être un nombre entier valide';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) => _age = int.parse(value!),
                           ),
-                        ),
-                        const SizedBox(height: 5),
-                        TextFormField(
-                          initialValue: ProfileData.address,
-                          decoration: InputDecoration(
-                              hintText: lang.lang == "English" ? "Enter your adress" : "Entrez une adresse",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                              fillColor: const Color(0xFFF5F5F5),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                              labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
-                          maxLines: 1,
-                          validator: (value) {},
-                          onSaved: (value) => _address = value!,
-                        ),
-                      ],
+                          const SizedBox(height: 5),
+                          Text(
+                            lang.lang == "English" ? "Gender" : "Genre",
+                            style: TextStyle(
+                              color: darkMode.darkMode
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          DropdownButtonFormField(
+                            value: ProfileData.gender,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.zero,
+                              isDense: true,
+                            ),
+                            onSaved: (value) => _gender = value!,
+                            items: [
+                              ['male', 'homme'],
+                              ['female', 'femme'],
+                              ['other', 'autres']
+                            ].map((value) {
+                              return DropdownMenuItem(
+                                value: value[0],
+                                child: lang.lang == "English"
+                                    ? Text(value[0])
+                                    : Text(value[1]),
+                              );
+                            }).toList(),
+                            onChanged: (String? value) {},
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            lang.lang == "English"
+                                ? "Phone number"
+                                : "Numéro de Téléphone",
+                            style: TextStyle(
+                              color: darkMode.darkMode
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          TextFormField(
+                            initialValue: ProfileData.phoneNumber,
+                            decoration: InputDecoration(
+                                hintText: lang.lang == "English"
+                                    ? "Enter your phone number"
+                                    : "Entrez un numéro de téléphone",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide.none,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xFFF5F5F5),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 10),
+                                labelStyle: TextStyle(
+                                    color: darkMode.darkMode
+                                        ? Colors.white
+                                        : Colors.black)),
+                            keyboardType: TextInputType.phone,
+                            validator: (value) {
+                              final regex = RegExp(r'^\+?\d{9,15}$');
+                              if (!regex.hasMatch(value!)) {
+                                return 'Le numéro de téléphone doit être un format valide';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) => _phoneNumber = value!,
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            lang.lang == "English" ? "Address" : "Adresse",
+                            style: TextStyle(
+                              color: darkMode.darkMode
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          TextFormField(
+                            initialValue: ProfileData.address,
+                            decoration: InputDecoration(
+                                hintText: lang.lang == "English"
+                                    ? "Enter your adress"
+                                    : "Entrez une adresse",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide.none,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xFFF5F5F5),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 10),
+                                labelStyle: TextStyle(
+                                    color: darkMode.darkMode
+                                        ? Colors.white
+                                        : Colors.black)),
+                            maxLines: 1,
+                            validator: (value) {},
+                            onSaved: (value) => _address = value!,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
           ),
         ),
       ),

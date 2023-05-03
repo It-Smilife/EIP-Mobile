@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/profile.dart';
 import 'package:itsmilife/pages/normal_user/chat/chatProUser.dart';
@@ -31,9 +33,24 @@ class _AddPatientListState extends State<AddPatientList> {
             Expanded(
               child: Row(
                 children: <Widget>[
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(widget.imgURL),
-                    maxRadius: 30,
+                 FutureBuilder<Uint8List>(
+                    future: NetworkManager.getFile(widget.imgURL),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<Uint8List> snapshot) {
+                      if (snapshot.hasData) {
+                        return Stack(
+                          children: [
+                            CircleAvatar(
+                              backgroundImage:
+                                  MemoryImage(snapshot.data ?? Uint8List(0)),
+                              maxRadius: 30,
+                            ),
+                          ],
+                        );
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
                   ),
                   SizedBox(
                     width: 16,

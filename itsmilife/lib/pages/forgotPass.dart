@@ -40,7 +40,10 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
           ),
         ),
         leading: IconButton(
-          icon: const Icon(CupertinoIcons.back, color: Color.fromARGB(255, 98, 128, 182),),
+          icon: const Icon(
+            CupertinoIcons.back,
+            color: Color.fromARGB(255, 98, 128, 182),
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -54,7 +57,9 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height * 0.10),
               Text(
-                lang.lang == "English" ? "Reset your password." : "Réintialisez votre mot de passe",
+                lang.lang == "English"
+                    ? "Reset your password."
+                    : "Réintialisez votre mot de passe",
                 style: TextStyle(
                   color: darkMode.darkMode ? Colors.white : Colors.black,
                   fontWeight: FontWeight.bold,
@@ -65,8 +70,12 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.80,
                 child: Text(
-                  lang.lang == "English" ? "Please enter your email address and the new password." : "Veuillez entrer votre adresse mail et votre nouveau mot de passe.",
-                  style: TextStyle(fontSize: 16, color: darkMode.darkMode ? Colors.white : Colors.black),
+                  lang.lang == "English"
+                      ? "Please enter your email address and the new password."
+                      : "Veuillez entrer votre adresse mail et votre nouveau mot de passe.",
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: darkMode.darkMode ? Colors.white : Colors.black),
                 ),
               ),
               const SizedBox(height: 50),
@@ -81,10 +90,14 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                         obscureText: false,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return lang.lang == "English" ? "Please enter your email" : "Entrez votre email";
+                            return lang.lang == "English"
+                                ? "Please enter your email"
+                                : "Entrez votre email";
                           }
                           if (!emailRegex.hasMatch(value)) {
-                            return lang.lang == "English" ? "Please enter a valid email address" : "Veuillez entrer une adresse email valide";
+                            return lang.lang == "English"
+                                ? "Please enter a valid email address"
+                                : "Veuillez entrer une adresse email valide";
                           }
                           return null;
                         },
@@ -92,7 +105,9 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          labelText: lang.lang == "English" ? 'Enter your email' : "Entrez votre email",
+                          labelText: lang.lang == "English"
+                              ? 'Enter your email'
+                              : "Entrez votre email",
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                               width: 2,
@@ -118,7 +133,30 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                         obscureText: true,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return lang.lang == "English" ? "Please enter the new password" : "Entrez le nouveau mot de passe";
+                            return lang.lang == "English"
+                                ? "Please enter the new password"
+                                : "Entrez le nouveau mot de passe";
+                          }
+                          if (value.length < 6) {
+                            return lang.lang == "English"
+                                ? "Password must contain at least 6 characters"
+                                : "Le mot de passe doit contenir au moins 6 caractères";
+                          }
+                          if (!value.contains(RegExp(r'[A-Z]'))) {
+                            return lang.lang == "English"
+                                ? "Password must contain at least one uppercase letter"
+                                : "Le mot de passe doit contenir au moins une lettre majuscule";
+                          }
+                          if (!value.contains(RegExp(r'[0-9]'))) {
+                            return lang.lang == "English"
+                                ? "Password must contain at least one digit"
+                                : "Le mot de passe doit contenir au moins un chiffre";
+                          }
+                          if (!value
+                              .contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+                            return lang.lang == "English"
+                                ? "Password must contain at least one special character"
+                                : "Le mot de passe doit contenir au moins un caractère spécial";
                           }
                           return null;
                         },
@@ -126,7 +164,9 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          labelText: lang.lang == "English" ? 'Enter the new password' : "Entrez le nouveau mot de passe",
+                          labelText: lang.lang == "English"
+                              ? 'Enter the new password'
+                              : "Entrez le nouveau mot de passe",
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                               width: 2,
@@ -151,10 +191,34 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                         obscureText: true,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return lang.lang == "English" ? "Please confirm the new password" : "Confirmez le nouveau mot de passe";
+                            return lang.lang == "English"
+                                ? "Please confirm the new password"
+                                : "Confirmez le nouveau mot de passe";
                           }
                           if (value != newPass.text) {
-                            return lang.lang == "English" ? "Passwords do not match" : "Les mots de passe ne sont pas identiques";
+                            return lang.lang == "English"
+                                ? "Passwords do not match"
+                                : "Les mots de passe ne sont pas identiques";
+                          }   if (value.length < 6) {
+                            return lang.lang == "English"
+                                ? "Password must contain at least 6 characters"
+                                : "Le mot de passe doit contenir au moins 6 caractères";
+                          }
+                          if (!value.contains(RegExp(r'[A-Z]'))) {
+                            return lang.lang == "English"
+                                ? "Password must contain at least one uppercase letter"
+                                : "Le mot de passe doit contenir au moins une lettre majuscule";
+                          }
+                          if (!value.contains(RegExp(r'[0-9]'))) {
+                            return lang.lang == "English"
+                                ? "Password must contain at least one digit"
+                                : "Le mot de passe doit contenir au moins un chiffre";
+                          }
+                          if (!value
+                              .contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+                            return lang.lang == "English"
+                                ? "Password must contain at least one special character"
+                                : "Le mot de passe doit contenir au moins un caractère spécial";
                           }
                           return null;
                         },
@@ -162,7 +226,9 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          labelText: lang.lang == "English" ? 'Confirm the new password' : "Confirmez le nouveau mot de passe",
+                          labelText: lang.lang == "English"
+                              ? 'Confirm the new password'
+                              : "Confirmez le nouveau mot de passe",
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                               width: 2,
@@ -199,19 +265,25 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                   ],
                 ),
                 child: TextButton(
-                  style: TextButton.styleFrom(backgroundColor: Colors.transparent),
+                  style:
+                      TextButton.styleFrom(backgroundColor: Colors.transparent),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      NetworkManager.putWithoutData("users/" + email.text + "/update-password-code-by-email").then((value) {
+                      NetworkManager.putWithoutData("users/" +
+                              email.text +
+                              "/update-password-code-by-email")
+                          .then((value) {
                         if (value.data["success"] == true) {
-                          NetworkManager.get("users/email/" + email.text).then((value) {
+                          NetworkManager.get("users/email/" + email.text)
+                              .then((value) {
                             if (value.data["success"] == true) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => VerificationPage(
                                     id: value.data["message"]["_id"].toString(),
-                                    verificationCode: value.data["message"]["passwordCode"],
+                                    verificationCode: value.data["message"]
+                                        ["passwordCode"],
                                     password: newPass.text,
                                     email: value.data["message"]["email"],
                                   ),
@@ -225,7 +297,10 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                   },
                   child: Text(
                     lang.lang == "English" ? "Send" : "Envoyer",
-                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
                   ),
                 ),
               )

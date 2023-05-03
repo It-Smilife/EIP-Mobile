@@ -32,7 +32,7 @@ class _NotificationPageState extends State<NotificationPage> {
               id: val.data['message'][i]['patient']['_id'],
               id_discussion: val.data['message'][i]['discussionId'],
               username: val.data['message'][i]['patient']['username'],
-              imgURL: "test/img");
+              imgURL: val.data['message'][i]['patient']['avatar']);
           chatUsers.add(user);
         }
         return chatUsers;
@@ -96,7 +96,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         username: snapshot.data![index].username,
                         id: snapshot.data![index].id,
                         id_discussion: snapshot.data![index].id_discussion,
-                        imgURL: "test/img",
+                        imgURL: snapshot.data![index].imgURL,
                       );
                     },
                   );

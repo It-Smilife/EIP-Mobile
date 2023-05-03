@@ -23,6 +23,17 @@ class _RegisterPageState extends State<RegisterPage> {
 
   var email, password, name = "";
 
+  bool isPasswordStrong(String password) {
+    if (password.length < 6) {
+      return false;
+    }
+
+    String pattern = r'^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,}$';
+    RegExp regExp = new RegExp(pattern);
+
+    return regExp.hasMatch(password);
+  }
+
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);
@@ -140,76 +151,97 @@ class _RegisterPageState extends State<RegisterPage> {
                       20,
                       30),
                   child: Center(
-                    child:
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        height: 40,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              gradient: const LinearGradient(
-                                  colors: [
-                                    Color.fromARGB(255, 98, 128, 182),
-                                    Color.fromARGB(255, 98, 128, 182)
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter)),
-                          child: Material(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      height: 40,
+                      child: Container(
+                        decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Colors.transparent,
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(20),
-                              splashColor: Colors.amber,
-                              onTap: () {
-                                NetworkManager.post("users", {
-                                  "email": email,
-                                  "username": name,
-                                  "password": password
-                                }).then((val) {
-                                  print(val.toString());
-                                  if (val.data['success'] == true) {
-                                    ProfileData.id = val.data["message"]["_id"];
-                                    ProfileData.username = name;
-                                    ProfileData.email = email;
-                                    Navigator.pushReplacement(
-                                      context,
-                                      PageRouteBuilder(
-                                        pageBuilder: (context, animation,
-                                                secondaryAnimation) =>
-                                            const OnBoarding(),
-                                        transitionsBuilder: (context, animation,
-                                            secondaryAnimation, child) {
-                                          return SlideTransition(
-                                            position: Tween<Offset>(
-                                              begin: const Offset(1, 0),
-                                              end: Offset.zero,
-                                            ).animate(animation),
-                                            child: child,
-                                          );
-                                        },
-                                        transitionDuration:
-                                            const Duration(milliseconds: 300),
-                                      ),
+                            gradient: const LinearGradient(
+                                colors: [
+                                  Color.fromARGB(255, 98, 128, 182),
+                                  Color.fromARGB(255, 98, 128, 182)
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter)),
+                        child: Material(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(20),
+                            splashColor: Colors.amber,
+                            onTap: () {
+                              if (!isPasswordStrong(password)) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Erreur'),
+                                      content: Text(
+                                          'Le mot de passe doit contenir au moins 6 caractères, une majuscule, un chiffre et un caractère spécial.'),
+                                      actions: <Widget>[
+                                        ElevatedButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text('OK'),
+                                        ),
+                                      ],
                                     );
-                                  } else if (val.data['success'] == false) {
-                                    print(val.data["message"]);
-                                  }
-                                });
-                              },
-                              child: Center(
-                                child: Text(
-                                  lang.lang == "English"
-                                      ? "SIGN UP"
-                                      : "S'INSCRIRE",
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700),
-                                ),
+                                  },
+                                );
+                                return;
+                              }
+                              NetworkManager.post("users", {
+                                "email": email,
+                                "username": name,
+                                "password": password
+                              }).then((val) {
+                                print(val.toString());
+                                if (val.data['success'] == true) {
+                                  ProfileData.id = val.data["message"]["_id"];
+                                  ProfileData.username = name;
+                                  ProfileData.email = email;
+                                  ProfileData.avatar =
+                                      val.data["message"]["avatar"];
+                                  Navigator.pushReplacement(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          const OnBoarding(),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        return SlideTransition(
+                                          position: Tween<Offset>(
+                                            begin: const Offset(1, 0),
+                                            end: Offset.zero,
+                                          ).animate(animation),
+                                          child: child,
+                                        );
+                                      },
+                                      transitionDuration:
+                                          const Duration(milliseconds: 300),
+                                    ),
+                                  );
+                                } else if (val.data['success'] == false) {
+                                  print(val.data["message"]);
+                                }
+                              });
+                            },
+                            child: Center(
+                              child: Text(
+                                lang.lang == "English"
+                                    ? "SIGN UP"
+                                    : "S'INSCRIRE",
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700),
                               ),
                             ),
                           ),
                         ),
                       ),
+                    ),
                   ),
                 ),
                 Row(
@@ -236,7 +268,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           );
                         },
                         child: Text(
-                          lang.lang == "Enflish" ? " SIGN IN": " SE CONNECTER",
+                          lang.lang == "Enflish" ? " SIGN IN" : " SE CONNECTER",
                           style: const TextStyle(
                               fontSize: 11,
                               color: Color.fromARGB(255, 98, 128, 182),
