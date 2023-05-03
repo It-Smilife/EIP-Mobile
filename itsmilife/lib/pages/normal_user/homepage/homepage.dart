@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage> {
           title: Text("It'Smilife", style: TextStyle(color: darkMode.darkMode == true ? Colors.white : Color.fromARGB(255, 98, 128, 182), fontSize: 25, fontWeight: FontWeight.bold)),
           leading: Icon(
             CupertinoIcons.add,
-            color: darkMode.darkMode == true ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 224, 224, 224),
+            color: darkMode.darkMode == true ? const Color.fromARGB(255, 32, 32, 32) : Colors.white,
           ),
         ),
         body: Container(
