@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/chat/model/chatMessageModel.dart';
 import 'package:openai_client/openai_client.dart';
@@ -6,6 +7,7 @@ import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 
 class ChatBot extends StatefulWidget {
   @override
@@ -20,6 +22,7 @@ class _ChatBotState extends State<ChatBot> {
   late OpenAIConfiguration _conf;
   late OpenAIClient _client;
   final _modelId = 'gpt-3.5-turbo';
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -30,11 +33,11 @@ class _ChatBotState extends State<ChatBot> {
 
   @override
   void dispose() {
+    _scrollController.dispose();
     _client.close();
     super.dispose();
   }
 
-  
   Future<void> _sendMessage(String message) async {
     final chatMessage = ChatMessagee(
       id: _uuid.v4(),
@@ -44,21 +47,27 @@ class _ChatBotState extends State<ChatBot> {
     );
     setState(() {
       _chatMessages.add(chatMessage);
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeOut,
+      );
     });
     try {
       final chat = await _client.chat.create(
-    model: 'gpt-3.5-turbo',
-    messages: [
-      ChatMessage(
-        role: 'system',
-        content: "Tu es un expert en psychologie et un psychologue depuis 25 ans, ton role est de m'aider a mieux comprendre mes émotions et de surmonter mes moments difficiles. Tu dois parler avec un ton très amicale et toujours essayer de me reconforter du mieux possible. Je souhaite que toute tes réponses soit le plus résumer possibles et que les informations sont claires et consisces. Les réponses ne doivent pas dépasser plus de 100 charactère. Tu dois repondre uniquement aux questions concernant le bien-être et la santé mentale",
-      ),
-      ChatMessage(
-        role: 'user',
-        content: message,
-      )
-    ],
-  ).data;
+        model: 'gpt-3.5-turbo',
+        messages: [
+          ChatMessage(
+            role: 'system',
+            content:
+                "Tu es un expert en psychologie et un psychologue depuis 25 ans, ton role est de m'aider a mieux comprendre mes émotions et de surmonter mes moments difficiles. Tu dois parler avec un ton très amicale et toujours essayer de me reconforter du mieux possible. Je souhaite que toute tes réponses soit le plus résumer possibles et que les informations sont claires et consisces. Les réponses ne doivent pas dépasser plus de 100 charactère. Tu dois repondre uniquement aux questions concernant le bien-être et la santé mentale",
+          ),
+          ChatMessage(
+            role: 'user',
+            content: message,
+          )
+        ],
+      ).data;
       final response = chat.choices.first.message.content;
       final botMessage = ChatMessagee(
         id: _uuid.v4(),
@@ -68,6 +77,11 @@ class _ChatBotState extends State<ChatBot> {
       );
       setState(() {
         _chatMessages.add(botMessage);
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 500),
+          curve: Curves.easeOut,
+        );
       });
     } catch (e) {
       print(e);
@@ -76,20 +90,32 @@ class _ChatBotState extends State<ChatBot> {
 
   Widget _buildChatMessage(ChatMessagee message) {
     final alignment = message.isSentByUser ? Alignment.topRight : Alignment.topLeft;
-    final color = message.isSentByUser ? Colors.blue[200] : Colors.grey[200];
+    final _color = message.isSentByUser ? Colors.blue[200] : Colors.grey[100];
     return Container(
       padding: EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
       child: Align(
         alignment: alignment,
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: color,
+            borderRadius: message.isSentByUser
+                ? const BorderRadius.only(
+                    bottomRight: Radius.circular(5),
+                    topRight: Radius.circular(15),
+                    topLeft: Radius.circular(15),
+                    bottomLeft: Radius.circular(15),
+                  )
+                : const BorderRadius.only(
+                    bottomRight: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                    topLeft: Radius.circular(15),
+                    bottomLeft: Radius.circular(5),
+                  ),
+            color: _color,
           ),
           padding: EdgeInsets.all(16),
           child: Text(
             message.message,
-            style: TextStyle(fontSize: 15),
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
           ),
         ),
       ),
@@ -115,7 +141,7 @@ class _ChatBotState extends State<ChatBot> {
                     Navigator.pop(context);
                   },
                   icon: Icon(
-                    Icons.arrow_back,
+                    CupertinoIcons.back,
                     color: Colors.black,
                   ),
                 ),
@@ -136,16 +162,14 @@ class _ChatBotState extends State<ChatBot> {
                     children: <Widget>[
                       Text(
                         "Smile",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                       ),
                       SizedBox(
                         height: 6,
                       ),
                       Text(
                         "Online",
-                        style: TextStyle(
-                            color: Colors.grey.shade600, fontSize: 13),
+                        style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
                       ),
                     ],
                   ),
@@ -162,9 +186,10 @@ class _ChatBotState extends State<ChatBot> {
       body: Stack(
         children: <Widget>[
           ListView.builder(
+            controller: _scrollController,
             itemCount: _chatMessages.length,
             shrinkWrap: true,
-            padding: EdgeInsets.only(top: 10, bottom: 10),
+            padding: EdgeInsets.only(top: 10, bottom: 60),
             physics: AlwaysScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return _buildChatMessage(_chatMessages[index]);
@@ -174,23 +199,33 @@ class _ChatBotState extends State<ChatBot> {
             alignment: Alignment.bottomLeft,
             child: Container(
               padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-              height: 60,
+              height: 70,
               width: double.infinity,
-              color: Colors.white,
+              color: Colors.transparent,
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    child: TextField(
-                      controller: _textController,
-                      decoration: InputDecoration(
-                        hintText: "Write message...",
-                        hintStyle: TextStyle(color: Colors.black54),
-                        border: InputBorder.none,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200], // Choisissez la couleur qui convient le mieux à votre thème
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      onSubmitted: (value) {
-                        _sendMessage(value);
-                        _textController.clear();
-                      },
+                      child: TextField(
+                        maxLines: null,
+                        expands: true,
+                        controller: _textController,
+                        decoration: InputDecoration(
+                          hintText: "Write message...",
+                          hintStyle: TextStyle(color: Colors.black54),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.all(10), // C'est pour donner un peu d'espace à l'intérieur de la zone de texte
+                        ),
+                        textAlignVertical: TextAlignVertical.center,
+                        onSubmitted: (value) {
+                          _sendMessage(value);
+                          _textController.clear();
+                        },
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -209,7 +244,7 @@ class _ChatBotState extends State<ChatBot> {
                       color: Colors.white,
                       size: 18,
                     ),
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Colors.deepPurpleAccent,
                     elevation: 0,
                   ),
                 ],

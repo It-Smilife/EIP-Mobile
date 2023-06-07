@@ -238,7 +238,7 @@ class _PostScreenState extends State<PostScreen> {
                                               showDialog(
                                                 context: context,
                                                 builder: (context) => AlertDialog(
-                                                  title: Text("Modifier ce post"),
+                                                  title: Text(lang.lang == "English" ? "Edit this post" : "Modifier ce post"),
                                                   actions: [
                                                     Form(
                                                       key: _formKey,
@@ -261,6 +261,8 @@ class _PostScreenState extends State<PostScreen> {
                                                                   }
                                                                   return null;
                                                                 },
+                                                                maxLines: null,
+                                                                textAlignVertical: TextAlignVertical.top,
                                                               ),
                                                               TextFormField(
                                                                 controller: _contentController,
@@ -578,7 +580,7 @@ class _PostScreenState extends State<PostScreen> {
                   child: AnimatedContainer(
                     duration: Duration(microseconds: 100),
                     padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8.0, left: 20.0, right: 8.0),
-                    color: darkMode.darkMode ?Color.fromARGB(255, 45, 45, 45): Colors.white,
+                    color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Colors.white,
                     child: Row(
                       children: [
                         Expanded(

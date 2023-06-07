@@ -125,7 +125,7 @@ class _CalendarState extends State<Calendar> {
                               context: context,
                               builder: (context) => AlertDialog(
                                 title: Text(event.title),
-                                content: Container(
+                                content: SizedBox(
                                   width: double.maxFinite, // Largeur maximale disponible
                                   height: 150, // Hauteur définie, ajustez en fonction de vos besoins
                                   child: SingleChildScrollView(

@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
@@ -19,13 +17,7 @@ class VerificationPage extends StatefulWidget {
   late int verificationCode;
   final String email;
 
-  VerificationPage(
-      {Key? key,
-      required this.id,
-      required this.password,
-      required this.verificationCode,
-      required this.email})
-      : super(key: key);
+  VerificationPage({Key? key, required this.id, required this.password, required this.verificationCode, required this.email}) : super(key: key);
 
   @override
   _VerificationPage createState() => _VerificationPage();
@@ -81,10 +73,7 @@ class _VerificationPage extends State<VerificationPage> {
       });
       _startTimer();
       if (state > 0) {
-        NetworkManager.putWithoutData("users/" +
-                verification.email +
-                "/update-password-code-by-email")
-            .then((value) {
+        NetworkManager.putWithoutData("users/" + verification.email + "/update-password-code-by-email").then((value) {
           verification.verificationCode = value.data["message"]["passwordCode"];
         });
       }
@@ -99,17 +88,32 @@ class _VerificationPage extends State<VerificationPage> {
     final darkMode = Provider.of<DarkModeProvider>(context);
     final lang = Provider.of<LanguageProvider>(context);
     return Scaffold(
-      backgroundColor: darkMode.darkMode
-          ? const Color.fromARGB(255, 58, 50, 83)
-          : const Color.fromARGB(255, 246, 246, 246),
-      appBar: AppBar(
-        title: Text(
-            lang.lang == "English" ? "Forgot password" : "Mot de passe oublié"),
-        leading: IconButton(
-          icon: const Icon(CupertinoIcons.back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 246, 246, 246),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(56.0), // La hauteur d'origine de l'AppBar.
+        child: AppBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(15), // Ici, vous pouvez spécifier le rayon.
+            ),
+          ),
+          title: Text(
+            lang.lang == "English" ? "Forgot password" : "Mot de passe oublié",
+            style: const TextStyle(
+              color: Color.fromARGB(255, 98, 128, 182),
+            ),
+          ),
+          leading: IconButton(
+            icon: const Icon(
+              CupertinoIcons.back,
+              color: Color.fromARGB(255, 98, 128, 182),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          backgroundColor: Colors.white,
+          elevation: 2,
         ),
       ),
       body: SingleChildScrollView(
@@ -118,25 +122,22 @@ class _VerificationPage extends State<VerificationPage> {
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height * 0.10),
               Text(
-                lang.lang == "English"
-                    ? "Verification code"
-                    : "Code de vérification.",
+                lang.lang == "English" ? "Verification code" : "Code de vérification.",
                 style: TextStyle(
                   color: darkMode.darkMode ? Colors.white : Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontSize: 25,
+                  fontSize: 35,
                 ),
               ),
               const SizedBox(height: 40),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.80,
                 child: Text(
-                  lang.lang == "English"
-                      ? "Please enter the code sent by email:"
-                      : "Veuillez entrer le code que vous avez reçus par email:",
+                  lang.lang == "English" ? "Please enter the code sent by email:" : "Veuillez entrer le code que vous avez reçus par email:",
                   style: TextStyle(
-                      fontSize: 15,
-                      color: darkMode.darkMode ? Colors.white : Colors.black),
+                    fontSize: 20,
+                    color: darkMode.darkMode ? Colors.white : Colors.black,
+                  ),
                 ),
               ),
               const SizedBox(height: 50),
@@ -146,26 +147,28 @@ class _VerificationPage extends State<VerificationPage> {
                   controller: code,
                   obscureText: false,
                   decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: lang.lang == "English"
-                        ? 'Enter the code'
-                        : "Entrez le code",
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
+                    labelText: lang.lang == "English" ? 'Enter the code' : "Entrez le code",
                     enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
                       borderSide: BorderSide(
-                        width: 2,
+                        width: 1,
                         color: Colors.grey,
                       ),
                     ),
                     focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
                       borderSide: BorderSide(
-                        width: 3,
+                        width: 2,
                         color: Colors.grey,
                       ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 80),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 120),
                 decoration: BoxDecoration(
@@ -181,54 +184,77 @@ class _VerificationPage extends State<VerificationPage> {
                   ],
                 ),
               ),
-              Row(children: [
-                Expanded(
-                  child: TextButton(
-                    style: TextButton.styleFrom(backgroundColor: Colors.blue),
-                    onPressed: _onButtonPressed,
-                    child: _disabled
-                        ? Text(
-                            '$_buttonTimer s',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          )
-                        : Text(
-                            lang.lang == "English"
-                                ? "Resend the code"
-                                : "Renvoyer le code",
-                            style: const TextStyle(
-                                color: Colors.white,
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.90,
+                child: Row(children: [
+                  Expanded(
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        elevation: 5,
+                        shadowColor: Colors.grey,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      onPressed: _onButtonPressed,
+                      child: _disabled
+                          ? Text(
+                              '$_buttonTimer s',
+                              style: TextStyle(
+                                color: _disabled ? Colors.grey : Color.fromARGB(255, 43, 43, 43),
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
+                                fontSize: 20,
+                              ),
+                            )
+                          : Text(
+                              lang.lang == "English" ? "Resend" : "Renvoyer",
+                              style: const TextStyle(color: Color.fromARGB(255, 43, 43, 43), fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: TextButton(
-                    style: TextButton.styleFrom(backgroundColor: Colors.blue),
-                    onPressed: () {
-                      var codeString = code.text;
-                      var codeInt = int.tryParse(codeString);
-                      if (codeInt != null &&
-                          verification.verificationCode == codeInt) {
-                        NetworkManager.put(
-                                'users/' + verification.id + '/update-password',
-                                {'newPassword': verification.password})
-                            .then((value) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()));
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        elevation: 5,
+                        shadowColor: Colors.grey,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      onPressed: () {
+                        var codeString = code.text;
+                        var codeInt = int.tryParse(codeString);
+                        if (codeInt != null && verification.verificationCode == codeInt) {
+                          NetworkManager.put('users/' + verification.id + '/update-password', {'newPassword': verification.password}).then((value) {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Motde passe oublié"),
+                                  content: Text("Votre mot de passe a bien été changé"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("OK"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          });
+                        } else {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text("Motde passe oublié"),
-                                content: Text(
-                                    "Votre mot de passe a bien été changé"),
+                                title: Text("Erreur"),
+                                content: Text("Le code n'est pas valide"),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
@@ -240,37 +266,20 @@ class _VerificationPage extends State<VerificationPage> {
                               );
                             },
                           );
-                        });
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("Erreur"),
-                              content: Text("Le code n'est pas valide"),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("OK"),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                    },
-                    child: Text(
-                      lang.lang == "English" ? "Send" : "Envoyer",
-                      style: const TextStyle(
-                          color: Colors.white,
+                        }
+                      },
+                      child: Text(
+                        lang.lang == "English" ? "Send" : "Envoyer",
+                        style: const TextStyle(
+                          color: Color.fromARGB(255, 43, 43, 43),
                           fontWeight: FontWeight.bold,
-                          fontSize: 20),
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ]),
+                ]),
+              ),
             ],
           ),
         ),
