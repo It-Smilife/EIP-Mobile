@@ -9,6 +9,7 @@ import 'package:itsmilife/pages/professional/activity/categorypro.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import '../pages/common/settings/RoleProvider.dart';
+import 'package:itsmilife/pages/normal_user/Home/screens/home_page.dart';
 
 class Home extends StatefulWidget {
   late int h_index;
@@ -22,7 +23,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final screens = [
     const ActivityPage(),
-    const HomePage(),
+    const HomeBody(),
     const SettingsPage()
   ];
 
@@ -37,16 +38,23 @@ class _HomeState extends State<Home> {
     final darkMode = Provider.of<DarkModeProvider>(context);
     final user = Provider.of<RoleProvider>(context);
     final items = <Widget>[
-      Icon(CupertinoIcons.doc_plaintext, size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
-      Icon(CupertinoIcons.home, size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
-      Icon(CupertinoIcons.gear_alt, size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
+      Icon(CupertinoIcons.doc_plaintext,
+          size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
+      Icon(CupertinoIcons.home,
+          size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
+      Icon(CupertinoIcons.gear_alt,
+          size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
     ];
     return Scaffold(
       extendBody: true,
-      body: (user.Setrolestate) ? screenspro[widget.h_index] : screens[widget.h_index],
+      body: (user.Setrolestate)
+          ? screenspro[widget.h_index]
+          : screens[widget.h_index],
       bottomNavigationBar: CurvedNavigationBar(
-        color: darkMode.darkMode ? const Color.fromARGB(255, 108, 108, 108) : Colors.white,
-        backgroundColor: Colors.transparent,
+        color: darkMode.darkMode
+            ? const Color.fromARGB(255, 108, 108, 108)
+            : Colors.white,
+        backgroundColor: (widget.h_index == 1) ? Color.fromARGB(255, 224, 224, 224) : Colors.transparent,
         items: items,
         index: widget.h_index,
         height: 60,
