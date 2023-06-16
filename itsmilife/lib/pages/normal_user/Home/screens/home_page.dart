@@ -6,6 +6,27 @@ import 'package:itsmilife/pages/normal_user/Home/widgets/date.dart';
 import 'package:itsmilife/pages/normal_user/Home/widgets/emoticon_card.dart';
 import 'package:itsmilife/pages/normal_user/Home/widgets/exercise_tile.dart';
 import 'package:itsmilife/pages/normal_user/Home/widgets/greet.dart';
+import 'package:itsmilife/pages/normal_user/chat/chatProUser.dart';
+import 'package:itsmilife/pages/normal_user/chat/chatbot.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+_callSos() async {
+  var url = Uri.parse("tel:3114");
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+_callEmergency() async {
+  var url = Uri.parse("tel:17");
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
 class HomeBody extends StatelessWidget {
   const HomeBody();
@@ -99,7 +120,27 @@ class HomeBody extends StatelessWidget {
                         child: ListView(
                           children: [
                             InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  ChatBot(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return SlideTransition(
+                              position: Tween<Offset>(
+                                begin: const Offset(1, 0),
+                                end: Offset.zero,
+                              ).animate(animation),
+                              child: child,
+                            );
+                          },
+                          transitionDuration: const Duration(milliseconds: 300),
+                        ),
+                      );
+                                },
                                 child: ExerciseTile(
                                   exercise: 'Discuter avec Smile',
                                   subExercise: 'Apprenez en plus sur vous',
@@ -107,7 +148,27 @@ class HomeBody extends StatelessWidget {
                                   color: Colors.orange,
                                 )),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  ChatProUser(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return SlideTransition(
+                              position: Tween<Offset>(
+                                begin: const Offset(1, 0),
+                                end: Offset.zero,
+                              ).animate(animation),
+                              child: child,
+                            );
+                          },
+                          transitionDuration: const Duration(milliseconds: 300),
+                        ),
+                      );
+                              },
                               child: ExerciseTile(
                                 exercise: 'Discuter avec un Pro',
                                 subExercise: 'Franchissez le pas',
@@ -116,7 +177,60 @@ class HomeBody extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                   showModalBottomSheet(
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      ),
+                    ),
+                    isScrollControlled: true,
+                    builder: (context) {
+                      return SizedBox(
+                        height: 450,
+                        child: Center(
+                          child: Column(
+                            children: <Widget>[
+                              const SizedBox(height: 20),
+                              Container(
+                                height: 10,
+                                width: 100,
+                                decoration: const BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.all(Radius.circular(8))),
+                              ),
+                              const SizedBox(height: 80),
+                              GestureDetector(
+                                // ignore: avoid_print
+                                onTap: _callSos,
+                                child: Image.asset("assets/sos.png"),
+                              ),
+                              const SizedBox(height: 20),
+                              const Text(
+                                "SOS suicide",
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              const SizedBox(height: 80),
+                              GestureDetector(
+                                // ignore: avoid_print
+                                onTap: _callEmergency,
+                                child: Image.asset("assets/sos.png"),
+                              ),
+                              const SizedBox(height: 20),
+                              Text(
+                                "Urgences",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                                },
                                 child: ExerciseTile(
                                   exercise: 'Urgences',
                                   subExercise: 'Contacter les urgences',

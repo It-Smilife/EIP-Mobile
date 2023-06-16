@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:itsmilife/pages/normal_user/Home/bloc/home_bloc.dart';
 
-
 class EmoticonCard extends StatelessWidget {
   const EmoticonCard({super.key, required this.emoticonFace, required this.mood});
 
