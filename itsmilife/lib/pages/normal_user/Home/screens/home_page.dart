@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:itsmilife/pages/normal_user/Home/widgets/bottom_sheet_header_title.dart';
 import 'package:itsmilife/pages/normal_user/Home/widgets/date.dart';
 import 'package:itsmilife/pages/normal_user/Home/widgets/emoticon_card.dart';
 import 'package:itsmilife/pages/normal_user/Home/widgets/exercise_tile.dart';

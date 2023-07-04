@@ -5,6 +5,7 @@ import 'package:itsmilife/pages/normal_user/homepage/homepage.dart';
 import 'package:itsmilife/pages/common/settings/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:itsmilife/pages/professional/HomePro.dart';
+import 'package:itsmilife/pages/professional/Home_Pro.dart';
 import 'package:itsmilife/pages/professional/activity/categorypro.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
@@ -29,7 +30,7 @@ class _HomeState extends State<Home> {
 
   final screenspro = [
     const CategoryPro(),
-    const HomePro(),
+    const HomeProBody(),
     const SettingsPage()
   ];
 
@@ -37,7 +38,17 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final darkMode = Provider.of<DarkModeProvider>(context);
     final user = Provider.of<RoleProvider>(context);
-    final items = <Widget>[
+    final items =  (user.Setrolestate)
+          ? 
+          <Widget>[
+      Icon(CupertinoIcons.doc_plaintext,
+          size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
+      Icon(CupertinoIcons.home,
+          size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
+      Icon(CupertinoIcons.gear_alt,
+          size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
+    ] :
+          <Widget>[
       Icon(CupertinoIcons.doc_plaintext,
           size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
       Icon(CupertinoIcons.home,

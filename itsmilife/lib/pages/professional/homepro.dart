@@ -61,7 +61,7 @@ class _HomeProState extends State<HomePro> {
                       "Contacts",
                       style: TextStyle(
                         fontSize: 24,
-                        color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 98, 128, 182),
+                        color: !darkMode.darkMode ? Colors.white : Color.fromARGB(255, 98, 128, 182),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
