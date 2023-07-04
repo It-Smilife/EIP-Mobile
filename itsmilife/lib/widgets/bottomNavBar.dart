@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:itsmilife/pages/normal_user/activit%C3%A9s/activity.dart';
 import 'package:itsmilife/pages/normal_user/activités/activités.dart';
 import 'package:itsmilife/pages/normal_user/homepage/homepage.dart';
 import 'package:itsmilife/pages/common/settings/settings.dart';
@@ -23,7 +24,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final screens = [
-    const ActivityPage(),
+    const ActCategoryPage(),
     const HomeBody(),
     const SettingsPage()
   ];
@@ -65,7 +66,7 @@ class _HomeState extends State<Home> {
         color: darkMode.darkMode
             ? const Color.fromARGB(255, 108, 108, 108)
             : Colors.white,
-        backgroundColor: (widget.h_index == 1) ? Color.fromARGB(255, 224, 224, 224) : Colors.transparent,
+        backgroundColor: (widget.h_index == 1 || widget.h_index == 0) ? Color.fromARGB(255, 224, 224, 224) : Colors.transparent,
         items: items,
         index: widget.h_index,
         height: 60,

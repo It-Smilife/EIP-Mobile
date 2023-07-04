@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
+import 'package:provider/provider.dart';
 
 class BottomSheetHeaderTitle extends StatelessWidget {
   final String titleText;
@@ -9,20 +11,33 @@ class BottomSheetHeaderTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
+
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          titleText,
-          style: const TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const Icon(
-          Icons.more_horiz,
-          size: 30,
-        )
+        Container(
+              decoration: BoxDecoration(
+                color: darkMode.darkMode == true ? Color.fromARGB(255, 79, 79, 79) : Color.fromARGB(255, 98, 128, 182),
+                border: Border.all(
+                  color: darkMode.darkMode == true ? Color.fromARGB(255, 79, 79, 79) : Color.fromARGB(255, 98, 128, 182),
+                  width: 0,
+                ),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 32,
+                vertical: 16,
+              ),
+              child: Text(
+                titleText,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
       ],
     );
   }

@@ -1,0 +1,148 @@
+import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/normal_user/Home/widgets/bottom_sheet_header_title.dart';
+import 'package:itsmilife/pages/normal_user/Home/widgets/category_grid.dart';
+import 'package:itsmilife/pages/normal_user/Home/widgets/date.dart';
+import 'package:itsmilife/pages/normal_user/Home/widgets/exercise_tile.dart';
+import 'package:itsmilife/pages/normal_user/Home/widgets/greet.dart';
+import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/forum.dart';
+import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/category.dart';
+import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/theme.dart';
+
+class ActCategoryPage extends StatelessWidget {
+  const ActCategoryPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var themes = null;
+    getThemes().then((value) {
+      themes = value;
+    });
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 98, 128, 182),
+      body: SafeArea(
+          child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(
+              16.0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Greet(),
+                Date(),
+                SizedBox(
+                  height: 25.0,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 60,
+          ),
+          Expanded(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 98, 128, 182),
+                    blurRadius: 10,
+                    //offset: Offset.infinite,
+                  ),
+                ],
+                color: Color.fromARGB(255, 224, 224, 224),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(
+                    35.0,
+                  ),
+                  topRight: Radius.circular(
+                    35.0,
+                  ),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const BottomSheetHeaderTitle(
+                      titleText: 'Activités',
+                    ),
+                    Expanded(
+                      child: GridView.count(
+                        primary: false,
+                        padding: const EdgeInsets.all(0),
+                        //crossAxisSpacing: 10,
+                        //mainAxisSpacing: 10,
+                        crossAxisCount: 2,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                      CategoryPage(themes: themes),
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    return SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: const Offset(1, 0),
+                                        end: Offset.zero,
+                                      ).animate(animation),
+                                      child: child,
+                                    );
+                                  },
+                                  transitionDuration:
+                                      const Duration(milliseconds: 300),
+                                ),
+                              );
+                            },
+                            child: CategoryGrid(
+                              category: 'Quizz',
+                              color: Colors.purple.shade500,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                      const Forum(),
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    return SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: const Offset(1, 0),
+                                        end: Offset.zero,
+                                      ).animate(animation),
+                                      child: child,
+                                    );
+                                  },
+                                  transitionDuration:
+                                      const Duration(milliseconds: 300),
+                                ),
+                              );
+                            },
+                            child: CategoryGrid(
+                              category: 'Forum',
+                              color: Colors.orange.shade500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
+      )),
+    );
+  }
+}

@@ -26,6 +26,8 @@ class CategoryGrid extends StatelessWidget {
             child: Text(
           category,
           style: const TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
         )),
