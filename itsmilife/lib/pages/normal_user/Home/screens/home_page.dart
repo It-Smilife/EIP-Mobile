@@ -120,24 +120,25 @@ class HomeBody extends StatelessWidget {
                             InkWell(
                                 onTap: () {
                                   Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
-                                  ChatBot(),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return SlideTransition(
-                              position: Tween<Offset>(
-                                begin: const Offset(1, 0),
-                                end: Offset.zero,
-                              ).animate(animation),
-                              child: child,
-                            );
-                          },
-                          transitionDuration: const Duration(milliseconds: 300),
-                        ),
-                      );
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          ChatBot(),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        return SlideTransition(
+                                          position: Tween<Offset>(
+                                            begin: const Offset(1, 0),
+                                            end: Offset.zero,
+                                          ).animate(animation),
+                                          child: child,
+                                        );
+                                      },
+                                      transitionDuration:
+                                          const Duration(milliseconds: 300),
+                                    ),
+                                  );
                                 },
                                 child: ExerciseTile(
                                   exercise: 'Discuter avec Smile',
@@ -148,24 +149,25 @@ class HomeBody extends StatelessWidget {
                             InkWell(
                               onTap: () {
                                 Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
-                                  ChatProUser(),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return SlideTransition(
-                              position: Tween<Offset>(
-                                begin: const Offset(1, 0),
-                                end: Offset.zero,
-                              ).animate(animation),
-                              child: child,
-                            );
-                          },
-                          transitionDuration: const Duration(milliseconds: 300),
-                        ),
-                      );
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                        ChatProUser(),
+                                    transitionsBuilder: (context, animation,
+                                        secondaryAnimation, child) {
+                                      return SlideTransition(
+                                        position: Tween<Offset>(
+                                          begin: const Offset(1, 0),
+                                          end: Offset.zero,
+                                        ).animate(animation),
+                                        child: child,
+                                      );
+                                    },
+                                    transitionDuration:
+                                        const Duration(milliseconds: 300),
+                                  ),
+                                );
                               },
                               child: ExerciseTile(
                                 exercise: 'Discuter avec un Pro',
@@ -176,58 +178,67 @@ class HomeBody extends StatelessWidget {
                             ),
                             InkWell(
                                 onTap: () {
-                                   showModalBottomSheet(
-                    context: context,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
-                    ),
-                    isScrollControlled: true,
-                    builder: (context) {
-                      return SizedBox(
-                        height: 450,
-                        child: Center(
-                          child: Column(
-                            children: <Widget>[
-                              const SizedBox(height: 20),
-                              Container(
-                                height: 10,
-                                width: 100,
-                                decoration: const BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.all(Radius.circular(8))),
-                              ),
-                              const SizedBox(height: 80),
-                              GestureDetector(
-                                // ignore: avoid_print
-                                onTap: _callSos,
-                                child: Image.asset("assets/sos.png"),
-                              ),
-                              const SizedBox(height: 20),
-                              const Text(
-                                "SOS suicide",
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                              ),
-                              const SizedBox(height: 80),
-                              GestureDetector(
-                                // ignore: avoid_print
-                                onTap: _callEmergency,
-                                child: Image.asset("assets/sos.png"),
-                              ),
-                              const SizedBox(height: 20),
-                              Text(
-                                "Urgences",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
+                                  showModalBottomSheet(
+                                    context: context,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(30),
+                                        topRight: Radius.circular(30),
+                                      ),
+                                    ),
+                                    isScrollControlled: true,
+                                    builder: (context) {
+                                      return SizedBox(
+                                        height: 450,
+                                        child: Center(
+                                          child: Column(
+                                            children: <Widget>[
+                                              const SizedBox(height: 20),
+                                              Container(
+                                                height: 10,
+                                                width: 100,
+                                                decoration: const BoxDecoration(
+                                                    color: Colors.grey,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                8))),
+                                              ),
+                                              const SizedBox(height: 80),
+                                              GestureDetector(
+                                                // ignore: avoid_print
+                                                onTap: _callSos,
+                                                child: Image.asset(
+                                                    "assets/sos.png"),
+                                              ),
+                                              const SizedBox(height: 20),
+                                              const Text(
+                                                "SOS suicide",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20),
+                                              ),
+                                              const SizedBox(height: 80),
+                                              GestureDetector(
+                                                // ignore: avoid_print
+                                                onTap: _callEmergency,
+                                                child: Image.asset(
+                                                    "assets/sos.png"),
+                                              ),
+                                              const SizedBox(height: 20),
+                                              Text(
+                                                "Urgences",
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
                                 },
                                 child: ExerciseTile(
                                   exercise: 'Urgences',

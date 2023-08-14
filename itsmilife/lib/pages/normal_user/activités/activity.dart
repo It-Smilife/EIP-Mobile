@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/Home/widgets/bottom_sheet_header_title.dart';
 import 'package:itsmilife/pages/normal_user/Home/widgets/category_grid.dart';
@@ -69,71 +70,70 @@ class ActCategoryPage extends StatelessWidget {
                     const BottomSheetHeaderTitle(
                       titleText: 'Activités',
                     ),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.1),
                     Expanded(
-                      child: GridView.count(
-                        primary: false,
-                        padding: const EdgeInsets.all(0),
-                        //crossAxisSpacing: 10,
-                        //mainAxisSpacing: 10,
-                        crossAxisCount: 2,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder: (context, animation,
-                                          secondaryAnimation) =>
-                                      CategoryPage(themes: themes),
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    return SlideTransition(
-                                      position: Tween<Offset>(
-                                        begin: const Offset(1, 0),
-                                        end: Offset.zero,
-                                      ).animate(animation),
-                                      child: child,
-                                    );
-                                  },
-                                  transitionDuration:
-                                      const Duration(milliseconds: 300),
-                                ),
-                              );
-                            },
-                            child: CategoryGrid(
-                              category: 'Quizz',
-                              color: Colors.purple.shade500,
+                      child:ListView(
+                          children: [
+                            InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                        CategoryPage(themes: themes),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        return SlideTransition(
+                                          position: Tween<Offset>(
+                                            begin: const Offset(1, 0),
+                                            end: Offset.zero,
+                                          ).animate(animation),
+                                          child: child,
+                                        );
+                                      },
+                                      transitionDuration:
+                                          const Duration(milliseconds: 300),
+                                    ),
+                                  );
+                                },
+                                child: ExerciseTile(
+                                  exercise: 'Quizz',
+                                  subExercise: 'Découvrez davantage sur vous',
+                                  icon: CupertinoIcons.question_square_fill,
+                                  color: Colors.pink,
+                                )),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                        const Forum(),
+                                    transitionsBuilder: (context, animation,
+                                        secondaryAnimation, child) {
+                                      return SlideTransition(
+                                        position: Tween<Offset>(
+                                          begin: const Offset(1, 0),
+                                          end: Offset.zero,
+                                        ).animate(animation),
+                                        child: child,
+                                      );
+                                    },
+                                    transitionDuration:
+                                        const Duration(milliseconds: 300),
+                                  ),
+                                );
+                              },
+                              child: ExerciseTile(
+                                exercise: 'Forum',
+                                subExercise: 'Partagez vos expériences',
+                                icon: CupertinoIcons.text_bubble_fill,
+                                color: Colors.orange,
+                              ),
                             ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder: (context, animation,
-                                          secondaryAnimation) =>
-                                      const Forum(),
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    return SlideTransition(
-                                      position: Tween<Offset>(
-                                        begin: const Offset(1, 0),
-                                        end: Offset.zero,
-                                      ).animate(animation),
-                                      child: child,
-                                    );
-                                  },
-                                  transitionDuration:
-                                      const Duration(milliseconds: 300),
-                                ),
-                              );
-                            },
-                            child: CategoryGrid(
-                              category: 'Forum',
-                              color: Colors.orange.shade500,
-                            ),
-                          ),
-                        ],
+                          ]
                       ),
                     ),
                   ],

@@ -150,7 +150,7 @@ class HomeProBody extends StatelessWidget {
                                 );
                               },
                               child: ExerciseTile(
-                                exercise: 'Acceder à votre calendrier',
+                                exercise: ' Votre calendrier',
                                 subExercise: 'Gerer vos rendez-vous',
                                 icon: CupertinoIcons.calendar,
                                 color: Colors.orange,

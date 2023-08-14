@@ -25,15 +25,15 @@ class BottomSheetHeaderTitle extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(15),
               ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 32,
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.25,
                 vertical: 16,
               ),
               child: Text(
                 titleText,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 25,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
