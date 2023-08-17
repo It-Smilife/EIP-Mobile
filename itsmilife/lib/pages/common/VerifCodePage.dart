@@ -141,8 +141,20 @@ class _VerificationPage extends State<VerificationPage> {
                 ),
               ),
               const SizedBox(height: 50),
-              SizedBox(
+              Container(
                 width: MediaQuery.of(context).size.width * 0.70,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 3,
+                      offset: const Offset(1, 2), // changes position of shadow
+                    ),
+                  ],
+                ),
                 child: TextField(
                   controller: code,
                   obscureText: false,
@@ -154,15 +166,15 @@ class _VerificationPage extends State<VerificationPage> {
                     enabledBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       borderSide: BorderSide(
-                        width: 1,
-                        color: Colors.grey,
+                        width: 0,
+                        color: Colors.white,
                       ),
                     ),
                     focusedBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       borderSide: BorderSide(
-                        width: 2,
-                        color: Colors.grey,
+                        width: 0,
+                        color: Colors.white,
                       ),
                     ),
                   ),

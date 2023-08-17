@@ -23,18 +23,41 @@ class Posts extends StatefulWidget {
 class _Posts extends State<Posts> {
   late Future<List<Post>> postsFuture;
 
+  // Future<List<Post>> fetchPosts() async {
+  //   final response = await NetworkManager.get('forums');
+  //   if (response.data != "No forums found" && response.data['success'] == true) {
+  //     print(response.data['message']);
+  //     List<Post> posts = [];
+  //     for (int i = 0; i != response.data['message'].length; i++) {
+  //       posts.add(Post.fromJson(response.data['message'][i]));
+  //     }
+  //     return posts;
+  //   } else {
+  //     throw Exception();
+  //   }
+  // }
+
   Future<List<Post>> fetchPosts() async {
+  try {
     final response = await NetworkManager.get('forums');
+    print("Response status code: ${response.statusCode}");
+    
     if (response.data != "No forums found" && response.data['success'] == true) {
       List<Post> posts = [];
       for (int i = 0; i != response.data['message'].length; i++) {
         posts.add(Post.fromJson(response.data['message'][i]));
       }
+      print("Number of posts fetched: ${posts.length}");
       return posts;
     } else {
-      throw Exception();
+      throw Exception("Error in response data");
     }
+  } catch (e) {
+    print("Error fetching posts: $e");
+    throw Exception("Error fetching posts");
   }
+}
+
 
   String setLanguage() {
     final lang = Provider.of<LanguageProvider>(context);
@@ -75,7 +98,6 @@ class _Posts extends State<Posts> {
             if (posts.length == 0) {
               return Container();
             }
-
             return Column(
                 children: posts.reversed
                     .map(
@@ -135,7 +157,7 @@ class _Posts extends State<Posts> {
                                                 Row(
                                                   children: <Widget>[
                                                     Text(
-                                                      post.user["username"],
+                                                      post.user != null ? post.user["username"] : "",
                                                       style: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.grey),
                                                     ),
                                                     const SizedBox(width: 15),
@@ -180,20 +202,6 @@ class _Posts extends State<Posts> {
                                         )
                                       ],
                                     ),
-                                    // Row(
-                                    //   children: <Widget>[
-                                    //     Icon(
-                                    //       CupertinoIcons.eye,
-                                    //       color: darkMode.darkMode ? Colors.white : Colors.grey,
-                                    //       size: 18,
-                                    //     ),
-                                    //     const SizedBox(width: 4.0),
-                                    //     Text(
-                                    //       lang.lang == "English" ? "${post.views} views" : "${post.views} vues",
-                                    //       style: TextStyle(fontSize: 14, color: darkMode.darkMode ? Colors.white : Colors.grey),
-                                    //     )
-                                    //   ],
-                                    // )
                                   ],
                                 )
                               ],

@@ -18,6 +18,7 @@ import './package_settings/icon_style.dart';
 import './package_settings/settings_screen_utils.dart';
 import './package_settings/babs_component_simple_user_card.dart';
 import './package_settings/babs_component_small_user_card.dart';
+import 'package:itsmilife/pages/common/settings/notificationProvider.dart';
 
 const List<String> list = <String>['English', 'Français'];
 
@@ -50,6 +51,7 @@ class _SettingsPage extends State<SettingsPage> {
     final user = Provider.of<RoleProvider>(context);
     final darkMode = Provider.of<DarkModeProvider>(context);
     final lang = Provider.of<LanguageProvider>(context);
+    final notif = Provider.of<NotificationProvider>(context);
     return Scaffold(
       backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : Color.fromARGB(255, 224, 224, 224),
       appBar: AppBar(
@@ -220,18 +222,20 @@ class _SettingsPage extends State<SettingsPage> {
                   ),
                   title: lang.lang == "English" ? "Change password" : "Changer le mot de passe",
                 ),
-                // SettingsItem(
-                //   onTap: () {},
-                //   icons: CupertinoIcons.bell,
-                //   // iconStyle: IconStyle(
-                //   //   backgroundColor: Colors.purple,
-                //   // ),
-                //   title: lang.lang == "English" ? "Enable notifications" : "Activer les notifications",
-                //   trailing: Switch.adaptive(
-                //     value: false,
-                //     onChanged: (value) {},
-                //   ),
-                // ),
+                SettingsItem(
+                  onTap: () {},
+                  icons: CupertinoIcons.bell,
+                  iconStyle: IconStyle(
+                    backgroundColor: Colors.orangeAccent,
+                  ),
+                  title: lang.lang == "English" ? "Enable notifications" : "Activer les notifications",
+                  trailing: Switch.adaptive(
+                    value: notif.notif,
+                    onChanged: (value) {
+                      notif.notif = value;
+                    },
+                  ),
+                ),
               ],
             ),
             SettingsGroup(

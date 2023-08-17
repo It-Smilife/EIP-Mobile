@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:itsmilife/pages/common/profile.dart';
 import 'package:itsmilife/pages/normal_user/onboarding/onboarding.dart';
+import '../main.dart';
 import '../services/NetworkManager.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:itsmilife/pages/common/settings/notificationProvider.dart';
 
 import 'login.dart';
 
@@ -16,10 +19,8 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  double getSmallDiameter(BuildContext context) =>
-      MediaQuery.of(context).size.width * 2 / 3;
-  double getBiglDiameter(BuildContext context) =>
-      MediaQuery.of(context).size.width * 7 / 8;
+  double getSmallDiameter(BuildContext context) => MediaQuery.of(context).size.width * 2 / 3;
+  double getBiglDiameter(BuildContext context) => MediaQuery.of(context).size.width * 7 / 8;
 
   var email, password, name = "";
 
@@ -37,6 +38,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);
+    final notif = Provider.of<NotificationProvider>(context);
     return Scaffold(
       backgroundColor: const Color(0xFFEEEEEE),
       body: Stack(
@@ -49,10 +51,7 @@ class _RegisterPageState extends State<RegisterPage> {
               height: getBiglDiameter(context),
               decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  gradient: LinearGradient(colors: [
-                    Color.fromARGB(255, 255, 255, 255),
-                    Color.fromARGB(255, 98, 128, 182)
-                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+                  gradient: LinearGradient(colors: [Color.fromARGB(255, 255, 255, 255), Color.fromARGB(255, 98, 128, 182)], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
               child: Stack(
                 children: [
                   Image.asset(
@@ -69,8 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Container(
               width: getBiglDiameter(context),
               height: getBiglDiameter(context),
-              decoration: const BoxDecoration(
-                  shape: BoxShape.circle, color: Color(0xFFF3E9EE)),
+              decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFFF3E9EE)),
             ),
           ),
           Align(
@@ -82,11 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       color: Colors.white,
                       //border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(10)),
-                  margin: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width * 0.05,
-                      MediaQuery.of(context).size.height * 0.40,
-                      20,
-                      10),
+                  margin: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.05, MediaQuery.of(context).size.height * 0.40, 20, 10),
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 25),
                   child: Column(
                     children: <Widget>[
@@ -96,9 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               Icons.account_circle,
                               color: Color.fromARGB(255, 98, 128, 182),
                             ),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade100)),
+                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey.shade100)),
                             labelText: lang.lang == "English" ? "Name" : "Nom",
                             enabledBorder: InputBorder.none,
                             labelStyle: const TextStyle(color: Colors.grey)),
@@ -112,9 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               Icons.email,
                               color: Color.fromARGB(255, 98, 128, 182),
                             ),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade100)),
+                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey.shade100)),
                             labelText: "Email",
                             enabledBorder: InputBorder.none,
                             labelStyle: const TextStyle(color: Colors.grey)),
@@ -129,12 +119,8 @@ class _RegisterPageState extends State<RegisterPage> {
                               Icons.vpn_key,
                               color: Color.fromARGB(255, 98, 128, 182),
                             ),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade100)),
-                            labelText: lang.lang == "English"
-                                ? "Password"
-                                : "Mot de passe",
+                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey.shade100)),
+                            labelText: lang.lang == "English" ? "Password" : "Mot de passe",
                             enabledBorder: InputBorder.none,
                             labelStyle: const TextStyle(color: Colors.grey)),
                         onChanged: (val) {
@@ -145,11 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width * 0.05,
-                      MediaQuery.of(context).size.height * 0.05,
-                      20,
-                      30),
+                  margin: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.05, MediaQuery.of(context).size.height * 0.05, 20, 30),
                   child: Center(
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.5,
@@ -157,13 +139,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            gradient: const LinearGradient(
-                                colors: [
-                                  Color.fromARGB(255, 98, 128, 182),
-                                  Color.fromARGB(255, 98, 128, 182)
-                                ],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter)),
+                            gradient: const LinearGradient(colors: [Color.fromARGB(255, 98, 128, 182), Color.fromARGB(255, 98, 128, 182)], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
                         child: Material(
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.transparent,
@@ -177,12 +153,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       title: Text('Erreur'),
-                                      content: Text(
-                                          'Le mot de passe doit contenir au moins 6 caractères, une majuscule, un chiffre et un caractère spécial.'),
+                                      content: Text('Le mot de passe doit contenir au moins 6 caractères, une majuscule, un chiffre et un caractère spécial.'),
                                       actions: <Widget>[
                                         ElevatedButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
+                                          onPressed: () => Navigator.pop(context),
                                           child: Text('OK'),
                                         ),
                                       ],
@@ -191,26 +165,21 @@ class _RegisterPageState extends State<RegisterPage> {
                                 );
                                 return;
                               }
-                              NetworkManager.post("users", {
-                                "email": email,
-                                "username": name,
-                                "password": password
-                              }).then((val) {
+                              NetworkManager.post("users", {"email": email, "username": name, "password": password}).then((val) {
                                 print(val.toString());
                                 if (val.data['success'] == true) {
                                   ProfileData.id = val.data["message"]["_id"];
                                   ProfileData.username = name;
                                   ProfileData.email = email;
-                                  ProfileData.avatar =
-                                      val.data["message"]["avatar"];
+                                  ProfileData.avatar = val.data["message"]["avatar"];
+                                  if (notif.notif == true) {
+                                    _showWelcomeNotification();
+                                  }
                                   Navigator.pushReplacement(
                                     context,
                                     PageRouteBuilder(
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          const OnBoarding(),
-                                      transitionsBuilder: (context, animation,
-                                          secondaryAnimation, child) {
+                                      pageBuilder: (context, animation, secondaryAnimation) => const OnBoarding(),
+                                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
                                         return SlideTransition(
                                           position: Tween<Offset>(
                                             begin: const Offset(1, 0),
@@ -219,8 +188,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           child: child,
                                         );
                                       },
-                                      transitionDuration:
-                                          const Duration(milliseconds: 300),
+                                      transitionDuration: const Duration(milliseconds: 300),
                                     ),
                                   );
                                 } else if (val.data['success'] == false) {
@@ -230,12 +198,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             },
                             child: Center(
                               child: Text(
-                                lang.lang == "English"
-                                    ? "SIGN UP"
-                                    : "S'INSCRIRE",
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700),
+                                lang.lang == "English" ? "SIGN UP" : "S'INSCRIRE",
+                                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
                               ),
                             ),
                           ),
@@ -248,31 +212,21 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      lang.lang == "English"
-                          ? "DON'T HAVE AN ACCOUNT ?"
-                          : "VOUS N'AVEZ PAS ENCORE DE COMPTE ?",
-                      style: const TextStyle(
-                          fontSize: 11,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w500),
+                      lang.lang == "English" ? "DON'T HAVE AN ACCOUNT ?" : "VOUS N'AVEZ PAS ENCORE DE COMPTE ?",
+                      style: const TextStyle(fontSize: 11, color: Colors.grey, fontWeight: FontWeight.w500),
                     ),
                     GestureDetector(
                         onTap: () {
                           Navigator.pushReplacement(
                             context,
                             PageRouteBuilder(
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) =>
-                                      const LoginPage(),
+                              pageBuilder: (context, animation, secondaryAnimation) => const LoginPage(),
                             ),
                           );
                         },
                         child: Text(
                           lang.lang == "Enflish" ? " SIGN IN" : " SE CONNECTER",
-                          style: const TextStyle(
-                              fontSize: 11,
-                              color: Color.fromARGB(255, 98, 128, 182),
-                              fontWeight: FontWeight.w700),
+                          style: const TextStyle(fontSize: 11, color: Color.fromARGB(255, 98, 128, 182), fontWeight: FontWeight.w700),
                         )),
                   ],
                 )
@@ -281,6 +235,25 @@ class _RegisterPageState extends State<RegisterPage> {
           )
         ],
       ),
+    );
+  }
+
+  Future<void> _showWelcomeNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'general_notification',
+      'Notifications',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+
+    const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+      0, // ID de la notification (peut être utilisé pour annuler la notification ultérieurement)
+      'Itsmilife', // Titre de la notification
+      'Merci de vous être inscrit ! Bienvenue dans l\'aventure Itsmilife 😄 !', // Corps de la notification
+      platformChannelSpecifics,
+      payload: 'welcome_notification', // Payload (données supplémentaires)
     );
   }
 }

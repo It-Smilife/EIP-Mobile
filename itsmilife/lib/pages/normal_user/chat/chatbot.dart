@@ -125,6 +125,7 @@ class _ChatBotState extends State<ChatBot> {
   @override
   Widget build(BuildContext context) {
     final darkMode = Provider.of<DarkModeProvider>(context);
+    final lang = Provider.of<LanguageProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -168,7 +169,7 @@ class _ChatBotState extends State<ChatBot> {
                         height: 6,
                       ),
                       Text(
-                        "Online",
+                        lang.lang == "English" ? "Online" : "En ligne",
                         style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
                       ),
                     ],
@@ -215,7 +216,7 @@ class _ChatBotState extends State<ChatBot> {
                         expands: true,
                         controller: _textController,
                         decoration: InputDecoration(
-                          hintText: "Write message...",
+                          hintText: lang.lang == "English" ? "Write message..." : "Ecrivez un message...",
                           hintStyle: TextStyle(color: Colors.black54),
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.all(10), // C'est pour donner un peu d'espace à l'intérieur de la zone de texte

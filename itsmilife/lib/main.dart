@@ -15,11 +15,25 @@ import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
+import 'package:itsmilife/pages/common/settings/notificationProvider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'pages/normal_user/activités/quizz/quizzBox.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-void main() {
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+void main() async {
+   WidgetsFlutterBinding.ensureInitialized();
+  // Configuration de l'initialisation des notifications
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  final InitializationSettings initializationSettings =
+      InitializationSettings(android: initializationSettingsAndroid);
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
   runApp(const MyApp());
 }
 
@@ -29,26 +43,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LocalStorage storage = new LocalStorage("storage");
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<RoleProvider>(
-            create: (context) => RoleProvider()),
-             BlocProvider(
-        create: (context) => HomeBloc(),),
-        ChangeNotifierProvider<DarkModeProvider>(
-            create: (context) => DarkModeProvider()),
-        ChangeNotifierProvider<LanguageProvider>(
-            create: (context) => LanguageProvider()),
+        ChangeNotifierProvider<RoleProvider>(create: (context) => RoleProvider()),
+        BlocProvider(
+          create: (context) => HomeBloc(),
+        ),
+        ChangeNotifierProvider<DarkModeProvider>(create: (context) => DarkModeProvider()),
+        ChangeNotifierProvider<LanguageProvider>(create: (context) => LanguageProvider()),
+        ChangeNotifierProvider<NotificationProvider>(create: (context) => NotificationProvider()),
         ChangeNotifierProvider(create: (context) => EventProvider()),
       ],
       child: MaterialApp(
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          SfGlobalLocalizations.delegate
-        ],
+        localizationsDelegates: const [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, SfGlobalLocalizations.delegate],
         supportedLocales: const [
           Locale('fr'),
           Locale('en'),

@@ -6,6 +6,8 @@ import 'package:itsmilife/pages/normal_user/chat/chatProUser.dart';
 import 'package:itsmilife/services/NetworkManager.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../normal_user/chat/model/chatMessageModel.dart';
+import 'package:provider/provider.dart';
+import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 
 class ChatDetailPage extends StatefulWidget {
   late String discussionId;
@@ -101,6 +103,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context);
     void _sendMessage(String message) {
       if (message.isNotEmpty) {
         socket.emit('newMessage', {
@@ -190,7 +193,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                         height: 6,
                       ),
                       Text(
-                        "Online",
+                        lang.lang == "English" ? "Online" : "En ligne",
                         style: TextStyle(
                             color: Colors.grey.shade600, fontSize: 13),
                       ),

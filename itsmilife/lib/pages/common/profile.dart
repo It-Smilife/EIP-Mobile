@@ -52,7 +52,6 @@ class _ProfileSettingPageState extends State<ProfilePage> {
   Future<void> _pickImage() async {
     // Vérifiez si la permission est accordée
     var status = await Permission.storage.status;
-    print('Permission status is $status');
 
     // Si la permission n'est pas encore accordée, demandez-la
     if (!status.isGranted) {
@@ -69,7 +68,6 @@ class _ProfileSettingPageState extends State<ProfilePage> {
         });
       }
     } else {
-      // Gérer le cas où l'utilisateur refuse la permission
       print('Permission refusée');
     }
   }

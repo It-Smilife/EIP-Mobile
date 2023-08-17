@@ -90,8 +90,20 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    SizedBox(
+                    Container(
                       width: MediaQuery.of(context).size.width * 0.70,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 3,
+                            offset: const Offset(1, 2), // changes position of shadow
+                          ),
+                        ],
+                      ),
                       child: TextFormField(
                         controller: email,
                         obscureText: false,
@@ -111,22 +123,22 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                           labelText: lang.lang == "English" ? 'Enter your email' : "Entrez votre email",
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              width: 2,
-                              color: Colors.grey,
+                              width: 0,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.grey,
+                              width: 0,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 40),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: Text(
@@ -138,9 +150,21 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 30),
-                    SizedBox(
+                    const SizedBox(height: 50),
+                    Container(
                       width: MediaQuery.of(context).size.width * 0.70,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 3,
+                            offset: const Offset(1, 2), // changes position of shadow
+                          ),
+                        ],
+                      ),
                       child: TextFormField(
                         controller: newPass,
                         obscureText: true,
@@ -169,23 +193,35 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                           labelText: lang.lang == "English" ? 'New password' : "Nouveau mot de passe",
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              width: 2,
-                              color: Colors.grey,
+                              width: 0,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
                           focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
+                              width: 0,
+                              color: Colors.white,
                             ),
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    SizedBox(
+                    Container(
                       width: MediaQuery.of(context).size.width * 0.70,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 3,
+                            offset: const Offset(1, 2), // changes position of shadow
+                          ),
+                        ],
+                      ),
                       child: TextFormField(
                         controller: confirmPass,
                         obscureText: true,
@@ -217,15 +253,15 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                           labelText: lang.lang == "English" ? 'Confirm the password' : "Confirmez le mot de passe",
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              width: 2,
-                              color: Colors.grey,
+                              width: 0,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.grey,
+                              width: 0,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -235,7 +271,7 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                   ],
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 80),
               Container(
                 width: MediaQuery.of(context).size.width * 0.90,
                 // margin: const EdgeInsets.symmetric(horizontal: 120),
@@ -254,7 +290,6 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                 child: TextButton(
                   style: TextButton.styleFrom(backgroundColor: Colors.transparent),
                   onPressed: () {
-                    print("ok");
                     if (_formKey.currentState!.validate()) {
                       NetworkManager.putWithoutData("users/" + email.text + "/update-password-code-by-email").then((value) {
                         if (value.data["success"] == true) {

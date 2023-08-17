@@ -16,6 +16,7 @@ import 'editEventPage.dart';
 import 'fetchEvents.dart';
 import 'deleteEvent.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
+import 'package:flutter_dash/flutter_dash.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({Key? key}) : super(key: key);
@@ -124,15 +125,30 @@ class _CalendarState extends State<Calendar> {
                             showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
-                                title: Text(event.title),
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      event.title,
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Dash(
+                                      direction: Axis.horizontal,
+                                      length: 250, // Prend la largeur de la carte
+                                      dashLength: 5, // Longueur des traits du pointillé
+                                      dashColor: Colors.grey, // Couleur des traits du pointillé
+                                    ),
+                                  ],
+                                ),
                                 content: SizedBox(
                                   width: double.maxFinite, // Largeur maximale disponible
-                                  height: 150, // Hauteur définie, ajustez en fonction de vos besoins
+                                  height: 200, // Hauteur définie, ajustez en fonction de vos besoins
                                   child: SingleChildScrollView(
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start, // Alignement des éléments à gauche
                                       children: [
                                         Text('Début: ${event.start.hour}:${event.start.minute}\nFin: ${event.end.hour}:${event.end.minute}'),
+                                        const SizedBox(height: 50),
                                         if (event.notes.isNotEmpty) // Vérifiez si event.notes n'est pas vide
                                           Text(event.notes), // Affichez event.notes seulement si la chaîne n'est pas vide
                                       ],
@@ -186,14 +202,13 @@ class _CalendarState extends State<Calendar> {
                           }
                         },
                         timeSlotViewSettings: TimeSlotViewSettings(
-                          startHour: 5,
-                          endHour: 21,
-                          nonWorkingDays: <int>[DateTime.friday, DateTime.saturday],
-                          timeInterval: Duration(minutes: 60),
-                          timeFormat: 'HH:mm',
-                          timeIntervalHeight: 60,
-                          timeTextStyle: TextStyle(color: darkMode.darkMode ? Colors.white :Color.fromARGB(255, 45, 45, 45))
-                        ),
+                            startHour: 5,
+                            endHour: 21,
+                            nonWorkingDays: <int>[DateTime.friday, DateTime.saturday],
+                            timeInterval: Duration(minutes: 60),
+                            timeFormat: 'HH:mm',
+                            timeIntervalHeight: 60,
+                            timeTextStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45))),
                         monthViewSettings: MonthViewSettings(
                           monthCellStyle: MonthCellStyle(textStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.grey)),
                           showAgenda: false,
@@ -218,11 +233,7 @@ class _CalendarState extends State<Calendar> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        viewHeaderStyle: ViewHeaderStyle(
-                          dayTextStyle: TextStyle(
-                            color: darkMode.darkMode ? Colors.white :Color.fromARGB(255, 45, 45, 45)
-                          )
-                        ),
+                        viewHeaderStyle: ViewHeaderStyle(dayTextStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45))),
                       );
                     } else {
                       return Center(child: CircularProgressIndicator());
@@ -248,7 +259,7 @@ class _CalendarState extends State<Calendar> {
             });
           }
         },
-        backgroundColor: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) :Colors.deepPurpleAccent,
+        backgroundColor: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Colors.deepPurpleAccent,
         hoverColor: Colors.purple,
         elevation: 5,
         child: const Icon(CupertinoIcons.add),
