@@ -26,7 +26,7 @@ _callEmergency() async {
 }
 
 class HomeProBody extends StatelessWidget {
-  const HomeProBody();
+  const HomeProBody({super.key});
 
   @override
   Widget build(BuildContext context) {
