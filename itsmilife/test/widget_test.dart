@@ -10,6 +10,15 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:itsmilife/main.dart';
 
+int add(int a, int b) {
+  return a + b;
+}
+
 void main() {
-  return;
+  test('Test d\'addition basique', () {
+    int num1 = 5;
+    int num2 = 7;
+    int result = add(num1, num2);
+    expect(result, 12);
+  });
 }
