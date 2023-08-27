@@ -5,25 +5,6 @@ import 'package:itsmilife/pages/normal_user/Home/widgets/exercise_tile.dart';
 import 'package:itsmilife/pages/normal_user/Home/widgets/greet.dart';
 import 'package:itsmilife/pages/professional/activity/calendar/Calendart.dart';
 import 'package:itsmilife/pages/professional/chatPro/patient_list.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-_callSos() async {
-  var url = Uri.parse("tel:3114");
-  if (await canLaunchUrl(url)) {
-    await launchUrl(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
-
-_callEmergency() async {
-  var url = Uri.parse("tel:17");
-  if (await canLaunchUrl(url)) {
-    await launchUrl(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
 
 class HomeProBody extends StatelessWidget {
   const HomeProBody({super.key});

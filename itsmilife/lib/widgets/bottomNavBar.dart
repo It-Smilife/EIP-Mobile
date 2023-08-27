@@ -6,12 +6,13 @@ import 'package:itsmilife/pages/normal_user/activit%C3%A9s/activity.dart';
 import 'package:itsmilife/pages/common/settings/settings.dart';
 import 'package:flutter/cupertino.dart';
 // import 'package:itsmilife/pages/professional/HomePro.dart';
-import 'package:itsmilife/pages/professional/home_Pro.dart';
 import 'package:itsmilife/pages/professional/activity/categorypro.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import '../pages/common/settings/RoleProvider.dart';
 import 'package:itsmilife/pages/normal_user/Home/screens/home_page.dart';
+
+import '../pages/professional/home_pro.dart';
 
 // ignore: must_be_immutable
 class Home extends StatefulWidget {
