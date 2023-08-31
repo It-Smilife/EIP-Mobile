@@ -45,9 +45,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
   late String _gender = "";
   late String _phoneNumber = "";
   late String _address = "";
-  // You can use a package like image_picker to handle the avatar image
-  // and save it to the user's device or cloud storage.
-  // For this example, we will just use a variable to hold the avatar path.
+
 
   Future<void> _pickImage() async {
     // Vérifiez si la permission est accordée
@@ -175,22 +173,20 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           height: 140,
                         ),
                         FutureBuilder<Uint8List>(
-                          future: NetworkManager.getFile(ProfileData.avatar), // fonction qui retourne une Future<String> contenant l'URL de l'avatar
+                          future: NetworkManager.getFile('photo-fille1.png'),
                           builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
                             if (snapshot.hasData) {
                               return Positioned(
                                 top: 0,
                                 left: 0,
                                 right: 0,
-                                child: GestureDetector(
-                                  onTap: _pickImage,
-                                  child: Container(
+                                child: Container(
                                     width: 200,
                                     height: 140,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
-                                        image: FileImage(File(ProfileData.avatar)),
+                                        image: MemoryImage(snapshot.data ?? Uint8List(0)),
                                         fit: BoxFit.cover,
                                       ),
                                       border: Border.all(
@@ -199,7 +195,6 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                                       ),
                                     ),
                                   ),
-                                ),
                               );
                             } else if (snapshot.hasError) {
                               return Text('Une erreur est survenue : ${snapshot.error}');
