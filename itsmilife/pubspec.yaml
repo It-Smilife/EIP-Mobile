@@ -48,7 +48,7 @@ dependencies:
   hive: ^2.2.3
   http: ^0.13.5
   image_picker: ^0.8.7+5
-  intl: ^0.17.0
+  intl: 0.18.1
   introduction_screen: ^2.1.0
   page_transition: ^2.0.9
   provider: ^6.0.5
@@ -101,6 +101,22 @@ flutter:
     - assets/emotion.png
     - assets/google.png
     - assets/version.json
+    - assets/photo-fille1.png
+    - assets/photo-fille2.png
+    - assets/photo-fille3.png
+    - assets/photo-fille4.png
+    - assets/photo-fille5.png
+    - assets/photo-fille6.png
+    - assets/photo-fille7.png
+    - assets/photo-fille8.png
+    - assets/photo-garcon1.png
+    - assets/photo-garcon2.png
+    - assets/photo-garcon3.png
+    - assets/photo-garcon4.png
+    - assets/photo-garcon5.png
+    - assets/photo-garcon6.png
+    - assets/photo-garcon7.png
+    - assets/photo-garcon8.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

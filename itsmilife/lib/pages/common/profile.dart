@@ -1,8 +1,7 @@
-import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/common/avatarProvider.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
@@ -46,28 +45,51 @@ class _ProfileSettingPageState extends State<ProfilePage> {
   late String _phoneNumber = "";
   late String _address = "";
 
+  List<String> imageNames = [
+    "photo-fille1.png",
+    "photo-fille2.png",
+    "photo-fille3.png",
+    "photo-fille4.png",
+    "photo-fille5.png",
+    "photo-fille6.png",
+    "photo-fille7.png",
+    "photo-fille8.png",
+    "photo-garcon1.png",
+    "photo-garcon2.png",
+    "photo-garcon3.png",
+    "photo-garcon4.png",
+    "photo-garcon5.png",
+    "photo-garcon6.png",
+    "photo-garcon7.png",
+    "photo-garcon8.png",
+  ];
 
-  Future<void> _pickImage() async {
-    // Vérifiez si la permission est accordée
-    var status = await Permission.storage.status;
-
-    // Si la permission n'est pas encore accordée, demandez-la
-    if (!status.isGranted) {
-      print("huitre");
-      status = await Permission.camera.request();
-    }
-    // Si la permission est accordée après la demande, ouvrez l'image picker
-    if (status.isGranted) {
-      final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-      if (pickedFile != null) {
-        setState(() {
-          ProfileData.avatar = pickedFile.path;
-        });
-      }
-    } else {
-      print('Permission refusée');
-    }
+  void _openImagePickerDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: Text("Sélectionnez une image"),
+          children: imageNames.map((imageName) {
+            return SimpleDialogOption(
+              onPressed: () {
+                // Mettez à jour ProfileData.avatar avec l'image sélectionnée
+                String selectedImage = imageName;
+                // Effectuez une requête PUT pour mettre à jour le serveur avec la nouvelle image
+                Provider.of<AvatarProvider>(context, listen: false).updateAvatar(selectedImage);
+                NetworkManager.put("users/" + ProfileData.id, {"avatar": selectedImage});
+                Navigator.of(context).pop(); // Fermez le dialog
+              },
+              child: Image.asset(
+                "assets/$imageName",
+                width: 100,
+                height: 100,
+              ),
+            );
+          }).toList(),
+        );
+      },
+    );
   }
 
   @override
@@ -168,46 +190,46 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                   children: <Widget>[
                     Stack(
                       children: <Widget>[
-                        Container(
-                          width: 190,
-                          height: 140,
-                        ),
-                        FutureBuilder<Uint8List>(
-                          future: NetworkManager.getFile('photo-fille1.png'),
-                          builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
-                            if (snapshot.hasData) {
-                              return Positioned(
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                child: Container(
-                                    width: 200,
-                                    height: 140,
+                        GestureDetector(
+                          onTap: () {
+                            _openImagePickerDialog(context);
+                          },
+                          child: SizedBox(
+                            width: 190,
+                            height: 140,
+                            child: FutureBuilder<Uint8List>(
+                              future: NetworkManager.getFile(Provider.of<AvatarProvider>(context).avatar),
+                              builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
+                                if (snapshot.hasData) {
+                                  return Container(
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                         image: MemoryImage(snapshot.data ?? Uint8List(0)),
-                                        fit: BoxFit.cover,
+                                        fit: BoxFit.contain,
                                       ),
                                       border: Border.all(
                                         width: 2,
                                         color: Colors.grey,
                                       ),
                                     ),
-                                  ),
-                              );
-                            } else if (snapshot.hasError) {
-                              return Text('Une erreur est survenue : ${snapshot.error}');
-                            } else {
-                              return CircularProgressIndicator();
-                            }
-                          },
+                                  );
+                                } else if (snapshot.hasError) {
+                                  print(snapshot.error);
+                                  return Text('Une erreur est survenue : ${snapshot.error}');
+                                } else {
+                                  return CircularProgressIndicator();
+                                }
+                              },
+                            ),
+                          ),
                         ),
                       ],
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.030)
                   ],
                 ),
+
                 // Name
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.024),

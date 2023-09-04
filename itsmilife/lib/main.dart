@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:itsmilife/pages/common/VerifCodePage.dart';
+import 'package:itsmilife/pages/common/avatarProvider.dart';
 import 'package:itsmilife/pages/common/settings/RoleProvider.dart';
 import 'package:itsmilife/pages/common/splashScreen.dart';
 import 'package:itsmilife/pages/normal_user/Home/bloc/home_bloc.dart';
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<LanguageProvider>(create: (context) => LanguageProvider()),
         ChangeNotifierProvider<NotificationProvider>(create: (context) => NotificationProvider()),
         ChangeNotifierProvider(create: (context) => EventProvider()),
+        ChangeNotifierProvider<AvatarProvider>(create: (context) => AvatarProvider()),
       ],
       child: MaterialApp(
         localizationsDelegates: const [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, SfGlobalLocalizations.delegate],
