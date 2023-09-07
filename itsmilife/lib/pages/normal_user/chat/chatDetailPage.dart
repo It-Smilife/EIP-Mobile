@@ -167,7 +167,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                             CircleAvatar(
                               backgroundImage:
                                   MemoryImage(snapshot.data ?? Uint8List(0)),
-                              maxRadius: 30,
+                              maxRadius: 20,
                             ),
                           ],
                         );
@@ -261,32 +261,52 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
               color: Colors.white,
               child: Row(
                 children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      controller: _textController,
-                      onChanged: (text) => _newMessage = text,
-                      decoration: InputDecoration(
-                          hintText: "Write message...",
-                          hintStyle: TextStyle(color: Colors.black54),
-                          border: InputBorder.none),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      _sendMessage(_textController.text);
-                    },
-                    child: Icon(
-                      Icons.send,
-                      color: Colors.white,
-                      size: 18,
-                    ),
-                    backgroundColor: Colors.blue,
-                    elevation: 0,
-                  ),
-                ],
+  Expanded(
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[200], // Choisissez la couleur qui convient le mieux à votre thème
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: TextField(
+        maxLines: null,
+        expands: true,
+        controller: _textController,
+        onChanged: (text) => _newMessage = text,
+        decoration: InputDecoration(
+          hintText: "Write message...",
+          hintStyle: TextStyle(color: Colors.black54),
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(10), // C'est pour donner un peu d'espace à l'intérieur de la zone de texte
+        ),
+        textAlignVertical: TextAlignVertical.center,
+        onSubmitted: (value) {
+          _sendMessage(value);
+          _textController.clear();
+        },
+      ),
+    ),
+  ),
+  SizedBox(
+    width: 15,
+  ),
+  FloatingActionButton(
+    onPressed: () {
+      final value = _textController.text.trim();
+      if (value.isNotEmpty) {
+        _sendMessage(value);
+        _textController.clear();
+      }
+    },
+    child: Icon(
+      Icons.send,
+      color: Colors.white,
+      size: 18,
+    ),
+    backgroundColor: Colors.deepPurpleAccent,
+    elevation: 0,
+  ),
+],
+
               ),
             ),
           ),
