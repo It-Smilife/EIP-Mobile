@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
+import 'package:provider/provider.dart';
 
 class ExerciseTile extends StatelessWidget {
   const ExerciseTile({
@@ -16,6 +18,7 @@ class ExerciseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 12.0),
       child: Container(
@@ -23,7 +26,7 @@ class ExerciseTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(
             20,
           ),
-          color: Colors.white,
+          color: darkMode.darkMode ? Color.fromARGB(255, 59, 59, 59) : Colors.white,
         ),
         child: Padding(
           padding: const EdgeInsets.all(18.0),
@@ -54,10 +57,7 @@ class ExerciseTile extends StatelessWidget {
                     children: [
                       Text(
                         exercise,
-                        style: const TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: darkMode.darkMode ? Colors.white : Colors.black),
                       ),
                       const SizedBox(
                         height: 7,

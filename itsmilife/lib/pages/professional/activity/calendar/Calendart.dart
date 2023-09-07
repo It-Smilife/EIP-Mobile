@@ -125,6 +125,9 @@ class _CalendarState extends State<Calendar> {
                             showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.0), // Définissez le rayon ici
+                                ),
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [

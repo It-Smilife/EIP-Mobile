@@ -20,7 +20,7 @@ class AddEvent extends StatefulWidget {
 
 class _AddEvent extends State<AddEvent> {
   final _formKey = GlobalKey<FormState>();
-  final _titleCotroller = TextEditingController();
+  final _titleController = TextEditingController();
   final _notesController = TextEditingController();
   late DateTime _selectedTimeBegin;
   late DateTime _selectedTimeEnd;
@@ -43,7 +43,7 @@ class _AddEvent extends State<AddEvent> {
 
   @override
   void dispose() {
-    _titleCotroller.dispose();
+    _titleController.dispose();
     _notesController.dispose();
     super.dispose();
   }
@@ -92,7 +92,8 @@ class _AddEvent extends State<AddEvent> {
                         ),
                         const SizedBox(height: 60),
                         TextFormField(
-                          controller: _titleCotroller,
+                          controller: _titleController,
+                          maxLines: null,
                           decoration: InputDecoration(
                               focusedBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -244,25 +245,26 @@ class _AddEvent extends State<AddEvent> {
                           ],
                         ),
                         const SizedBox(height: 40),
-                        TextField(
+                        TextFormField(
                           controller: _notesController,
                           decoration: InputDecoration(
-                              focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.deepPurpleAccent, // Change the focused border color here
-                                  width: 2.0,
-                                ),
-                                borderRadius: BorderRadius.all(Radius.circular(15)),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.deepPurpleAccent, // Change the focused border color here
+                                width: 2.0,
                               ),
-                              prefixIcon: Icon(
-                                CupertinoIcons.doc_plaintext,
-                                color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
-                              ),
-                              hintText: 'Notes',
-                              hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45))),
-                          maxLines: null,
+                              borderRadius: BorderRadius.all(Radius.circular(15)),
+                            ),
+                            prefixIcon: Icon(
+                              CupertinoIcons.doc_plaintext,
+                              color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
+                            ),
+                            hintText: 'Notes',
+                            hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
+                          ),
+                          maxLines: null, // Permet au texte de passer à la ligne en fonction du contenu
                           textAlignVertical: TextAlignVertical.top,
-                        ),
+                        )
                       ],
                     ),
                   ),
@@ -309,14 +311,26 @@ class _AddEvent extends State<AddEvent> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () async {
-                          bool success = await addEvent(
-                            title: _titleCotroller.text,
-                            start: DateTime(_selectedTimeBegin.year, _selectedTimeBegin.month, _selectedTimeBegin.day, _selectedTimeBegin.hour, _selectedTimeBegin.minute),
-                            end: DateTime(_selectedTimeEnd.year, _selectedTimeEnd.month, _selectedTimeEnd.day, _selectedTimeEnd.hour, _selectedTimeEnd.minute),
-                            notes: _notesController.text,
-                          );
+                          if (_titleController.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  lang.lang == "English" ? "Please enter a titile" : 'Veuillez entrer un titre',
+                                  style: TextStyle(color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
+                                ), // Message d'erreur
+                                duration: Duration(seconds: 2), // Durée de l'affichage de la Snackbar
+                              ),
+                            );
+                          } else {
+                            bool success = await addEvent(
+                              title: _titleController.text,
+                              start: DateTime(_selectedTimeBegin.year, _selectedTimeBegin.month, _selectedTimeBegin.day, _selectedTimeBegin.hour, _selectedTimeBegin.minute),
+                              end: DateTime(_selectedTimeEnd.year, _selectedTimeEnd.month, _selectedTimeEnd.day, _selectedTimeEnd.hour, _selectedTimeEnd.minute),
+                              notes: _notesController.text,
+                            );
 
-                          Navigator.pop(context, success);
+                            Navigator.pop(context, success);
+                          }
                         },
                         style: ButtonStyle(
                           shape: MaterialStateProperty.all<RoundedRectangleBorder>(

@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/chat/model/chatMessageModel.dart';
 import 'package:itsmilife/pages/common/profile.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/normal_user/chat/AddPro.dart';
 import 'package:itsmilife/pages/professional/homepro.dart';
 import 'package:itsmilife/services/NetworkManager.dart';
 import 'package:intl/intl.dart';
 import 'package:itsmilife/widgets/bottomNavBar.dart';
 import 'package:itsmilife/widgets/conversationListPro.dart';
+import 'package:provider/provider.dart';
 import '../../../widgets/conversationList.dart';
 import '../../normal_user/chat/model/chatUsersModel.dart';
 import 'chat_service.dart';
@@ -26,9 +28,7 @@ class _ListPatientState extends State<ListPatient> {
   @override
   void initState() {
     super.initState();
-    _chatUsersFuture =
-        NetworkManager.get("users/" + ProfileData.id + "/discussionsTrue")
-            .then((val) {
+    _chatUsersFuture = NetworkManager.get("users/" + ProfileData.id + "/discussionsTrue").then((val) {
       print(val.data);
       if (val.data != "No discussions found" && val.data['success'] == true) {
         List<ChatUsers> chatUsers = [];
@@ -44,10 +44,8 @@ class _ListPatientState extends State<ListPatient> {
               imageURL: val.data['message'][i]['patient']['avatar'],
               name: val.data['message'][i]['patient']['username'],
               time: formattedDate,
-              LastMessage: (val.data['message'][i]['messages'] != null &&
-                      val.data['message'][i]['messages'].isNotEmpty)
-                  ? val.data['message'][i]['messages']
-                      [val.data['message'][i]['messages'].length - 1]['content']
+              LastMessage: (val.data['message'][i]['messages'] != null && val.data['message'][i]['messages'].isNotEmpty)
+                  ? val.data['message'][i]['messages'][val.data['message'][i]['messages'].length - 1]['content']
                   : "Démarrez la conversation !");
           chatUsers.add(discussion);
         }
@@ -58,14 +56,16 @@ class _ListPatientState extends State<ListPatient> {
     });
   }
 
-    @override
+  @override
   void dispose() {
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
     return Scaffold(
+      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : Colors.white,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -80,35 +80,30 @@ class _ListPatientState extends State<ListPatient> {
                     InkWell(
                       child: Icon(Icons.arrow_back, color: Colors.black),
                       onTap: () {
-                       Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
-                                  Home(h_index: 1),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return SlideTransition(
-                              position: Tween<Offset>(
-                                begin: const Offset(1, 0),
-                                end: Offset.zero,
-                              ).animate(animation),
-                              child: child,
-                            );
-                          },
-                          transitionDuration: Duration(milliseconds: 300),
-                        ),
-                      );
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (context, animation, secondaryAnimation) => Home(h_index: 1),
+                            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                              return SlideTransition(
+                                position: Tween<Offset>(
+                                  begin: const Offset(1, 0),
+                                  end: Offset.zero,
+                                ).animate(animation),
+                                child: child,
+                              );
+                            },
+                            transitionDuration: Duration(milliseconds: 300),
+                          ),
+                        );
                       },
                     ),
-                    const Text(
+                    Text(
                       "Conversations",
-                      style:
-                          TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: darkMode.darkMode ? Colors.white : Colors.black),
                     ),
                     Container(
-                      padding: const EdgeInsets.only(
-                          left: 8, right: 8, top: 2, bottom: 2),
+                      padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
                       height: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
@@ -124,11 +119,8 @@ class _ListPatientState extends State<ListPatient> {
                           Navigator.push(
                             context,
                             PageRouteBuilder(
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) =>
-                                      NotificationPage(),
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
+                              pageBuilder: (context, animation, secondaryAnimation) => NotificationPage(),
+                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
                                 return SlideTransition(
                                   position: Tween<Offset>(
                                     begin: const Offset(1, 0),
@@ -137,8 +129,7 @@ class _ListPatientState extends State<ListPatient> {
                                   child: child,
                                 );
                               },
-                              transitionDuration:
-                                  const Duration(milliseconds: 300),
+                              transitionDuration: const Duration(milliseconds: 300),
                             ),
                           );
                         }),
@@ -162,16 +153,13 @@ class _ListPatientState extends State<ListPatient> {
                   filled: true,
                   fillColor: Colors.grey.shade100,
                   contentPadding: const EdgeInsets.all(8),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(color: Colors.grey.shade100)),
+                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide(color: Colors.grey.shade100)),
                 ),
               ),
             ),
             FutureBuilder<List<ChatUsers>>(
               future: _chatUsersFuture,
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<ChatUsers>> snapshot) {
+              builder: (BuildContext context, AsyncSnapshot<List<ChatUsers>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 }
@@ -207,8 +195,7 @@ class _ListPatientState extends State<ListPatient> {
                             messageText: chatUsers[index].LastMessage,
                             imageUrl: chatUsers[index].imageURL,
                             time: chatUsers[index].time,
-                            isMessageRead:
-                                (index == 0 || index == 3) ? true : false,
+                            isMessageRead: (index == 0 || index == 3) ? true : false,
                           ));
                     },
                   );

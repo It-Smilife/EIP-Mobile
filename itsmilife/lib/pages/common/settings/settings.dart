@@ -177,7 +177,10 @@ class _SettingsPage extends State<SettingsPage> {
                     items: list.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value),
+                        child: Text(
+                          value,
+                          style: TextStyle(color: darkMode.darkMode ? Color.fromARGB(255, 161, 161, 161) : const Color.fromARGB(255, 70, 70, 70), fontWeight: FontWeight.bold),
+                        ),
                       );
                     }).toList(),
                   ),

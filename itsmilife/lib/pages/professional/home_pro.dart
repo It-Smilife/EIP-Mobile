@@ -5,14 +5,17 @@ import 'package:itsmilife/pages/normal_user/Home/widgets/exercise_tile.dart';
 import 'package:itsmilife/pages/normal_user/Home/widgets/greet.dart';
 import 'package:itsmilife/pages/professional/activity/calendar/Calendart.dart';
 import 'package:itsmilife/pages/professional/chatPro/patient_list.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
+import 'package:provider/provider.dart';
 
 class HomeProBody extends StatelessWidget {
   const HomeProBody({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 98, 128, 182),
+      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 98, 128, 182),
       body: SafeArea(
         child: Column(
           children: [
@@ -21,15 +24,15 @@ class HomeProBody extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   const SizedBox(
+                  const SizedBox(
                     height: 15.0,
                   ),
                   const Greet(),
                   const Date(),
-                   const SizedBox(
+                  const SizedBox(
                     height: 80.0,
                   ),
-                   Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
                       Text(
@@ -53,13 +56,13 @@ class HomeProBody extends StatelessWidget {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
-                      color: Color.fromARGB(255, 98, 128, 182),
+                      color: darkMode.darkMode ? const Color.fromARGB(255, 79, 79, 79) : const Color.fromARGB(255, 98, 128, 182),
                       blurRadius: 10,
                     ),
                   ],
-                  color: Color.fromARGB(255, 224, 224, 224),
+                  color: darkMode.darkMode ? const Color.fromARGB(255, 79, 79, 79) : const Color.fromARGB(255, 224, 224, 224),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(
                       35.0,
@@ -82,11 +85,8 @@ class HomeProBody extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   PageRouteBuilder(
-                                    pageBuilder: (context, animation,
-                                            secondaryAnimation) =>
-                                        ListPatient(),
-                                    transitionsBuilder: (context, animation,
-                                        secondaryAnimation, child) {
+                                    pageBuilder: (context, animation, secondaryAnimation) => ListPatient(),
+                                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
                                       return SlideTransition(
                                         position: Tween<Offset>(
                                           begin: const Offset(1, 0),
@@ -95,8 +95,7 @@ class HomeProBody extends StatelessWidget {
                                         child: child,
                                       );
                                     },
-                                    transitionDuration:
-                                        const Duration(milliseconds: 300),
+                                    transitionDuration: const Duration(milliseconds: 300),
                                   ),
                                 );
                               },
@@ -107,16 +106,13 @@ class HomeProBody extends StatelessWidget {
                                 color: Colors.pink,
                               ),
                             ),
-                             InkWell(
+                            InkWell(
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   PageRouteBuilder(
-                                    pageBuilder: (context, animation,
-                                            secondaryAnimation) =>
-                                        Calendar(),
-                                    transitionsBuilder: (context, animation,
-                                        secondaryAnimation, child) {
+                                    pageBuilder: (context, animation, secondaryAnimation) => Calendar(),
+                                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
                                       return SlideTransition(
                                         position: Tween<Offset>(
                                           begin: const Offset(1, 0),
@@ -125,8 +121,7 @@ class HomeProBody extends StatelessWidget {
                                         child: child,
                                       );
                                     },
-                                    transitionDuration:
-                                        const Duration(milliseconds: 300),
+                                    transitionDuration: const Duration(milliseconds: 300),
                                   ),
                                 );
                               },

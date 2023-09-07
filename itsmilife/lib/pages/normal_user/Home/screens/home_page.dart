@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import 'package:itsmilife/pages/normal_user/Home/widgets/date.dart';
 import 'package:itsmilife/pages/normal_user/Home/widgets/emoticon_card.dart';
 import 'package:itsmilife/pages/normal_user/Home/widgets/exercise_tile.dart';
@@ -7,6 +8,8 @@ import 'package:itsmilife/pages/normal_user/Home/widgets/greet.dart';
 import 'package:itsmilife/pages/normal_user/chat/chatProUser.dart';
 import 'package:itsmilife/pages/normal_user/chat/chatbot.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
+import 'package:provider/provider.dart';
 
 _callSos() async {
   var url = Uri.parse("tel:3114");
@@ -31,8 +34,10 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
+    final lang = Provider.of<LanguageProvider>(context);
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 98, 128, 182),
+      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 98, 128, 182),
       body: SafeArea(
         child: Column(
           children: [
@@ -48,10 +53,10 @@ class HomeBody extends StatelessWidget {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text(
-                        'Comment vous sentez vous ?',
-                        style: TextStyle(
+                        lang.lang == "English" ? "How are you today ?" : 'Comment vous sentez vous ?',
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
@@ -64,20 +69,20 @@ class HomeBody extends StatelessWidget {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       EmoticonCard(
                         emoticonFace: '😔',
-                        mood: 'Mal',
+                        mood: lang.lang == "English" ? "Bad" : 'Mal',
                       ),
                       EmoticonCard(
                         emoticonFace: '😊',
-                        mood: 'Bien',
+                        mood: lang.lang == "English" ? "Good" : 'Bien',
                       ),
                       EmoticonCard(
                         emoticonFace: '😁',
-                        mood: 'Très bien',
+                        mood: lang.lang == "English" ? "Very Good" : 'Très bien',
                       ),
-                      EmoticonCard(
+                      const EmoticonCard(
                         emoticonFace: '😃',
                         mood: 'Excellent',
                       ),
@@ -93,13 +98,13 @@ class HomeBody extends StatelessWidget {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
-                      color: Color.fromARGB(255, 98, 128, 182),
+                      color: darkMode.darkMode ? const Color.fromARGB(255, 79, 79, 79) : const Color.fromARGB(255, 98, 128, 182),
                       blurRadius: 10,
                     ),
                   ],
-                  color: Color.fromARGB(255, 224, 224, 224),
+                  color: darkMode.darkMode ? const Color.fromARGB(255, 79, 79, 79) : const Color.fromARGB(255, 224, 224, 224),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(
                       35.0,
@@ -122,11 +127,8 @@ class HomeBody extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     PageRouteBuilder(
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          ChatBot(),
-                                      transitionsBuilder: (context, animation,
-                                          secondaryAnimation, child) {
+                                      pageBuilder: (context, animation, secondaryAnimation) => ChatBot(),
+                                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
                                         return SlideTransition(
                                           position: Tween<Offset>(
                                             begin: const Offset(1, 0),
@@ -135,14 +137,13 @@ class HomeBody extends StatelessWidget {
                                           child: child,
                                         );
                                       },
-                                      transitionDuration:
-                                          const Duration(milliseconds: 300),
+                                      transitionDuration: const Duration(milliseconds: 300),
                                     ),
                                   );
                                 },
                                 child: ExerciseTile(
-                                  exercise: 'Discuter avec Smile',
-                                  subExercise: 'Apprenez en plus sur vous',
+                                  exercise: lang.lang == "English" ? "Talk with smile" : 'Discuter avec Smile',
+                                  subExercise: lang.lang == "English" ? "Learn more about yourself" : 'Apprenez en plus sur vous',
                                   icon: CupertinoIcons.smiley_fill,
                                   color: Colors.orange,
                                 )),
@@ -151,11 +152,8 @@ class HomeBody extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   PageRouteBuilder(
-                                    pageBuilder: (context, animation,
-                                            secondaryAnimation) =>
-                                        ChatProUser(),
-                                    transitionsBuilder: (context, animation,
-                                        secondaryAnimation, child) {
+                                    pageBuilder: (context, animation, secondaryAnimation) => const ChatProUser(),
+                                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
                                       return SlideTransition(
                                         position: Tween<Offset>(
                                           begin: const Offset(1, 0),
@@ -164,14 +162,13 @@ class HomeBody extends StatelessWidget {
                                         child: child,
                                       );
                                     },
-                                    transitionDuration:
-                                        const Duration(milliseconds: 300),
+                                    transitionDuration: const Duration(milliseconds: 300),
                                   ),
                                 );
                               },
                               child: ExerciseTile(
-                                exercise: 'Discuter avec un Pro',
-                                subExercise: 'Franchissez le pas',
+                                exercise: lang.lang == "English" ? "Talk with a professional" : 'Discuter avec un Pro',
+                                subExercise: lang.lang == "English" ? "Take the leap" : 'Franchissez le pas',
                                 icon: CupertinoIcons.person_alt,
                                 color: Colors.pink,
                               ),
@@ -180,6 +177,7 @@ class HomeBody extends StatelessWidget {
                                 onTap: () {
                                   showModalBottomSheet(
                                     context: context,
+                                    backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 79, 79, 79) : Colors.white,
                                     shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(30),
@@ -197,41 +195,29 @@ class HomeBody extends StatelessWidget {
                                               Container(
                                                 height: 10,
                                                 width: 100,
-                                                decoration: const BoxDecoration(
-                                                    color: Colors.grey,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                8))),
+                                                decoration: const BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.all(Radius.circular(8))),
                                               ),
                                               const SizedBox(height: 80),
                                               GestureDetector(
                                                 // ignore: avoid_print
                                                 onTap: _callSos,
-                                                child: Image.asset(
-                                                    "assets/sos.png"),
+                                                child: Image.asset("assets/sos.png"),
                                               ),
                                               const SizedBox(height: 20),
-                                              const Text(
+                                              Text(
                                                 "SOS suicide",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 20),
+                                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: darkMode.darkMode ? Colors.white : Colors.black),
                                               ),
                                               const SizedBox(height: 80),
                                               GestureDetector(
                                                 // ignore: avoid_print
                                                 onTap: _callEmergency,
-                                                child: Image.asset(
-                                                    "assets/sos.png"),
+                                                child: Image.asset("assets/sos.png"),
                                               ),
                                               const SizedBox(height: 20),
                                               Text(
-                                                "Urgences",
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
-                                                ),
+                                                lang.lang == "English" ? "Emergency" : "Urgences",
+                                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: darkMode.darkMode ? Colors.white : Colors.black),
                                               )
                                             ],
                                           ),
@@ -241,10 +227,10 @@ class HomeBody extends StatelessWidget {
                                   );
                                 },
                                 child: ExerciseTile(
-                                  exercise: 'Urgences',
-                                  subExercise: 'Contacter les urgences',
+                                  exercise: lang.lang == "English" ? "Emergency" : 'Urgences',
+                                  subExercise: lang.lang == "English" ? "Contact emergency services" : 'Contacter les urgences',
                                   icon: CupertinoIcons.phone_solid,
-                                  color: Color.fromARGB(255, 255, 0, 0),
+                                  color: const Color.fromARGB(255, 255, 0, 0),
                                 )),
                           ],
                         ),

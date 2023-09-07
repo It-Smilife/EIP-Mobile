@@ -1,10 +1,12 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/normal_user/chat/chatDetailPage.dart';
 import 'package:itsmilife/pages/normal_user/homepage/homepage.dart';
 import 'package:itsmilife/pages/professional/chatPro/chatdetailPro.dart';
 import 'package:itsmilife/services/NetworkManager.dart';
+import 'package:provider/provider.dart';
 
 import '../pages/professional/chatPro/chat_service.dart';
 
@@ -15,13 +17,7 @@ class ConversationList extends StatefulWidget {
   String discussion_id;
   String time;
   bool isMessageRead;
-  ConversationList(
-      {required this.name,
-      required this.messageText,
-      required this.imageUrl,
-      required this.discussion_id,
-      required this.time,
-      required this.isMessageRead});
+  ConversationList({required this.name, required this.messageText, required this.imageUrl, required this.discussion_id, required this.time, required this.isMessageRead});
 
   @override
   _ConversationListState createState() => _ConversationListState();
@@ -30,15 +26,14 @@ class ConversationList extends StatefulWidget {
 class _ConversationListState extends State<ConversationList> {
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<DarkModeProvider>(context);
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                ChatDetailPage(discussionId: widget.discussion_id, name: widget.name, imgUrl: widget.imageUrl),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
+            pageBuilder: (context, animation, secondaryAnimation) => ChatDetailPage(discussionId: widget.discussion_id, name: widget.name, imgUrl: widget.imageUrl),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
               return SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(1, 0),
@@ -58,16 +53,14 @@ class _ConversationListState extends State<ConversationList> {
             Expanded(
               child: Row(
                 children: <Widget>[
-                   FutureBuilder<Uint8List>(
+                  FutureBuilder<Uint8List>(
                     future: NetworkManager.getFile(widget.imageUrl),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<Uint8List> snapshot) {
+                    builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
                       if (snapshot.hasData) {
                         return Stack(
                           children: [
                             CircleAvatar(
-                              backgroundImage:
-                                  MemoryImage(snapshot.data ?? Uint8List(0)),
+                              backgroundImage: MemoryImage(snapshot.data ?? Uint8List(0)),
                               maxRadius: 30,
                             ),
                           ],
@@ -88,19 +81,14 @@ class _ConversationListState extends State<ConversationList> {
                         children: <Widget>[
                           Text(
                             widget.name,
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 16, color: darkMode.darkMode ? Colors.white : Colors.black),
                           ),
                           SizedBox(
                             height: 6,
                           ),
                           Text(
                             widget.messageText,
-                            style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.grey.shade600,
-                                fontWeight: widget.isMessageRead
-                                    ? FontWeight.bold
-                                    : FontWeight.normal),
+                            style: TextStyle(fontSize: 13, color: Colors.grey.shade600, fontWeight: widget.isMessageRead ? FontWeight.bold : FontWeight.normal),
                           ),
                         ],
                       ),
@@ -111,11 +99,7 @@ class _ConversationListState extends State<ConversationList> {
             ),
             Text(
               widget.time,
-              style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: widget.isMessageRead
-                      ? FontWeight.bold
-                      : FontWeight.normal),
+              style: TextStyle(fontSize: 12, fontWeight: widget.isMessageRead ? FontWeight.bold : FontWeight.normal, color: darkMode.darkMode ? Colors.white : Colors.black),
             ),
           ],
         ),

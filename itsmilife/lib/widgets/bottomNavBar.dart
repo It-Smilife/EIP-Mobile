@@ -25,50 +25,31 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final screens = [
-    const ActCategoryPage(),
-    const HomeBody(),
-    const SettingsPage()
-  ];
+  final screens = [const ActCategoryPage(), const HomeBody(), const SettingsPage()];
 
-  final screenspro = [
-    const CategoryPro(),
-    const HomeProBody(),
-    const SettingsPage()
-  ];
+  final screenspro = [const CategoryPro(), const HomeProBody(), const SettingsPage()];
 
   @override
   Widget build(BuildContext context) {
     final darkMode = Provider.of<DarkModeProvider>(context);
     final user = Provider.of<RoleProvider>(context);
-    final items =  (user.Setrolestate)
-          ? 
-          <Widget>[
-      Icon(CupertinoIcons.doc_plaintext,
-          size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
-      Icon(CupertinoIcons.home,
-          size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
-      Icon(CupertinoIcons.gear_alt,
-          size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
-    ] :
-          <Widget>[
-      Icon(CupertinoIcons.doc_plaintext,
-          size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
-      Icon(CupertinoIcons.home,
-          size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
-      Icon(CupertinoIcons.gear_alt,
-          size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
-    ];
+    final items = (user.Setrolestate)
+        ? <Widget>[
+            Icon(CupertinoIcons.doc_plaintext, size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
+            Icon(CupertinoIcons.home, size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
+            Icon(CupertinoIcons.gear_alt, size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
+          ]
+        : <Widget>[
+            Icon(CupertinoIcons.doc_plaintext, size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
+            Icon(CupertinoIcons.home, size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
+            Icon(CupertinoIcons.gear_alt, size: 30, color: darkMode.darkMode ? Colors.white : Colors.black),
+          ];
     return Scaffold(
       extendBody: true,
-      body: (user.Setrolestate)
-          ? screenspro[widget.h_index]
-          : screens[widget.h_index],
+      body: (user.Setrolestate) ? screenspro[widget.h_index] : screens[widget.h_index],
       bottomNavigationBar: CurvedNavigationBar(
-        color: darkMode.darkMode
-            ? const Color.fromARGB(255, 108, 108, 108)
-            : Colors.white,
-        backgroundColor: (widget.h_index == 1 || widget.h_index == 0) ? Color.fromARGB(255, 224, 224, 224) : Colors.transparent,
+        color: darkMode.darkMode ? const Color.fromARGB(255, 108, 108, 108) : Colors.white,
+        backgroundColor: (widget.h_index == 1 || widget.h_index == 0) ? (darkMode.darkMode ? Color.fromARGB(255, 79, 79, 79) : Color.fromARGB(255, 224, 224, 224)) : Colors.transparent,
         items: items,
         index: widget.h_index,
         height: 60,

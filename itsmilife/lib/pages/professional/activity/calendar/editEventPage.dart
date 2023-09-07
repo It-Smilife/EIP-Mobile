@@ -122,6 +122,7 @@ class _EditEventPageState extends State<EditEventPage> {
                         const SizedBox(height: 30),
                         TextFormField(
                           controller: _titleController,
+                          maxLines: null,
                           decoration: InputDecoration(
                             focusedBorder: const OutlineInputBorder(
                               borderSide: BorderSide(
@@ -275,25 +276,26 @@ class _EditEventPageState extends State<EditEventPage> {
                           ],
                         ),
                         const SizedBox(height: 40),
-                        TextField(
+                        TextFormField(
                           controller: _notesController,
                           decoration: InputDecoration(
-                              focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.deepPurpleAccent, // Change the focused border color here
-                                  width: 2.0,
-                                ),
-                                borderRadius: BorderRadius.all(Radius.circular(15)),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.deepPurpleAccent, // Change the focused border color here
+                                width: 2.0,
                               ),
-                              prefixIcon: Icon(
-                                CupertinoIcons.doc_plaintext,
-                                color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
-                              ),
-                              hintText: 'Notes',
-                              hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45))),
-                          maxLines: null,
+                              borderRadius: BorderRadius.all(Radius.circular(15)),
+                            ),
+                            prefixIcon: Icon(
+                              CupertinoIcons.doc_plaintext,
+                              color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
+                            ),
+                            hintText: 'Notes',
+                            hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
+                          ),
+                          maxLines: null, // Permet au texte de passer à la ligne en fonction du contenu
                           textAlignVertical: TextAlignVertical.top,
-                        ),
+                        )
                       ],
                     ),
                   ),
@@ -340,8 +342,17 @@ class _EditEventPageState extends State<EditEventPage> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () async {
-                          // _submitForm(),
-                          if (_formKey.currentState!.validate()) {
+                          if (_titleController.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  lang.lang == "English" ? "Please enter a titile" : 'Veuillez entrer un titre',
+                                  style: TextStyle(color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
+                                ), // Message d'erreur
+                                duration: Duration(seconds: 2), // Durée de l'affichage de la Snackbar
+                              ),
+                            );
+                          } else {
                             await updateEvent(
                               widget.event!.id,
                               _titleController.text,

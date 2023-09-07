@@ -40,7 +40,7 @@ class _UserPostsPage extends State<UserPostsPage> {
     final lang = Provider.of<LanguageProvider>(context);
     final darkMode = Provider.of<DarkModeProvider>(context);
     return Scaffold(
-      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 98, 128, 182),
+      backgroundColor: darkMode.darkMode ? Color.fromARGB(255, 79, 79, 79) : const Color.fromARGB(255, 98, 128, 182),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -63,8 +63,8 @@ class _UserPostsPage extends State<UserPostsPage> {
             Container(
               height: 120,
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(               
-                color: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 98, 128, 182),
+              decoration: BoxDecoration(
+                color: darkMode.darkMode ? Color.fromARGB(255, 79, 79, 79) : const Color.fromARGB(255, 98, 128, 182),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -73,22 +73,15 @@ class _UserPostsPage extends State<UserPostsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      lang.lang == "English"
-                          ? "Welcome on your posts page !"
-                          : "Bienvenue sur votre page de posts !",
-                      style: const TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600),
+                      lang.lang == "English" ? "Welcome on your posts page !" : "Bienvenue sur votre page de posts !",
+                      style: const TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(height: 8.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          lang.lang == "English"
-                              ? "You will find here all your posts"
-                              : "Tu trouveras ici tout tes posts",
+                          lang.lang == "English" ? "You will find here all your posts" : "Tu trouveras ici tout tes posts",
                           style: TextStyle(
                             color: Colors.white.withOpacity(0.6),
                             fontSize: 14.0,
@@ -101,9 +94,8 @@ class _UserPostsPage extends State<UserPostsPage> {
               ),
             ),
             Container(
-              decoration: BoxDecoration(
-                  color: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 255, 255, 255),
-                  borderRadius: BorderRadius.all(Radius.circular(35))),
+              decoration:
+                  BoxDecoration(color: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 255, 255, 255), borderRadius: BorderRadius.all(Radius.circular(35))),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -112,10 +104,7 @@ class _UserPostsPage extends State<UserPostsPage> {
                     padding: const EdgeInsets.all(20.0),
                     child: Text(
                       lang.lang == "English" ? "Mes posts" : "My posts",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: darkMode.darkMode ?Colors.white : Colors.black),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: darkMode.darkMode ? Colors.white : Colors.black),
                     ),
                   ),
                   const UserPosts(),

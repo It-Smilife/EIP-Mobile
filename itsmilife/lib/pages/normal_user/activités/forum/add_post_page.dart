@@ -36,8 +36,7 @@ class _AddPostFormState extends State<AddPostForm> {
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) => Forum(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
               return SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(1, 0),
@@ -96,9 +95,7 @@ class _AddPostFormState extends State<AddPostForm> {
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return lang.lang == "English"
-                          ? 'Please enter a title'
-                          : 'Entrez un titre';
+                      return lang.lang == "English" ? 'Please enter a title' : 'Entrez un titre';
                     }
                     return null;
                   },
@@ -112,9 +109,7 @@ class _AddPostFormState extends State<AddPostForm> {
                 TextFormField(
                   decoration: InputDecoration(
                     // labelText: lang.lang == "English" ? 'Write something...' : 'Ecrivez quelque chose...',
-                    hintText: lang.lang == "English"
-                        ? 'Write something...'
-                        : 'Ecrivez quelque chose...',
+                    hintText: lang.lang == "English" ? 'Write something...' : 'Ecrivez quelque chose...',
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
@@ -146,16 +141,13 @@ class _AddPostFormState extends State<AddPostForm> {
                         }
                       },
                       style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
                           ),
-                        ),
-                        backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 98, 128, 182))
-                      ),
-                      child:
-                          Text(lang.lang == "English" ? 'Submit' : 'Envoyer'),
+                          backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 98, 128, 182))),
+                      child: Text(lang.lang == "English" ? 'Submit' : 'Envoyer'),
                     ),
                   ],
                 )
