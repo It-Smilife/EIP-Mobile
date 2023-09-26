@@ -37,14 +37,20 @@ class _CategoryPageState extends State<CategoryPage> {
     final darkMode = Provider.of<DarkModeProvider>(context);
 
     return Scaffold(
-      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : Colors.grey[200],
+      backgroundColor: darkMode.darkMode
+          ? const Color.fromARGB(255, 58, 50, 83)
+          : Colors.grey[200],
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: darkMode.darkMode == true ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 224, 224, 224),
+        backgroundColor: darkMode.darkMode == true
+            ? const Color.fromARGB(255, 32, 32, 32)
+            : const Color.fromARGB(255, 224, 224, 224),
         title: Text(
           "Quizz",
           style: TextStyle(
-            color: darkMode.darkMode == true ? const Color.fromARGB(255, 224, 224, 224) : Color.fromARGB(255, 98, 128, 182),
+            color: darkMode.darkMode == true
+                ? const Color.fromARGB(255, 224, 224, 224)
+                : Color.fromARGB(255, 98, 128, 182),
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
@@ -52,14 +58,18 @@ class _CategoryPageState extends State<CategoryPage> {
         leading: IconButton(
           icon: Icon(
             CupertinoIcons.back,
-            color: darkMode.darkMode == true ? const Color.fromARGB(255, 224, 224, 224) : Color.fromARGB(255, 98, 128, 182),
+            color: darkMode.darkMode == true
+                ? const Color.fromARGB(255, 224, 224, 224)
+                : Color.fromARGB(255, 98, 128, 182),
           ),
           onPressed: () {
             Navigator.push(
               context,
               PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) => Home(h_index: 0),
-                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    Home(h_index: 0),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
                   return SlideTransition(
                     position: Tween<Offset>(
                       begin: const Offset(1, 0),
@@ -81,19 +91,23 @@ class _CategoryPageState extends State<CategoryPage> {
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             Container(
               decoration: BoxDecoration(
-                color: darkMode.darkMode == true ? Color.fromARGB(255, 79, 79, 79) : Color.fromARGB(255, 98, 128, 182),
+                color: darkMode.darkMode == true
+                    ? Color.fromARGB(255, 79, 79, 79)
+                    : Color.fromARGB(255, 98, 128, 182),
                 border: Border.all(
-                  color: darkMode.darkMode == true ? Color.fromARGB(255, 79, 79, 79) : Color.fromARGB(255, 98, 128, 182),
+                  color: darkMode.darkMode == true
+                      ? Color.fromARGB(255, 79, 79, 79)
+                      : Color.fromARGB(255, 98, 128, 182),
                   width: 0,
                 ),
                 borderRadius: BorderRadius.circular(15),
               ),
               padding: const EdgeInsets.symmetric(
-                horizontal: 32,
+                horizontal: 62,
                 vertical: 16,
               ),
               child: const Text(
-                "Categories",
+                "Catégories",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 25,
@@ -103,7 +117,9 @@ class _CategoryPageState extends State<CategoryPage> {
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             Padding(
-              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05, right: MediaQuery.of(context).size.width * 0.05),
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * 0.05,
+                  right: MediaQuery.of(context).size.width * 0.05),
               child: GridView.builder(
                 physics: const ScrollPhysics(),
                 shrinkWrap: true,
@@ -130,23 +146,43 @@ class _CategoryPageState extends State<CategoryPage> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: darkMode.darkMode == true ? Color.fromARGB(255, 100, 100, 100) : Colors.white,
+                        color: darkMode.darkMode == true
+                            ? Color.fromARGB(255, 100, 100, 100)
+                            : Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromARGB(255, 98, 128, 182)
+                                .withOpacity(0.8), // Couleur de l'ombre
+                            spreadRadius: 5, // Étendue de l'ombre
+                            blurRadius: 7, // Flou de l'ombre
+                            offset: Offset(0,
+                                3), // Position de l'ombre (horizontale, verticale)
+                          ),
+                        ],
                       ),
                       child: FutureBuilder<Uint8List>(
                         future: NetworkManager.getFile(theme.avatar),
-                        builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
+                        builder: (BuildContext context,
+                            AsyncSnapshot<Uint8List> snapshot) {
                           if (snapshot.hasData) {
                             return Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CircleAvatar(
-                                  backgroundImage: Image.memory(snapshot.data ?? Uint8List(0)).image,
-                                  radius: 30.0,
+                                  backgroundImage: Image.memory(
+                                          snapshot.data ?? Uint8List(0))
+                                      .image,
+                                  radius: 40.0,
                                 ),
-                                SizedBox(height: 10.0),
+                                SizedBox(height: 15.0),
                                 Text(
                                   theme.title,
-                                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: darkMode.darkMode == true ? Colors.white : Colors.black),
+                                  style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: darkMode.darkMode == true
+                                          ? Colors.white
+                                          : Colors.black),
                                 ),
                               ],
                             );

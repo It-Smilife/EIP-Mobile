@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/logic/quizz_page.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/theme.dart';
@@ -24,11 +25,15 @@ class ThemeDetailsPage extends StatelessWidget {
           ? const Color.fromARGB(255, 58, 50, 83)
           : Colors.grey[200],
       appBar: AppBar(
-        backgroundColor: darkMode.darkMode == true ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 224, 224, 224),
+        backgroundColor: darkMode.darkMode == true
+            ? const Color.fromARGB(255, 32, 32, 32)
+            : const Color.fromARGB(255, 224, 224, 224),
         title: Text(
           args.title,
           style: TextStyle(
-            color: darkMode.darkMode == true ? const Color.fromARGB(255, 224, 224, 224): Color.fromARGB(255, 98, 128, 182),
+            color: darkMode.darkMode == true
+                ? const Color.fromARGB(255, 224, 224, 224)
+                : Color.fromARGB(255, 98, 128, 182),
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
@@ -36,8 +41,10 @@ class ThemeDetailsPage extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           icon: Icon(
-            Icons.arrow_back,
-            color: darkMode.darkMode == true ? const Color.fromARGB(255, 224, 224, 224) : Color.fromARGB(255, 98, 128, 182),
+            CupertinoIcons.back,
+            color: darkMode.darkMode == true
+                ? const Color.fromARGB(255, 224, 224, 224)
+                : Color.fromARGB(255, 98, 128, 182),
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -74,7 +81,19 @@ class ThemeDetailsPage extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: darkMode.darkMode == true ? Color.fromARGB(255, 79, 79, 79) : Color.fromARGB(255, 98, 128, 182),
+                        color: darkMode.darkMode == true
+                            ? Color.fromARGB(255, 100, 100, 100)
+                            : Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromARGB(255, 98, 128, 182)
+                                .withOpacity(0.8), // Couleur de l'ombre
+                            spreadRadius: 5, // Étendue de l'ombre
+                            blurRadius: 7, // Flou de l'ombre
+                            offset: Offset(0,
+                                3), // Position de l'ombre (horizontale, verticale)
+                          ),
+                        ],
                       ),
                       child: FutureBuilder<Uint8List>(
                         future: NetworkManager.getFile(quiz.avatar),
@@ -88,15 +107,20 @@ class ThemeDetailsPage extends StatelessWidget {
                                   backgroundImage: Image.memory(
                                           snapshot.data ?? Uint8List(0))
                                       .image,
-                                  radius: 30.0,
+                                  radius: 40.0,
                                 ),
-                                const SizedBox(height: 10.0),
-                                Text(
-                                  quiz.title,
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: darkMode.darkMode == true ? Colors.white : Colors.black
+                                const SizedBox(height: 15.0),
+                                Center(
+                                  child: Text(
+                                    textAlign: TextAlign.center,
+                                    quiz.title,
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: darkMode.darkMode == true
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
                                   ),
                                 ),
                               ],

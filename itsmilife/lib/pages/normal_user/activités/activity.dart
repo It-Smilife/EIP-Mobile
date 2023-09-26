@@ -28,7 +28,7 @@ class ActCategoryPage extends StatelessWidget {
       body: SafeArea(
           child: Column(
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(
               16.0,
             ),
