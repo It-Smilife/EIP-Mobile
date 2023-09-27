@@ -96,7 +96,7 @@ class ThemeDetailsPage extends StatelessWidget {
                         ],
                       ),
                       child: FutureBuilder<Uint8List>(
-                        future: NetworkManager.getFile(quiz.avatar),
+                        future: NetworkManager.getFile("évaluation.png"),
                         builder: (BuildContext context,
                             AsyncSnapshot<Uint8List> snapshot) {
                           if (snapshot.hasData) {
@@ -104,10 +104,22 @@ class ThemeDetailsPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CircleAvatar(
-                                  backgroundImage: Image.memory(
-                                          snapshot.data ?? Uint8List(0))
-                                      .image,
                                   radius: 40.0,
+                                  backgroundColor: Colors
+                                      .transparent, // Assurez-vous que le fond est transparent
+                                  child: ClipOval(
+                                    child: SizedBox(
+                                      width:
+                                          80.0, // Définissez la largeur souhaitée de l'image
+                                      height:
+                                          80.0, // Définissez la hauteur souhaitée de l'image
+                                      child: Image.memory(
+                                        snapshot.data ?? Uint8List(0),
+                                        fit: BoxFit
+                                            .cover, // Ajustez le mode d'ajustement de l'image selon vos besoins
+                                      ),
+                                    ),
+                                  ),
                                 ),
                                 const SizedBox(height: 15.0),
                                 Center(
