@@ -119,20 +119,21 @@ class _UserPosts extends State<UserPosts> {
                                                   SizedBox(
                                                     width: MediaQuery.of(context).size.width * 0.65,
                                                     child: Text(
-                                                      post.title,
+                                                      post.title.length <= 50 ? post.title : post.title.substring(0, 50) + '...',
                                                       style: TextStyle(
                                                         fontSize: 18,
                                                         fontWeight: FontWeight.bold,
                                                         letterSpacing: .4,
                                                         color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 75, 75, 75),
                                                       ),
+                                                      overflow: TextOverflow.ellipsis, // Ajoute la suspension (...) en cas de dépassement.
                                                     ),
                                                   ),
                                                   const SizedBox(height: 2.0),
                                                   Row(
                                                     children: <Widget>[
                                                       Text(
-                                                        "Vous",
+                                                        lang.lang == "English" ? "You" : "Vous",
                                                         style: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 75, 75, 75)),
                                                       ),
                                                       const SizedBox(width: 15),

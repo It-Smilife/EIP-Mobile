@@ -94,20 +94,25 @@ class _AddEvent extends State<AddEvent> {
                         TextFormField(
                           controller: _titleController,
                           maxLines: null,
+                          maxLength: 30,
                           decoration: InputDecoration(
-                              focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.deepPurpleAccent, // Change the focused border color here
-                                  width: 2.0,
-                                ),
-                                borderRadius: BorderRadius.all(Radius.circular(15)),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.deepPurpleAccent, // Change the focused border color here
+                                width: 2.0,
                               ),
-                              prefixIcon: Icon(
-                                CupertinoIcons.pencil,
-                                color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
-                              ),
-                              hintText: lang.lang == "English" ? "Title" : "Titre",
-                              hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45))),
+                              borderRadius: BorderRadius.all(Radius.circular(15)),
+                            ),
+                            prefixIcon: Icon(
+                              CupertinoIcons.pencil,
+                              color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
+                            ),
+                            hintText: lang.lang == "English" ? "Title" : "Titre",
+                            hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
+                          ),
+                          buildCounter: (BuildContext constext, {required int currentLength, required bool isFocused, required int? maxLength}) {
+                            return Text("$currentLength/$maxLength");
+                          },
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return lang.lang == "English" ? 'Please enter a title' : 'Veuillez entrer un titre';

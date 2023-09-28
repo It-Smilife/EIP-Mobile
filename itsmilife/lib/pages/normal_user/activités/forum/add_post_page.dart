@@ -19,6 +19,7 @@ class _AddPostFormState extends State<AddPostForm> {
   String _title = '';
   String _content = '';
   final FocusNode _focusNode = FocusNode();
+  final TextEditingController _titleController = TextEditingController();
 
   void addPost(title, content) {
     NetworkManager.post('forums', {
@@ -87,12 +88,18 @@ class _AddPostFormState extends State<AddPostForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 TextFormField(
+                  controller: _titleController,
                   focusNode: _focusNode,
+                  maxLines: null,
+                  maxLength: 70,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
                     labelText: lang.lang == "English" ? 'Title' : 'Titre',
                     // border: OutlineInputBorder(),
                   ),
+                  buildCounter: (BuildContext constext, {required int currentLength, required bool isFocused, required int? maxLength}) {
+                    return Text("$currentLength/$maxLength");
+                  },
                   validator: (value) {
                     if (value!.isEmpty) {
                       return lang.lang == "English" ? 'Please enter a title' : 'Entrez un titre';

@@ -123,6 +123,7 @@ class _EditEventPageState extends State<EditEventPage> {
                         TextFormField(
                           controller: _titleController,
                           maxLines: null,
+                          maxLength: 30,
                           decoration: InputDecoration(
                             focusedBorder: const OutlineInputBorder(
                               borderSide: BorderSide(
@@ -140,6 +141,9 @@ class _EditEventPageState extends State<EditEventPage> {
                               color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
                             ),
                           ),
+                          buildCounter: (BuildContext constext, {required int currentLength, required bool isFocused, required int? maxLength}) {
+                            return Text("$currentLength/$maxLength");
+                          },
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return lang.lang == "English" ? 'Please enter a title' : 'Veuillez entrer un titre';

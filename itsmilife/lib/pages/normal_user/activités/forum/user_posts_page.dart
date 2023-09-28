@@ -103,7 +103,7 @@ class _UserPostsPage extends State<UserPostsPage> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Text(
-                      lang.lang == "English" ? "Mes posts" : "My posts",
+                      lang.lang == "English" ? "My posts" : "Mes posts",
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: darkMode.darkMode ? Colors.white : Colors.black),
                     ),
                   ),

@@ -27,6 +27,7 @@ class _PostScreenUserState extends State<PostScreenUser> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
   TextEditingController _comController = TextEditingController();
+
   bool isUpdated = false;
 
   String setLanguage() {
@@ -230,88 +231,114 @@ class _PostScreenUserState extends State<PostScreenUser> {
                                           onPressed: () => {
                                             showDialog(
                                               context: context,
-                                              builder: (context) => AlertDialog(
-                                                title: Text("Modifier ce post"),
-                                                actions: [
-                                                  Form(
-                                                    key: _formKey,
-                                                    child: Container(
-                                                      width: MediaQuery.of(context).size.width * 0.90,
-                                                      height: MediaQuery.of(context).size.height * 0.40,
-                                                      child: Padding(
-                                                        padding: EdgeInsets.all(10),
-                                                        child: Column(
-                                                          children: <Widget>[
-                                                            TextFormField(
-                                                              controller: _titleController,
-                                                              decoration: InputDecoration(
-                                                                prefixIcon: const Icon(CupertinoIcons.pencil),
-                                                                hintText: _titleController.text,
+                                              builder: (context) => Dialog(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(15),
+                                                ),
+                                                child: Container(
+                                                  width: MediaQuery.of(context).size.width * 0.99,
+                                                  height: MediaQuery.of(context).size.height * 0.7,
+                                                  child: SingleChildScrollView(
+                                                    child: Column(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding: EdgeInsets.all(20),
+                                                          child: Column(
+                                                            children: <Widget>[
+                                                              const SizedBox(height: 10),
+                                                              Text(
+                                                                lang.lang == "English" ? "Modify this post" : "Modifier ce post",
+                                                                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.deepPurpleAccent),
                                                               ),
-                                                              validator: (value) {
-                                                                if (value == null || value.isEmpty) {
-                                                                  return lang.lang == "English" ? 'Please enter a title' : 'Veuillez entrer un titre';
-                                                                }
-                                                                return null;
-                                                              },
-                                                            ),
-                                                            TextFormField(
-                                                              controller: _contentController,
-                                                              decoration: InputDecoration(
-                                                                prefixIcon: const Icon(CupertinoIcons.pencil),
-                                                                hintText: _contentController.text,
-                                                              ),
-                                                              validator: (value) {
-                                                                if (value == null || value.isEmpty) {
-                                                                  return lang.lang == "English" ? 'Please enter a title' : 'Veuillez entrer un titre';
-                                                                }
-                                                                return null;
-                                                              },
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                TextButton(
-                                                                  onPressed: () => {Navigator.pop(context)},
-                                                                  child: Text(
-                                                                    lang.lang == "English" ? "Cancel" : "Annuler",
-                                                                  ),
+                                                              Form(
+                                                                key: _formKey,
+                                                                child: Column(
+                                                                  children: <Widget>[
+                                                                    const SizedBox(height: 20),
+                                                                    TextFormField(
+                                                                      controller: _titleController,
+                                                                      maxLines: null,
+                                                                      maxLength: 70,
+                                                                      decoration: InputDecoration(
+                                                                        labelText: lang.lang == "English" ? 'Title' : 'Titre',
+                                                                        prefixIcon: const Icon(CupertinoIcons.pencil),
+                                                                        hintText: _titleController.text,
+                                                                      ),
+                                                                      validator: (value) {
+                                                                        if (value == null || value.isEmpty) {
+                                                                          return lang.lang == "English" ? 'Please enter a title' : 'Veuillez entrer un titre';
+                                                                        }
+                                                                        return null;
+                                                                      },
+                                                                    ),
+                                                                    const SizedBox(height: 20),
+                                                                    TextFormField(
+                                                                      controller: _contentController,
+                                                                      maxLines: null,
+                                                                      decoration: InputDecoration(
+                                                                        prefixIcon: const Icon(CupertinoIcons.pencil),
+                                                                        hintText: _contentController.text,
+                                                                        border: OutlineInputBorder(
+                                                                          borderRadius: BorderRadius.circular(10.0),
+                                                                        ),
+                                                                      ),
+                                                                      validator: (value) {
+                                                                        if (value == null || value.isEmpty) {
+                                                                          return lang.lang == "English" ? 'Please enter a title' : 'Veuillez entrer un titre';
+                                                                        }
+                                                                        return null;
+                                                                      },
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                                TextButton(
-                                                                  onPressed: () {
-                                                                    if (_formKey.currentState!.validate()) {
-                                                                      NetworkManager.put(
-                                                                        "forums/${posts.id}",
-                                                                        {
+                                                              ),
+                                                              const SizedBox(height: 20),
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                                children: <Widget>[
+                                                                  TextButton(
+                                                                    onPressed: () => Navigator.pop(context),
+                                                                    child: Text(
+                                                                      lang.lang == "English" ? "Cancel" : "Annuler",
+                                                                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: const Color.fromARGB(255, 247, 107, 97)),
+                                                                    ),
+                                                                  ),
+                                                                  TextButton(
+                                                                    onPressed: () {
+                                                                      if (_formKey.currentState!.validate()) {
+                                                                        NetworkManager.put("forums/${posts.id}", {
                                                                           "title": _titleController.text,
                                                                           "content": _contentController.text,
                                                                           "date": DateTime.now(),
-                                                                        },
-                                                                      ).then((value) {
-                                                                        if (value.data['success'] == true) {
-                                                                          Navigator.push(
-                                                                            context,
-                                                                            MaterialPageRoute(
-                                                                              builder: (_) => PostScreenUser(
-                                                                                id: widget.id,
+                                                                        }).then((value) {
+                                                                          if (value.data['success'] == true) {
+                                                                            Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute(
+                                                                                builder: (_) => PostScreenUser(
+                                                                                  id: widget.id,
+                                                                                ),
                                                                               ),
-                                                                            ),
-                                                                          );
-                                                                        }
-                                                                      });
-                                                                    }
-                                                                  },
-                                                                  child: Text(
-                                                                    lang.lang == "English" ? "Save" : "Sauvegarder",
+                                                                            );
+                                                                          }
+                                                                        });
+                                                                      }
+                                                                    },
+                                                                    child: Text(
+                                                                      lang.lang == "English" ? "Save" : "Sauvegarder",
+                                                                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 101, 207, 104)),
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                              ],
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
+                                                                ],
+                                                              )
+                                                            ],
+                                                          ),
+                                                        )
+                                                      ],
                                                     ),
-                                                  )
-                                                ],
+                                                  ),
+                                                ),
                                               ),
                                             )
                                           },

@@ -133,27 +133,50 @@ class _CalendarState extends State<Calendar> {
                                   children: [
                                     Text(
                                       event.title,
+                                      style: TextStyle(fontSize: 25),
                                     ),
                                     const SizedBox(height: 20),
-                                    Dash(
+                                    const Dash(
                                       direction: Axis.horizontal,
                                       length: 250, // Prend la largeur de la carte
-                                      dashLength: 5, // Longueur des traits du pointillé
+                                      dashLength: 15, // Longueur des traits du pointillé
                                       dashColor: Colors.grey, // Couleur des traits du pointillé
                                     ),
                                   ],
                                 ),
                                 content: SizedBox(
                                   width: double.maxFinite, // Largeur maximale disponible
-                                  height: 200, // Hauteur définie, ajustez en fonction de vos besoins
+                                  height: MediaQuery.of(context).size.height * 0.3, // Hauteur définie, ajustez en fonction de vos besoins
                                   child: SingleChildScrollView(
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start, // Alignement des éléments à gauche
                                       children: [
                                         Text('Début: ${event.start.hour}:${event.start.minute}\nFin: ${event.end.hour}:${event.end.minute}'),
                                         const SizedBox(height: 50),
-                                        if (event.notes.isNotEmpty) // Vérifiez si event.notes n'est pas vide
-                                          Text(event.notes), // Affichez event.notes seulement si la chaîne n'est pas vide
+                                        if (event.notes.isNotEmpty) // Vérifier si event.notes n'est pas vide
+                                          const Text(
+                                            "Notes",
+                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                          ),
+                                        const SizedBox(height: 20),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width * 0.9,
+                                          height: MediaQuery.of(context).size.height * 0.15,
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(
+                                              color: Colors.deepPurpleAccent,
+                                              width: 1.0,
+                                            ),
+                                          ),
+                                          child: SingleChildScrollView(
+                                            child: Text(
+                                              event.notes,
+                                              style: TextStyle(fontSize: 16.0),
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -161,7 +184,10 @@ class _CalendarState extends State<Calendar> {
                                 actions: [
                                   TextButton(
                                     onPressed: () => Navigator.of(context).pop(),
-                                    child: const Text('OK'),
+                                    child: const Text(
+                                      'OK',
+                                      style: TextStyle(color: Color.fromARGB(255, 97, 194, 101)),
+                                    ),
                                   ),
                                   TextButton(
                                     onPressed: () async {
@@ -179,7 +205,10 @@ class _CalendarState extends State<Calendar> {
                                         });
                                       }
                                     },
-                                    child: const Text('edit'),
+                                    child: Text(
+                                      lang.lang == "English" ? "edit" : 'éditer',
+                                      style: TextStyle(color: Colors.deepPurpleAccent),
+                                    ),
                                   ),
                                   TextButton(
                                     onPressed: () async {
@@ -190,7 +219,10 @@ class _CalendarState extends State<Calendar> {
                                       });
                                       Navigator.pop(context);
                                     },
-                                    child: const Text('delete'),
+                                    child: Text(
+                                      lang.lang == "English" ? "delete" : "supprimer",
+                                      style: TextStyle(color: const Color.fromARGB(255, 250, 90, 79)),
+                                    ),
                                   ),
                                 ],
                               ),
