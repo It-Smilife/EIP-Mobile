@@ -9,6 +9,7 @@ import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:jumping_dot/jumping_dot.dart';
 
 class ChatBot extends StatefulWidget {
   @override
@@ -24,7 +25,9 @@ class _ChatBotState extends State<ChatBot> {
   late OpenAIClient _client;
   final _modelId = 'gpt-3.5-turbo';
   final _scrollController = ScrollController();
-  AudioPlayer audioPlayer = AudioPlayer();
+  final player = AudioPlayer();
+  final bot = AudioPlayer();
+  bool isTyping = false;
 
   @override
   void initState() {
@@ -41,17 +44,6 @@ class _ChatBotState extends State<ChatBot> {
     super.dispose();
   }
 
-  Future<void> playNotificationSound() async {
-    String soundPath =
-        "assets/Messenger.mp3"; // Remplacez par le chemin réel de votre fichier audio de notification
-    int result = await audioPlayer.play(soundPath, isLocal: true);
-    if (result == 1) {
-      // Le son a été joué avec succès
-    } else {
-      // Il y a eu une erreur lors de la lecture du son
-    }
-  }
-
   Future<void> _sendMessage(String message) async {
     final chatMessage = ChatMessagee(
       id: _uuid.v4(),
@@ -60,12 +52,14 @@ class _ChatBotState extends State<ChatBot> {
       isSentByUser: true,
     );
     setState(() {
+      player.play(UrlSource('https://bigsoundbank.com/UPLOAD/wav/1313.wav'));
       _chatMessages.add(chatMessage);
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
         duration: Duration(milliseconds: 500),
         curve: Curves.easeOut,
       );
+      isTyping = true;
     });
     try {
       final chat = await _client.chat.create(
@@ -90,13 +84,14 @@ class _ChatBotState extends State<ChatBot> {
         isSentByUser: false,
       );
       setState(() {
-        playNotificationSound();
+        bot.play(UrlSource('https://bigsoundbank.com/UPLOAD/wav/1111.wav'));
         _chatMessages.add(botMessage);
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
           duration: Duration(milliseconds: 500),
           curve: Curves.easeOut,
         );
+        isTyping = false;
       });
     } catch (e) {
       print(e);
@@ -235,10 +230,10 @@ class _ChatBotState extends State<ChatBot> {
                         expands: true,
                         controller: _textController,
                         decoration: InputDecoration(
-                          hintText: lang.lang == "English"
-                              ? "Write message..."
-                              : "Ecrivez un message...",
-                          hintStyle: TextStyle(color: Colors.black54),
+                          hintText: (lang.lang == "English" && !isTyping)
+                              ? "Write message..." : (lang.lang == "English" && isTyping) ? "Is writing ..." : (lang.lang != "English" && !isTyping) ?
+                               "Ecrivez un message..." : "Est entrain d'écrire ...",
+                          hintStyle: TextStyle(color: Colors.black54, fontWeight: (isTyping) ? FontWeight.bold : FontWeight.normal),
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.all(
                               10), // C'est pour donner un peu d'espace à l'intérieur de la zone de texte
