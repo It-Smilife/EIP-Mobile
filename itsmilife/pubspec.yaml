@@ -48,10 +48,11 @@ dependencies:
   hive: ^2.2.3
   http: ^0.13.5
   image_picker: ^0.8.7+5
-  intl: 0.18.1
+  intl: 0.17.0
   introduction_screen: ^2.1.0
   page_transition: ^2.0.9
   provider: ^6.0.5
+  audioplayers: ^0.18.3
   settings_ui: ^2.0.2
   shared_preferences: ^2.0.16
   url_launcher: ^6.1.8
@@ -118,6 +119,7 @@ flutter:
     - assets/photo-garcon7.png
     - assets/photo-garcon8.png
     - assets/urgence.png
+    - assets/Messenger.mp3
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/profile.dart';
 import 'package:itsmilife/pages/professional/chatPro/patient_list.dart';
@@ -11,7 +12,12 @@ class ChatDetailPro extends StatefulWidget {
   late String discussionId;
   late String name;
   late String imgUrl;
-  ChatDetailPro({Key? key, required this.discussionId, required this.name, required this.imgUrl}) : super(key: key);
+  ChatDetailPro(
+      {Key? key,
+      required this.discussionId,
+      required this.name,
+      required this.imgUrl})
+      : super(key: key);
 
   @override
   _ChatDetailProState createState() => _ChatDetailProState();
@@ -127,26 +133,26 @@ class _ChatDetailProState extends State<ChatDetailPro> {
                     _textController.dispose();
                     super.dispose();
                     Navigator.push(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-               ListPatient(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(1, 0),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              );
-            },
-            transitionDuration: Duration(milliseconds: 300),
-          ),
-        );
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            ListPatient(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          return SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(1, 0),
+                              end: Offset.zero,
+                            ).animate(animation),
+                            child: child,
+                          );
+                        },
+                        transitionDuration: Duration(milliseconds: 300),
+                      ),
+                    );
                   },
                   icon: Icon(
-                    Icons.arrow_back,
+                    CupertinoIcons.back,
                     color: Colors.black,
                   ),
                 ),
@@ -154,24 +160,24 @@ class _ChatDetailProState extends State<ChatDetailPro> {
                   width: 2,
                 ),
                 FutureBuilder<Uint8List>(
-                    future: NetworkManager.getFile(widget.imgUrl),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<Uint8List> snapshot) {
-                      if (snapshot.hasData) {
-                        return Stack(
-                          children: [
-                            CircleAvatar(
-                              backgroundImage:
-                                  MemoryImage(snapshot.data ?? Uint8List(0)),
-                              maxRadius: 30,
-                            ),
-                          ],
-                        );
-                      } else {
-                        return const CircularProgressIndicator();
-                      }
-                    },
-                  ),
+                  future: NetworkManager.getFile(widget.imgUrl),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<Uint8List> snapshot) {
+                    if (snapshot.hasData) {
+                      return Stack(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage:
+                                MemoryImage(snapshot.data ?? Uint8List(0)),
+                            maxRadius: 20,
+                          ),
+                        ],
+                      );
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
+                  },
+                ),
                 SizedBox(
                   width: 12,
                 ),
@@ -203,66 +209,85 @@ class _ChatDetailProState extends State<ChatDetailPro> {
       ),
       body: Stack(
         children: <Widget>[
-          Expanded(child:
-          FutureBuilder<List<ChatMessage>>(
-            future: fetchMessages(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                chatMessagesFuture = snapshot.data;
-                return ListView.builder(
-                  itemCount: chatMessagesFuture!.length,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.only(top: 5, bottom: 55),
-                  itemBuilder: (context, index) {
-                    return Container(
-                      padding: EdgeInsets.only(
-                          left: 14, right: 14, top: 10, bottom: 10),
-                      child: Align(
-                        alignment: (chatMessagesFuture![index].id == "receiver"
-                            ? Alignment.topLeft
-                            : Alignment.topRight),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: (chatMessagesFuture![index].id == "receiver"
-                                ? Colors.grey.shade200
-                                : Colors.blue[200]),
-                          ),
-                          padding: EdgeInsets.all(16),
-                          child: Text(
-                            chatMessagesFuture![index].message,
-                            style: TextStyle(fontSize: 15),
+          Expanded(
+            child: FutureBuilder<List<ChatMessage>>(
+              future: fetchMessages(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  chatMessagesFuture = snapshot.data;
+                  return ListView.builder(
+                    itemCount: chatMessagesFuture!.length,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.only(top: 5, bottom: 55),
+                    itemBuilder: (context, index) {
+                      return Container(
+                        padding: EdgeInsets.only(
+                            left: 14, right: 14, top: 10, bottom: 10),
+                        child: Align(
+                          alignment:
+                              (chatMessagesFuture![index].id == "receiver"
+                                  ? Alignment.topLeft
+                                  : Alignment.topRight),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color:
+                                  (chatMessagesFuture![index].id == "receiver"
+                                      ? Colors.grey.shade200
+                                      : Colors.blue[200]),
+                            ),
+                            padding: EdgeInsets.all(16),
+                            child: Text(
+                              chatMessagesFuture![index].message,
+                              style: TextStyle(fontSize: 15),
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              }
-            },
-          ),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
           ),
           Align(
             alignment: Alignment.bottomLeft,
             child: Container(
               padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-              height: 60,
+              height: 70,
               width: double.infinity,
               color: Colors.white,
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    child: TextField(
-                      controller: _textController,
-                      onChanged: (text) => _newMessage = text,
-                      decoration: InputDecoration(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[
+                            200], // Choisissez la couleur qui convient le mieux à votre thème
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: TextField(
+                        maxLines: null,
+                        expands: true,
+                        controller: _textController,
+                        onChanged: (text) => _newMessage = text,
+                        decoration: InputDecoration(
                           hintText: "Write message...",
                           hintStyle: TextStyle(color: Colors.black54),
-                          border: InputBorder.none),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.all(
+                              10), // C'est pour donner un peu d'espace à l'intérieur de la zone de texte
+                        ),
+                        textAlignVertical: TextAlignVertical.center,
+                        onSubmitted: (value) {
+                          _sendMessage(value);
+                          _textController.clear();
+                        },
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -270,14 +295,18 @@ class _ChatDetailProState extends State<ChatDetailPro> {
                   ),
                   FloatingActionButton(
                     onPressed: () {
-                      _sendMessage(_textController.text);
+                      final value = _textController.text.trim();
+                      if (value.isNotEmpty) {
+                        _sendMessage(value);
+                        _textController.clear();
+                      }
                     },
                     child: Icon(
                       Icons.send,
                       color: Colors.white,
                       size: 18,
                     ),
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Colors.deepPurpleAccent,
                     elevation: 0,
                   ),
                 ],

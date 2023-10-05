@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class ChatBot extends StatefulWidget {
   @override
@@ -23,11 +24,13 @@ class _ChatBotState extends State<ChatBot> {
   late OpenAIClient _client;
   final _modelId = 'gpt-3.5-turbo';
   final _scrollController = ScrollController();
+  AudioPlayer audioPlayer = AudioPlayer();
 
   @override
   void initState() {
     super.initState();
-    _conf = OpenAIConfiguration(apiKey: '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');
+    _conf = OpenAIConfiguration(
+        apiKey: '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');
     _client = OpenAIClient(configuration: _conf);
   }
 
@@ -36,6 +39,17 @@ class _ChatBotState extends State<ChatBot> {
     _scrollController.dispose();
     _client.close();
     super.dispose();
+  }
+
+  Future<void> playNotificationSound() async {
+    String soundPath =
+        "assets/Messenger.mp3"; // Remplacez par le chemin réel de votre fichier audio de notification
+    int result = await audioPlayer.play(soundPath, isLocal: true);
+    if (result == 1) {
+      // Le son a été joué avec succès
+    } else {
+      // Il y a eu une erreur lors de la lecture du son
+    }
   }
 
   Future<void> _sendMessage(String message) async {
@@ -76,6 +90,7 @@ class _ChatBotState extends State<ChatBot> {
         isSentByUser: false,
       );
       setState(() {
+        playNotificationSound();
         _chatMessages.add(botMessage);
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
@@ -89,7 +104,8 @@ class _ChatBotState extends State<ChatBot> {
   }
 
   Widget _buildChatMessage(ChatMessagee message) {
-    final alignment = message.isSentByUser ? Alignment.topRight : Alignment.topLeft;
+    final alignment =
+        message.isSentByUser ? Alignment.topRight : Alignment.topLeft;
     final _color = message.isSentByUser ? Colors.blue[200] : Colors.grey[100];
     return Container(
       padding: EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
@@ -163,14 +179,16 @@ class _ChatBotState extends State<ChatBot> {
                     children: <Widget>[
                       Text(
                         "Smile",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
                       ),
                       SizedBox(
                         height: 6,
                       ),
                       Text(
                         lang.lang == "English" ? "Online" : "En ligne",
-                        style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+                        style: TextStyle(
+                            color: Colors.grey.shade600, fontSize: 13),
                       ),
                     ],
                   ),
@@ -208,7 +226,8 @@ class _ChatBotState extends State<ChatBot> {
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey[200], // Choisissez la couleur qui convient le mieux à votre thème
+                        color: Colors.grey[
+                            200], // Choisissez la couleur qui convient le mieux à votre thème
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: TextField(
@@ -216,10 +235,13 @@ class _ChatBotState extends State<ChatBot> {
                         expands: true,
                         controller: _textController,
                         decoration: InputDecoration(
-                          hintText: lang.lang == "English" ? "Write message..." : "Ecrivez un message...",
+                          hintText: lang.lang == "English"
+                              ? "Write message..."
+                              : "Ecrivez un message...",
                           hintStyle: TextStyle(color: Colors.black54),
                           border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(10), // C'est pour donner un peu d'espace à l'intérieur de la zone de texte
+                          contentPadding: EdgeInsets.all(
+                              10), // C'est pour donner un peu d'espace à l'intérieur de la zone de texte
                         ),
                         textAlignVertical: TextAlignVertical.center,
                         onSubmitted: (value) {

@@ -13,7 +13,11 @@ class ChatDetailPage extends StatefulWidget {
   late String discussionId;
   late String name;
   late String imgUrl;
-  ChatDetailPage({Key? key, required this.discussionId, required this.name, required this.imgUrl})
+  ChatDetailPage(
+      {Key? key,
+      required this.discussionId,
+      required this.name,
+      required this.imgUrl})
       : super(key: key);
 
   @override
@@ -157,25 +161,25 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 SizedBox(
                   width: 2,
                 ),
-                  FutureBuilder<Uint8List>(
-                    future: NetworkManager.getFile(widget.imgUrl),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<Uint8List> snapshot) {
-                      if (snapshot.hasData) {
-                        return Stack(
-                          children: [
-                            CircleAvatar(
-                              backgroundImage:
-                                  MemoryImage(snapshot.data ?? Uint8List(0)),
-                              maxRadius: 20,
-                            ),
-                          ],
-                        );
-                      } else {
-                        return const CircularProgressIndicator();
-                      }
-                    },
-                  ),
+                FutureBuilder<Uint8List>(
+                  future: NetworkManager.getFile(widget.imgUrl),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<Uint8List> snapshot) {
+                    if (snapshot.hasData) {
+                      return Stack(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage:
+                                MemoryImage(snapshot.data ?? Uint8List(0)),
+                            maxRadius: 20,
+                          ),
+                        ],
+                      );
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
+                  },
+                ),
                 SizedBox(
                   width: 12,
                 ),
@@ -256,57 +260,58 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
             alignment: Alignment.bottomLeft,
             child: Container(
               padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-              height: 60,
+              height: 70,
               width: double.infinity,
               color: Colors.white,
               child: Row(
                 children: <Widget>[
-  Expanded(
-    child: Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[200], // Choisissez la couleur qui convient le mieux à votre thème
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: TextField(
-        maxLines: null,
-        expands: true,
-        controller: _textController,
-        onChanged: (text) => _newMessage = text,
-        decoration: InputDecoration(
-          hintText: "Write message...",
-          hintStyle: TextStyle(color: Colors.black54),
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.all(10), // C'est pour donner un peu d'espace à l'intérieur de la zone de texte
-        ),
-        textAlignVertical: TextAlignVertical.center,
-        onSubmitted: (value) {
-          _sendMessage(value);
-          _textController.clear();
-        },
-      ),
-    ),
-  ),
-  SizedBox(
-    width: 15,
-  ),
-  FloatingActionButton(
-    onPressed: () {
-      final value = _textController.text.trim();
-      if (value.isNotEmpty) {
-        _sendMessage(value);
-        _textController.clear();
-      }
-    },
-    child: Icon(
-      Icons.send,
-      color: Colors.white,
-      size: 18,
-    ),
-    backgroundColor: Colors.deepPurpleAccent,
-    elevation: 0,
-  ),
-],
-
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[
+                            200], // Choisissez la couleur qui convient le mieux à votre thème
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: TextField(
+                        maxLines: null,
+                        expands: true,
+                        controller: _textController,
+                        onChanged: (text) => _newMessage = text,
+                        decoration: InputDecoration(
+                          hintText: "Write message...",
+                          hintStyle: TextStyle(color: Colors.black54),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.all(
+                              10), // C'est pour donner un peu d'espace à l'intérieur de la zone de texte
+                        ),
+                        textAlignVertical: TextAlignVertical.center,
+                        onSubmitted: (value) {
+                          _sendMessage(value);
+                          _textController.clear();
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  FloatingActionButton(
+                    onPressed: () {
+                      final value = _textController.text.trim();
+                      if (value.isNotEmpty) {
+                        _sendMessage(value);
+                        _textController.clear();
+                      }
+                    },
+                    child: Icon(
+                      Icons.send,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                    backgroundColor: Colors.deepPurpleAccent,
+                    elevation: 0,
+                  ),
+                ],
               ),
             ),
           ),
