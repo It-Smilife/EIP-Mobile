@@ -1,22 +1,18 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/forum.dart';
-import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/models/replies_model.dart';
-import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/widgets/post_user.dart';
-import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/widgets/posts.dart';
 import 'package:itsmilife/services/NetworkManager.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/models/post_model.dart';
-import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:itsmilife/pages/common/profile.dart';
 
 class PostScreen extends StatefulWidget {
-  String id;
+  final String id;
   PostScreen({super.key, required this.id});
   @override
   State<PostScreen> createState() => _PostScreenState();
@@ -200,9 +196,29 @@ class _PostScreenState extends State<PostScreen> {
                                   children: <Widget>[
                                     Row(
                                       children: <Widget>[
-                                        const CircleAvatar(
-                                          backgroundImage: AssetImage('assets/images/author1.jpg'),
-                                          radius: 22,
+                                        FutureBuilder<Uint8List>(
+                                          future: NetworkManager.getFile(posts.user["avatar"]),
+                                          builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
+                                            if (snapshot.connectionState == ConnectionState.waiting) {
+                                              // loading
+                                              return const CircularProgressIndicator();
+                                            } else if (snapshot.hasError) {
+                                              // error
+                                              return Text('Erreur : ${snapshot.error}');
+                                            } else if (snapshot.hasData) {
+                                              // success
+                                              return CircleAvatar(
+                                                backgroundImage: MemoryImage(snapshot.data ?? Uint8List(0)),
+                                                radius: 30,
+                                              );
+                                            } else {
+                                              // default
+                                              return const CircleAvatar(
+                                                backgroundColor: Colors.grey, // Couleur de fond
+                                                radius: 30,
+                                              );
+                                            }
+                                          },
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(left: 8.0),
@@ -229,7 +245,7 @@ class _PostScreenState extends State<PostScreen> {
                                         )
                                       ],
                                     ),
-                                    if (posts.user["_id"].toString() == ProfileData.id)
+                                    if (posts.user["username"].toString() == ProfileData.id)
                                       Row(
                                         children: [
                                           IconButton(
@@ -469,9 +485,29 @@ class _PostScreenState extends State<PostScreen> {
                                           children: <Widget>[
                                             Row(
                                               children: <Widget>[
-                                                CircleAvatar(
-                                                  backgroundImage: AssetImage('assets/images/default_avatar.png'), // Replace with a default image path
-                                                  radius: 18,
+                                                FutureBuilder<Uint8List>(
+                                                  future: NetworkManager.getFile(posts.user["avatar"]),
+                                                  builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
+                                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                                      // loading
+                                                      return const CircularProgressIndicator();
+                                                    } else if (snapshot.hasError) {
+                                                      // error
+                                                      return Text('Erreur : ${snapshot.error}');
+                                                    } else if (snapshot.hasData) {
+                                                      // success
+                                                      return CircleAvatar(
+                                                        backgroundImage: MemoryImage(snapshot.data ?? Uint8List(0)),
+                                                        radius: 30,
+                                                      );
+                                                    } else {
+                                                      // default
+                                                      return const CircleAvatar(
+                                                        backgroundColor: Colors.grey, // Couleur de fond
+                                                        radius: 30,
+                                                      );
+                                                    }
+                                                  },
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.only(left: 8.0),

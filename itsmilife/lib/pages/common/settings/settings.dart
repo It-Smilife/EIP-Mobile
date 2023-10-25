@@ -48,10 +48,11 @@ class _SettingsPage extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<RoleProvider>(context);
     final darkMode = Provider.of<DarkModeProvider>(context);
     final lang = Provider.of<LanguageProvider>(context);
     final notif = Provider.of<NotificationProvider>(context);
+    final user = Provider.of<RoleProvider>(context);
+    final role = user.Setrolestate ? ProfileData.firstName : ProfileData.lastName;
     return Scaffold(
       backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : Color.fromARGB(255, 224, 224, 224),
       appBar: AppBar(
@@ -67,7 +68,7 @@ class _SettingsPage extends State<SettingsPage> {
             // User card
             BigUserCard(
               backgroundColor: const Color.fromARGB(255, 98, 128, 182),
-              userName: ProfileData.username == "" ? "Default name" : ProfileData.username,
+              userName: ProfileData.firstName == "" ? "Default name" : role,
               userProfilePic: const AssetImage("assets/logo.png"),
               cardActionWidget: SettingsItem(
                 icons: Icons.edit,

@@ -1,6 +1,4 @@
-import 'package:dio/dio.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/profile.dart';
@@ -8,10 +6,8 @@ import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/post_screen_use
 import 'package:itsmilife/services/NetworkManager.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/models/post_model.dart';
-import 'package:itsmilife/pages/normal_user/activités/forum/post_screen.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
-import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class UserPosts extends StatefulWidget {
@@ -106,9 +102,29 @@ class _UserPosts extends State<UserPosts> {
                                       children: <Widget>[
                                         Row(
                                           children: <Widget>[
-                                            const CircleAvatar(
-                                              backgroundImage: AssetImage('assets/images/author1.jpg'),
-                                              radius: 22,
+                                            FutureBuilder<Uint8List>(
+                                              future: NetworkManager.getFile(post.user["avatar"]),
+                                              builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
+                                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                                  // loading
+                                                  return const CircularProgressIndicator();
+                                                } else if (snapshot.hasError) {
+                                                  // error
+                                                  return Text('Erreur : ${snapshot.error}');
+                                                } else if (snapshot.hasData) {
+                                                  // success
+                                                  return CircleAvatar(
+                                                    backgroundImage: MemoryImage(snapshot.data ?? Uint8List(0)),
+                                                    radius: 30,
+                                                  );
+                                                } else {
+                                                  // default
+                                                  return const CircleAvatar(
+                                                    backgroundColor: Colors.grey, // Couleur de fond
+                                                    radius: 30,
+                                                  );
+                                                }
+                                              },
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(left: 5.0),
@@ -203,7 +219,42 @@ class _UserPosts extends State<UserPosts> {
                     )
                     .toList());
           } else {
-            return Center(child: Text('No data found.'));
+            return Center(
+                child: Column(children: [
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                width: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey, // Couleur de l'ombre
+                      offset: Offset(0, 3), // Décalage de l'ombre par rapport au conteneur
+                      blurRadius: 5, // Rayon du flou de l'ombre
+                      spreadRadius: 0, // L'étendue de l'ombre
+                    ),
+                  ],
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      Icon(CupertinoIcons.clear_thick_circled, size: 55, color: Colors.red),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Text("Aucun post trouvé", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              )
+            ]));
           }
         });
   }

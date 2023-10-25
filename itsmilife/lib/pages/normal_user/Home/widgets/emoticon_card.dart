@@ -12,6 +12,7 @@ class EmoticonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        
         context.read<HomeBloc>().add(
               MoodChangedEvent(mood: emoticonFace),
             );

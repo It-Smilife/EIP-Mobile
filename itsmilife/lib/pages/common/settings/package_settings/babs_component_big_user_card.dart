@@ -29,8 +29,7 @@ class BigUserCard extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
         color: backgroundColor ?? Theme.of(context).cardColor,
-        borderRadius:
-            BorderRadius.circular(double.parse(cardRadius!.toString())),
+        borderRadius: BorderRadius.circular(double.parse(cardRadius!.toString())),
       ),
       child: Stack(
         children: [
@@ -52,9 +51,7 @@ class BigUserCard extends StatelessWidget {
             margin: EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: (cardActionWidget != null)
-                  ? MainAxisAlignment.spaceEvenly
-                  : MainAxisAlignment.center,
+              mainAxisAlignment: (cardActionWidget != null) ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.center,
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -93,9 +90,7 @@ class BigUserCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(50),
                     color: settingColor ?? Theme.of(context).cardColor,
                   ),
-                  child: (cardActionWidget != null)
-                      ? cardActionWidget
-                      : Container(),
+                  child: (cardActionWidget != null) ? cardActionWidget : Container(),
                 )
               ],
             ),

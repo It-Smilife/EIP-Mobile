@@ -1,5 +1,3 @@
-import 'package:itsmilife/pages/normal_user/activités/forum/models/author_model.dart';
-
 class Comment {
   String id;
   String content;

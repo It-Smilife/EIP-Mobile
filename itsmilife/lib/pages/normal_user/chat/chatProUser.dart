@@ -205,7 +205,8 @@ class _ChatProUserState extends State<ChatProUser> {
                           },
                           child: ConversationList(
                             discussion_id: chatUsers[index].ID,
-                            name: chatUsers[index].name,
+                            //chatUsers[index].name
+                            name: ProfileData.firstName,
                             messageText: chatUsers[index].LastMessage,
                             imageUrl: chatUsers[index].imageURL,
                             time: chatUsers[index].time,

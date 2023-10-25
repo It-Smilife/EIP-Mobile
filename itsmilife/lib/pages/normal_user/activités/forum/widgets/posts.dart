@@ -1,16 +1,13 @@
-import 'package:dio/dio.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:itsmilife/pages/common/profile.dart';
 import 'package:itsmilife/services/NetworkManager.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/models/post_model.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/post_screen.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
-import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class Posts extends StatefulWidget {
@@ -38,26 +35,24 @@ class _Posts extends State<Posts> {
   // }
 
   Future<List<Post>> fetchPosts() async {
-  try {
-    final response = await NetworkManager.get('forums');
-    print("Response status code: ${response.statusCode}");
-    
-    if (response.data != "No forums found" && response.data['success'] == true) {
-      List<Post> posts = [];
-      for (int i = 0; i != response.data['message'].length; i++) {
-        posts.add(Post.fromJson(response.data['message'][i]));
-      }
-      print("Number of posts fetched: ${posts.length}");
-      return posts;
-    } else {
-      throw Exception("Error in response data");
-    }
-  } catch (e) {
-    print("Error fetching posts: $e");
-    throw Exception("Error fetching posts");
-  }
-}
+    try {
+      final response = await NetworkManager.get('forums');
+      print("Response status code: ${response.statusCode}");
 
+      if (response.data != "No forums found" && response.data['success'] == true) {
+        List<Post> posts = [];
+        for (int i = 0; i != response.data['message'].length; i++) {
+          posts.add(Post.fromJson(response.data['message'][i]));
+        }
+        return posts;
+      } else {
+        throw Exception("Error in response data");
+      }
+    } catch (e) {
+      print("Error fetching posts: $e");
+      throw Exception("Error fetching posts");
+    }
+  }
 
   String setLanguage() {
     final lang = Provider.of<LanguageProvider>(context);
@@ -95,7 +90,7 @@ class _Posts extends State<Posts> {
           }
           if (snapshot.hasData) {
             final posts = snapshot.data! as List<Post>;
-            if (posts.length == 0) {
+            if (posts.isEmpty) {
               return Container();
             }
             return Column(
@@ -116,7 +111,7 @@ class _Posts extends State<Posts> {
                           height: 180,
                           margin: const EdgeInsets.all(15.0),
                           decoration: BoxDecoration(
-                              color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : const Color.fromARGB(255, 255, 255, 255),
+                              color: darkMode.darkMode ? const Color.fromARGB(255, 45, 45, 45) : const Color.fromARGB(255, 255, 255, 255),
                               borderRadius: BorderRadius.circular(10.0),
                               boxShadow: [BoxShadow(color: Colors.black26.withOpacity(0.05), offset: const Offset(0.0, 6.0), blurRadius: 10.0, spreadRadius: 0.10)]),
                           child: Padding(
@@ -131,9 +126,29 @@ class _Posts extends State<Posts> {
                                     children: <Widget>[
                                       Row(
                                         children: <Widget>[
-                                          const CircleAvatar(
-                                            backgroundImage: AssetImage('assets/images/author1.jpg'),
-                                            radius: 22,
+                                          FutureBuilder<Uint8List>(
+                                            future: NetworkManager.getFile(post.user["avatar"]),
+                                            builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                // loading
+                                                return const CircularProgressIndicator();
+                                              } else if (snapshot.hasError) {
+                                                // error
+                                                return Text('Erreur : ${snapshot.error}');
+                                              } else if (snapshot.hasData) {
+                                                // success
+                                                return CircleAvatar(
+                                                  backgroundImage: MemoryImage(snapshot.data ?? Uint8List(0)),
+                                                  radius: 30,
+                                                );
+                                              } else {
+                                                // default
+                                                return const CircleAvatar(
+                                                  backgroundColor: Colors.grey, // Couleur de fond
+                                                  radius: 30,
+                                                );
+                                              }
+                                            },
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(left: 5.0),
@@ -157,7 +172,7 @@ class _Posts extends State<Posts> {
                                                 Row(
                                                   children: <Widget>[
                                                     Text(
-                                                      post.user != null ? post.user["username"] : "",
+                                                      post.user["username"],
                                                       style: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.grey),
                                                     ),
                                                     const SizedBox(width: 15),
@@ -197,7 +212,7 @@ class _Posts extends State<Posts> {
                                         ),
                                         const SizedBox(width: 4.0),
                                         Text(
-                                          lang.lang == "English" ? "${post.replies_count} replies" : "${post.replies_count} réponses",
+                                          lang.lang == "English" ? "${post.comments.length} replies" : "${post.comments.length} réponses",
                                           style: TextStyle(fontSize: 14, color: darkMode.darkMode ? Colors.white : const Color.fromARGB(255, 108, 108, 108)),
                                         )
                                       ],
@@ -212,7 +227,42 @@ class _Posts extends State<Posts> {
                     )
                     .toList());
           } else {
-            return Center(child: Text('No data found.'));
+            return Center(
+                child: Column(children: [
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                width: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey, // Couleur de l'ombre
+                      offset: Offset(0, 3), // Décalage de l'ombre par rapport au conteneur
+                      blurRadius: 5, // Rayon du flou de l'ombre
+                      spreadRadius: 0, // L'étendue de l'ombre
+                    ),
+                  ],
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      Icon(CupertinoIcons.clear_thick_circled, size: 55, color: Colors.red),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Text("Aucun post trouvé", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              )
+            ]));
           }
         });
   }

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/common/profile.dart';
@@ -6,6 +8,7 @@ import 'package:itsmilife/pages/common/settings/package_settings/icon_style.dart
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/models/post_model.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/forum/user_posts_page.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/widgets/posts.dart';
+import 'package:itsmilife/services/NetworkManager.dart';
 import 'package:itsmilife/widgets/bottomNavBar.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
@@ -21,6 +24,7 @@ class Forum extends StatefulWidget {
 }
 
 class _Forum extends State<Forum> {
+  Uint8List userImage = Uint8List.fromList([]);
   void checkQuestions(List<Post> questions) {
     questions.forEach((question) {
       // print("------------------------");
@@ -32,6 +36,24 @@ class _Forum extends State<Forum> {
       // print(question.replies);
       // Afficher les autres propriétés de l'objet Question
     });
+  }
+
+  Future<void> fetchUserImage() async {
+    try {
+      final imageBytes = await NetworkManager.getFile(ProfileData.avatar);
+      setState(() {
+        userImage = imageBytes;
+      });
+    } catch (error) {
+      // Gérez les erreurs de la requête ici
+      print("Erreur lors de la récupération de l'image : $error");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserImage();
   }
 
   @override
@@ -98,9 +120,9 @@ class _Forum extends State<Forum> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: BigUserCard(
-                      backgroundColor: const Color.fromARGB(255, 98, 128, 182),
+                      backgroundColor: Color.fromRGBO(98, 128, 182, 1),
                       userName: ProfileData.username == "" ? "Default name" : ProfileData.username,
-                      userProfilePic: const AssetImage("assets/logo.png"),
+                      userProfilePic: MemoryImage(userImage),
                       cardActionWidget: SettingsItem(
                         icons: Icons.edit,
                         iconStyle: IconStyle(

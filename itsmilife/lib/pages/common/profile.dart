@@ -86,10 +86,9 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                       // Mettez à jour ProfileData.avatar avec l'image sélectionnée
                       String selectedImage = imageName;
                       // Effectuez une requête PUT pour mettre à jour le serveur avec la nouvelle image
-                      Provider.of<AvatarProvider>(context, listen: false)
-                          .updateAvatar(selectedImage);
-                      NetworkManager.put(
-                          "users/" + ProfileData.id, {"avatar": selectedImage});
+                      Provider.of<AvatarProvider>(context, listen: false).updateAvatar(selectedImage);
+                      NetworkManager.put("users/" + ProfileData.id, {"avatar": selectedImage});
+                      ProfileData.avatar = selectedImage;
                       Navigator.of(context).pop(); // Fermez le dialog
                     },
                     child: Image.asset(
@@ -112,20 +111,15 @@ class _ProfileSettingPageState extends State<ProfilePage> {
     final lang = Provider.of<LanguageProvider>(context);
     final darkMode = Provider.of<DarkModeProvider>(context);
     return Scaffold(
-      backgroundColor: darkMode.darkMode
-          ? Color.fromARGB(255, 32, 32, 32)
-          : const Color.fromARGB(255, 246, 246, 246),
+      backgroundColor: darkMode.darkMode ? Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 246, 246, 246),
       appBar: PreferredSize(
-        preferredSize:
-            const Size.fromHeight(kToolbarHeight + 0.9), // 1 for the border
+        preferredSize: const Size.fromHeight(kToolbarHeight + 0.9), // 1 for the border
         child: Container(
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
                 width: 0.5,
-                color: darkMode.darkMode
-                    ? const Color.fromARGB(255, 58, 50, 83)
-                    : const Color.fromARGB(255, 246, 246, 246),
+                color: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 246, 246, 246),
               ),
             ),
           ),
@@ -135,27 +129,16 @@ class _ProfileSettingPageState extends State<ProfilePage> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              color: darkMode.darkMode
-                  ? const Color.fromARGB(255, 246, 246, 246)
-                  : const Color.fromARGB(255, 98, 128, 182),
+              color: darkMode.darkMode ? const Color.fromARGB(255, 246, 246, 246) : const Color.fromARGB(255, 98, 128, 182),
             ),
             centerTitle: true,
-            backgroundColor: darkMode.darkMode
-                ? const Color.fromARGB(255, 32, 32, 32)
-                : const Color.fromARGB(255, 234, 234, 234),
-            title: Text(
-                lang.lang == "English"
-                    ? "Edit the profile"
-                    : "Modifier le profil",
-                style: const TextStyle(
-                    color: Color.fromARGB(255, 98, 128, 182),
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold)),
+            backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 234, 234, 234),
+            title:
+                Text(lang.lang == "English" ? "Edit the profile" : "Modifier le profil", style: const TextStyle(color: Color.fromARGB(255, 98, 128, 182), fontSize: 25, fontWeight: FontWeight.bold)),
             actions: <Widget>[
               ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState != null &&
-                      _formKey.currentState!.validate()) {
+                  if (_formKey.currentState != null && _formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     ProfileData.lastName = _name;
                     ProfileData.firstName = _prenom;
@@ -164,15 +147,9 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                     ProfileData.gender = _gender;
                     ProfileData.phoneNumber = _phoneNumber;
                     ProfileData.address = _address;
-                    NetworkManager.put("users/" + ProfileData.id, {
-                      "firstName": _name,
-                      "lastName": _prenom,
-                      "email": _email,
-                      "age": _age,
-                      "gender": _gender,
-                      "phoneNumber": _phoneNumber,
-                      "address": _address
-                    }).then((val) {
+                    NetworkManager.put(
+                            "users/" + ProfileData.id, {"firstName": _name, "lastName": _prenom, "email": _email, "age": _age, "gender": _gender, "phoneNumber": _phoneNumber, "address": _address})
+                        .then((val) {
                       if (val.data['success'] == true) {
                         Navigator.pop(context);
                         showDialog(
@@ -180,8 +157,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: const Text("Modification du profile"),
-                              content: const Text(
-                                  "Votre profile à bien été modifié"),
+                              content: const Text("Votre profile à bien été modifié"),
                               actions: [
                                 TextButton(
                                   onPressed: () {
@@ -198,10 +174,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: darkMode.darkMode
-                      ? Color.fromARGB(255, 108, 108, 108)
-                      : Color.fromARGB(
-                          255, 98, 128, 182), // Changer la couleur ici
+                  backgroundColor: darkMode.darkMode ? Color.fromARGB(255, 108, 108, 108) : Color.fromARGB(255, 98, 128, 182), // Changer la couleur ici
                 ),
                 child: Text(
                   lang.lang == "English" ? "Save" : "Terminé",
@@ -239,17 +212,14 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                             width: 190,
                             height: 140,
                             child: FutureBuilder<Uint8List>(
-                              future: NetworkManager.getFile(
-                                  Provider.of<AvatarProvider>(context).avatar),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<Uint8List> snapshot) {
+                              future: NetworkManager.getFile(Provider.of<AvatarProvider>(context).avatar),
+                              builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
                                 if (snapshot.hasData) {
                                   return Container(
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
-                                        image: MemoryImage(
-                                            snapshot.data ?? Uint8List(0)),
+                                        image: MemoryImage(snapshot.data ?? Uint8List(0)),
                                         fit: BoxFit.contain,
                                       ),
                                       border: Border.all(
@@ -260,8 +230,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                                   );
                                 } else if (snapshot.hasError) {
                                   print(snapshot.error);
-                                  return Text(
-                                      'Une erreur est survenue : ${snapshot.error}');
+                                  return Text('Une erreur est survenue : ${snapshot.error}');
                                 } else {
                                   return CircularProgressIndicator();
                                 }
@@ -277,39 +246,30 @@ class _ProfileSettingPageState extends State<ProfilePage> {
 
                 // Name
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.height * 0.024),
+                  padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.024),
                   child: Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: darkMode.darkMode
-                            ? Color.fromARGB(255, 79, 79, 79)
-                            : Colors.white,
+                        color: darkMode.darkMode ? Color.fromARGB(255, 79, 79, 79) : Colors.white,
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: darkMode.darkMode
-                                ? Color.fromARGB(255, 45, 45, 45)
-                                : Color.fromARGB(255, 98, 128, 182),
+                            color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Color.fromARGB(255, 98, 128, 182),
                             offset: Offset(0, 5),
                             blurRadius: 5,
                             spreadRadius: 0,
                           )
                         ],
                       ),
-                      padding: EdgeInsets.all(
-                          MediaQuery.of(context).size.height * 0.015),
+                      padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.015),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             lang.lang == "English" ? "Laste name" : "Nom",
                             style: TextStyle(
-                              color: darkMode.darkMode
-                                  ? Colors.white
-                                  : Colors.black,
+                              color: darkMode.darkMode ? Colors.white : Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
@@ -318,13 +278,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           TextFormField(
                             initialValue: ProfileData.lastName,
                             decoration: InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.zero,
-                                isDense: true,
-                                labelStyle: TextStyle(
-                                    color: darkMode.darkMode
-                                        ? Colors.white
-                                        : Colors.black)),
+                                border: InputBorder.none, contentPadding: EdgeInsets.zero, isDense: true, labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Le nom ne doit pas être vide';
@@ -337,9 +291,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           Text(
                             lang.lang == "English" ? "First name" : "Prénom",
                             style: TextStyle(
-                              color: darkMode.darkMode
-                                  ? Colors.white
-                                  : Colors.black,
+                              color: darkMode.darkMode ? Colors.white : Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
@@ -348,13 +300,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           TextFormField(
                             initialValue: ProfileData.firstName,
                             decoration: InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.zero,
-                                isDense: true,
-                                labelStyle: TextStyle(
-                                    color: darkMode.darkMode
-                                        ? Colors.white
-                                        : Colors.black)),
+                                border: InputBorder.none, contentPadding: EdgeInsets.zero, isDense: true, labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Le prenom ne doit pas être vide';
@@ -367,9 +313,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           Text(
                             'Email',
                             style: TextStyle(
-                              color: darkMode.darkMode
-                                  ? Colors.white
-                                  : Colors.black,
+                              color: darkMode.darkMode ? Colors.white : Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
@@ -378,13 +322,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           TextFormField(
                             initialValue: ProfileData.email,
                             decoration: InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.zero,
-                                isDense: true,
-                                labelStyle: TextStyle(
-                                    color: darkMode.darkMode
-                                        ? Colors.white
-                                        : Colors.black)),
+                                border: InputBorder.none, contentPadding: EdgeInsets.zero, isDense: true, labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
                             validator: (value) {},
                             onSaved: (value) => _email = value!,
                           ),
@@ -392,9 +330,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           Text(
                             'Age',
                             style: TextStyle(
-                              color: darkMode.darkMode
-                                  ? Colors.white
-                                  : Colors.black,
+                              color: darkMode.darkMode ? Colors.white : Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
@@ -403,13 +339,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           TextFormField(
                             initialValue: ProfileData.age.toString(),
                             decoration: InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.zero,
-                                isDense: true,
-                                labelStyle: TextStyle(
-                                    color: darkMode.darkMode
-                                        ? Colors.white
-                                        : Colors.black)),
+                                border: InputBorder.none, contentPadding: EdgeInsets.zero, isDense: true, labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'L\'âge ne doit pas être vide';
@@ -426,9 +356,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           Text(
                             lang.lang == "English" ? "Gender" : "Genre",
                             style: TextStyle(
-                              color: darkMode.darkMode
-                                  ? Colors.white
-                                  : Colors.black,
+                              color: darkMode.darkMode ? Colors.white : Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
@@ -449,22 +377,16 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                             ].map((value) {
                               return DropdownMenuItem(
                                 value: value[0],
-                                child: lang.lang == "English"
-                                    ? Text(value[0])
-                                    : Text(value[1]),
+                                child: lang.lang == "English" ? Text(value[0]) : Text(value[1]),
                               );
                             }).toList(),
                             onChanged: (String? value) {},
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            lang.lang == "English"
-                                ? "Phone number"
-                                : "Numéro de Téléphone",
+                            lang.lang == "English" ? "Phone number" : "Numéro de Téléphone",
                             style: TextStyle(
-                              color: darkMode.darkMode
-                                  ? Colors.white
-                                  : Colors.black,
+                              color: darkMode.darkMode ? Colors.white : Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
@@ -473,21 +395,15 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           TextFormField(
                             initialValue: ProfileData.phoneNumber,
                             decoration: InputDecoration(
-                                hintText: lang.lang == "English"
-                                    ? "Enter your phone number"
-                                    : "Entrez un numéro de téléphone",
+                                hintText: lang.lang == "English" ? "Enter your phone number" : "Entrez un numéro de téléphone",
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none,
                                 ),
                                 filled: true,
                                 fillColor: const Color(0xFFF5F5F5),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 10),
-                                labelStyle: TextStyle(
-                                    color: darkMode.darkMode
-                                        ? Colors.white
-                                        : Colors.black)),
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
                             keyboardType: TextInputType.phone,
                             validator: (value) {
                               final regex = RegExp(r'^\+?\d{9,15}$');
@@ -502,9 +418,7 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           Text(
                             lang.lang == "English" ? "Address" : "Adresse",
                             style: TextStyle(
-                              color: darkMode.darkMode
-                                  ? Colors.white
-                                  : Colors.black,
+                              color: darkMode.darkMode ? Colors.white : Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
@@ -513,21 +427,15 @@ class _ProfileSettingPageState extends State<ProfilePage> {
                           TextFormField(
                             initialValue: ProfileData.address,
                             decoration: InputDecoration(
-                                hintText: lang.lang == "English"
-                                    ? "Enter your adress"
-                                    : "Entrez une adresse",
+                                hintText: lang.lang == "English" ? "Enter your adress" : "Entrez une adresse",
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none,
                                 ),
                                 filled: true,
                                 fillColor: const Color(0xFFF5F5F5),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 10),
-                                labelStyle: TextStyle(
-                                    color: darkMode.darkMode
-                                        ? Colors.white
-                                        : Colors.black)),
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                labelStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black)),
                             maxLines: 1,
                             validator: (value) {},
                             onSaved: (value) => _address = value!,
