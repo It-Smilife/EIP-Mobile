@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/logic/quizz_page.dart';
 import 'package:itsmilife/pages/normal_user/activit%C3%A9s/quizz/theme.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../../services/NetworkManager.dart';
 import 'quizzBox.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
@@ -96,10 +97,43 @@ class ThemeDetailsPage extends StatelessWidget {
                         ],
                       ),
                       child: FutureBuilder<Uint8List>(
-                        future: NetworkManager.getFile("évaluation.png"),
+                        future: Future.delayed(Duration(seconds: 2),
+                            () => NetworkManager.getFile("évaluation.png")),
                         builder: (BuildContext context,
                             AsyncSnapshot<Uint8List> snapshot) {
-                          if (snapshot.hasData) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Shimmer.fromColors(
+                              baseColor: Color.fromARGB(255, 255, 255,
+                                  255), // Color of the shimmer effect
+                              highlightColor: Color.fromARGB(255, 223, 219,
+                                  219), // Highlight color of the shimmer effect
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors
+                                        .grey, // Grey background for the avatar
+                                    radius: 40.0,
+                                  ),
+                                  SizedBox(height: 15.0),
+                                  Container(
+                                    width: 130.0, // Adjust the width as needed
+                                    height: 18.0, // Adjust the height as needed
+                                    color: Colors
+                                        .grey, // Grey background for the text
+                                  ),
+                                  SizedBox(height: 5.0),
+                                  Container(
+                                    width: 130.0, // Adjust the width as needed
+                                    height: 18.0, // Adjust the height as needed
+                                    color: Colors
+                                        .grey, // Grey background for the text
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else if (snapshot.hasData) {
                             return Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

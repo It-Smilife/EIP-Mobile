@@ -133,6 +133,35 @@ class _ChatBotState extends State<ChatBot> {
     );
   }
 
+  Widget _IsWritting() {
+    final alignment = Alignment.topLeft;
+    final _color = Colors.grey[100];
+    return Container(
+      padding: EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
+      child: Align(
+        alignment: alignment,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+                    bottomRight: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                    topLeft: Radius.circular(15),
+                    bottomLeft: Radius.circular(5),
+                  ),
+            color: _color,
+          ),
+          padding: EdgeInsets.all(16),
+          child: JumpingDots(
+          color: Colors.deepPurpleAccent,
+          radius: 10,
+          numberOfDots: 3,
+          animationDuration: Duration(milliseconds: 200),
+        ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final darkMode = Provider.of<DarkModeProvider>(context);
