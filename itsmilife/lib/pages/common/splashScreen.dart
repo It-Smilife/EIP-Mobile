@@ -49,16 +49,71 @@ class _SplashScreenState extends State<SplashScreen> {
                 pageTransitionType: PageTransitionType.bottomToTop,
               ),
               Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Text('version $_version',
-                          style: const TextStyle(
-                              fontSize: 10, color: Colors.grey))))
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Text(
+                    'version $_version',
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ),
             ],
           );
+        } else if (snapshot.hasError) {
+          return Container(
+            color: Colors.white,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Image.asset(
+                      'assets/logo.png',
+                      fit: BoxFit.contain,
+                      width: double.infinity,
+                      height: double.infinity,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 100),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.cancel,
+                        color: Colors.red,
+                        size: 48,
+                      ),
+                      SizedBox(height: 16),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'The application is currently unavailable',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            decoration: TextDecoration.none,
+                            fontSize: 20,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
         } else {
-          return const CircularProgressIndicator();
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
         }
       },
     );

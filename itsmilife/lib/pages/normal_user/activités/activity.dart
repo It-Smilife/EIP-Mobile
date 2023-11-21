@@ -99,7 +99,7 @@ class ActCategoryPage extends StatelessWidget {
                             },
                             child: ExerciseTile(
                               exercise: 'Quizz',
-                              subExercise: lang.lang == "English" ? "Find out more about yourself" : 'Découvrez davantage sur vous',
+                              subExercise: lang.lang == "English" ? "Learn more about yourself" : 'Découvrez davantage sur vous',
                               icon: CupertinoIcons.question_square_fill,
                               color: Colors.pink,
                             )),

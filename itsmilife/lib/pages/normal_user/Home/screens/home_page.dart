@@ -310,7 +310,7 @@ class HomeBody extends StatelessWidget {
                                     ? "Emergency"
                                     : 'Urgences',
                                 subExercise: lang.lang == "English"
-                                    ? "Contact emergency services"
+                                    ? "Contact emergency "
                                     : 'Contacter les urgences',
                                 icon: CupertinoIcons.phone_solid,
                                 color: const Color.fromARGB(255, 255, 0, 0),

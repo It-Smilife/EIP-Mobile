@@ -172,7 +172,27 @@ class ThemeDetailsPage extends StatelessWidget {
                               ],
                             );
                           } else {
-                            return const CircularProgressIndicator();
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.cancel,
+                                  color: Color.fromARGB(255, 98, 128, 182),
+                                  size: 40.0,
+                                ),
+                                SizedBox(height: 15.0),
+                                Text(
+                                  'Failed to fetch',
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: darkMode.darkMode == true
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                              ],
+                            );
                           }
                         },
                       ),
