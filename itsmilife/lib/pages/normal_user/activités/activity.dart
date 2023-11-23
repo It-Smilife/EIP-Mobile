@@ -24,7 +24,9 @@ class ActCategoryPage extends StatelessWidget {
       themes = value;
     });
     return Scaffold(
-      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 98, 128, 182),
+      backgroundColor: darkMode.darkMode
+          ? const Color.fromARGB(255, 58, 50, 83)
+          : const Color.fromARGB(255, 98, 128, 182),
       body: SafeArea(
           child: Column(
         children: [
@@ -52,12 +54,16 @@ class ActCategoryPage extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: darkMode.darkMode ? Color.fromARGB(255, 79, 79, 79) : Color.fromARGB(255, 98, 128, 182),
+                    color: darkMode.darkMode
+                        ? Color.fromARGB(255, 79, 79, 79)
+                        : Color.fromARGB(255, 98, 128, 182),
                     blurRadius: 10,
                     //offset: Offset.infinite,
                   ),
                 ],
-                color: darkMode.darkMode ? const Color.fromARGB(255, 79, 79, 79) : Color.fromARGB(255, 224, 224, 224),
+                color: darkMode.darkMode
+                    ? const Color.fromARGB(255, 79, 79, 79)
+                    : Color.fromARGB(255, 224, 224, 224),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(
                     35.0,
@@ -73,7 +79,8 @@ class ActCategoryPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     BottomSheetHeaderTitle(
-                      titleText: lang.lang == "English" ? "Activities" : 'Activités',
+                      titleText:
+                          lang.lang == "English" ? "Activities" : 'Activités',
                     ),
                     SizedBox(height: MediaQuery.of(context).size.width * 0.1),
                     Expanded(
@@ -83,8 +90,11 @@ class ActCategoryPage extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 PageRouteBuilder(
-                                  pageBuilder: (context, animation, secondaryAnimation) => CategoryPage(themes: themes),
-                                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                  pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                      CategoryPage(themes: themes),
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
                                     return SlideTransition(
                                       position: Tween<Offset>(
                                         begin: const Offset(1, 0),
@@ -93,13 +103,16 @@ class ActCategoryPage extends StatelessWidget {
                                       child: child,
                                     );
                                   },
-                                  transitionDuration: const Duration(milliseconds: 300),
+                                  transitionDuration:
+                                      const Duration(milliseconds: 300),
                                 ),
                               );
                             },
                             child: ExerciseTile(
                               exercise: 'Quizz',
-                              subExercise: lang.lang == "English" ? "Learn more about yourself" : 'Découvrez davantage sur vous',
+                              subExercise: lang.lang == "English"
+                                  ? "Learn more about yourself"
+                                  : 'Découvrez davantage sur vous',
                               icon: CupertinoIcons.question_square_fill,
                               color: Colors.pink,
                             )),
@@ -108,8 +121,11 @@ class ActCategoryPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               PageRouteBuilder(
-                                pageBuilder: (context, animation, secondaryAnimation) => const Forum(),
-                                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        const Forum(),
+                                transitionsBuilder: (context, animation,
+                                    secondaryAnimation, child) {
                                   return SlideTransition(
                                     position: Tween<Offset>(
                                       begin: const Offset(1, 0),
@@ -118,13 +134,16 @@ class ActCategoryPage extends StatelessWidget {
                                     child: child,
                                   );
                                 },
-                                transitionDuration: const Duration(milliseconds: 300),
+                                transitionDuration:
+                                    const Duration(milliseconds: 300),
                               ),
                             );
                           },
                           child: ExerciseTile(
                             exercise: 'Forum',
-                            subExercise: lang.lang == "English" ? "Share your experiences" : 'Partagez vos expériences',
+                            subExercise: lang.lang == "English"
+                                ? "Share your experiences"
+                                : 'Partagez vos expériences',
                             icon: CupertinoIcons.text_bubble_fill,
                             color: Colors.orange,
                           ),
