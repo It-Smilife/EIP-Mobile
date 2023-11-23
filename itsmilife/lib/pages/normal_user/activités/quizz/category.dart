@@ -38,20 +38,14 @@ class _CategoryPageState extends State<CategoryPage> {
     final darkMode = Provider.of<DarkModeProvider>(context);
 
     return Scaffold(
-      backgroundColor: darkMode.darkMode
-          ? const Color.fromARGB(255, 58, 50, 83)
-          : Colors.grey[200],
+      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : Colors.grey[200],
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: darkMode.darkMode == true
-            ? const Color.fromARGB(255, 32, 32, 32)
-            : const Color.fromARGB(255, 224, 224, 224),
+        backgroundColor: darkMode.darkMode == true ? const Color.fromARGB(255, 32, 32, 32) : const Color.fromARGB(255, 224, 224, 224),
         title: Text(
           "Quizz",
           style: TextStyle(
-            color: darkMode.darkMode == true
-                ? const Color.fromARGB(255, 224, 224, 224)
-                : Color.fromARGB(255, 98, 128, 182),
+            color: darkMode.darkMode == true ? const Color.fromARGB(255, 224, 224, 224) : Color.fromARGB(255, 98, 128, 182),
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
@@ -59,18 +53,14 @@ class _CategoryPageState extends State<CategoryPage> {
         leading: IconButton(
           icon: Icon(
             CupertinoIcons.back,
-            color: darkMode.darkMode == true
-                ? const Color.fromARGB(255, 224, 224, 224)
-                : Color.fromARGB(255, 98, 128, 182),
+            color: darkMode.darkMode == true ? const Color.fromARGB(255, 224, 224, 224) : Color.fromARGB(255, 98, 128, 182),
           ),
           onPressed: () {
             Navigator.push(
               context,
               PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    Home(h_index: 0),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
+                pageBuilder: (context, animation, secondaryAnimation) => Home(h_index: 0),
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
                   return SlideTransition(
                     position: Tween<Offset>(
                       begin: const Offset(1, 0),
@@ -92,13 +82,9 @@ class _CategoryPageState extends State<CategoryPage> {
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             Container(
               decoration: BoxDecoration(
-                color: darkMode.darkMode == true
-                    ? Color.fromARGB(255, 79, 79, 79)
-                    : Color.fromARGB(255, 98, 128, 182),
+                color: darkMode.darkMode == true ? Color.fromARGB(255, 79, 79, 79) : Color.fromARGB(255, 98, 128, 182),
                 border: Border.all(
-                  color: darkMode.darkMode == true
-                      ? Color.fromARGB(255, 79, 79, 79)
-                      : Color.fromARGB(255, 98, 128, 182),
+                  color: darkMode.darkMode == true ? Color.fromARGB(255, 79, 79, 79) : Color.fromARGB(255, 98, 128, 182),
                   width: 0,
                 ),
                 borderRadius: BorderRadius.circular(15),
@@ -118,9 +104,7 @@ class _CategoryPageState extends State<CategoryPage> {
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             Padding(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.05,
-                  right: MediaQuery.of(context).size.width * 0.05),
+              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05, right: MediaQuery.of(context).size.width * 0.05),
               child: GridView.builder(
                 physics: const ScrollPhysics(),
                 shrinkWrap: true,
@@ -147,46 +131,35 @@ class _CategoryPageState extends State<CategoryPage> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: darkMode.darkMode == true
-                            ? Color.fromARGB(255, 100, 100, 100)
-                            : Colors.white,
+                        color: darkMode.darkMode == true ? Color.fromARGB(255, 100, 100, 100) : Colors.white,
                         boxShadow: [
                           BoxShadow(
-                            color: Color.fromARGB(255, 98, 128, 182)
-                                .withOpacity(0.8), // Couleur de l'ombre
+                            color: Color.fromARGB(255, 98, 128, 182).withOpacity(0.8), // Couleur de l'ombre
                             spreadRadius: 5, // Étendue de l'ombre
                             blurRadius: 7, // Flou de l'ombre
-                            offset: Offset(0,
-                                3), // Position de l'ombre (horizontale, verticale)
+                            offset: Offset(0, 3), // Position de l'ombre (horizontale, verticale)
                           ),
                         ],
                       ),
                       child: FutureBuilder<Uint8List>(
-                        future: Future.delayed(Duration(seconds: 2),
-                            () => NetworkManager.getFile(theme.avatar)),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<Uint8List> snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
+                        future: Future.delayed(Duration(seconds: 2), () => NetworkManager.getFile(theme.avatar)),
+                        builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
                             return Shimmer.fromColors(
-                              baseColor: Color.fromARGB(255, 255, 255,
-                                  255), // Color of the shimmer effect
-                              highlightColor: Color.fromARGB(255, 223, 219,
-                                  219), // Highlight color of the shimmer effect
+                              baseColor: Color.fromARGB(255, 255, 255, 255), // Color of the shimmer effect
+                              highlightColor: Color.fromARGB(255, 223, 219, 219), // Highlight color of the shimmer effect
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   CircleAvatar(
-                                    backgroundColor: Colors
-                                        .grey, // Grey background for the avatar
+                                    backgroundColor: Colors.grey, // Grey background for the avatar
                                     radius: 40.0,
                                   ),
                                   SizedBox(height: 15.0),
                                   Container(
                                     width: 100.0, // Adjust the width as needed
                                     height: 18.0, // Adjust the height as needed
-                                    color: Colors
-                                        .grey, // Grey background for the text
+                                    color: Colors.grey, // Grey background for the text
                                   ),
                                 ],
                               ),
@@ -196,20 +169,13 @@ class _CategoryPageState extends State<CategoryPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CircleAvatar(
-                                  backgroundImage: Image.memory(
-                                          snapshot.data ?? Uint8List(0))
-                                      .image,
+                                  backgroundImage: Image.memory(snapshot.data ?? Uint8List(0)).image,
                                   radius: 40.0,
                                 ),
                                 SizedBox(height: 15.0),
                                 Text(
                                   theme.title,
-                                  style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: darkMode.darkMode == true
-                                          ? Colors.white
-                                          : Colors.black),
+                                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: darkMode.darkMode == true ? Colors.white : Colors.black),
                                 ),
                               ],
                             );
@@ -229,9 +195,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                   style: TextStyle(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold,
-                                    color: darkMode.darkMode == true
-                                        ? Colors.white
-                                        : Colors.black,
+                                    color: darkMode.darkMode == true ? Colors.white : Colors.black,
                                   ),
                                 ),
                               ],

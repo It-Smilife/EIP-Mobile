@@ -10,6 +10,7 @@ import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import 'package:itsmilife/pages/normal_user/activités/forum/models/post_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:itsmilife/pages/common/profile.dart';
+import 'package:expandable_text/expandable_text.dart';
 
 class PostScreen extends StatefulWidget {
   final String id;
@@ -25,6 +26,7 @@ class _PostScreenState extends State<PostScreen> {
   final _contentController = TextEditingController();
   bool isUpdated = false;
   TextEditingController _comController = TextEditingController();
+  bool isExpanded = false;
 
   String setLanguage() {
     final lang = Provider.of<LanguageProvider>(context);
@@ -68,7 +70,7 @@ class _PostScreenState extends State<PostScreen> {
             Navigator.push(
               context,
               PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) => Forum(),
+                pageBuilder: (context, animation, secondaryAnimation) => const Forum(),
                 transitionsBuilder: (context, animation, secondaryAnimation, child) {
                   return SlideTransition(
                     position: Tween<Offset>(
@@ -78,7 +80,7 @@ class _PostScreenState extends State<PostScreen> {
                     child: child,
                   );
                 },
-                transitionDuration: Duration(milliseconds: 300),
+                transitionDuration: const Duration(milliseconds: 300),
               ),
             )
           }
@@ -135,15 +137,12 @@ class _PostScreenState extends State<PostScreen> {
           future: postsFuture,
           builder: (BuildContext context, AsyncSnapshot<Post> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
             if (snapshot.hasData) {
               final posts = snapshot.data! as Post;
               _titleController.text = posts.title;
               _contentController.text = posts.content;
-              if (posts == null) {
-                return Container();
-              }
               return Scaffold(
                 backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : Colors.grey[200],
                 body: SafeArea(
@@ -160,7 +159,7 @@ class _PostScreenState extends State<PostScreen> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (_) => Forum(),
+                                          builder: (_) => const Forum(),
                                         ),
                                       ),
                                     },
@@ -180,7 +179,7 @@ class _PostScreenState extends State<PostScreen> {
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 15.0),
                         decoration: BoxDecoration(
-                            color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : const Color.fromARGB(255, 255, 255, 255),
+                            color: darkMode.darkMode ? const Color.fromARGB(255, 45, 45, 45) : const Color.fromARGB(255, 255, 255, 255),
                             borderRadius: BorderRadius.circular(10.0),
                             boxShadow: [BoxShadow(color: Colors.black26.withOpacity(0.05), offset: const Offset(0.0, 6.0), blurRadius: 10.0, spreadRadius: 0.10)]),
                         child: Padding(
@@ -190,7 +189,7 @@ class _PostScreenState extends State<PostScreen> {
                             children: <Widget>[
                               Container(
                                 height: 60,
-                                color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : const Color.fromARGB(255, 255, 255, 255),
+                                color: darkMode.darkMode ? const Color.fromARGB(255, 45, 45, 45) : const Color.fromARGB(255, 255, 255, 255),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
@@ -258,11 +257,11 @@ class _PostScreenState extends State<PostScreen> {
                                                   actions: [
                                                     Form(
                                                       key: _formKey,
-                                                      child: Container(
+                                                      child: SizedBox(
                                                         width: MediaQuery.of(context).size.width * 0.90,
                                                         height: MediaQuery.of(context).size.height * 0.40,
                                                         child: Padding(
-                                                          padding: EdgeInsets.all(10),
+                                                          padding: const EdgeInsets.all(10),
                                                           child: Column(
                                                             children: <Widget>[
                                                               TextFormField(
@@ -343,7 +342,7 @@ class _PostScreenState extends State<PostScreen> {
                                             color: darkMode.darkMode ? Colors.white : Colors.black,
                                           ),
                                           IconButton(
-                                            icon: Icon(CupertinoIcons.trash),
+                                            icon: const Icon(CupertinoIcons.trash),
                                             onPressed: () => {
                                               showDialog(
                                                 context: context,
@@ -468,7 +467,7 @@ class _PostScreenState extends State<PostScreen> {
                               (comment) => Container(
                                 margin: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
                                 decoration: BoxDecoration(
-                                  color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : const Color.fromARGB(255, 255, 255, 255),
+                                  color: darkMode.darkMode ? const Color.fromARGB(255, 45, 45, 45) : const Color.fromARGB(255, 255, 255, 255),
                                   borderRadius: BorderRadius.circular(10.0),
                                   boxShadow: [BoxShadow(color: Colors.black26.withOpacity(0.03), offset: const Offset(0.0, 6.0), blurRadius: 10.0, spreadRadius: 0.10)],
                                 ),
@@ -479,7 +478,7 @@ class _PostScreenState extends State<PostScreen> {
                                     children: <Widget>[
                                       Container(
                                         height: 60,
-                                        color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : const Color.fromARGB(255, 255, 255, 255),
+                                        color: darkMode.darkMode ? const Color.fromARGB(255, 45, 45, 45) : const Color.fromARGB(255, 255, 255, 255),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
@@ -530,7 +529,7 @@ class _PostScreenState extends State<PostScreen> {
                                               ],
                                             ),
                                             IconButton(
-                                              icon: Icon(CupertinoIcons.trash),
+                                              icon: const Icon(CupertinoIcons.trash),
                                               onPressed: () => {
                                                 showDialog(
                                                   context: context,
@@ -593,12 +592,13 @@ class _PostScreenState extends State<PostScreen> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(vertical: 15.0),
-                                        child: Text(
+                                        child: ExpandableText(
                                           comment.content,
-                                          style: TextStyle(
-                                            color: darkMode.darkMode ? Colors.white : Colors.black.withOpacity(0.25),
-                                            fontSize: 16,
-                                          ),
+                                          animation: true,
+                                          maxLines: 4,
+                                          collapseOnTextTap: true,
+                                          expandText: lang.lang == "English" ? "see more" : "voir plus",
+                                          collapseText: lang.lang == "English" ? "see less" : "voir moins",
                                         ),
                                       ),
                                     ],
@@ -607,26 +607,31 @@ class _PostScreenState extends State<PostScreen> {
                               ),
                             )
                             .toList(),
-                      )
+                      ),
+                      const SizedBox(height: 15.0),
                     ],
                   ),
                 ),
                 bottomNavigationBar: SafeArea(
-                  // Déplacez le SafeArea à l'intérieur du Scaffold
                   child: AnimatedContainer(
-                    duration: Duration(microseconds: 100),
+                    duration: const Duration(microseconds: 1),
                     padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8.0, left: 20.0, right: 8.0),
-                    color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Colors.white,
+                    color: Colors.transparent,
                     child: Row(
                       children: [
                         Expanded(
                           child: TextField(
                             controller: _comController,
                             focusNode: _focusNode,
+                            maxLines: null,
                             decoration: InputDecoration(
                               hintText: 'Ajouter un commentaire...',
-                              border: InputBorder.none,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(40.0),
+                              ),
                               hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black),
+                              filled: true, // Add this line
+                              fillColor: darkMode.darkMode ? const Color.fromARGB(255, 45, 45, 45) : Colors.white, // Add this line
                             ),
                           ),
                         ),
@@ -646,7 +651,7 @@ class _PostScreenState extends State<PostScreen> {
                 ),
               );
             } else {
-              return (Center(
+              return (const Center(
                 child: Text("No data"),
               ));
             }

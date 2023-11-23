@@ -9,6 +9,7 @@ import 'package:itsmilife/pages/normal_user/activités/forum/models/post_model.d
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:shimmer/shimmer.dart';
 
 class UserPosts extends StatefulWidget {
   const UserPosts({super.key});
@@ -59,10 +60,22 @@ class _UserPosts extends State<UserPosts> {
     final darkMode = Provider.of<DarkModeProvider>(context);
 
     return FutureBuilder<List<Post>>(
-        future: postsFuture,
+        future: Future.delayed(const Duration(seconds: 2), () => postsFuture),
         builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(
+                height: 180,
+                margin: const EdgeInsets.all(15.0),
+                decoration: BoxDecoration(
+                  color: darkMode.darkMode ? const Color.fromARGB(255, 45, 45, 45) : const Color.fromARGB(255, 255, 255, 255),
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [BoxShadow(color: Colors.black26.withOpacity(0.05), offset: const Offset(0.0, 6.0), blurRadius: 10.0, spreadRadius: 0.10)],
+                ),
+              ),
+            );
           }
           if (snapshot.hasData) {
             final posts = snapshot.data! as List<Post>;

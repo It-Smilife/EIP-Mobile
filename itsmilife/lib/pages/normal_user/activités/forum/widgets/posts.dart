@@ -9,6 +9,7 @@ import 'package:itsmilife/pages/normal_user/activités/forum/post_screen.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:shimmer/shimmer.dart';
 
 class Posts extends StatefulWidget {
   const Posts({super.key});
@@ -20,25 +21,9 @@ class Posts extends StatefulWidget {
 class _Posts extends State<Posts> {
   late Future<List<Post>> postsFuture;
 
-  // Future<List<Post>> fetchPosts() async {
-  //   final response = await NetworkManager.get('forums');
-  //   if (response.data != "No forums found" && response.data['success'] == true) {
-  //     print(response.data['message']);
-  //     List<Post> posts = [];
-  //     for (int i = 0; i != response.data['message'].length; i++) {
-  //       posts.add(Post.fromJson(response.data['message'][i]));
-  //     }
-  //     return posts;
-  //   } else {
-  //     throw Exception();
-  //   }
-  // }
-
   Future<List<Post>> fetchPosts() async {
     try {
       final response = await NetworkManager.get('forums');
-      print("Response status code: ${response.statusCode}");
-
       if (response.data != "No forums found" && response.data['success'] == true) {
         List<Post> posts = [];
         for (int i = 0; i != response.data['message'].length; i++) {
@@ -49,7 +34,6 @@ class _Posts extends State<Posts> {
         throw Exception("Error in response data");
       }
     } catch (e) {
-      print("Error fetching posts: $e");
       throw Exception("Error fetching posts");
     }
   }
@@ -83,13 +67,25 @@ class _Posts extends State<Posts> {
     final darkMode = Provider.of<DarkModeProvider>(context);
 
     return FutureBuilder<List<Post>>(
-        future: postsFuture,
+        future: Future.delayed(const Duration(seconds: 2), () => postsFuture),
         builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(
+                height: 180,
+                margin: const EdgeInsets.all(15.0),
+                decoration: BoxDecoration(
+                  color: darkMode.darkMode ? const Color.fromARGB(255, 45, 45, 45) : const Color.fromARGB(255, 255, 255, 255),
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [BoxShadow(color: Colors.black26.withOpacity(0.05), offset: const Offset(0.0, 6.0), blurRadius: 10.0, spreadRadius: 0.10)],
+                ),
+              ),
+            );
           }
           if (snapshot.hasData) {
-            final posts = snapshot.data! as List<Post>;
+            final posts = snapshot.data!;
             if (posts.isEmpty) {
               return Container();
             }
