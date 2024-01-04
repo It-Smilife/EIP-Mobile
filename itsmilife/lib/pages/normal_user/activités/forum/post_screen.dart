@@ -626,9 +626,7 @@ class _PostScreenState extends State<PostScreen> {
                             maxLines: null,
                             decoration: InputDecoration(
                               hintText: 'Ajouter un commentaire...',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40.0),
-                              ),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0), borderSide: BorderSide.none),
                               hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black),
                               filled: true, // Add this line
                               fillColor: darkMode.darkMode ? const Color.fromARGB(255, 45, 45, 45) : Colors.white, // Add this line

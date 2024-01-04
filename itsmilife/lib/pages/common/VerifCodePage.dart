@@ -1,23 +1,19 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:itsmilife/pages/common/forgotPassNewPassScreen.dart';
 import 'package:itsmilife/pages/common/settings/darkModeProvider.dart';
-import 'package:itsmilife/pages/common/verification.dart';
-import 'package:itsmilife/pages/login.dart';
 import 'package:itsmilife/services/NetworkManager.dart';
 import 'package:provider/provider.dart';
 import 'package:itsmilife/pages/common/settings/languageProvider.dart';
-import 'package:itsmilife/pages/common/profile.dart';
-import 'package:itsmilife/services/NetworkManager.dart';
 import 'dart:core';
 
 class VerificationPage extends StatefulWidget {
   final String id;
-  final String password;
-  late int verificationCode;
+  late final int verificationCode;
   final String email;
 
-  VerificationPage({Key? key, required this.id, required this.password, required this.verificationCode, required this.email}) : super(key: key);
+  VerificationPage({Key? key, required this.id, required this.verificationCode, required this.email}) : super(key: key);
 
   @override
   _VerificationPage createState() => _VerificationPage();
@@ -31,7 +27,6 @@ class _VerificationPage extends State<VerificationPage> {
     super.initState();
     verification = VerificationPage(
       id: widget.id,
-      password: widget.password,
       verificationCode: widget.verificationCode,
       email: widget.email,
     );
@@ -73,7 +68,7 @@ class _VerificationPage extends State<VerificationPage> {
       });
       _startTimer();
       if (state > 0) {
-        NetworkManager.putWithoutData("users/" + verification.email + "/update-password-code-by-email").then((value) {
+        NetworkManager.putWithoutData("users/${verification.email}/update-password-code-by-email").then((value) {
           verification.verificationCode = value.data["message"]["passwordCode"];
         });
       }
@@ -90,9 +85,9 @@ class _VerificationPage extends State<VerificationPage> {
     return Scaffold(
       backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 246, 246, 246),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(56.0), // La hauteur d'origine de l'AppBar.
+        preferredSize: const Size.fromHeight(56.0), // La hauteur d'origine de l'AppBar.
         child: AppBar(
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(15), // Ici, vous pouvez spécifier le rayon.
             ),
@@ -214,7 +209,7 @@ class _VerificationPage extends State<VerificationPage> {
                           ? Text(
                               '$_buttonTimer s',
                               style: TextStyle(
-                                color: _disabled ? Colors.grey : Color.fromARGB(255, 43, 43, 43),
+                                color: _disabled ? Colors.grey : const Color.fromARGB(255, 43, 43, 43),
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
                               ),
@@ -240,39 +235,26 @@ class _VerificationPage extends State<VerificationPage> {
                         var codeString = code.text;
                         var codeInt = int.tryParse(codeString);
                         if (codeInt != null && verification.verificationCode == codeInt) {
-                          NetworkManager.put('users/' + verification.id + '/update-password', {'newPassword': verification.password}).then((value) {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Motde passe oublié"),
-                                  content: Text("Votre mot de passe a bien été changé"),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text("OK"),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          });
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ForgotPassNewPassScreen(
+                                        email: widget.email,
+                                        id: widget.id,
+                                      )));
                         } else {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text("Erreur"),
-                                content: Text("Le code n'est pas valide"),
+                                title: const Text("Erreur"),
+                                content: const Text("Le code n'est pas valide"),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
-                                    child: Text("OK"),
+                                    child: const Text("OK"),
                                   ),
                                 ],
                               );

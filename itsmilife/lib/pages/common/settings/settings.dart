@@ -68,7 +68,7 @@ class _SettingsPage extends State<SettingsPage> {
             // User card
             BigUserCard(
               backgroundColor: const Color.fromARGB(255, 98, 128, 182),
-              userName: ProfileData.firstName == "" ? "Default name" : role,
+              userName: ProfileData.username,
               userProfilePic: const AssetImage("assets/logo.png"),
               cardActionWidget: SettingsItem(
                 icons: Icons.edit,
@@ -226,7 +226,7 @@ class _SettingsPage extends State<SettingsPage> {
                   ),
                   title: lang.lang == "English" ? "Change password" : "Changer le mot de passe",
                 ),
-                SettingsItem(
+/*                 SettingsItem(
                   onTap: () {},
                   icons: CupertinoIcons.bell,
                   iconStyle: IconStyle(
@@ -239,7 +239,7 @@ class _SettingsPage extends State<SettingsPage> {
                       notif.notif = value;
                     },
                   ),
-                ),
+                ), */
               ],
             ),
             SettingsGroup(
@@ -280,7 +280,7 @@ class _SettingsPage extends State<SettingsPage> {
                                           onPressed: () => {Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()))},
                                           child: Text(
                                             lang.lang == "English" ? "yes" : "Oui",
-                                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
                                           ),
                                         ),
                                         const SizedBox(width: 20),

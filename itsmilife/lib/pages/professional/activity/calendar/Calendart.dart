@@ -49,7 +49,7 @@ class _CalendarState extends State<Calendar> {
       backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : Colors.grey[200],
       appBar: AppBar(
         title: Text(
-          lang.lang == "English" ? "Calendar" : "Calandrier",
+          lang.lang == "English" ? "Calendar" : "Calendrier",
           style: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 98, 128, 182)),
         ),
         backgroundColor: Colors.transparent,

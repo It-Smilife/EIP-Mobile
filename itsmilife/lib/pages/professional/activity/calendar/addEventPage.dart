@@ -27,6 +27,7 @@ class _AddEvent extends State<AddEvent> {
   final DateTime _initialEnd = DateTime.now().add(const Duration(hours: 2));
   DateTime _selectedDate = DateTime.now();
   String _formattedSelectedDate = '';
+  Color _selectedColor = Colors.deepPurpleAccent;
 
   String _formatDatefr(DateTime date) {
     return "${DateFormat.EEEE("fr").format(date).substring(0, 3)}. ${DateFormat.d("fr").format(date)} ${DateFormat.MMMM("fr").format(date).substring(0, 3)}.";
@@ -73,7 +74,7 @@ class _AddEvent extends State<AddEvent> {
               key: _formKey,
               child: Container(
                 decoration: BoxDecoration(
-                  color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Colors.white,
+                  color: darkMode.darkMode ? const Color.fromARGB(255, 45, 45, 45) : Colors.white,
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                 child: SingleChildScrollView(
@@ -87,7 +88,7 @@ class _AddEvent extends State<AddEvent> {
                           style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
-                            color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
+                            color: darkMode.darkMode ? Colors.white : const Color.fromARGB(255, 45, 45, 45),
                           ),
                         ),
                         const SizedBox(height: 60),
@@ -105,10 +106,10 @@ class _AddEvent extends State<AddEvent> {
                             ),
                             prefixIcon: Icon(
                               CupertinoIcons.pencil,
-                              color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
+                              color: darkMode.darkMode ? Colors.white : const Color.fromARGB(255, 45, 45, 45),
                             ),
                             hintText: lang.lang == "English" ? "Title" : "Titre",
-                            hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
+                            hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : const Color.fromARGB(255, 45, 45, 45)),
                           ),
                           buildCounter: (BuildContext constext, {required int currentLength, required bool isFocused, required int? maxLength}) {
                             return Text("$currentLength/$maxLength");
@@ -120,7 +121,7 @@ class _AddEvent extends State<AddEvent> {
                             return null;
                           },
                         ),
-                        const SizedBox(height: 50),
+                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
                             showDatePicker(
@@ -132,6 +133,7 @@ class _AddEvent extends State<AddEvent> {
                               if (date != null) {
                                 setState(() {
                                   _selectedDate = date;
+                                  print(_selectedDate.toString());
                                 });
                               }
                             });
@@ -139,7 +141,7 @@ class _AddEvent extends State<AddEvent> {
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.resolveWith<Color>(
                               (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.pressed)) return Color.fromARGB(255, 45, 45, 45); // Color when button is pressed
+                                if (states.contains(MaterialState.pressed)) return const Color.fromARGB(255, 45, 45, 45); // Color when button is pressed
                                 return Colors.deepPurpleAccent; // Default color
                               },
                             ),
@@ -172,7 +174,7 @@ class _AddEvent extends State<AddEvent> {
                               child: Column(children: [
                                 Text(
                                   lang.lang == "English" ? "Begin" : "Début",
-                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
+                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: darkMode.darkMode ? Colors.white : const Color.fromARGB(255, 45, 45, 45)),
                                 ),
                                 const SizedBox(height: 15),
                                 ElevatedButton(
@@ -181,6 +183,7 @@ class _AddEvent extends State<AddEvent> {
                                       if (time != null) {
                                         setState(() {
                                           _selectedTimeBegin = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, time.hour, time.minute);
+                                          print(_selectedTimeBegin.toString());
                                         });
                                       }
                                     });
@@ -188,7 +191,7 @@ class _AddEvent extends State<AddEvent> {
                                   style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.resolveWith<Color>(
                                       (Set<MaterialState> states) {
-                                        if (states.contains(MaterialState.pressed)) return Color.fromARGB(255, 45, 45, 45); // Color when button is pressed
+                                        if (states.contains(MaterialState.pressed)) return const Color.fromARGB(255, 45, 45, 45); // Color when button is pressed
                                         return Colors.deepPurpleAccent; // Default color
                                       },
                                     ),
@@ -213,7 +216,7 @@ class _AddEvent extends State<AddEvent> {
                                 children: [
                                   Text(
                                     lang.lang == "English" ? "End" : "Fin",
-                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: darkMode.darkMode ? Colors.white : const Color.fromARGB(255, 45, 45, 45)),
                                   ),
                                   const SizedBox(height: 15),
                                   ElevatedButton(
@@ -222,6 +225,7 @@ class _AddEvent extends State<AddEvent> {
                                         if (time != null) {
                                           setState(() {
                                             _selectedTimeEnd = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, time.hour, time.minute);
+                                            print(_selectedTimeEnd.toString());
                                           });
                                         }
                                       });
@@ -229,7 +233,7 @@ class _AddEvent extends State<AddEvent> {
                                     style: ButtonStyle(
                                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
                                         (Set<MaterialState> states) {
-                                          if (states.contains(MaterialState.pressed)) return Color.fromARGB(255, 45, 45, 45); // Color when button is pressed
+                                          if (states.contains(MaterialState.pressed)) return const Color.fromARGB(255, 45, 45, 45); // Color when button is pressed
                                           return Colors.deepPurpleAccent; // Default color
                                         },
                                       ),
@@ -262,10 +266,10 @@ class _AddEvent extends State<AddEvent> {
                             ),
                             prefixIcon: Icon(
                               CupertinoIcons.doc_plaintext,
-                              color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45),
+                              color: darkMode.darkMode ? Colors.white : const Color.fromARGB(255, 45, 45, 45),
                             ),
                             hintText: 'Notes',
-                            hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
+                            hintStyle: TextStyle(color: darkMode.darkMode ? Colors.white : const Color.fromARGB(255, 45, 45, 45)),
                           ),
                           maxLines: null, // Permet au texte de passer à la ligne en fonction du contenu
                           textAlignVertical: TextAlignVertical.top,
@@ -308,7 +312,7 @@ class _AddEvent extends State<AddEvent> {
                         ),
                         child: Text(
                           "Annuler",
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: darkMode.darkMode ? Colors.white : const Color.fromARGB(255, 45, 45, 45)),
                         ),
                       ),
                     ),
@@ -321,9 +325,9 @@ class _AddEvent extends State<AddEvent> {
                               SnackBar(
                                 content: Text(
                                   lang.lang == "English" ? "Please enter a titile" : 'Veuillez entrer un titre',
-                                  style: TextStyle(color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
+                                  style: const TextStyle(color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
                                 ), // Message d'erreur
-                                duration: Duration(seconds: 2), // Durée de l'affichage de la Snackbar
+                                duration: const Duration(seconds: 2), // Durée de l'affichage de la Snackbar
                               ),
                             );
                           } else {
@@ -355,7 +359,7 @@ class _AddEvent extends State<AddEvent> {
                         ),
                         child: Text(
                           "Sauvegarder",
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: darkMode.darkMode ? Colors.white : Color.fromARGB(255, 45, 45, 45)),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: darkMode.darkMode ? Colors.white : const Color.fromARGB(255, 45, 45, 45)),
                         ),
                       ),
                     ),

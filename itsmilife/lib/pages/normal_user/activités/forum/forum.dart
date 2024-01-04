@@ -113,15 +113,22 @@ class _Forum extends State<Forum> {
               ),
             ),
             Container(
-              decoration: BoxDecoration(color: darkMode.darkMode ? Color.fromARGB(255, 79, 79, 79) : Color.fromARGB(255, 218, 218, 218), borderRadius: BorderRadius.all(Radius.circular(35))),
+              decoration: BoxDecoration(
+                color: darkMode.darkMode ? const Color.fromARGB(255, 79, 79, 79) : Colors.white,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(35),
+                  topRight: Radius.circular(35),
+                ),
+              ),
+              height: MediaQuery.of(context).size.height,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: BigUserCard(
-                      backgroundColor: Color.fromRGBO(98, 128, 182, 1),
-                      userName: ProfileData.username == "" ? "Default name" : ProfileData.username,
+                      backgroundColor: const Color.fromRGBO(98, 128, 182, 1),
+                      userName: ProfileData.username == "" ? "" : ProfileData.username,
                       userProfilePic: MemoryImage(userImage),
                       cardActionWidget: SettingsItem(
                         icons: Icons.edit,

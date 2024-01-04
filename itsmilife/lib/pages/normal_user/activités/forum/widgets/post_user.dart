@@ -99,9 +99,9 @@ class _UserPosts extends State<UserPosts> {
                         child: Container(
                           margin: const EdgeInsets.all(15.0),
                           decoration: BoxDecoration(
-                              color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Color.fromARGB(255, 218, 218, 218),
+                              color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Colors.white,
                               borderRadius: BorderRadius.circular(10.0),
-                              boxShadow: [BoxShadow(color: Colors.black26.withOpacity(0.05), offset: const Offset(0.0, 6.0), blurRadius: 10.0, spreadRadius: 0.10)]),
+                              boxShadow: [BoxShadow(color: Colors.black26.withOpacity(0.3), offset: const Offset(0.0, 6.0), blurRadius: 10.0, spreadRadius: 0.10)]),
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: IntrinsicHeight(

@@ -109,7 +109,7 @@ class _Posts extends State<Posts> {
                           decoration: BoxDecoration(
                               color: darkMode.darkMode ? const Color.fromARGB(255, 45, 45, 45) : const Color.fromARGB(255, 255, 255, 255),
                               borderRadius: BorderRadius.circular(10.0),
-                              boxShadow: [BoxShadow(color: Colors.black26.withOpacity(0.05), offset: const Offset(0.0, 6.0), blurRadius: 10.0, spreadRadius: 0.10)]),
+                              boxShadow: [BoxShadow(color: Colors.black26.withOpacity(0.2), offset: const Offset(0.0, 6.0), blurRadius: 10.0, spreadRadius: 0.10)]),
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: Column(

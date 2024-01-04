@@ -166,16 +166,16 @@ class _LoginPageState extends State<LoginPage> {
                                     ProfileData.email = val.data["user"]["email"];
                                     ProfileData.password = val.data["user"]["password"];
                                     ProfileData.role = val.data["user"]["role"];
-                                    ProfileData.firstName = val.data["user"]["firstName"];
-                                    ProfileData.gender = val.data["user"]["gender"];
-                                    ProfileData.lastName = val.data["user"]["lastName"];
+                                    ProfileData.firstName = val.data["user"]["firstName"] ?? "";
+                                    ProfileData.gender = val.data["user"]["gender"] ?? "male";
+                                    ProfileData.lastName = val.data["user"]["lastName"] ?? "";
                                     if (val.data["user"]["address"] != null) {
                                       ProfileData.address = val.data["user"]["address"];
                                     } else {
                                       ProfileData.address = "";
                                     }
-                                    ProfileData.phoneNumber = val.data["user"]["phoneNumber"];
-                                    ProfileData.age = val.data["user"]["age"];
+                                    ProfileData.phoneNumber = val.data["user"]["phoneNumber"] ?? "";
+                                    ProfileData.age = val.data["user"]["age"] ?? 18;
                                     ProfileData.dark = val.data["user"]["dark"];
                                     ProfileData.language = val.data["user"]["language"];
                                     ProfileData.avatar = val.data["user"]["avatar"];

@@ -191,8 +191,7 @@ class _ListPatientState extends State<ListPatient> {
                           ),
                           child: ConversationListPro(
                             discussion_id: chatUsers[index].ID,
-                            //chatUsers[index].name
-                            name: ProfileData.lastName,
+                            name: chatUsers[index].name,
                             messageText: chatUsers[index].LastMessage,
                             imageUrl: chatUsers[index].imageURL,
                             time: chatUsers[index].time,
