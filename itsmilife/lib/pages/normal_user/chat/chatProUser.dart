@@ -93,7 +93,7 @@ class _ChatProUserState extends State<ChatProUser> {
                     ),
                     Text(
                       "Conversations",
-                      style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: darkMode.darkMode ? Colors.white : Colors.black),
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: darkMode.darkMode ? Colors.white : Colors.black),
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),

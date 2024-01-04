@@ -39,7 +39,7 @@ class HomeProBody extends StatelessWidget {
                         'Bienvenu sur votre tableau de bord',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 20.0,
+                          fontSize: 19.0,
                           fontStyle: FontStyle.italic,
                           fontWeight: FontWeight.w500,
                         ),
@@ -100,7 +100,7 @@ class HomeProBody extends StatelessWidget {
                                 );
                               },
                               child: ExerciseTile(
-                                exercise: 'Discuter avec un Patient',
+                                exercise: 'Vos discutions',
                                 subExercise: 'Commencer une discussion',
                                 icon: CupertinoIcons.person_alt,
                                 color: Colors.pink,
@@ -126,7 +126,7 @@ class HomeProBody extends StatelessWidget {
                                 );
                               },
                               child: ExerciseTile(
-                                exercise: ' Votre calendrier',
+                                exercise: 'Votre calendrier',
                                 subExercise: 'Gerer vos rendez-vous',
                                 icon: CupertinoIcons.calendar,
                                 color: Colors.orange,

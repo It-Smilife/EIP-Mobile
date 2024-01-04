@@ -138,22 +138,22 @@ class _CalendarState extends State<Calendar> {
                                     const SizedBox(height: 20),
                                     const Dash(
                                       direction: Axis.horizontal,
-                                      length: 250, // Prend la largeur de la carte
-                                      dashLength: 15, // Longueur des traits du pointillé
-                                      dashColor: Colors.grey, // Couleur des traits du pointillé
+                                      length: 210,
+                                      dashLength: 15,
+                                      dashColor: Colors.grey,
                                     ),
                                   ],
                                 ),
                                 content: SizedBox(
-                                  width: double.maxFinite, // Largeur maximale disponible
-                                  height: MediaQuery.of(context).size.height * 0.3, // Hauteur définie, ajustez en fonction de vos besoins
+                                  width: double.maxFinite,
+                                  height: MediaQuery.of(context).size.height * 0.35,
                                   child: SingleChildScrollView(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start, // Alignement des éléments à gauche
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text('Début: ${event.start.hour}:${event.start.minute}\nFin: ${event.end.hour}:${event.end.minute}'),
                                         const SizedBox(height: 50),
-                                        if (event.notes.isNotEmpty) // Vérifier si event.notes n'est pas vide
+                                        if (event.notes.isNotEmpty)
                                           const Text(
                                             "Notes",
                                             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

@@ -57,18 +57,7 @@ class ExerciseTile extends StatelessWidget {
                     children: [
                       Text(
                         exercise,
-                        style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: darkMode.darkMode ? Colors.white : Colors.black),
-                      ),
-                      const SizedBox(
-                        height: 7,
-                      ),
-                      Text(
-                        subExercise,
-                        style: TextStyle(
-                          fontSize: 17,
-                          color: Colors.grey[400],
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: darkMode.darkMode ? Colors.white : Colors.black),
                       ),
                     ],
                   ),

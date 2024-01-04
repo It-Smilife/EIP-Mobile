@@ -427,11 +427,6 @@ class _PostScreenState extends State<PostScreen> {
                                     const SizedBox(width: 15.0),
                                     Row(
                                       children: <Widget>[
-                                        Icon(
-                                          CupertinoIcons.eye,
-                                          color: darkMode.darkMode ? Colors.white : Colors.grey,
-                                          size: 18,
-                                        ),
                                         const SizedBox(width: 4.0),
                                         Text(
                                           lang.lang == "English" ? "${posts.views} views" : "${posts.views} vues",

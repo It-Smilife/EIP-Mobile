@@ -37,9 +37,7 @@ class HomeBody extends StatelessWidget {
     final darkMode = Provider.of<DarkModeProvider>(context);
     final lang = Provider.of<LanguageProvider>(context);
     return Scaffold(
-      backgroundColor: darkMode.darkMode
-          ? const Color.fromARGB(255, 58, 50, 83)
-          : const Color.fromARGB(255, 98, 128, 182),
+      backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : const Color.fromARGB(255, 98, 128, 182),
       body: SafeArea(
         child: Column(
           children: [
@@ -57,9 +55,7 @@ class HomeBody extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        lang.lang == "English"
-                            ? "How are you today ?"
-                            : 'Comment vous sentez vous ?',
+                        lang.lang == "English" ? "How are you today ?" : 'Comment vous sentez vous ?',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
@@ -84,8 +80,7 @@ class HomeBody extends StatelessWidget {
                       ),
                       EmoticonCard(
                         emoticonFace: '😁',
-                        mood:
-                            lang.lang == "English" ? "Very Good" : 'Très bien',
+                        mood: lang.lang == "English" ? "Very Good" : 'Très bien',
                       ),
                       const EmoticonCard(
                         emoticonFace: '😃',
@@ -105,15 +100,11 @@ class HomeBody extends StatelessWidget {
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: darkMode.darkMode
-                          ? const Color.fromARGB(255, 79, 79, 79)
-                          : const Color.fromARGB(255, 98, 128, 182),
+                      color: darkMode.darkMode ? const Color.fromARGB(255, 79, 79, 79) : const Color.fromARGB(255, 98, 128, 182),
                       blurRadius: 10,
                     ),
                   ],
-                  color: darkMode.darkMode
-                      ? const Color.fromARGB(255, 79, 79, 79)
-                      : const Color.fromARGB(255, 224, 224, 224),
+                  color: darkMode.darkMode ? const Color.fromARGB(255, 79, 79, 79) : const Color.fromARGB(255, 224, 224, 224),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(
                       35.0,
@@ -136,11 +127,8 @@ class HomeBody extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     PageRouteBuilder(
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          ChatBot(),
-                                      transitionsBuilder: (context, animation,
-                                          secondaryAnimation, child) {
+                                      pageBuilder: (context, animation, secondaryAnimation) => ChatBot(),
+                                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
                                         return SlideTransition(
                                           position: Tween<Offset>(
                                             begin: const Offset(1, 0),
@@ -149,18 +137,13 @@ class HomeBody extends StatelessWidget {
                                           child: child,
                                         );
                                       },
-                                      transitionDuration:
-                                          const Duration(milliseconds: 300),
+                                      transitionDuration: const Duration(milliseconds: 300),
                                     ),
                                   );
                                 },
                                 child: ExerciseTile(
-                                  exercise: lang.lang == "English"
-                                      ? "Talk with smile"
-                                      : 'Discuter avec Smile',
-                                  subExercise: lang.lang == "English"
-                                      ? "Learn more about yourself"
-                                      : 'Apprenez en plus sur vous',
+                                  exercise: lang.lang == "English" ? "Talk with smile" : 'Discuter avec Smile',
+                                  subExercise: '',
                                   icon: CupertinoIcons.smiley_fill,
                                   color: Colors.orange,
                                 )),
@@ -169,11 +152,8 @@ class HomeBody extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   PageRouteBuilder(
-                                    pageBuilder: (context, animation,
-                                            secondaryAnimation) =>
-                                        const ChatProUser(),
-                                    transitionsBuilder: (context, animation,
-                                        secondaryAnimation, child) {
+                                    pageBuilder: (context, animation, secondaryAnimation) => const ChatProUser(),
+                                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
                                       return SlideTransition(
                                         position: Tween<Offset>(
                                           begin: const Offset(1, 0),
@@ -182,18 +162,13 @@ class HomeBody extends StatelessWidget {
                                         child: child,
                                       );
                                     },
-                                    transitionDuration:
-                                        const Duration(milliseconds: 300),
+                                    transitionDuration: const Duration(milliseconds: 300),
                                   ),
                                 );
                               },
                               child: ExerciseTile(
-                                exercise: lang.lang == "English"
-                                    ? "Talk with a professional"
-                                    : 'Discuter avec un Pro',
-                                subExercise: lang.lang == "English"
-                                    ? "Take the leap"
-                                    : 'Franchissez le pas',
+                                exercise: lang.lang == "English" ? "Talk with a professional" : 'Discuter avec un Pro',
+                                subExercise: '',
                                 icon: CupertinoIcons.person_alt,
                                 color: Colors.pink,
                               ),
@@ -202,9 +177,7 @@ class HomeBody extends StatelessWidget {
                               onTap: () {
                                 showModalBottomSheet(
                                   context: context,
-                                  backgroundColor: darkMode.darkMode
-                                      ? const Color.fromARGB(255, 79, 79, 79)
-                                      : Colors.white,
+                                  backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 79, 79, 79) : Colors.white,
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(30),
@@ -222,41 +195,30 @@ class HomeBody extends StatelessWidget {
                                             Container(
                                               height: 10,
                                               width: 100,
-                                              decoration: const BoxDecoration(
-                                                  color: Colors.grey,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(8))),
+                                              decoration: const BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.all(Radius.circular(8))),
                                             ),
                                             const SizedBox(height: 60),
                                             Row(
                                               // Utilisez Row au lieu de Column ici
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .spaceEvenly, // Alignez les enfants au centre
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Alignez les enfants au centre
                                               children: <Widget>[
                                                 GestureDetector(
                                                     // ignore: avoid_print
                                                     onTap: _callSos,
                                                     child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5), // Set the desired border radius
+                                                      borderRadius: BorderRadius.circular(5), // Set the desired border radius
                                                       child: Image.asset(
                                                         "assets/sos.png",
                                                         width: 80,
                                                         height: 80,
                                                       ),
                                                     )),
-                                                const SizedBox(
-                                                    width:
-                                                        20), // Ajoutez un espacement entre les icônes
+                                                const SizedBox(width: 20), // Ajoutez un espacement entre les icônes
                                                 GestureDetector(
-                                                  // ignore: avoid_print
-                                                  onTap: _callEmergency,
-                                                  child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5), // Set the desired border radius
+                                                    // ignore: avoid_print
+                                                    onTap: _callEmergency,
+                                                    child: ClipRRect(
+                                                      borderRadius: BorderRadius.circular(5), // Set the desired border radius
                                                       child: Image.asset(
                                                         "assets/urgence.png",
                                                         width: 80,
@@ -268,33 +230,16 @@ class HomeBody extends StatelessWidget {
                                             const SizedBox(height: 20),
                                             Row(
                                               // Ajoutez une autre rangée pour les textes
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .spaceEvenly, // Alignez les enfants au centre
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Alignez les enfants au centre
                                               children: <Widget>[
                                                 Text(
                                                   "SOS suicide",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 20,
-                                                      color: darkMode.darkMode
-                                                          ? Colors.white
-                                                          : Colors.black),
+                                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: darkMode.darkMode ? Colors.white : Colors.black),
                                                 ),
-                                                const SizedBox(
-                                                    width:
-                                                        20), // Ajoutez un espacement entre les textes
+                                                const SizedBox(width: 20), // Ajoutez un espacement entre les textes
                                                 Text(
-                                                  lang.lang == "English"
-                                                      ? "Emergency"
-                                                      : "Urgences",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 20,
-                                                      color: darkMode.darkMode
-                                                          ? Colors.white
-                                                          : Colors.black),
+                                                  lang.lang == "English" ? "Emergency" : "Urgences",
+                                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: darkMode.darkMode ? Colors.white : Colors.black),
                                                 ),
                                               ],
                                             ),
@@ -306,12 +251,8 @@ class HomeBody extends StatelessWidget {
                                 );
                               },
                               child: ExerciseTile(
-                                exercise: lang.lang == "English"
-                                    ? "Emergency"
-                                    : 'Urgences',
-                                subExercise: lang.lang == "English"
-                                    ? "Contact emergency "
-                                    : 'Contacter les urgences',
+                                exercise: lang.lang == "English" ? "Emergency" : 'Urgences',
+                                subExercise: '',
                                 icon: CupertinoIcons.phone_solid,
                                 color: const Color.fromARGB(255, 255, 0, 0),
                               ),

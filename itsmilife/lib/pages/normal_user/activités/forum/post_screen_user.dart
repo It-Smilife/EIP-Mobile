@@ -179,7 +179,7 @@ class _PostScreenUserState extends State<PostScreenUser> {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 15.0),
+                      width: MediaQuery.of(context).size.width * 0.7,
                       decoration: BoxDecoration(
                           color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Color.fromARGB(255, 218, 218, 218),
                           borderRadius: BorderRadius.circular(10.0),
@@ -193,7 +193,6 @@ class _PostScreenUserState extends State<PostScreenUser> {
                               height: 60,
                               color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Color.fromARGB(255, 218, 218, 218),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Row(
                                     children: <Widget>[
@@ -243,6 +242,7 @@ class _PostScreenUserState extends State<PostScreenUser> {
                                   ),
                                   if (posts.user["_id"].toString() == ProfileData.id)
                                     Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
                                         IconButton(
                                           icon: const Icon(CupertinoIcons.pen),
@@ -440,33 +440,6 @@ class _PostScreenUserState extends State<PostScreenUser> {
                               posts.content,
                               style: TextStyle(color: darkMode.darkMode ? Colors.white : Colors.black, fontSize: 17, letterSpacing: .2),
                             ),
-                            // Padding(
-                            //   padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            //   child: Row(
-                            //     mainAxisAlignment: MainAxisAlignment.start,
-                            //     children: <Widget>[
-                            //       const SizedBox(width: 15.0),
-                            //       Row(
-                            //         children: <Widget>[
-                            //           Icon(
-                            //             CupertinoIcons.eye,
-                            //             color: darkMode.darkMode ? Colors.white : Colors.grey,
-                            //             size: 18,
-                            //           ),
-                            //           const SizedBox(width: 4.0),
-                            //           Text(
-                            //             lang.lang == "English" ? "${posts.views} views" : "${posts.views} vues",
-                            //             style: TextStyle(
-                            //               fontSize: 14,
-                            //               color: darkMode.darkMode ? Colors.white : Colors.grey,
-                            //               fontWeight: FontWeight.w600,
-                            //             ),
-                            //           )
-                            //         ],
-                            //       )
-                            //     ],
-                            //   ),
-                            // )
                           ],
                         ),
                       ),
@@ -501,7 +474,7 @@ class _PostScreenUserState extends State<PostScreenUser> {
                                       height: 60,
                                       color: darkMode.darkMode ? Color.fromARGB(255, 45, 45, 45) : Colors.white,
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                                         children: <Widget>[
                                           Row(
                                             children: <Widget>[

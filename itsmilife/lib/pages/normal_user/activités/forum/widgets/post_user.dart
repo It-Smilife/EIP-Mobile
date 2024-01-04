@@ -259,7 +259,7 @@ class _UserPosts extends State<UserPosts> {
                       SizedBox(
                         height: 30,
                       ),
-                      Text("Aucun post trouvé", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      Text("Aucun post trouvé", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),

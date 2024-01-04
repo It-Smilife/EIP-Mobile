@@ -49,7 +49,7 @@ class _Posts extends State<Posts> {
 
   String convertDate(date) {
     DateTime dateConvert = DateTime.parse(date);
-    timeago.setLocaleMessages('fr', timeago.FrMessages());
+    //timeago.setLocaleMessages('fr', timeago.FrMessages());
     final now = DateTime.now().toUtc();
     final difference = now.difference(dateConvert.toUtc());
     return timeago.format(now.subtract(difference), locale: setLanguage());
@@ -235,10 +235,10 @@ class _Posts extends State<Posts> {
                   color: Colors.white,
                   boxShadow: const [
                     BoxShadow(
-                      color: Colors.grey, // Couleur de l'ombre
-                      offset: Offset(0, 3), // Décalage de l'ombre par rapport au conteneur
-                      blurRadius: 5, // Rayon du flou de l'ombre
-                      spreadRadius: 0, // L'étendue de l'ombre
+                      color: Colors.grey,
+                      offset: Offset(0, 3),
+                      blurRadius: 5,
+                      spreadRadius: 0,
                     ),
                   ],
                 ),
@@ -250,7 +250,7 @@ class _Posts extends State<Posts> {
                       SizedBox(
                         height: 30,
                       ),
-                      Text("Aucun post trouvé", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      Text("Aucun post trouvé", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
