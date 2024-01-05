@@ -12,12 +12,7 @@ class ChatDetailPro extends StatefulWidget {
   late String discussionId;
   late String name;
   late String imgUrl;
-  ChatDetailPro(
-      {Key? key,
-      required this.discussionId,
-      required this.name,
-      required this.imgUrl})
-      : super(key: key);
+  ChatDetailPro({Key? key, required this.discussionId, required this.name, required this.imgUrl}) : super(key: key);
 
   @override
   _ChatDetailProState createState() => _ChatDetailProState();
@@ -28,8 +23,7 @@ class _ChatDetailProState extends State<ChatDetailPro> {
   List<ChatMessage>? chatMessagesFuture = [];
 
   Future<List<ChatMessage>> fetchMessages() async {
-    return await NetworkManager.get("discussions/" + widget.discussionId)
-        .then((value) {
+    return await NetworkManager.get("discussions/" + widget.discussionId).then((value) {
       if (value.data["success"] == true) {
         List<ChatMessage> messages = [];
         for (int i = 0; i != value.data['message']['messages'].length; i++) {
@@ -37,9 +31,7 @@ class _ChatDetailProState extends State<ChatDetailPro> {
               message: value.data['message']['messages'][i]['content'],
               messageID: value.data['message']['messages'][i]['_id'],
               date: value.data['message']['messages'][i]['date'],
-              id: value.data['message']['messages'][i]['user'] == ProfileData.id
-                  ? 'sender'
-                  : 'receiver'));
+              id: value.data['message']['messages'][i]['user'] == ProfileData.id ? 'sender' : 'receiver'));
         }
         return messages;
       } else {
@@ -67,7 +59,7 @@ class _ChatDetailProState extends State<ChatDetailPro> {
     list_messages = fetchMessages() as Future<List<ChatMessage>>;
     print(widget.discussionId);
     // Create Socket.IO instance
-    socket = IO.io('http://51.145.251.116:81', <String, dynamic>{
+    socket = IO.io('https://eip-backend-bffdcc985564.herokuapp.com/', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
@@ -135,10 +127,8 @@ class _ChatDetailProState extends State<ChatDetailPro> {
                     Navigator.push(
                       context,
                       PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            ListPatient(),
-                        transitionsBuilder:
-                            (context, animation, secondaryAnimation, child) {
+                        pageBuilder: (context, animation, secondaryAnimation) => ListPatient(),
+                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
                           return SlideTransition(
                             position: Tween<Offset>(
                               begin: const Offset(1, 0),
@@ -161,14 +151,12 @@ class _ChatDetailProState extends State<ChatDetailPro> {
                 ),
                 FutureBuilder<Uint8List>(
                   future: NetworkManager.getFile(widget.imgUrl),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<Uint8List> snapshot) {
+                  builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
                     if (snapshot.hasData) {
                       return Stack(
                         children: [
                           CircleAvatar(
-                            backgroundImage:
-                                MemoryImage(snapshot.data ?? Uint8List(0)),
+                            backgroundImage: MemoryImage(snapshot.data ?? Uint8List(0)),
                             maxRadius: 20,
                           ),
                         ],
@@ -188,16 +176,14 @@ class _ChatDetailProState extends State<ChatDetailPro> {
                     children: <Widget>[
                       Text(
                         widget.name,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                       ),
                       SizedBox(
                         height: 6,
                       ),
                       Text(
                         "Online",
-                        style: TextStyle(
-                            color: Colors.grey.shade600, fontSize: 13),
+                        style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
                       ),
                     ],
                   ),
@@ -225,20 +211,13 @@ class _ChatDetailProState extends State<ChatDetailPro> {
                     padding: EdgeInsets.only(top: 5, bottom: 55),
                     itemBuilder: (context, index) {
                       return Container(
-                        padding: EdgeInsets.only(
-                            left: 14, right: 14, top: 10, bottom: 10),
+                        padding: EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
                         child: Align(
-                          alignment:
-                              (chatMessagesFuture![index].id == "receiver"
-                                  ? Alignment.topLeft
-                                  : Alignment.topRight),
+                          alignment: (chatMessagesFuture![index].id == "receiver" ? Alignment.topLeft : Alignment.topRight),
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color:
-                                  (chatMessagesFuture![index].id == "receiver"
-                                      ? Colors.grey.shade200
-                                      : Colors.blue[200]),
+                              color: (chatMessagesFuture![index].id == "receiver" ? Colors.grey.shade200 : Colors.blue[200]),
                             ),
                             padding: EdgeInsets.all(16),
                             child: Text(
@@ -266,8 +245,7 @@ class _ChatDetailProState extends State<ChatDetailPro> {
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey[
-                            200], // Choisissez la couleur qui convient le mieux à votre thème
+                        color: Colors.grey[200], // Choisissez la couleur qui convient le mieux à votre thème
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: TextField(
@@ -279,8 +257,7 @@ class _ChatDetailProState extends State<ChatDetailPro> {
                           hintText: "Write message...",
                           hintStyle: TextStyle(color: Colors.black54),
                           border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(
-                              10), // C'est pour donner un peu d'espace à l'intérieur de la zone de texte
+                          contentPadding: EdgeInsets.all(10), // C'est pour donner un peu d'espace à l'intérieur de la zone de texte
                         ),
                         textAlignVertical: TextAlignVertical.center,
                         onSubmitted: (value) {

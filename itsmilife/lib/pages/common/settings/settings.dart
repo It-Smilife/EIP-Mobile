@@ -53,6 +53,7 @@ class _SettingsPage extends State<SettingsPage> {
     final notif = Provider.of<NotificationProvider>(context);
     final user = Provider.of<RoleProvider>(context);
     final role = user.Setrolestate ? ProfileData.firstName : ProfileData.lastName;
+
     return Scaffold(
       backgroundColor: darkMode.darkMode ? const Color.fromARGB(255, 58, 50, 83) : Color.fromARGB(255, 224, 224, 224),
       appBar: AppBar(

@@ -23,6 +23,7 @@ Future<List<MyEvent>> fetchEvents(List<MyEvent> eventsList) async {
           notes: appointment['notes'],
           start: DateTime.parse(appointment['start']),
           end: DateTime.parse(appointment['end']),
+          backgroundColor: appointment['color'],
           // backgroundColor: Colors.red,
         ));
       }

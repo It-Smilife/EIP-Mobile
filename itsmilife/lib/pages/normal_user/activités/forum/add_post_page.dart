@@ -28,7 +28,6 @@ class _AddPostFormState extends State<AddPostForm> {
       "comments": "63dcd7de4e73c3aec886af44",
       "content": content,
       "likes_count": 0,
-      "replies_count": 0,
       "views": 0,
     }).then((value) {
       if (value.data['success'] == true) {

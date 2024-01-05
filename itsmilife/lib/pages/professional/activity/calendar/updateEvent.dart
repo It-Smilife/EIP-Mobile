@@ -6,15 +6,18 @@ import 'package:itsmilife/services/NetworkManager.dart';
 import 'eventModelTest.dart';
 import 'package:itsmilife/pages/register.dart';
 
-Future<void> updateEvent(String eventId, String title, DateTime start,
-    DateTime end, String notes) async {
+Future<void> updateEvent(String eventId, String title, DateTime start, DateTime end, String notes, String color) async {
   try {
-    final response = await NetworkManager.put("appointments/$eventId", {
-      "title": title,
-      "start": start.toIso8601String(),
-      "end": end.toIso8601String(),
-      "notes": notes,
-    });
+    final response = await NetworkManager.put(
+      "appointments/$eventId",
+      {
+        "title": title,
+        "start": start.toIso8601String(),
+        "end": end.toIso8601String(),
+        "notes": notes,
+        "color": color,
+      },
+    );
     if (response.data['success']) {
       // La mise à jour a réussi, vous pouvez gérer la logique ici, par exemple, mettre à jour la liste des événements
       print('Event updated successfully');

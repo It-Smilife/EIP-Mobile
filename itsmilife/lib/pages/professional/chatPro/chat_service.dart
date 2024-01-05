@@ -4,7 +4,7 @@ class ChatService {
   late IO.Socket socket;
 
   void connect() {
-    socket = IO.io('http://51.145.251.116:81/', <String, dynamic>{
+    socket = IO.io('https://eip-backend-bffdcc985564.herokuapp.com/', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });

@@ -105,7 +105,7 @@ class _CalendarState extends State<Calendar> {
                           return Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: event.backgroundColor,
+                              color: Color(int.parse(event.backgroundColor)),
                             ),
                             child: Center(
                               child: Text(

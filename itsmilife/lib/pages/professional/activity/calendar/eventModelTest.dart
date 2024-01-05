@@ -6,14 +6,8 @@ class MyEvent {
   final String notes;
   final DateTime start;
   final DateTime end;
-  final Color backgroundColor;
+  final String backgroundColor;
   // final bool isAllDay;
 
-  const MyEvent(
-      {required this.title,
-      required this.notes,
-      required this.start,
-      required this.end,
-      required this.id,
-      this.backgroundColor = Colors.deepPurpleAccent});
+  const MyEvent({required this.title, required this.notes, required this.start, required this.end, required this.id, required this.backgroundColor});
 }

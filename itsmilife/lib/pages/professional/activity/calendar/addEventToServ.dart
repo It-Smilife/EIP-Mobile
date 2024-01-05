@@ -9,6 +9,7 @@ Future<bool> addEvent({
   required DateTime start,
   required DateTime end,
   String? notes,
+  String? color,
 }) async {
   bool success = false;
 
@@ -20,7 +21,8 @@ Future<bool> addEvent({
         "start": start.toIso8601String(),
         "end": end.toIso8601String(),
         "notes": notes,
-        "professional": ProfileData.id
+        "professional": ProfileData.id,
+        "color": color,
       },
     );
 

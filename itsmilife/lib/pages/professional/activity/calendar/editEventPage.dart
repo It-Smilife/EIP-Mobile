@@ -25,6 +25,7 @@ class _EditEventPageState extends State<EditEventPage> {
   late DateTime _start;
   late DateTime _end;
   String _formattedSelectedDate = '';
+  late String _selectedColor;
 
   String _formatDate(DateTime date) {
     return "${DateFormat.EEEE("fr").format(date).substring(0, 3)}. ${DateFormat.d("fr").format(date)} ${DateFormat.MMMM("fr").format(date).substring(0, 3)}.";
@@ -45,6 +46,7 @@ class _EditEventPageState extends State<EditEventPage> {
       _start = event.start;
       _formattedSelectedDate = _formatDate(_start);
       _end = event.end;
+      _selectedColor = event.backgroundColor;
     }
   }
 
@@ -58,13 +60,7 @@ class _EditEventPageState extends State<EditEventPage> {
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      final event = MyEvent(
-        id: "",
-        title: _titleController.text,
-        notes: _notesController.text,
-        start: _start,
-        end: _end,
-      );
+      final event = MyEvent(id: "", title: _titleController.text, notes: _notesController.text, start: _start, end: _end, backgroundColor: '0xfff44336');
 
       final isEditing = widget.event != null;
       final provider = Provider.of<EventProvider>(context, listen: false);
@@ -151,7 +147,52 @@ class _EditEventPageState extends State<EditEventPage> {
                             return null;
                           },
                         ),
-                        const SizedBox(height: 50),
+                        DropdownButton(
+                          value: _selectedColor,
+                          onChanged: (color) {
+                            setState(() {
+                              _selectedColor = color.toString();
+                              print(_selectedColor);
+                            });
+                          },
+                          items: const [
+                            DropdownMenuItem(
+                              value: '0xfff44336',
+                              child: CircleAvatar(
+                                backgroundColor: Colors.red,
+                                radius: 10,
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: '0xff2196f3',
+                              child: CircleAvatar(
+                                backgroundColor: Colors.blue,
+                                radius: 10,
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: '0xff4caf50',
+                              child: CircleAvatar(
+                                backgroundColor: Colors.green,
+                                radius: 10,
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: '0xffff5722',
+                              child: CircleAvatar(
+                                backgroundColor: Colors.orange,
+                                radius: 10,
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: '0xff7c4dff',
+                              child: CircleAvatar(
+                                backgroundColor: Colors.deepPurpleAccent,
+                                radius: 10,
+                              ),
+                            ),
+                          ],
+                        ),
                         // ElevatedButton(
                         //   onPressed: () {
                         //     showDatePicker(
@@ -363,6 +404,7 @@ class _EditEventPageState extends State<EditEventPage> {
                               _start,
                               _end,
                               _notesController.text,
+                              _selectedColor,
                             );
                             Navigator.pop(context, true);
                           }

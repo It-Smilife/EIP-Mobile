@@ -200,11 +200,6 @@ class _UserPosts extends State<UserPosts> {
                                             color: darkMode.darkMode ? Colors.white : const Color.fromARGB(255, 108, 108, 108),
                                             size: 16,
                                           ),
-                                          const SizedBox(width: 4.0),
-                                          Text(
-                                            lang.lang == "English" ? "${post.replies_count} replies" : "${post.replies_count} réponses",
-                                            style: TextStyle(fontSize: 14, color: darkMode.darkMode ? Colors.white : const Color.fromARGB(255, 108, 108, 108)),
-                                          )
                                         ],
                                       ),
                                       // Row(

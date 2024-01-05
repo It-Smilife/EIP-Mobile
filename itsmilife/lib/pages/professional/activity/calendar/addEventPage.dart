@@ -27,7 +27,7 @@ class _AddEvent extends State<AddEvent> {
   final DateTime _initialEnd = DateTime.now().add(const Duration(hours: 2));
   DateTime _selectedDate = DateTime.now();
   String _formattedSelectedDate = '';
-  Color _selectedColor = Colors.deepPurpleAccent;
+  String _selectedColor = '0xff7c4dff';
 
   String _formatDatefr(DateTime date) {
     return "${DateFormat.EEEE("fr").format(date).substring(0, 3)}. ${DateFormat.d("fr").format(date)} ${DateFormat.MMMM("fr").format(date).substring(0, 3)}.";
@@ -121,6 +121,52 @@ class _AddEvent extends State<AddEvent> {
                             return null;
                           },
                         ),
+                        DropdownButton(
+                          value: _selectedColor,
+                          onChanged: (color) {
+                            setState(() {
+                              _selectedColor = color.toString();
+                              print(_selectedColor);
+                            });
+                          },
+                          items: const [
+                            DropdownMenuItem(
+                              value: '0xfff44336',
+                              child: CircleAvatar(
+                                backgroundColor: Colors.red,
+                                radius: 10,
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: '0xff2196f3',
+                              child: CircleAvatar(
+                                backgroundColor: Colors.blue,
+                                radius: 10,
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: '0xff4caf50',
+                              child: CircleAvatar(
+                                backgroundColor: Colors.green,
+                                radius: 10,
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: '0xffff5722',
+                              child: CircleAvatar(
+                                backgroundColor: Colors.orange,
+                                radius: 10,
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: '0xff7c4dff',
+                              child: CircleAvatar(
+                                backgroundColor: Colors.deepPurpleAccent,
+                                radius: 10,
+                              ),
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
@@ -133,7 +179,6 @@ class _AddEvent extends State<AddEvent> {
                               if (date != null) {
                                 setState(() {
                                   _selectedDate = date;
-                                  print(_selectedDate.toString());
                                 });
                               }
                             });
@@ -183,7 +228,6 @@ class _AddEvent extends State<AddEvent> {
                                       if (time != null) {
                                         setState(() {
                                           _selectedTimeBegin = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, time.hour, time.minute);
-                                          print(_selectedTimeBegin.toString());
                                         });
                                       }
                                     });
@@ -225,7 +269,6 @@ class _AddEvent extends State<AddEvent> {
                                         if (time != null) {
                                           setState(() {
                                             _selectedTimeEnd = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, time.hour, time.minute);
-                                            print(_selectedTimeEnd.toString());
                                           });
                                         }
                                       });
@@ -332,11 +375,11 @@ class _AddEvent extends State<AddEvent> {
                             );
                           } else {
                             bool success = await addEvent(
-                              title: _titleController.text,
-                              start: DateTime(_selectedTimeBegin.year, _selectedTimeBegin.month, _selectedTimeBegin.day, _selectedTimeBegin.hour, _selectedTimeBegin.minute),
-                              end: DateTime(_selectedTimeEnd.year, _selectedTimeEnd.month, _selectedTimeEnd.day, _selectedTimeEnd.hour, _selectedTimeEnd.minute),
-                              notes: _notesController.text,
-                            );
+                                title: _titleController.text,
+                                start: DateTime(_selectedTimeBegin.year, _selectedTimeBegin.month, _selectedTimeBegin.day, _selectedTimeBegin.hour, _selectedTimeBegin.minute),
+                                end: DateTime(_selectedTimeEnd.year, _selectedTimeEnd.month, _selectedTimeEnd.day, _selectedTimeEnd.hour, _selectedTimeEnd.minute),
+                                notes: _notesController.text,
+                                color: _selectedColor);
 
                             Navigator.pop(context, success);
                           }

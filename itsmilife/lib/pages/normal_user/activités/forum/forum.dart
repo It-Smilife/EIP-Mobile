@@ -78,8 +78,8 @@ class _Forum extends State<Forum> {
         ),
         elevation: 0,
       ),
-      body: SafeArea(
-        child: ListView(
+      body: SingleChildScrollView(
+        child: Column(
           children: <Widget>[
             Container(
               height: 120,
@@ -115,12 +115,8 @@ class _Forum extends State<Forum> {
             Container(
               decoration: BoxDecoration(
                 color: darkMode.darkMode ? const Color.fromARGB(255, 79, 79, 79) : Colors.white,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(35),
-                  topRight: Radius.circular(35),
-                ),
+                borderRadius: BorderRadius.all(Radius.circular(35)),
               ),
-              height: MediaQuery.of(context).size.height,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
